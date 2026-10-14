@@ -20,6 +20,11 @@
       ok ? resolve() : reject(new Error('copy failed'));
     });
   }
+  // One polite status region so copy results are announced, not just shown.
+  var status = document.createElement('p');
+  status.className = 'vh'; status.setAttribute('role', 'status');
+  document.body.appendChild(status);
+  function announce(msg) { status.textContent = ''; setTimeout(function () { status.textContent = msg; }, 50); }
   // Copy a hex value from a swatch
   document.querySelectorAll('[data-copy]').forEach(function (el) {
     var timer;
@@ -44,9 +49,10 @@
       var t = document.getElementById(btn.getAttribute('data-copy-target'));
       if (!t) return;
       copyText(t.textContent).then(function () {
-        btn.textContent = 'Copied';
+        btn.textContent = 'Copied'; announce('Copied ' + label.replace(/^Copy /, ''));
       }, function () {
         btn.textContent = 'Couldn\u2019t copy. The code is selected, so copy it from your keyboard';
+        announce(btn.textContent);
         var r = document.createRange(); r.selectNodeContents(t);
         var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
       }).then(function () {
