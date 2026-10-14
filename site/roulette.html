@@ -26,11 +26,12 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
 
 <main id="main">
 <section class="sheet sheet--dark" style="background: var(--basil); color: var(--butter); overflow: hidden;" aria-labelledby="h-roul">
-  <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 56px; align-items: center;">
-    <div style="display: flex; flex-direction: column; gap: 22px;">
+  <div class="wrap roul-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 56px; align-items: center;">
+    <div class="roul-left" style="display: flex; flex-direction: column; gap: 22px;">
       <h1 id="h-roul" class="h-xl" style="color: var(--butter); max-width: 10ch;">Restaurant Roulette</h1>
       <p class="lede" style="color: var(--butter);">Can’t decide? Pick a craving, say who’s coming, spin. The wheel only lands on places Tina has eaten at, and sponsors never get on it.</p>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
+      <details class="roul-adjust" open><summary>Adjust the mood and who’s coming<span class="roul-adjust__now" data-f="adjust"></span></summary>
+      <div class="roul-adjust__body"><div style="display: flex; flex-direction: column; gap: 10px;">
         <span style="font: 700 15px var(--font-interface); color: var(--pistachio);">I’m in the mood for</span>
         <div class="ltef-chips" role="group" aria-label="Mood">
           <button class="ltef-chip" type="button" data-mood="anything" aria-pressed="true">Anything</button><button class="ltef-chip" type="button" data-mood="spicy" aria-pressed="false">Spicy</button><button class="ltef-chip" type="button" data-mood="bowls" aria-pressed="false">Noodles & bowls</button><button class="ltef-chip" type="button" data-mood="pizza" aria-pressed="false">Pizza</button><button class="ltef-chip" type="button" data-mood="sushi" aria-pressed="false">Sushi</button><button class="ltef-chip" type="button" data-mood="sweet" aria-pressed="false">Sweet</button><button class="ltef-chip" type="button" data-mood="new" aria-pressed="false">Somewhere new</button>
@@ -42,17 +43,19 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
           <button class="ltef-chip" type="button" data-with="anyone" aria-pressed="true">Anyone</button><button class="ltef-chip" type="button" data-with="date" aria-pressed="false">A date</button><button class="ltef-chip" type="button" data-with="group" aria-pressed="false">A group</button><button class="ltef-chip" type="button" data-with="family" aria-pressed="false">The family</button>
         </div>
       </div>
+      </div></details>
     </div>
 
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 26px;">
-      <div style="width: min(100%, 420px); aspect-ratio: 1; display: grid; place-items: center;">
-        <img src="../assets/stickers/roulette.svg" alt="Restaurant Roulette wheel" data-wheel style="width: 100%; pointer-events: none; transition: transform 3.2s cubic-bezier(.12,.8,.14,1);">
+    <div class="roul-wheel" style="display: flex; flex-direction: column; align-items: center; gap: 26px;">
+      <div style="position: relative; width: min(100%, 420px); aspect-ratio: 1; display: grid; place-items: center;">
+        <img src="../assets/stickers/roulette-pointer.svg" alt="" class="roul-pointer">
+        <img src="../assets/stickers/roulette-wheel.svg" alt="Restaurant Roulette wheel" data-wheel style="width: 100%; pointer-events: none; transition: transform 3.2s cubic-bezier(.12,.8,.14,1);">
       </div>
       <button class="ltef-btn ltef-btn--alt" type="button" data-spin aria-describedby="spin-hint" style="font-size: 19px; min-height: 60px; padding: 0 34px;"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v8.5l6 6M3.5 12H12"/></g></svg><span data-spin-label>Spin for it</span></button>
       <p id="spin-hint" class="meta" style="color: var(--pistachio); text-align: center; max-width: 36ch;">Only places Tina has eaten at. Hosted meals are labeled in the result.</p>
     </div>
   </div>
-  <p class="slug" style="color: var(--pistachio);">LTEF · Restaurant Roulette · Sample places</p>
+  <p class="slug" style="color: var(--pistachio);">LTEF · Restaurant Roulette</p>
 </section>
 
 <section class="sheet" style="background: var(--butter);" aria-labelledby="h-result" aria-live="polite">

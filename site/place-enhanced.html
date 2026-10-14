@@ -41,7 +41,7 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
         <span style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;"><span class="ltef-lbl ltef-lbl--enhanced" style="align-self: flex-start; justify-self: start;"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/></g></svg>Enhanced listing</span><span class="meta">The owner pays for the extra modules below; Tina’s take is unchanged. A made-up sample restaurant.</span></span>
         <h1 id="h-place" class="h-xl" style="font-size: clamp(44px, 5.6vw, 80px);">Juniper Dumpling House</h1>
         <p class="meta" style="font-size: 17px;">Dumplings · 123 Shrewsbury St · $$ · Open until 9pm</p>
-        <div class="ltef-verdicts"><span class="ltef-verdict">I’d get this again</span><span class="ltef-verdict">Bring friends</span><span class="ltef-verdict">Don’t skip this</span></div>
+        <div class="ltef-verdicts"><span class="ltef-verdict ltef-verdict--empty">Tina’s verdict goes here</span></div>
         <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px;">
           <a class="ltef-btn" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.3"/></g></svg>Get directions</a>
           <button class="ltef-btn ltef-btn--alt" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/></svg>Save this place</button>
@@ -49,7 +49,7 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
       </div>
     </div>
   </div>
-  <p class="slug">LTEF · Place · Sample Enhanced listing, details are placeholders</p>
+  <p class="slug">LTEF · Place · Sample Enhanced listing</p>
 </section>
 
 <section class="sheet" style="background: var(--vinyl);" aria-labelledby="h-take">
@@ -65,13 +65,8 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
       <p class="meta">Tina paid for this meal. The owner pays for the Enhanced modules below; that never touches her take.</p>
     </div>
     <div style="display: flex; flex-direction: column; gap: 20px;">
-      <h2 class="h-m">What Tina ordered</h2>
-      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;">
-        <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--butter); display: grid; place-items: center; box-shadow: 0 0 0 8px var(--vinyl), var(--lift);"><img src="../assets/stickers/dumpling.svg" alt="Photo slot: pork and chive dumplings" style="width: 52%;"></div><figcaption style="margin-top: 14px;"><span class="h-s" style="display: block; font-size: 20px;">Pork &amp; chive dumplings</span><span class="ltef-verdict" style="display: inline-block; margin-top: 8px;">I’d get this again</span></figcaption></figure>
-        <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--pistachio); display: grid; place-items: center; box-shadow: 0 0 0 8px var(--vinyl), var(--lift);"><img src="../assets/stickers/noodles.svg" alt="Photo slot: dan dan noodles" style="width: 52%;"></div><figcaption style="margin-top: 14px;"><span class="h-s" style="display: block; font-size: 20px;">Dan dan noodles</span><span class="ltef-verdict" style="display: inline-block; margin-top: 8px;">Don’t skip this</span></figcaption></figure>
-        <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--lemon); display: grid; place-items: center; box-shadow: 0 0 0 8px var(--vinyl), var(--lift);"><img src="../assets/stickers/chili.svg" alt="Photo slot: chili wontons" style="width: 52%;"></div><figcaption style="margin-top: 14px;"><span class="h-s" style="display: block; font-size: 20px;">Chili wontons</span><span class="ltef-verdict" style="display: inline-block; margin-top: 8px;">Bring friends</span></figcaption></figure>
-        <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--peach); display: grid; place-items: center; box-shadow: 0 0 0 8px var(--vinyl), var(--lift);"><img src="../assets/stickers/boba.svg" alt="Photo slot: milk tea" style="width: 52%;"></div><figcaption style="margin-top: 14px;"><span class="h-s" style="display: block; font-size: 20px;">Milk tea</span><span class="ltef-verdict ltef-verdict--mid" style="display: inline-block; margin-top: 8px;">Good, not the one</span></figcaption></figure>
-      </div>
+      <div class="ordered ordered--big"><span class="ordered__ph" style="background: var(--peach);"><img src="../assets/stickers/dumpling.svg" alt="" style="width: 88px;"></span><span class="ordered__txt"><span class="ordered__k">What Tina ordered</span><span class="ordered__dish">[The dish from her post]</span></span></div>
+      <p class="meta" style="margin: 0;">Same Tina sections as every free listing. Paying adds the owner’s sheet below and nothing else.</p>
     </div>
   </div>
   <p class="slug">LTEF · Place · Tina’s take</p>
@@ -92,7 +87,7 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
     </div>
     <p class="meta" style="margin: 0;">Free listings get every section above this one, forever. Enhanced adds; it never takes away from anyone else. <a href="work-with-tina.html#enhanced">How Enhanced listings work</a></p>
   </div>
-  <p class="slug">LTEF · Place · Enhanced listing · Owner modules, labeled</p>
+  <p class="slug">LTEF · Place · From the owner</p>
 </section>
 
 
@@ -117,7 +112,7 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
     </div>
     
   </div>
-  <p class="slug">LTEF · Place · Facts checked, paid kept apart</p>
+  <p class="slug">LTEF · Place · Before you go</p>
 </section>
 
 <section class="sheet" style="background: var(--vinyl);" aria-labelledby="h-near">
@@ -134,7 +129,7 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
 </section>
 <section class="sheet" style="background: var(--lemon);" aria-label="Sunday list signup">
   <div class="wrap"><form class="ltef-signup" aria-labelledby="pl-h"><h2 id="pl-h" class="ltef-signup__h">Liked this? Get Sunday’s list.</h2><p class="ltef-signup__pitch">Worcester’s best food deals and Tina’s weekly picks, every Sunday.</p><div class="ltef-signup__row"><div class="ltef-field"><label class="ltef-field__label" for="pl-email">Email</label><input class="ltef-input" id="pl-email" type="email" required autocomplete="email" placeholder="you@example.com"></div><button class="ltef-btn" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><rect x="3.5" y="6" width="17" height="12.5" rx="2"/><path d="M4.5 7.5l7.5 6 7.5-6"/></g></svg>Get Sunday’s list</button></div><p class="ltef-signup__fine">One email on Sunday morning, with the week’s Woo-pons inside. Used for the list and nothing else; unsubscribe in one tap.</p></form></div>
-  <p class="slug">LTEF · Place · End of page signup</p>
+  <p class="slug">LTEF · Place · Sunday list</p>
 </section>
 
 </main>

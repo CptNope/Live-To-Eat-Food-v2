@@ -22,6 +22,8 @@
     b.addEventListener('click', function () {
       var on = b.getAttribute('aria-pressed') !== 'true';
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      // Sample filters on demo pages: say so instead of silently filtering nothing.
+      if (b.classList.contains('ltef-chip') && b.closest('[role="group"]')) say('On the full site this filters the list. ' + DEMO);
     });
   });
 
@@ -48,7 +50,7 @@
 
   // Buttons that would need the real backend.
   document.querySelectorAll('button[type="button"]').forEach(function (b) {
-    if (b.hasAttribute('aria-pressed') || b.matches('[data-spin],[data-widen],[data-reset],[data-filter-clear],.tt-play') ||
+    if (b.hasAttribute('aria-pressed') || b.matches('[data-spin],[data-widen],[data-reset],[data-filter-clear],[data-more],[data-empty-fix],.tt-play') ||
         b.hasAttribute('aria-haspopup') || b.closest('.demo-bar')) return;
     b.addEventListener('click', function () { if (!b.hasAttribute('aria-pressed')) say(DEMO); });
   });
@@ -93,18 +95,33 @@
     });
   });
 
+  // Home: the craving sentence hands off to Explore, with a live count.
+  var ask = document.querySelector('[data-home-ask]'), go = document.querySelector('[data-home-go]');
+  if (ask && go) {
+    var counts = {}; try { counts = JSON.parse(ask.getAttribute('data-counts')); } catch (err) {}
+    var upd = function () {
+      var c = ask.elements.craving.value, a = ask.elements.area.value, n = counts[c + '|' + a];
+      var q = new URLSearchParams(); if (c) q.set('craving', c); if (a) q.set('area', a);
+      go.href = 'explore.html' + (q.toString() ? '?' + q : '');
+      var t = go.querySelector('[data-home-count]');
+      if (t) t.textContent = n === 0 ? 'None yet: see options' : 'Show me ' + n + (n === 1 ? ' place' : ' places');
+    };
+    ask.addEventListener('change', upd); ask.addEventListener('submit', function (e) { e.preventDefault(); location.href = go.href; }); upd();
+  }
+
   // Explore: filter the real list by craving, company, neighborhood and "Tina's been".
   var list = document.querySelectorAll('.place-row[data-area]');
   if (list.length) {
     var form = document.querySelector('[data-explore-form]');
-    var crav = document.getElementById('f-craving'), withSel = document.getElementById('f-with');
+    var crav = document.getElementById('f-craving'), withSel = document.getElementById('f-with'), areaSel = document.getElementById('f-area');
+    var PAGE = 12, limit = PAGE, more = document.querySelector('[data-more]');
     var areaBtns = document.querySelectorAll('[data-filter-area]'), tinaBtn = document.querySelector('[data-filter-tina]');
     var countEl = document.querySelector('[data-count]'), note = document.querySelector('[data-count-note]'), empty = document.querySelector('[data-empty]');
     var bubbles = document.querySelectorAll('[data-map-area]');
     var params = new URLSearchParams(location.search);
     var st = { area: params.get('area') || '', craving: params.get('craving') || '', with: params.get('with') || 'anyone', tina: params.get('tina') === '1' };
     function apply(push) {
-      if (crav) crav.value = st.craving; if (withSel) withSel.value = st.with;
+      if (crav) crav.value = st.craving; if (withSel) withSel.value = st.with; if (areaSel) areaSel.value = st.area;
       areaBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-filter-area') === st.area ? 'true' : 'false'); });
       if (tinaBtn) tinaBtn.setAttribute('aria-pressed', st.tina ? 'true' : 'false');
       var n = 0, per = {};
@@ -114,7 +131,8 @@
           (!st.tina || r.getAttribute('data-tina') === '1');
         var ar = r.getAttribute('data-area'), ok = rest && (!st.area || ar === st.area);
         if (rest) per[ar] = (per[ar] || 0) + 1;
-        r.hidden = !ok; if (ok) n++;
+        if (ok) n++;
+        r.hidden = !ok || n > limit;
       });
       // Bubbles count what the other filters leave in each neighborhood.
       bubbles.forEach(function (b) {
@@ -128,6 +146,14 @@
       if (countEl) countEl.textContent = n;
       if (note) note.textContent = n === list.length ? 'Tina’s newest first' : 'Showing ' + n + ' of ' + list.length;
       if (empty) empty.hidden = n !== 0;
+      if (more) { var left = n - limit; more.hidden = left <= 0; more.textContent = 'Show ' + Math.min(PAGE, left) + ' more of ' + left; }
+      // A paid card never stands in for results: it shows only beside at least four picks.
+      var shownRows = [].filter.call(list, function (r) { return !r.hidden; });
+      document.querySelectorAll('.ltef-slot--feed').forEach(function (f) {
+        f.hidden = n < 4;
+        if (shownRows[3] && shownRows[3].nextElementSibling !== f) shownRows[3].after(f);  // always after the fourth pick on screen
+      });
+      if (n === 0) explainEmpty();
       if (push && history.replaceState) {
         var q = new URLSearchParams();
         if (st.area) q.set('area', st.area); if (st.craving) q.set('craving', st.craving);
@@ -135,15 +161,51 @@
         history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : ''));
       }
     }
-    if (crav) crav.addEventListener('change', function () { st.craving = crav.value; apply(true); });
-    if (withSel) withSel.addEventListener('change', function () { st.with = withSel.value; apply(true); });
+    // Name what's on, and offer the one change that brings the most places back.
+    function count(o) {
+      var c = 0;
+      list.forEach(function (r) {
+        if ((!o.area || r.getAttribute('data-area') === o.area) &&
+          (!o.craving || (' ' + r.getAttribute('data-cravings') + ' ').indexOf(' ' + o.craving + ' ') > -1) &&
+          (o.with === 'anyone' || (' ' + r.getAttribute('data-with') + ' ').indexOf(' ' + o.with + ' ') > -1) &&
+          (!o.tina || r.getAttribute('data-tina') === '1')) c++;
+      });
+      return c;
+    }
+    function optText(sel) { return sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : ''; }
+    function explainEmpty() {
+      var what = document.querySelector('[data-empty-what]'), hint = document.querySelector('[data-empty-hint]'), fix = document.querySelector('[data-empty-fix]');
+      var on = [], drops = [];
+      if (st.craving) { on.push(optText(crav)); drops.push(['craving', '', 'without ' + optText(crav)]); }
+      if (st.with !== 'anyone') { on.push('with ' + optText(withSel)); drops.push(['with', 'anyone', 'for anyone']); }
+      if (st.area) { on.push('in ' + optText(areaSel)); drops.push(['area', '', 'everywhere']); }
+      if (st.tina) { on.push('only where Tina’s been'); drops.push(['tina', false, 'including places she hasn’t been']); }
+      var best = null;
+      drops.forEach(function (d) { var o = Object.assign({}, st); o[d[0]] = d[1]; var c = count(o); if (c && (!best || c > best.c)) best = { k: d[0], v: d[1], t: d[2], c: c }; });
+      if (what) what.textContent = 'Nothing matches ' + on.join(', ') + '.';
+      if (hint) hint.textContent = best ? 'Go ' + best.t + ' and there ' + (best.c === 1 ? 'is 1 place' : 'are ' + best.c + ' places') + '.' : 'Clear the filters to see every place.';
+      if (fix) {
+        fix.hidden = !best;
+        if (best) { fix.textContent = 'Show ' + (best.c === 1 ? 'it' : 'those ' + best.c); fix.onclick = function () { st[best.k] = best.v; limit = PAGE; apply(true); var h = document.getElementById('h-res'); if (h) { h.setAttribute('tabindex', '-1'); h.focus(); } }; }
+      }
+    }
+    function reset() { limit = PAGE; }
+    if (crav) crav.addEventListener('change', function () { st.craving = crav.value; reset(); apply(true); });
+    if (areaSel) areaSel.addEventListener('change', function () { st.area = areaSel.value; reset(); apply(true); });
+    if (more) more.addEventListener('click', function () {
+      var first = limit; limit += PAGE; apply(false);
+      var shown = [].filter.call(list, function (r) { return !r.hidden; });
+      var next = shown[first]; if (next) { var a = next.querySelector('a[href]'); if (a) a.focus(); }
+    });
+    if (window.matchMedia && window.matchMedia('(max-width: 720px)').matches) document.querySelectorAll('.map-fold').forEach(function (d) { d.open = false; });
+    if (withSel) withSel.addEventListener('change', function () { st.with = withSel.value; reset(); apply(true); });
     areaBtns.forEach(function (b) { b.addEventListener('click', function () { st.area = b.getAttribute('data-filter-area'); apply(true); }); });
-    if (tinaBtn) tinaBtn.addEventListener('click', function () { st.tina = !st.tina; apply(true); });
+    if (tinaBtn) tinaBtn.addEventListener('click', function () { st.tina = !st.tina; reset(); apply(true); });
     bubbles.forEach(function (b) { b.addEventListener('click', function (e) {
-      e.preventDefault(); var id = b.getAttribute('data-map-area'); st.area = st.area === id ? '' : id; apply(true);
+      e.preventDefault(); var id = b.getAttribute('data-map-area'); st.area = st.area === id ? '' : id; reset(); apply(true);
       var h = document.getElementById('h-res'); if (h && h.getBoundingClientRect().top < 0) h.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     }); });
-    document.querySelectorAll('[data-filter-clear]').forEach(function (b) { b.addEventListener('click', function () { st = { area: '', craving: '', with: 'anyone', tina: false }; apply(true); }); });
+    document.querySelectorAll('[data-filter-clear]').forEach(function (b) { b.addEventListener('click', function () { st = { area: '', craving: '', with: 'anyone', tina: false }; limit = PAGE; apply(true); }); });
     if (form) form.addEventListener('submit', function (e) { e.preventDefault(); });
     apply(false);
   }
@@ -170,7 +232,10 @@
     document.querySelectorAll('[data-mood]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-mood') === st.mood ? 'true' : 'false'); });
     document.querySelectorAll('[data-with]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-with') === st.with ? 'true' : 'false'); });
     fill('count', String(pool().length));
+    fill('adjust', filterText());
   }
+  // Phones get the wheel first; the choices fold behind "Adjust" there and stay open on wider screens.
+  document.querySelectorAll('.roul-adjust').forEach(function (d) { if (window.matchMedia && window.matchMedia('(max-width: 720px)').matches) d.open = false; });
   function choose(key, val) { if (st.spinning) return; st[key] = val; sync(); if (states.nomatch && !states.nomatch.hidden) show('idle'); }
   document.querySelectorAll('[data-mood]').forEach(function (b) { b.addEventListener('click', function () { choose('mood', b.getAttribute('data-mood')); }); });
   document.querySelectorAll('[data-with]').forEach(function (b) { b.addEventListener('click', function () { choose('with', b.getAttribute('data-with')); }); });
@@ -183,14 +248,15 @@
     if (cur.length > 1 && st.pick && cur[i].id === st.pick.id) i = (i + 1) % cur.length;
     st.turn += 1440 + Math.floor(Math.random() * 360);
     wheel.style.transform = 'rotate(' + st.turn + 'deg)';
-    st.spinning = true; spinBtn.disabled = true; spinBtn.setAttribute('aria-busy', 'true');
+    // aria-disabled, not disabled: a disabled button drops keyboard focus to <body>.
+    st.spinning = true; spinBtn.setAttribute('aria-disabled', 'true'); spinBtn.setAttribute('aria-busy', 'true');
     if (label) label.textContent = 'Spinning…';
     fill('count', String(cur.length)); show('spinning');
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     clearTimeout(timer);
     timer = setTimeout(function () {
       var p = cur[i]; st.pick = p; st.spinning = false;
-      spinBtn.disabled = false; spinBtn.removeAttribute('aria-busy');
+      spinBtn.removeAttribute('aria-disabled'); spinBtn.removeAttribute('aria-busy');
       if (label) label.textContent = 'Spin again';
       ['name', 'meta', 'month', 'quote', 'date'].forEach(function (k) { fill(k, p[k]); });
       document.querySelectorAll('[data-f="bg"]').forEach(function (el) { el.style.background = p.bg; });
@@ -199,6 +265,14 @@
       document.querySelectorAll('[data-f="tt"]').forEach(function (el) { el.href = p.url; });
       document.querySelectorAll('[data-hosted]').forEach(function (el) { el.hidden = true; });
       show('pick');
+      // Bring the answer into view and hand focus to its name.
+      var head = states.pick && states.pick.querySelector('h2');
+      if (head) {
+        head.setAttribute('tabindex', '-1');
+        var r = head.getBoundingClientRect();
+        if (r.top < 0 || r.bottom > window.innerHeight) states.pick.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        head.focus({ preventScroll: true });
+      }
     }, reduce ? 0 : 3200);
   }
   document.querySelectorAll('[data-spin]').forEach(function (b) { b.addEventListener('click', spin); });
