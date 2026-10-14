@@ -1,0 +1,522 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-14T15:00:00Z",
+  "title": "Design System: Live to Eat Food",
+  "extensions": {
+    "colorMeta": {
+      "butter": {
+        "role": "neutral",
+        "displayName": "Butter Ground",
+        "canonical": "#FFF6CF",
+        "oklch": "oklch(97.0% 0.051 96)",
+        "tonalRamp": [
+          "oklch(15% 0.051 96)",
+          "oklch(26% 0.051 96)",
+          "oklch(37% 0.051 96)",
+          "oklch(48% 0.051 96)",
+          "oklch(60% 0.051 96)",
+          "oklch(72% 0.051 96)",
+          "oklch(84% 0.051 96)",
+          "oklch(95% 0.051 96)"
+        ]
+      },
+      "lemon": {
+        "role": "primary",
+        "displayName": "Lemon Sheet",
+        "canonical": "#FFE586",
+        "oklch": "oklch(92.3% 0.119 95)",
+        "tonalRamp": [
+          "oklch(15% 0.074 95)",
+          "oklch(26% 0.095 95)",
+          "oklch(37% 0.116 95)",
+          "oklch(48% 0.119 95)",
+          "oklch(60% 0.119 95)",
+          "oklch(72% 0.119 95)",
+          "oklch(84% 0.114 95)",
+          "oklch(95% 0.093 95)"
+        ]
+      },
+      "yolk": {
+        "role": "tertiary",
+        "displayName": "Yolk",
+        "canonical": "#FFC53D",
+        "oklch": "oklch(85.4% 0.157 84)",
+        "tonalRamp": [
+          "oklch(15% 0.074 84)",
+          "oklch(26% 0.095 84)",
+          "oklch(37% 0.116 84)",
+          "oklch(48% 0.137 84)",
+          "oklch(60% 0.157 84)",
+          "oklch(72% 0.137 84)",
+          "oklch(84% 0.114 84)",
+          "oklch(95% 0.093 84)"
+        ]
+      },
+      "pistachio": {
+        "role": "secondary",
+        "displayName": "Pistachio Sheet",
+        "canonical": "#DCEFC8",
+        "oklch": "oklch(92.8% 0.055 129)",
+        "tonalRamp": [
+          "oklch(15% 0.055 129)",
+          "oklch(26% 0.055 129)",
+          "oklch(37% 0.055 129)",
+          "oklch(48% 0.055 129)",
+          "oklch(60% 0.055 129)",
+          "oklch(72% 0.055 129)",
+          "oklch(84% 0.055 129)",
+          "oklch(95% 0.055 129)"
+        ]
+      },
+      "matcha": {
+        "role": "secondary",
+        "displayName": "Matcha Fill",
+        "canonical": "#B3DA94",
+        "oklch": "oklch(84.3% 0.102 132)",
+        "tonalRamp": [
+          "oklch(15% 0.074 132)",
+          "oklch(26% 0.095 132)",
+          "oklch(37% 0.102 132)",
+          "oklch(48% 0.102 132)",
+          "oklch(60% 0.102 132)",
+          "oklch(72% 0.102 132)",
+          "oklch(84% 0.102 132)",
+          "oklch(95% 0.093 132)"
+        ]
+      },
+      "peach": {
+        "role": "tertiary",
+        "displayName": "Peach Blush",
+        "canonical": "#FFD8C2",
+        "oklch": "oklch(91.0% 0.053 51)",
+        "tonalRamp": [
+          "oklch(15% 0.053 51)",
+          "oklch(26% 0.053 51)",
+          "oklch(37% 0.053 51)",
+          "oklch(48% 0.053 51)",
+          "oklch(60% 0.053 51)",
+          "oklch(72% 0.053 51)",
+          "oklch(84% 0.053 51)",
+          "oklch(95% 0.053 51)"
+        ]
+      },
+      "vinyl": {
+        "role": "neutral",
+        "displayName": "White Vinyl",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 90)",
+        "tonalRamp": [
+          "oklch(15% 0.000 90)",
+          "oklch(26% 0.000 90)",
+          "oklch(37% 0.000 90)",
+          "oklch(48% 0.000 90)",
+          "oklch(60% 0.000 90)",
+          "oklch(72% 0.000 90)",
+          "oklch(84% 0.000 90)",
+          "oklch(95% 0.000 90)"
+        ]
+      },
+      "oat": {
+        "role": "neutral",
+        "displayName": "Oat",
+        "canonical": "#EFEADB",
+        "oklch": "oklch(93.7% 0.021 92)",
+        "tonalRamp": [
+          "oklch(15% 0.021 92)",
+          "oklch(26% 0.021 92)",
+          "oklch(37% 0.021 92)",
+          "oklch(48% 0.021 92)",
+          "oklch(60% 0.021 92)",
+          "oklch(72% 0.021 92)",
+          "oklch(84% 0.021 92)",
+          "oklch(95% 0.021 92)"
+        ]
+      },
+      "oat-hatch": {
+        "role": "neutral",
+        "displayName": "Oat Hatch",
+        "canonical": "#E4DECB",
+        "oklch": "oklch(90.0% 0.026 92)",
+        "tonalRamp": [
+          "oklch(15% 0.026 92)",
+          "oklch(26% 0.026 92)",
+          "oklch(37% 0.026 92)",
+          "oklch(48% 0.026 92)",
+          "oklch(60% 0.026 92)",
+          "oklch(72% 0.026 92)",
+          "oklch(84% 0.026 92)",
+          "oklch(95% 0.026 92)"
+        ]
+      },
+      "basil": {
+        "role": "primary",
+        "displayName": "Basil Ink",
+        "canonical": "#1E3B2A",
+        "oklch": "oklch(32.4% 0.047 157)",
+        "tonalRamp": [
+          "oklch(15% 0.047 157)",
+          "oklch(26% 0.047 157)",
+          "oklch(37% 0.047 157)",
+          "oklch(48% 0.047 157)",
+          "oklch(60% 0.047 157)",
+          "oklch(72% 0.047 157)",
+          "oklch(84% 0.047 157)",
+          "oklch(95% 0.047 157)"
+        ]
+      },
+      "olive": {
+        "role": "neutral",
+        "displayName": "Olive",
+        "canonical": "#46583E",
+        "oklch": "oklch(43.7% 0.047 136)",
+        "tonalRamp": [
+          "oklch(15% 0.047 136)",
+          "oklch(26% 0.047 136)",
+          "oklch(37% 0.047 136)",
+          "oklch(48% 0.047 136)",
+          "oklch(60% 0.047 136)",
+          "oklch(72% 0.047 136)",
+          "oklch(84% 0.047 136)",
+          "oklch(95% 0.047 136)"
+        ]
+      },
+      "leaf": {
+        "role": "secondary",
+        "displayName": "Leaf Link",
+        "canonical": "#2B6436",
+        "oklch": "oklch(45.2% 0.095 148)",
+        "tonalRamp": [
+          "oklch(15% 0.074 148)",
+          "oklch(26% 0.095 148)",
+          "oklch(37% 0.095 148)",
+          "oklch(48% 0.095 148)",
+          "oklch(60% 0.095 148)",
+          "oklch(72% 0.095 148)",
+          "oklch(84% 0.095 148)",
+          "oklch(95% 0.093 148)"
+        ]
+      },
+      "tomato": {
+        "role": "tertiary",
+        "displayName": "Tomato Hand",
+        "canonical": "#B3311A",
+        "oklch": "oklch(51.1% 0.170 32)",
+        "tonalRamp": [
+          "oklch(15% 0.074 32)",
+          "oklch(26% 0.095 32)",
+          "oklch(37% 0.116 32)",
+          "oklch(48% 0.137 32)",
+          "oklch(60% 0.160 32)",
+          "oklch(72% 0.137 32)",
+          "oklch(84% 0.114 32)",
+          "oklch(95% 0.093 32)"
+        ]
+      },
+      "chili": {
+        "role": "tertiary",
+        "displayName": "Chili (illustration only)",
+        "canonical": "#EE8467",
+        "oklch": "oklch(72.3% 0.137 36)",
+        "tonalRamp": [
+          "oklch(15% 0.074 36)",
+          "oklch(26% 0.095 36)",
+          "oklch(37% 0.116 36)",
+          "oklch(48% 0.137 36)",
+          "oklch(60% 0.137 36)",
+          "oklch(72% 0.137 36)",
+          "oklch(84% 0.114 36)",
+          "oklch(95% 0.093 36)"
+        ]
+      },
+      "latte": {
+        "role": "tertiary",
+        "displayName": "Latte (illustration only)",
+        "canonical": "#E8C9A3",
+        "oklch": "oklch(85.3% 0.061 73)",
+        "tonalRamp": [
+          "oklch(15% 0.061 73)",
+          "oklch(26% 0.061 73)",
+          "oklch(37% 0.061 73)",
+          "oklch(48% 0.061 73)",
+          "oklch(60% 0.061 73)",
+          "oklch(72% 0.061 73)",
+          "oklch(84% 0.061 73)",
+          "oklch(95% 0.061 73)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display XL",
+        "purpose": "One per page: the page's big promise or a place name."
+      },
+      "headline": {
+        "displayName": "Display L",
+        "purpose": "Sheet (section) headings."
+      },
+      "title": {
+        "displayName": "Display M",
+        "purpose": "Card titles, deal amounts, merch lines, the hero line."
+      },
+      "title-sm": {
+        "displayName": "Display S",
+        "purpose": "Place names in lists, small sticker titles; Bagel never below 20px."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Sheet intros, max 40-50ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Everything people read, max 68ch; 16px floor on phones."
+      },
+      "label": {
+        "displayName": "Interface",
+        "purpose": "Buttons, nav, tabs, trust labels."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Cuisine, neighbourhood, price, distance, captions, in olive."
+      },
+      "tag": {
+        "displayName": "Tag",
+        "purpose": "Chips, ratio tags, table heads, labels on stickers; never sentences."
+      },
+      "hand": {
+        "displayName": "Tina's hand",
+        "purpose": "One line in Tina's own words, tomato, never invented."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sheet",
+        "value": "0 1px 0 rgb(30 59 42 / .06), 0 14px 30px -20px rgb(30 59 42 / .4)",
+        "purpose": "Every backing sheet."
+      },
+      {
+        "name": "lift",
+        "value": "0 1px 1px rgb(30 59 42 / .10), 0 8px 18px -8px rgb(30 59 42 / .32)",
+        "purpose": "Stickers, panels, buttons, current nav item, phone UI pieces."
+      },
+      {
+        "name": "lift-hi",
+        "value": "0 2px 2px rgb(30 59 42 / .10), 0 18px 30px -12px rgb(30 59 42 / .38)",
+        "purpose": "Peeled (hovered) link stickers and the phone mockup frame."
+      },
+      {
+        "name": "kiss-cut",
+        "value": "0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .16)",
+        "purpose": "Printed kiss-cut ring prepended to lift on every white sticker surface; merch items use 6px / 7.5px."
+      },
+      {
+        "name": "button-rim",
+        "value": "0 0 0 4px #FFFFFF, 0 0 0 5.5px rgb(30 59 42 / .18)",
+        "purpose": "White vinyl rim around the primary pill button, prepended to lift."
+      },
+      {
+        "name": "food-drop",
+        "value": "drop-shadow(0 1px 1px rgb(30 59 42 / .12)) drop-shadow(0 6px 8px rgb(30 59 42 / .18))",
+        "purpose": "filter for SVG food stickers that carry their own white die-cut border."
+      },
+      {
+        "name": "dark-sheet-sticker",
+        "value": "0 0 0 5px var(--field), 0 0 0 6.5px rgb(255 255 255 / .22), 0 10px 24px -10px rgb(0 0 0 / .6)",
+        "purpose": "Stickers on the basil sheet."
+      },
+      {
+        "name": "focus",
+        "value": "outline: 3px solid #1E3B2A; outline-offset: 3px; box-shadow: 0 0 0 6px #FFFFFF",
+        "purpose": "Global :focus-visible treatment."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "The single easing for all state transitions."
+      },
+      {
+        "name": "peel",
+        "value": "transform .5s, box-shadow .5s / filter .5s; hover: rotate(tilt - 3deg) translateY(-4px) scale(1.03)",
+        "purpose": "The one authored motion: a sticker lifts a corner on hover (hover-capable pointers only)."
+      },
+      {
+        "name": "button",
+        "value": "transform .4s, box-shadow .4s, background-color .2s; hover: translateY(-2px) rotate(-1deg)",
+        "purpose": "Pill button hover."
+      },
+      {
+        "name": "roulette-spin",
+        "value": "transform 3.2s cubic-bezier(.12, .8, .14, 1)",
+        "purpose": "Restaurant Roulette wheel, about 4-5 turns; the only spinning element."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition: none; animation: none; scroll-behavior: auto",
+        "purpose": "prefers-reduced-motion removes all motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1100px"
+      },
+      {
+        "name": "tablet",
+        "value": "860px"
+      },
+      {
+        "name": "phone",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Basil pill sticker with a white vinyl rim; the one main action per view.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linejoin=\"round\"/></svg>Open the brand book</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; border: 0; cursor: pointer; font: 700 1.0625rem/1 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; text-decoration: none; transition: transform .4s cubic-bezier(.16, 1, .3, 1), box-shadow .4s cubic-bezier(.16, 1, .3, 1), background-color .2s; background: var(--basil, #1E3B2A); color: var(--vinyl, #FFFFFF); box-shadow: 0 0 0 4px var(--vinyl, #FFFFFF), 0 0 0 5.5px rgb(30 59 42 / .18), 0 1px 1px rgb(30 59 42 / .10), 0 8px 18px -8px rgb(30 59 42 / .32); } .ds-btn-primary:hover { background: var(--leaf, #2B6436); color: var(--vinyl, #FFFFFF); transform: translateY(-2px) rotate(-1deg); } .ds-btn-primary:focus-visible { outline: 3px solid var(--basil, #1E3B2A); outline-offset: 3px; box-shadow: 0 0 0 6px var(--vinyl, #FFFFFF); } .ds-btn-primary:active { transform: translateY(0) rotate(0); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "White vinyl pill with a 2.5px inset basil outline; secondary actions and both actions on the dark sheet.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8.5 4L3 7l2 4 2-1v10h10V10l2 1 2-4-5.5-3c-.6 1.5-2 2.4-3.5 2.4S9.1 5.5 8.5 4z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linejoin=\"round\"/></svg>See the merch</a>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; border: 0; cursor: pointer; font: 700 1.0625rem/1 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; text-decoration: none; transition: transform .4s cubic-bezier(.16, 1, .3, 1), box-shadow .4s cubic-bezier(.16, 1, .3, 1), background-color .2s; background: var(--vinyl, #FFFFFF); color: var(--basil, #1E3B2A); box-shadow: inset 0 0 0 2.5px var(--basil, #1E3B2A), 0 1px 1px rgb(30 59 42 / .10), 0 8px 18px -8px rgb(30 59 42 / .32); } .ds-btn-secondary:hover { background: var(--lemon, #FFE586); transform: translateY(-2px) rotate(-1deg); } .ds-btn-secondary:focus-visible { outline: 3px solid var(--basil, #1E3B2A); outline-offset: 3px; box-shadow: 0 0 0 6px var(--vinyl, #FFFFFF); }"
+    },
+    {
+      "name": "Sticker on a Sheet",
+      "kind": "card",
+      "refersTo": "sticker",
+      "description": "A white vinyl sticker with the kiss-cut ring, slight tilt and the peel hover, sitting on a butter sheet.",
+      "html": "<div class=\"ds-sheet\"><div class=\"ds-sticker\"><h3 class=\"ds-sticker-title\">Food first</h3><p class=\"ds-sticker-body\">Dishes and ingredients lead every surface.</p></div><p class=\"ds-slug\">LTEF · Sheet 2 of 6 · Direction</p></div>",
+      "css": ".ds-sheet { --field: var(--butter, #FFF6CF); position: relative; background: var(--field); border-radius: 36px; padding: 48px 32px 64px; box-shadow: 0 1px 0 rgb(30 59 42 / .06), 0 14px 30px -20px rgb(30 59 42 / .4); color: var(--basil, #1E3B2A); font: 400 1.0625rem/1.6 Figtree, 'Segoe UI', system-ui, sans-serif; } .ds-sticker { display: inline-block; max-width: 300px; background: var(--vinyl, #FFFFFF); border-radius: 24px; padding: 22px 22px 24px; box-shadow: 0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .16), 0 1px 1px rgb(30 59 42 / .10), 0 8px 18px -8px rgb(30 59 42 / .32); transform: rotate(-1.5deg); transition: transform .5s cubic-bezier(.16, 1, .3, 1), box-shadow .5s cubic-bezier(.16, 1, .3, 1); } .ds-sticker:hover { transform: rotate(-4.5deg) translateY(-4px) scale(1.03); box-shadow: 0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .16), 0 2px 2px rgb(30 59 42 / .10), 0 18px 30px -12px rgb(30 59 42 / .38); } .ds-sticker-title { margin: 0 0 10px; font: 400 1.5rem/1.1 'Bagel Fat One', 'Arial Rounded MT Bold', Nunito, system-ui, sans-serif; letter-spacing: -0.01em; } .ds-sticker-body { margin: 0; } .ds-slug { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); margin: 0; white-space: nowrap; font: 600 .75rem/1.2 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; font-stretch: 85%; letter-spacing: .04em; color: var(--olive, #46583E); }"
+    },
+    {
+      "name": "Site Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Pill links; hover fills butter, the current page becomes a lifted white sticker.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Brand book\"><a href=\"#\" aria-current=\"page\">Overview</a><a href=\"#\">Brand book</a><a href=\"#\">Merch</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 6px; flex-wrap: wrap; background: var(--lemon, #FFE586); padding: 12px; border-radius: 24px; } .ds-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; text-decoration: none; color: var(--basil, #1E3B2A); font: 700 .9375rem/1 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; } .ds-nav a:hover { background: var(--butter, #FFF6CF); } .ds-nav a[aria-current='page'] { background: var(--vinyl, #FFFFFF); box-shadow: 0 1px 1px rgb(30 59 42 / .10), 0 8px 18px -8px rgb(30 59 42 / .32); } .ds-nav a:focus-visible { outline: 3px solid var(--basil, #1E3B2A); outline-offset: 3px; box-shadow: 0 0 0 6px var(--vinyl, #FFFFFF); }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "",
+      "description": "White pill with a 2px inset basil outline and search icon, as used in the phone mockups.",
+      "html": "<label class=\"ds-search\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"M15.5 15.5l5 5\"/></g></svg><input type=\"search\" placeholder=\"Dumplings near Shrewsbury St\"></label>",
+      "css": ".ds-search { display: flex; align-items: center; gap: 10px; background: var(--vinyl, #FFFFFF); border-radius: 999px; padding: 12px 16px; box-shadow: inset 0 0 0 2px var(--basil, #1E3B2A); color: var(--olive, #46583E); max-width: 340px; } .ds-search input { flex: 1; border: 0; background: transparent; font: 600 .9375rem 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; color: var(--basil, #1E3B2A); outline: none; } .ds-search input::placeholder { color: var(--olive, #46583E); } .ds-search:focus-within { outline: 3px solid var(--basil, #1E3B2A); outline-offset: 3px; box-shadow: 0 0 0 6px var(--vinyl, #FFFFFF); }"
+    },
+    {
+      "name": "Filter Chips",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "White pills with a faint ring; the selected chip flips to basil.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip on\" aria-pressed=\"true\">Open now</button><button class=\"ds-chip\" aria-pressed=\"false\">Dumplings</button><button class=\"ds-chip\" aria-pressed=\"false\">Under $15</button></div>",
+      "css": ".ds-chips { display: flex; gap: 8px; flex-wrap: wrap; } .ds-chip { padding: 7px 12px; border: 0; border-radius: 999px; background: var(--vinyl, #FFFFFF); color: var(--basil, #1E3B2A); font: 700 .8125rem 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; box-shadow: inset 0 0 0 1.5px rgb(30 59 42 / .2); cursor: pointer; } .ds-chip:hover { background: var(--butter, #FFF6CF); } .ds-chip.on { background: var(--basil, #1E3B2A); color: var(--vinyl, #FFFFFF); box-shadow: none; } .ds-chip:focus-visible { outline: 3px solid var(--basil, #1E3B2A); outline-offset: 3px; box-shadow: 0 0 0 6px var(--vinyl, #FFFFFF); }"
+    },
+    {
+      "name": "Trust Labels",
+      "kind": "chip",
+      "refersTo": "label-tina",
+      "description": "The label system: each label is a word plus an icon and a visibly different shape, so meaning never rests on colour.",
+      "html": "<div class=\"ds-labels\"><span class=\"ds-lbl ds-lbl-tina\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4.5 19.5l1-4.5L16 4.5l3.5 3.5L9 18.5zM13.5 7l3.5 3.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linejoin=\"round\"/></svg>Tina ate here · Sep</span><span class=\"ds-lbl ds-lbl-verified\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M12 3.2l7 2.8v5.2c0 4.4-3 7.9-7 9.6-4-1.7-7-5.2-7-9.6V6z\"/><path d=\"M8.8 12l2.2 2.2 4.3-4.4\"/></g></svg>Verified business</span><span class=\"ds-lbl ds-lbl-notyet\">Tina hasn’t been yet</span><span class=\"ds-lbl ds-lbl-sponsored\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3.5v17M16 7.8c-.6-1.4-2.2-2.4-4-2.4-2.2 0-4 1.2-4 3s1.8 2.5 4 2.9 4 1.4 4 3.2-1.8 2.8-4 2.8c-1.9 0-3.5-1-4.1-2.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\"/></svg>Sponsored</span><span class=\"ds-lbl ds-lbl-deal\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linejoin=\"round\"><path d=\"M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4z\"/><path d=\"M14.5 7.5v9\" stroke-dasharray=\"1.5 2.5\" stroke-linecap=\"round\"/></g></svg>Woo-pon</span></div>",
+      "css": ".ds-labels { display: flex; flex-wrap: wrap; gap: 16px 18px; align-items: center; } .ds-lbl { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 6px 14px; border-radius: 999px; font: 700 .9375rem/1.1 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; color: var(--basil, #1E3B2A); } .ds-lbl svg { flex: none; } .ds-lbl-tina { background: var(--vinyl, #FFFFFF); box-shadow: inset 0 0 0 2.5px var(--tomato, #B3311A); color: var(--tomato, #B3311A); font-family: 'Shantell Sans', 'Comic Neue', cursive; font-size: 1.0625rem; } .ds-lbl-verified { background: var(--leaf, #2B6436); color: var(--vinyl, #FFFFFF); } .ds-lbl-notyet { border: 2px dashed var(--olive, #46583E); } .ds-lbl-sponsored { border-radius: 6px; background: repeating-linear-gradient(-45deg, var(--oat, #EFEADB) 0 6px, #E4DECB 6px 12px); box-shadow: inset 0 0 0 2px var(--basil, #1E3B2A); } .ds-lbl-deal { background: var(--pistachio, #DCEFC8); box-shadow: inset 0 0 0 2px var(--basil, #1E3B2A); }"
+    },
+    {
+      "name": "Woo-pon Ticket",
+      "kind": "custom",
+      "refersTo": "coupon",
+      "description": "Pistachio deal ticket with notched sides and a dotted perforation above the fine print.",
+      "html": "<div class=\"ds-coupon\"><span class=\"ds-coupon-off\">$5 off</span><span class=\"ds-coupon-where\">Sample Noodle Bar</span><span class=\"ds-coupon-fine\">Sample deal · weeknights · ends Nov 30</span></div>",
+      "css": ".ds-coupon { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; max-width: 320px; background: var(--pistachio, #DCEFC8); color: var(--basil, #1E3B2A); border-radius: 18px; padding: 16px 22px; box-shadow: inset 0 0 0 2px var(--basil, #1E3B2A); -webkit-mask: radial-gradient(circle 11px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat; mask: radial-gradient(circle 11px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat; } .ds-coupon-off { font: 400 1.75rem/1 'Bagel Fat One', 'Arial Rounded MT Bold', Nunito, system-ui, sans-serif; } .ds-coupon-where { font: 700 .875rem 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; } .ds-coupon-fine { grid-column: 1 / -1; font: 400 .8125rem/1.4 Figtree, 'Segoe UI', system-ui, sans-serif; color: var(--olive, #46583E); border-top: 2px dotted rgb(30 59 42 / .35); padding-top: 8px; margin-top: 6px; }"
+    },
+    {
+      "name": "Tina's Verdicts",
+      "kind": "chip",
+      "refersTo": "",
+      "description": "Verdicts in words, not stars: Tina's hand in tomato on white pills; a middling verdict drops to olive.",
+      "html": "<div class=\"ds-verdicts\"><span>I’d get this again.</span><span class=\"mid\">Fine, not a detour.</span></div>",
+      "css": ".ds-verdicts { display: flex; flex-wrap: wrap; gap: 8px; } .ds-verdicts span { font: 700 .9375rem/1 'Shantell Sans', 'Comic Neue', cursive; color: var(--tomato, #B3311A); background: var(--vinyl, #FFFFFF); padding: 8px 12px; border-radius: 999px; box-shadow: inset 0 0 0 2px var(--tomato, #B3311A); } .ds-verdicts span.mid { color: var(--olive, #46583E); box-shadow: inset 0 0 0 2px var(--olive, #46583E); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sticker Sheet",
+    "overview": "Every mark, label and food illustration in this system is a die-cut sticker you could peel off a sheet and put on a laptop, a takeout bag or a hoodie. A page is a stack of rounded pastel backing sheets (butter, lemon, pistachio, peach, white vinyl, one dark basil sheet), each carrying the printer's evidence of a real sheet: faint registration marks in all four corners and a small slug line along the bottom edge naming the sheet. Content sits on those sheets as white vinyl stickers, each with a printed kiss-cut ring around it and a soft lift off the paper.\n\nThe personality runs warm, then playful, then trustworthy. Warmth comes from butter-and-lemon daylight and one deep basil ink that carries every word. Play comes from a chunky rounded display face, small deliberate tilts and a scatter of food stickers around (never over) content. Trust is carried by a strict label system: Tina's handwriting in tomato means she ate there and paid; sponsors get a hatched oat tag with the word \"Sponsored\" and no stickers at all.\n\nDensity is relaxed and generous: big sheet padding, 30px grid gaps, one field colour per sheet. Food is the only illustration subject. The retired Worcester streetscape, triple-decker motif and asphalt-and-mustard palette are confirmed rejections and do not return.",
+    "keyCharacteristics": [
+      "Rounded pastel backing sheets stacked down the page, each with corner registration marks and a bottom slug.",
+      "White vinyl stickers with a printed kiss-cut ring and a soft basil-tinted lift.",
+      "One ink: basil green carries all text and outlines; pastels are grounds and fills only.",
+      "Four type voices with fixed jobs: Bagel Fat One shouts, Figtree reads, Bricolage Grotesque labels, Shantell Sans is Tina's hand.",
+      "Flat-colour food stickers with a 4u basil outline and a 9u white die-cut border.",
+      "One authored motion, the peel."
+    ],
+    "rules": [
+      {
+        "name": "The One Ink Rule",
+        "body": "Text is basil (or olive for secondary, leaf for links, tomato for Tina's hand). White text appears only on basil or leaf. White or pale text on a pastel never ships: white on lemon is 1.2:1.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Field Per Sheet Rule",
+        "body": "One field colour owns a whole sheet; pastels are never striped inside a section. Roughly 60% butter or vinyl, 25% one other pastel field, 10% basil, 5% yolk, tomato and illustration colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tomato Means Tina Rule",
+        "body": "Tomato signals only that Tina wrote it. It never marks a sale, an alert, an error or an ad, and never sets body copy on a pastel.",
+        "section": "colors"
+      },
+      {
+        "name": "The Four Voices Rule",
+        "body": "Each face has one job and two roles never mix inside one element. Bagel shouts, Figtree reads, Bricolage labels, Shantell is Tina.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "Headings and buttons are sentence case. All caps live only in artwork (the stamp rim, tiny printed tags inside the Woo-pon ticket, decal and punch card), never in screen UI.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Facts Rule",
+        "body": "Prices, times, hex codes and tables use tabular numerals. Bagel tracks at −0.01em; everything else at 0.",
+        "section": "typography"
+      },
+      {
+        "name": "The Kiss-Cut Rule",
+        "body": "Every white sticker surface on a sheet gets the kiss-cut ring in the sheet's own field colour. A white box with only a drop shadow is not a sticker.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Peel Rule",
+        "body": "The only authored motion: on hover a sticker lifts 4px, turns 3° further and scales 1.03 while its shadow deepens (500ms, `cubic-bezier(.16, 1, .3, 1)`). The roulette wheel spin is the one functional exception. No scroll-triggered entrances; nothing is hidden at rest; `prefers-reduced-motion` removes all transitions.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set basil text on every pastel field; it clears AA everywhere (9.8:1 on lemon, 11.3:1 on butter).",
+      "Do give every white sticker surface the kiss-cut ring in its sheet's field colour plus the Lift shadow.",
+      "Do let one field colour own each sheet, and use peach on one sheet per page at most.",
+      "Do keep earned and paid visibly different: hand and tomato for Tina, hatch, oat and the word \"Sponsored\" for paid spots.",
+      "Do pair every label, badge and verdict with a word and an icon.",
+      "Do draw food stickers on a 120u square with a 4u basil outline, round joins, a 9u white die-cut border, two or three flat fills and at most one white highlight at about −30°.",
+      "Do vary sticker tilts between −8° and +8°, never two neighbours at the same angle, and keep the wordmark within 3°."
+    ],
+    "donts": [
+      "Don't set white or pale text on a pastel; white on lemon is 1.2:1.",
+      "Don't use tomato for anything but Tina's hand: not buttons, links, sales, errors or alerts.",
+      "Don't put the stamp, Tina's handwriting or a quote in her voice on a sponsored placement, and give sponsored modules no stickers.",
+      "Don't rate with stars or numbers; use Tina's verdicts in words.",
+      "Don't place stickers over food photos, prices, labels or body text; they go around content, on the field.",
+      "Don't stretch, squash or recolour the wordmark, recolour its egg o's or split its lines.",
+      "Don't bring back houses, streetscapes, skylines or city clip-art, or the asphalt-and-mustard palette.",
+      "Don't set Bagel Fat One below 20px or for paragraphs, or set screen UI in all caps.",
+      "Don't add gradients, textures or shading to food stickers, or faces on food."
+    ]
+  }
+}
