@@ -1,0 +1,28 @@
+/* Live to Eat Food design tokens */
+:root {
+  --ltef-butter: #FFF6CF;
+  --ltef-lemon: #FFE586;
+  --ltef-yolk: #FFC53D;
+  --ltef-pistachio: #DCEFC8;
+  --ltef-matcha: #B3DA94;
+  --ltef-peach: #FFD8C2;
+  --ltef-vinyl: #FFFFFF;
+  --ltef-oat: #EFEADB;
+  --ltef-basil: #1E3B2A;
+  --ltef-olive: #46583E;
+  --ltef-leaf: #2B6436;
+  --ltef-tomato: #B3311A;
+  --ltef-chili: #EE8467;
+  --ltef-latte: #E8C9A3;
+  --ltef-font-display: "Bagel Fat One", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --ltef-font-reading: Figtree, "Segoe UI", system-ui, -apple-system, sans-serif;
+  --ltef-font-interface: "Bricolage Grotesque", Figtree, system-ui, sans-serif;
+  --ltef-font-hand: "Shantell Sans", "Comic Neue", cursive;
+  --ltef-radius-sheet: 36px;
+  --ltef-radius-sticker: 24px;
+  --ltef-radius-tag: 12px;
+  --ltef-radius-pill: 999px;
+  --ltef-die-cut: 0 0 0 5px var(--field, var(--ltef-butter)), 0 0 0 6.5px rgb(30 59 42 / .16);
+  --ltef-lift: 0 1px 1px rgb(30 59 42 / .10), 0 8px 18px -8px rgb(30 59 42 / .32);
+  --ltef-ease: cubic-bezier(.16, 1, .3, 1);
+}
