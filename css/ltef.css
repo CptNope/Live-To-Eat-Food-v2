@@ -284,6 +284,7 @@ figure { margin: 0; }
 
 /* tables */
 .tbl-wrap:focus-visible { outline: 3px solid var(--basil); outline-offset: 6px; }
+.code pre:focus-visible { outline: 3px solid var(--lemon); outline-offset: -6px; border-radius: 14px; box-shadow: none; }
 .tbl-wrap { overflow-x: auto; background: var(--vinyl); border-radius: var(--r-sticker); box-shadow: 0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .14), var(--lift); }
 table { width: 100%; border-collapse: collapse; font-size: 1rem; font-variant-numeric: tabular-nums; }
 caption { text-align: left; padding: 20px 22px 4px; font: 400 1.25rem var(--f-display); }
