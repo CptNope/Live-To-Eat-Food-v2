@@ -68,7 +68,7 @@ p { margin: 0 0 1em; max-width: 68ch; }
 h1, h2, h3, h4 { margin: 0; text-wrap: balance; color: var(--basil); }
 strong { font-weight: 700; }
 code, kbd { font-family: var(--f-ui); font-stretch: 88%; font-weight: 600; font-size: .92em; background: rgb(30 59 42 / .07); padding: .08em .38em; border-radius: 6px; font-variant-numeric: tabular-nums; }
-.skip { position: absolute; left: 16px; top: -60px; background: var(--basil); color: var(--vinyl); padding: 10px 16px; border-radius: var(--r-pill); z-index: 10; font: 700 1rem var(--f-ui); }
+.skip { position: absolute; left: 16px; top: -60px; display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; background: var(--basil); color: var(--vinyl); padding: 0 18px; border-radius: var(--r-pill); z-index: 10; font: 700 1rem var(--f-ui); }
 .skip:focus { top: 12px; }
 .skip:hover { color: var(--vinyl); }
 /* Controls that need JavaScript stay hidden until it runs. */
@@ -175,7 +175,7 @@ code, kbd { font-family: var(--f-ui); font-stretch: 88%; font-weight: 600; font-
   padding: 14px var(--gutter) 6px;
   max-width: 1420px; margin: 0 auto;
 }
-.bar .home { display: block; width: clamp(168px, 22vw, 230px); }
+.bar .home { display: flex; align-items: center; min-height: 44px; width: clamp(168px, 22vw, 230px); }
 .bar nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; flex-wrap: wrap; }
 .bar nav a {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px;
@@ -256,7 +256,7 @@ figure { margin: 0; }
 .toc { position: sticky; top: 0; align-self: start; max-height: 100vh; overflow: auto; padding: 22px 8px 30px 22px; }
 .toc ol { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; gap: 2px; }
 .toc li { counter-increment: s; }
-.toc a { display: flex; gap: 10px; align-items: baseline; padding: 9px 14px; border-radius: 14px; text-decoration: none; color: var(--basil); font: 700 .9375rem/1.25 var(--f-ui); }
+.toc a { display: flex; gap: 10px; align-items: baseline; min-height: 44px; box-sizing: border-box; padding: 11px 14px; border-radius: 14px; text-decoration: none; color: var(--basil); font: 700 .9375rem/1.25 var(--f-ui); }
 .toc a::before { content: counter(s); font: 400 .9375rem var(--f-display); color: var(--leaf); min-width: 1.3em; }
 .toc a:hover { background: var(--butter); }
 .toc a.btn::before { content: none; }
@@ -434,7 +434,7 @@ td .dot { display: inline-block; width: 22px; height: 22px; border-radius: 50%; 
 .code code { background: none; padding: 0; color: inherit; font: inherit; }
 .code .copy { position: absolute; top: 14px; right: 14px; }
 .code .hd { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px 0 26px; font: 700 .9375rem var(--f-ui); color: var(--lemon); }
-.code .copy-btn { background: var(--lemon); color: var(--basil); border: 0; border-radius: var(--r-pill); min-height: 40px; padding: 0 16px; font: 800 .875rem var(--f-ui); cursor: pointer; }
+.code .copy-btn { background: var(--lemon); color: var(--basil); border: 0; border-radius: var(--r-pill); min-height: 44px; padding: 0 18px; font: 800 .875rem var(--f-ui); cursor: pointer; }
 .code .copy-btn:hover { background: var(--vinyl); }
 .code ::selection { background: var(--yolk); color: var(--basil); }
 
