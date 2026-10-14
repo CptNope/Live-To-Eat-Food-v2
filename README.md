@@ -9,6 +9,7 @@ The idea: **the brand is a sticker sheet.** Every mark, label and food illustrat
 | Overview | [`index.html`](index.html) | The brand in 60 seconds: intro, direction, palette, type, marks |
 | Brand book | [`brand/index.html`](brand/index.html) | Strategy, color, typography, logo & marks, motifs, voice, imagery, applications, don'ts, build tokens |
 | Merch lookbook | [`merch/index.html`](merch/index.html) | Tees, hoodie, hat, sticker pack, tote, pin, punch card, restaurant window decal, print specs |
+| Example site | [`site/index.html`](site/index.html) | 15 pages of the website built from the system: home, explore, place (paid and hosted visits), guides, Woo-pons, Restaurant Roulette, events, your plates, giveaways, Tina, shop, how it works, for restaurants. All content is placeholder |
 
 The same system is also saved as a Claude Design System (tokens, fonts, logos, stickers, merch mockups and component previews): <https://claude.ai/artifact/3FK3oCDgfLmRHArTGLcX7i> (private until shared).
 
@@ -19,13 +20,15 @@ Settings → Pages → Source: **Deploy from a branch**, Branch: `main`, folder 
 ## What's in the repo
 
 ```
-index.html, brand/, merch/   the three pages (plain HTML)
+index.html, brand/, merch/   the three brand book pages (plain HTML)
+site/                        the example website: 15 pages, site/css (tokens, components, layout), site/js/site.js (Roulette, toggles, demo messages)
 css/ltef.css                 the one stylesheet
 js/ltef.js                   small enhancements only (copy buttons, roulette demo, TOC highlight)
-fonts/                       Bagel Fat One, Figtree, Bricolage Grotesque, Shantell Sans (Latin subset, SIL OFL)
+fonts/                       Bagel Fat One, Figtree, Bricolage Grotesque, Shantell Sans (WOFF2, Latin subset, SIL OFL)
 assets/logo/                 wordmark (stacked, sticker, one-line, white), avatar, trust stamps — outlined SVG
 assets/stickers/             12 food stickers + Woo-pons ticket + roulette wheel — SVG
 assets/merch/                garment and product mockups — SVG
+assets/site/                 screenshots of the example site for the overview — WebP
 tokens/theme.json            WordPress theme.json (v3) tokens
 tokens/ltef-tokens.css       the same tokens as CSS custom properties
 favicon.svg, apple-touch-icon.png

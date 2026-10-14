@@ -530,6 +530,25 @@ td .dot { display: inline-block; width: 22px; height: 22px; border-radius: 50%; 
   .sticker-pack { grid-template-columns: repeat(3, 1fr); }
   .item .stage.duo { grid-template-columns: 1fr; }
 }
+
+/* Overview: the example site */
+.site-demo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(150px, 230px); gap: clamp(20px, 4vw, 48px); align-items: end; }
+.site-demo a { display: block; text-decoration: none; transition: transform .5s var(--ease); }
+.site-demo a:hover { transform: translateY(-4px) rotate(-.6deg); }
+.site-demo img { display: block; width: 100%; height: auto; }
+.browser { background: var(--vinyl); border-radius: var(--r-sticker); padding: 0 10px 10px; box-shadow: var(--kiss-cut, 0 0 0 5px var(--field)), var(--lift); }
+.browser img { border-radius: 14px; }
+.browser-bar { display: flex; gap: 7px; padding: 12px 6px; }
+.browser-bar i { width: 11px; height: 11px; border-radius: 50%; background: var(--oat-hatch); }
+.phone { background: var(--basil); border-radius: 34px; padding: 9px; box-shadow: var(--lift); transform: rotate(2deg); }
+.phone:hover { transform: rotate(2deg) translateY(-4px); }
+.phone img { border-radius: 26px; }
+.site-links { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center; margin-top: clamp(28px, 4vw, 44px); }
+.site-links ul { display: flex; flex-wrap: wrap; gap: 6px 8px; list-style: none; margin: 0; padding: 0; }
+.site-links li a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: var(--r-pill); background: var(--vinyl); color: var(--basil); font: 700 .9375rem/1 var(--f-ui); text-decoration: none; box-shadow: inset 0 0 0 1.5px rgb(30 59 42 / .2); }
+.site-links li a:hover { background: var(--lemon); }
+@media (max-width: 720px) { .site-demo { grid-template-columns: minmax(0, 1fr) 38%; gap: 14px; } .phone { border-radius: 24px; padding: 6px; } .phone img { border-radius: 19px; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }

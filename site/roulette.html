@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Live to Eat Food: Tina’s picks around Worcester and Central Mass. Example site built from the brand book.">
+<link rel="icon" href="../assets/logo/ltef-avatar.svg" type="image/svg+xml">
+<title>Restaurant Roulette — Live to Eat Food</title>
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/site.css">
+<style>body{margin:0}
+a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style>
+</head>
+<body>
+<div style="background: var(--lemon); color: var(--basil); font-family: var(--font-reading); padding-bottom: 8px;">
+
+<a class="skip" href="#main">Skip to content</a>
+<aside class="demo-bar" aria-label="About this example site"><p><strong>Example site.</strong> <span class="demo-long">Built from the Live to Eat Food brand book. Every place, deal, date and price here is a placeholder, and Tina’s words are left blank on purpose.</span><span class="demo-short">Places, deals and dates are placeholders.</span></p><a class="demo-link" href="../index.html">Back to the brand book</a></aside>
+<header class="bar">
+  <a href="index.html" style="display: block; width: 220px;"><img src="../assets/logo/ltef-wordmark-line.svg" alt="Live to Eat Food home" style="width: 100%; display: block;"></a>
+  <nav aria-label="Main"><ul class="bar-nav"><li><a href="explore.html">Explore</a></li><li><a href="guides.html">Guides</a></li><li><a href="woo-pons.html">Woo-pons</a></li><li><a href="roulette.html" aria-current="page">Roulette</a></li><li><a href="events.html">Events</a></li><li><a href="your-plates.html">Your plates</a></li><li><a href="giveaways.html">Giveaways</a></li><li><a href="tina.html">Tina</a></li><li><a href="shop.html">Shop</a></li></ul></nav>
+</header>
+
+<main id="main">
+<section class="sheet sheet--dark" style="background: var(--basil); color: var(--butter); overflow: hidden;" aria-labelledby="h-roul">
+  <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 56px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 22px;">
+      <h1 id="h-roul" class="h-xl" style="color: var(--butter); max-width: 10ch;">Restaurant Roulette</h1>
+      <p class="lede" style="color: var(--butter);">Can’t decide? Pick a mood, set a budget, spin. The wheel only lands on places Tina has eaten at, and sponsors never get on it.</p>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span style="font: 700 15px var(--font-interface); color: var(--pistachio);">I’m in the mood for</span>
+        <div class="ltef-chips" role="group" aria-label="Mood">
+          <button class="ltef-chip" type="button" data-mood="anything" aria-pressed="true">Anything</button><button class="ltef-chip" type="button" data-mood="spicy" aria-pressed="false">Spicy</button><button class="ltef-chip" type="button" data-mood="cozy" aria-pressed="false">Cozy</button><button class="ltef-chip" type="button" data-mood="sweet" aria-pressed="false">Sweet</button><button class="ltef-chip" type="button" data-mood="group" aria-pressed="false">Big group</button>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span style="font: 700 15px var(--font-interface); color: var(--pistachio);">Spending about</span>
+        <div class="ltef-chips" role="group" aria-label="Budget">
+          <button class="ltef-chip" type="button" data-budget="any" aria-pressed="true">Any</button><button class="ltef-chip" type="button" data-budget="low" aria-pressed="false">Under $15</button><button class="ltef-chip" type="button" data-budget="mid" aria-pressed="false">Under $30</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 26px;">
+      <div style="width: min(100%, 420px); aspect-ratio: 1; display: grid; place-items: center;">
+        <img src="../assets/stickers/roulette.svg" alt="Restaurant Roulette wheel" data-wheel style="width: 100%; pointer-events: none; transition: transform 3.2s cubic-bezier(.12,.8,.14,1);">
+      </div>
+      <button class="ltef-btn ltef-btn--alt" type="button" data-spin aria-describedby="spin-hint" style="font-size: 19px; min-height: 60px; padding: 0 34px;"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v8.5l6 6M3.5 12H12"/></g></svg><span data-spin-label>Spin for it</span></button>
+      <p id="spin-hint" class="meta" style="color: var(--pistachio); text-align: center; max-width: 36ch;">Only places Tina has eaten at. Hosted meals are labeled in the result.</p>
+    </div>
+  </div>
+  <p class="slug" style="color: var(--pistachio);">LTEF · Restaurant Roulette · Sample places</p>
+</section>
+
+<section class="sheet" style="background: var(--butter);" aria-labelledby="h-result" aria-live="polite">
+  <div class="wrap">
+    <div data-state="idle">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 30px;">
+        <img src="../assets/stickers/egg.svg" alt="" style="width: 110px; transform: rotate(-6deg); filter: drop-shadow(0 6px 8px rgba(30,59,42,.2));">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <h2 id="h-result" class="h-m">Your pick lands here</h2>
+          <p style="max-width: 52ch;">Spin the wheel and Tina’s pick shows up with directions. Spin again and you won’t get the same place twice in a row.</p>
+        </div>
+      </div>
+    </div>
+    <div data-state="spinning" hidden>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 30px;">
+        <img src="../assets/stickers/roulette.svg" alt="" style="width: 96px;">
+        <div style="display: flex; flex-direction: column; gap: 8px;"><h2 class="h-m">Spinning…</h2><p>Picking from <span data-f="count">6</span> of Tina’s places for <span data-f="filter">anything</span>.</p></div>
+      </div>
+    </div>
+    <div data-state="nomatch" hidden>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; padding: 22px 26px; border-radius: 24px; border: 2.5px dashed var(--olive);">
+        <div style="display: flex; flex-direction: column; gap: 6px; max-width: 60ch;"><h2 class="h-m">Nothing on the wheel for <span data-f="filter">anything</span> yet.</h2><p>Tina hasn’t eaten anywhere that fits both. Try a different mood, or widen the budget.</p></div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;"><button class="ltef-btn ltef-btn--sm" type="button" data-widen>Any budget</button><button class="ltef-btn ltef-btn--sm ltef-btn--alt" type="button" data-reset>Reset filters</button></div>
+      </div>
+    </div>
+    <div data-state="pick" hidden>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: center;">
+        <div data-f="bg" style="aspect-ratio: 4 / 3; border-radius: 20px; background: var(--butter); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), var(--lift);">
+          <img src="../assets/stickers/egg.svg" alt="" data-f="img" style="width: 42%;">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="ltef-lbl ltef-lbl--tina">Tina ate here · <span data-f="month"></span></span>
+            <span data-hosted hidden><span class="ltef-lbl ltef-lbl--hosted"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><rect x="3.5" y="6" width="17" height="12.5" rx="2"/><path d="M4.5 7.5l7.5 6 7.5-6"/></g></svg>Hosted</span></span>
+          </div>
+          <h2 class="h-l" style="overflow-wrap: anywhere;"><span data-f="name"></span></h2>
+          <p class="meta" style="font-size: 17px;"><span data-f="meta"></span></p>
+          <span data-hosted hidden><p class="ltef-disclose" style="margin: 0;"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><rect x="3.5" y="6" width="17" height="12.5" rx="2"/><path d="M4.5 7.5l7.5 6 7.5-6"/></g></svg><span>Hosted visit: <span data-f="name"></span> invited Tina and covered this meal. Nobody paid for this page or saw it before it went up.</span></p></span>
+          <div class="ltef-verdicts"><span class="ltef-verdict"><span data-f="verdict"></span></span></div>
+          <p class="ltef-note" style="font-size: 22px;">“[Tina’s line from her post]”</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 14px;">
+            <a class="ltef-btn" href="place.html" data-f="href">Get directions</a>
+            <button class="ltef-btn ltef-btn--alt" type="button" data-spin>Spin again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="slug">LTEF · Restaurant Roulette · Result</p>
+</section>
+</main>
+<footer class="foot">
+  <p style="max-width: 560px;"><strong>Only real meals on the wheel.</strong> Every place here is one Tina has eaten at. If a restaurant covered her meal, the result says Hosted. Sponsors never get on the wheel.</p>
+  <nav aria-label="Footer"><a href="how-it-works.html">How it works</a><a href="for-restaurants.html">For restaurants</a><a href="tina.html">About Tina</a><a href="index.html#sunday">Sunday list</a><a href="shop.html">Shop</a></nav>
+</footer>
+</div>
+<script src="js/site.js" defer></script>
+</body>
+</html>

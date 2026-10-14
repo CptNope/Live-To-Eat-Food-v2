@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Live to Eat Food: Tina’s picks around Worcester and Central Mass. Example site built from the brand book.">
+<link rel="icon" href="../assets/logo/ltef-avatar.svg" type="image/svg+xml">
+<title>Your plates — Live to Eat Food</title>
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/site.css">
+<style>body{margin:0}
+a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style>
+</head>
+<body>
+<div style="background: var(--lemon); color: var(--basil); font-family: var(--font-reading); padding-bottom: 8px;">
+
+<a class="skip" href="#main">Skip to content</a>
+<aside class="demo-bar" aria-label="About this example site"><p><strong>Example site.</strong> <span class="demo-long">Built from the Live to Eat Food brand book. Every place, deal, date and price here is a placeholder, and Tina’s words are left blank on purpose.</span><span class="demo-short">Places, deals and dates are placeholders.</span></p><a class="demo-link" href="../index.html">Back to the brand book</a></aside>
+<header class="bar">
+  <a href="index.html" style="display: block; width: 220px;"><img src="../assets/logo/ltef-wordmark-line.svg" alt="Live to Eat Food home" style="width: 100%; display: block;"></a>
+  <nav aria-label="Main"><ul class="bar-nav"><li><a href="explore.html">Explore</a></li><li><a href="guides.html">Guides</a></li><li><a href="woo-pons.html">Woo-pons</a></li><li><a href="roulette.html">Roulette</a></li><li><a href="events.html">Events</a></li><li><a href="your-plates.html" aria-current="page">Your plates</a></li><li><a href="giveaways.html">Giveaways</a></li><li><a href="tina.html">Tina</a></li><li><a href="shop.html">Shop</a></li></ul></nav>
+</header>
+
+<main id="main">
+<section class="sheet" style="background: var(--peach); overflow: hidden;" aria-labelledby="h-pl">
+  <img class="food hide-sm" src="../assets/stickers/taco.svg" alt="" style="width: 120px; right: 6%; top: 56px; transform: rotate(-7deg);">
+  <img class="food hide-sm" src="../assets/stickers/avocado.svg" alt="" style="width: 80px; right: 17%; top: 150px; transform: rotate(6deg);">
+  <div class="wrap" style="display: flex; flex-direction: column; gap: 20px; position: relative;">
+    <h1 id="h-pl" class="h-xl" style="max-width: 10ch;">Your plates</h1>
+    <p class="lede">What you ordered off Tina’s list. Tag #livetoeatfood on Instagram or TikTok, or upload here. Every photo shows your handle, and we only post with your OK.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+      <button class="ltef-btn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M3.5 8.5h3.5l2-3h6l2 3h3.5V19h-17z"/><circle cx="12" cy="13.5" r="3.4"/></g></svg>Share your plate</button>
+      <div class="ltef-chips" role="group" aria-label="Filter plates" style="align-items: center;">
+        <button class="ltef-chip" aria-pressed="true">Newest</button>
+        <button class="ltef-chip" aria-pressed="false">Dumplings</button>
+        <button class="ltef-chip" aria-pressed="false">Brunch</button>
+        <button class="ltef-chip" aria-pressed="false">Dessert</button>
+      </div>
+    </div>
+  </div>
+  <p class="slug">LTEF · Community plates · Sample posts, handles are placeholders</p>
+</section>
+
+<section class="sheet" style="background: var(--vinyl);" aria-labelledby="h-grid">
+  <div class="wrap">
+    <h2 id="h-grid" class="vh" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Latest plates</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 30px;">
+      <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--pistachio); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), 0 0 0 11.5px rgba(30,59,42,.12), var(--lift); transform: rotate(-1.5deg);"><img src="../assets/stickers/taco.svg" alt="Reader photo slot: birria tacos at Matcha Taqueria" style="width: 50%;"></div><figcaption style="margin-top: 18px; display: flex; flex-direction: column; gap: 2px;"><span style="font: 700 15px var(--font-interface);">@[reader] · Taco night</span><span class="meta">at Matcha Taqueria · Main South</span></figcaption></figure>
+      <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--lemon); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), 0 0 0 11.5px rgba(30,59,42,.12), var(--lift); transform: rotate(1deg);"><img src="../assets/stickers/egg.svg" alt="Reader photo slot: eggs at Yolk Coffee Bar" style="width: 50%;"></div><figcaption style="margin-top: 18px; display: flex; flex-direction: column; gap: 2px;"><span style="font: 700 15px var(--font-interface);">@[reader] · Sunday brunch</span><span class="meta">at Yolk Coffee Bar · Downtown</span></figcaption></figure>
+      <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--butter); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), 0 0 0 11.5px rgba(30,59,42,.12), var(--lift); transform: rotate(-.8deg);"><img src="../assets/stickers/dumpling.svg" alt="Reader photo slot: dumplings at Juniper Dumpling House" style="width: 50%;"></div><figcaption style="margin-top: 18px; display: flex; flex-direction: column; gap: 2px;"><span style="font: 700 15px var(--font-interface);">@[reader] · First time folding</span><span class="meta">at Juniper Dumpling House · Shrewsbury St</span></figcaption></figure>
+      <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--peach); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), 0 0 0 11.5px rgba(30,59,42,.12), var(--lift); transform: rotate(1.6deg);"><img src="../assets/stickers/donut.svg" alt="Reader photo slot: donuts at Sunny Donut Co." style="width: 50%;"></div><figcaption style="margin-top: 18px; display: flex; flex-direction: column; gap: 2px;"><span style="font: 700 15px var(--font-interface);">@[reader] · Saturday dozen</span><span class="meta">at Sunny Donut Co. · Shrewsbury St</span></figcaption></figure>
+      <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--pistachio); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), 0 0 0 11.5px rgba(30,59,42,.12), var(--lift); transform: rotate(-1.2deg);"><img src="../assets/stickers/noodles.svg" alt="Reader photo slot: noodles at Little Lemon Noodle Co." style="width: 50%;"></div><figcaption style="margin-top: 18px; display: flex; flex-direction: column; gap: 2px;"><span style="font: 700 15px var(--font-interface);">@[reader] · Extra chili crisp</span><span class="meta">at Little Lemon Noodle Co. · Park Ave</span></figcaption></figure>
+      <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--lemon); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), 0 0 0 11.5px rgba(30,59,42,.12), var(--lift); transform: rotate(.8deg);"><img src="../assets/stickers/pizza.svg" alt="Reader photo slot: pizza at Pistachio Pizza Bar" style="width: 50%;"></div><figcaption style="margin-top: 18px; display: flex; flex-direction: column; gap: 2px;"><span style="font: 700 15px var(--font-interface);">@[reader] · Friday slice</span><span class="meta">at Pistachio Pizza Bar · Canal District</span></figcaption></figure>
+      <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--butter); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), 0 0 0 11.5px rgba(30,59,42,.12), var(--lift); transform: rotate(-1.8deg);"><img src="../assets/stickers/icecream.svg" alt="Reader photo slot: soft serve" style="width: 50%;"></div><figcaption style="margin-top: 18px; display: flex; flex-direction: column; gap: 2px;"><span style="font: 700 15px var(--font-interface);">@[reader] · Last cone of the year</span><span class="meta">at Soft Serve Window · Shrewsbury St</span></figcaption></figure>
+      <figure style="margin: 0;"><div style="aspect-ratio: 1; border-radius: 20px; background: var(--peach); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), 0 0 0 11.5px rgba(30,59,42,.12), var(--lift); transform: rotate(1.2deg);"><img src="../assets/stickers/coffee.svg" alt="Reader photo slot: iced coffee" style="width: 50%;"></div><figcaption style="margin-top: 18px; display: flex; flex-direction: column; gap: 2px;"><span style="font: 700 15px var(--font-interface);">@[reader] · Study fuel</span><span class="meta">at Yolk Coffee Bar · Downtown</span></figcaption></figure>
+    </div>
+    <div style="display: flex; justify-content: center; margin-top: 44px;"><button class="ltef-btn ltef-btn--alt" type="button">Load more plates</button></div>
+  </div>
+  <p class="slug">LTEF · Community plates · Reader photos, credited, with permission</p>
+</section>
+
+<section class="sheet" style="background: var(--pistachio);" aria-labelledby="h-rules">
+  <div class="wrap two" style="align-items: start;">
+    <div style="display: flex; flex-direction: column; gap: 14px;"><h2 id="h-rules" class="h-m">How plates work</h2><p style="max-width: 46ch;">This page is yours. Tina’s stamp and handwriting never appear here, so nobody mistakes a reader’s plate for her pick.</p></div>
+    <ul class="panel" style="margin: 0; padding-left: 46px; display: grid; gap: 10px;">
+      <li>Your handle goes on every photo we share.</li>
+      <li>We ask before we post, every time.</li>
+      <li>Plates, not people: food first, faces only if you want.</li>
+      <li>Say what you ordered and where, so the next person can go.</li>
+    </ul>
+  </div>
+  <p class="slug">LTEF · Community plates · House rules</p>
+</section>
+</main>
+<footer class="foot">
+  <p style="max-width: 560px;"><strong>Credit first.</strong> Every reader photo shows its handle and is posted with permission.</p>
+  <nav aria-label="Footer"><a href="how-it-works.html">How it works</a><a href="for-restaurants.html">For restaurants</a><a href="tina.html">About Tina</a><a href="index.html#sunday">Sunday list</a><a href="shop.html">Shop</a></nav>
+</footer>
+</div>
+<script src="js/site.js" defer></script>
+</body>
+</html>
