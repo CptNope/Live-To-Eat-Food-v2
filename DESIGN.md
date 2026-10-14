@@ -316,6 +316,8 @@ Pill stickers: tactile, confident, rimmed in white vinyl.
 - **Hover / Focus:** fills to leaf, rises 2px and tilts −1° (400ms ease). Focus everywhere is a 3px basil outline at 3px offset with a 6px white halo.
 - **Secondary:** white vinyl fill, basil text, 2.5px inset basil outline; hover fills lemon. On the dark sheet both actions use the secondary style.
 - Icons are 20px inline stroke SVGs (2.1–2.6 stroke, round caps) that inherit `currentColor`.
+- **States:** hover always sets its own text colour, so a page's link hover can't recolour a button. Disabled stays put on hover at 45–55% opacity. While sending, the button is disabled with `aria-busy="true"` so nothing goes twice. A pressed toggle ("I've been here") fills matcha with a check.
+- **Long labels** wrap onto two centred lines at 1.15 line height instead of overflowing.
 
 ### Chips
 - **Style:** filter chips are white pills with a 1.5px inset ring at 20% basil, Bricolage 700 at 13px; word chips are pistachio pills.
@@ -332,6 +334,8 @@ Pill stickers: tactile, confident, rimmed in white vinyl.
 - **Style:** search is a white pill with a 2px inset basil outline, Bricolage 600 at 15px in olive, an 18px search icon.
 - **Focus:** the global focus ring (3px basil outline, 6px white halo).
 - **Error:** basil text with an icon on a peach field plus a plain-words explanation; never tomato.
+- **Form fields:** label, hint, input, error, in that order. Inputs are 48px tall with 16px text so phones don't zoom on focus. Hints and errors are tied to the input with `aria-describedby`; an invalid input turns dashed with a peach halo, so the state never rests on colour alone. Errors say what to fix and keep what was typed.
+- **Load errors:** say what happened, keep filters and the map in place, and offer one Try again button. Empty results name the filters that are on and offer the one change that brings places back.
 
 ### Navigation
 - **Site bar:** the one-line wordmark at left (168–230px), pill links at right in Bricolage 700 at 15px, 44px tall. Hover fills butter; the current page becomes a white sticker with Lift.
