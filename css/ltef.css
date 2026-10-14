@@ -2,11 +2,11 @@
    One file for the overview, the brand book and the merch lookbook.
    World: a sticker sheet. Pastel backing sheets, white die-cut stickers, basil ink. */
 
-@font-face { font-family: "Bagel Fat One"; src: url("../fonts/bagel-fat-one.woff") format("woff"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Figtree"; src: url("../fonts/figtree.woff") format("woff"); font-weight: 300 900; font-style: normal; font-display: swap; }
-@font-face { font-family: "Figtree"; src: url("../fonts/figtree-italic.woff") format("woff"); font-weight: 300 900; font-style: italic; font-display: swap; }
-@font-face { font-family: "Bricolage Grotesque"; src: url("../fonts/bricolage-grotesque.woff") format("woff"); font-weight: 200 800; font-stretch: 75% 100%; font-display: swap; }
-@font-face { font-family: "Shantell Sans"; src: url("../fonts/shantell-sans.woff") format("woff"); font-weight: 300 800; font-display: swap; }
+@font-face { font-family: "Bagel Fat One"; src: url("../fonts/bagel-fat-one.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("../fonts/figtree.woff2") format("woff2"); font-weight: 400 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("../fonts/figtree-italic.woff2") format("woff2"); font-weight: 400 700; font-style: italic; font-display: swap; }
+@font-face { font-family: "Bricolage Grotesque"; src: url("../fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 400 800; font-stretch: 85% 100%; font-display: swap; }
+@font-face { font-family: "Shantell Sans"; src: url("../fonts/shantell-sans.woff2") format("woff2"); font-weight: 500 800; font-display: swap; }
 
 :root {
   /* Fields (pastels: grounds and fills only) */

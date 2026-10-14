@@ -85,7 +85,7 @@
               "fontWeight": "400",
               "fontStyle": "normal",
               "src": [
-                "file:./assets/fonts/bagel-fat-one.woff"
+                "file:./assets/fonts/bagel-fat-one.woff2"
               ]
             }
           ]
@@ -97,18 +97,18 @@
           "fontFace": [
             {
               "fontFamily": "Figtree",
-              "fontWeight": "300 900",
+              "fontWeight": "400 700",
               "fontStyle": "normal",
               "src": [
-                "file:./assets/fonts/figtree.woff"
+                "file:./assets/fonts/figtree.woff2"
               ]
             },
             {
               "fontFamily": "Figtree",
-              "fontWeight": "300 900",
+              "fontWeight": "400 700",
               "fontStyle": "italic",
               "src": [
-                "file:./assets/fonts/figtree-italic.woff"
+                "file:./assets/fonts/figtree-italic.woff2"
               ]
             }
           ]
@@ -120,11 +120,11 @@
           "fontFace": [
             {
               "fontFamily": "Bricolage Grotesque",
-              "fontWeight": "200 800",
-              "fontStretch": "75% 100%",
+              "fontWeight": "400 800",
+              "fontStretch": "85% 100%",
               "fontStyle": "normal",
               "src": [
-                "file:./assets/fonts/bricolage-grotesque.woff"
+                "file:./assets/fonts/bricolage-grotesque.woff2"
               ]
             }
           ]
@@ -136,10 +136,10 @@
           "fontFace": [
             {
               "fontFamily": "Shantell Sans",
-              "fontWeight": "300 800",
+              "fontWeight": "500 800",
               "fontStyle": "normal",
               "src": [
-                "file:./assets/fonts/shantell-sans.woff"
+                "file:./assets/fonts/shantell-sans.woff2"
               ]
             }
           ]
