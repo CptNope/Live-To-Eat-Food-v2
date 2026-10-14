@@ -374,3 +374,10 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 - **Don't** bring back houses, streetscapes, skylines or city clip-art, or the asphalt-and-mustard palette.
 - **Don't** set Bagel Fat One below 20px or for paragraphs, or set screen UI in all caps.
 - **Don't** add gradients, textures or shading to food stickers, or faces on food.
+
+## Disclosure: who paid
+
+- **Tina paid**: `Tina ate here · [month]`; stamp and decal allowed.
+- **Hosted** (restaurant invited Tina and covered the meal): `Tina ate here` + the Hosted label (peach fill, basil outline, envelope icon) and a disclosure line above the take. Verdicts stay hers. No stamp, no decal.
+- **Paid partnership** (a brand paid Tina to post): `Paid partnership with [brand]` in the Sponsored hatch. No verdicts, no stamp; never in rankings, guides, Roulette or the Sunday list.
+- **Sponsored** (paid space on the site): hatched oat, brand voice, never in Tina's hand.
