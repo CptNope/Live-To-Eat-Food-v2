@@ -259,7 +259,7 @@ Daylight pastels led by yellows and greens, held together by a single deep basil
 
 ### Tertiary
 - **Tomato Hand** (`tomato`): Tina's handwriting only: her notes, verdicts and the stamp centre. Never a button, link, sale, error or ad.
-- **Yolk** (`yolk`): the egg yolk in the wordmark, number badges, step dots, text selection. Never fills anything wider than a button.
+- **Yolk** (`yolk`): the lemon rind in the wordmark, yolks, number badges, step dots, text selection. Never fills anything wider than a button.
 - **Peach Blush** (`peach`): a warm accent field, at most one sheet per page; also the "Fail" chip fill.
 - **Chili** (`chili`) and **Latte** (`latte`): illustration only (pepperoni, roulette pointer, bread, cones, coffee). Never carry text.
 
@@ -411,7 +411,8 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 - **Don't** put the stamp, Tina's handwriting or a quote in her voice on a sponsored placement, and give sponsored modules no stickers.
 - **Don't** rate with stars or numbers; use Tina's verdicts in words.
 - **Don't** place stickers over food photos, prices, labels or body text; they go around content, on the field.
-- **Don't** stretch, squash or recolour the wordmark, recolour its egg o's or split its lines.
+- **Do** keep the wordmark's food o's as a drawn pair: donut + lemon by default; pizza + ramen or the classic eggs for a guide, season or campaign. One pair per surface.
+- **Don't** stretch, squash or recolour the wordmark, mix two o pairs, swap in other stickers for the o's or split its lines.
 - **Don't** bring back houses, streetscapes, skylines or city clip-art, or the asphalt-and-mustard palette.
 - **Don't** set Bagel Fat One below 20px or for paragraphs, or set screen UI in all caps.
 - **Don't** add gradients, textures or shading to food stickers, or faces on food.
