@@ -256,7 +256,7 @@ Daylight pastels led by yellows and greens, held together by a single deep basil
 **Label/Interface Font:** Bricolage Grotesque (with Figtree, system-ui), widths 85–100
 **Hand Font:** Shantell Sans (with Comic Neue, Segoe Print, cursive)
 
-**Character:** A fat, rounded bagel of a display face that reads like a sticker title, paired with an open, friendly reading sans; a squared grotesque handles buttons and facts, and an informal hand belongs to Tina alone. All four are self-hosted WOFF under the SIL Open Font License.
+**Character:** A fat, rounded bagel of a display face that reads like a sticker title, paired with an open, friendly reading sans; a squared grotesque handles buttons and facts, and an informal hand belongs to Tina alone. All four are self-hosted WOFF2 under the SIL Open Font License, trimmed to the Latin set and to the weights and widths the system uses (Figtree 400–700, Bricolage 400–800 at 85–100% width, Shantell 500–800).
 
 ### Hierarchy
 - **Display** (400, 44–96px fluid, 0.95): one per page, the page's big promise or a place name.
