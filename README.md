@@ -9,7 +9,7 @@ The idea: **the brand is a sticker sheet.** Every mark, label and food illustrat
 | Overview | [`index.html`](index.html) | The brand in 60 seconds: intro, direction, palette, type, marks |
 | Brand book | [`brand/index.html`](brand/index.html) | Strategy, color, typography, logo & marks, motifs, voice, imagery, applications, don'ts, build tokens |
 | Merch lookbook | [`merch/index.html`](merch/index.html) | Tees, hoodie, hat, sticker pack, tote, pin, punch card, restaurant window decal, print specs |
-| Example site | [`site/index.html`](site/index.html) | 72 pages of the website built from the system: home, explore (filters and neighborhood map), 52 real place pages with Tina's TikToks, 5 neighborhood guides, Woo-pons, Restaurant Roulette, events, your plates, giveaways, Tina, shop, how it works, for restaurants. Places, quotes and videos come from the first concept's data; deals, events, prizes and the hosted visit are samples |
+| Example site | [`site/index.html`](site/index.html) | 79 pages of the website built from the system: home, explore (filters and neighborhood map), 52 real place pages with Tina's TikToks, 5 neighborhood guides, Woo-pons, Restaurant Roulette, events, your plates, giveaways, Tina, shop, how it works, for restaurants, plus the paid side kept visibly apart: Work with Tina (media kit), the editorial and disclosure policy, the Sunday list page and its weekly and welcome emails, a sample Enhanced listing and a link-in-bio page. Places, quotes and videos come from the first concept's data; deals, events, prizes and the hosted visit are samples |
 
 The same system is also saved as a Claude Design System (tokens, fonts, logos, stickers, merch mockups and component previews): <https://claude.ai/artifact/3FK3oCDgfLmRHArTGLcX7i> (private until shared).
 
@@ -21,11 +21,11 @@ Settings → Pages → Source: **Deploy from a branch**, Branch: `main`, folder 
 
 ```
 index.html, brand/, merch/   the three brand book pages (plain HTML)
-site/                        the example website: 72 pages, site/css (tokens, components, layout), site/js/places.js (Roulette data), site/js/site.js (nav menus, Explore filters, TikTok player, Roulette, demo messages)
+site/                        the example website: 79 pages, site/css (tokens, components, layout), site/js/places.js (Roulette data), site/js/site.js (nav menus, Explore filters, TikTok player, Roulette, demo messages)
 css/ltef.css                 the one stylesheet
 js/ltef.js                   small enhancements only (copy buttons, roulette demo, TOC highlight)
 fonts/                       Bagel Fat One, Figtree, Bricolage Grotesque, Shantell Sans (WOFF2, Latin subset, SIL OFL)
-assets/logo/                 wordmark (stacked, sticker, one-line, white) × 3 o pairs, avatar, trust stamps — outlined SVG
+assets/logo/                 wordmark (stacked, sticker, one-line, white) × 3 o pairs, avatar, trust stamps, paid Featured decal — outlined SVG
 assets/stickers/             24 food stickers + Woo-pons ticket + roulette wheel — SVG
 assets/merch/                garment and product mockups — SVG
 assets/site/                 screenshots of the example site for the overview — WebP

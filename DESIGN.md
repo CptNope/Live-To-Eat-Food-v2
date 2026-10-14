@@ -194,6 +194,22 @@ components:
     rounded: "{rounded.sponsored}"
     padding: "6px 14px"
     height: "36px"
+  label-enhanced:
+    backgroundColor: "{colors.oat}"
+    textColor: "{colors.basil}"
+    rounded: "{rounded.sponsored}"
+    padding: "6px 14px"
+    height: "36px"
+  sponsor-slot:
+    backgroundColor: "{colors.oat}"
+    textColor: "{colors.basil}"
+    rounded: "{rounded.sponsored}"
+    padding: "10px"
+  signup:
+    backgroundColor: "{colors.lemon}"
+    textColor: "{colors.basil}"
+    rounded: "{rounded.sticker}"
+    padding: "26px 28px"
   label-deal:
     backgroundColor: "{colors.pistachio}"
     textColor: "{colors.basil}"
@@ -372,7 +388,7 @@ Pill stickers: tactile, confident, rimmed in white vinyl.
 
 ### Navigation
 - **Site bar:** the one-line wordmark at left (168–230px), then five pill links in Bricolage 700 at 15px, 44px tall (Explore, Guides, Woo-pons, Roulette, Events), a **More** pill that opens a white 20px-radius menu with the rest (Your plates, Giveaways, Tina, Shop, How it works, For restaurants), and one primary button, Get Sunday's list. Hover fills butter; the current page becomes a white sticker with Lift, and More takes that look when the current page is inside it. Under 1080px Events moves into More. Under 960px the links and button fold into a **Menu** pill that opens a grouped drawer (Find food · Around the table · Live to Eat Food) with the button at its foot. Menus close on Escape, an outside tap, or when another opens.
-- **Footer:** the same five links on every page (How it works, For restaurants, About Tina, Sunday list, Shop), after a one-line promise that suits the page. Home carries the full sitemap.
+- **Footer:** the same seven links on every page (How it works, Editorial policy, For restaurants, Work with Tina, About Tina, Sunday list, Shop), after a one-line promise that suits the page. The editorial policy link is never dropped.
 - **Book contents:** a sticky rail of numbered pills, the number set in Bagel in leaf; the active section turns into a white lifted sticker. Under 1100px it becomes a horizontal scroller of butter pills.
 - **Phone tab bar:** under 960px, a white floating 24px-radius bar pinned to the bottom with four tabs (Explore, Guides, Spin, Woo-pons): 22px line icons over Bricolage 700 at 12px, 52px tall; inactive olive, the current tab on a lemon pill in basil. It hides while the Menu drawer is open, and pages pad their bottom so nothing sits under it.
 - **Explore map:** a schematic, not a street map: one bubble per neighborhood, sized by its number of places and labelled with the count and name. Pressing a bubble filters the list to that neighborhood (pressing it again clears it); bubbles recount as other filters change and fade when empty.
@@ -383,14 +399,28 @@ Pill labels, 36px tall, icon plus word, each visually unlike the others so meani
 - **Verified business:** leaf fill, white Bricolage, shield icon.
 - **Tina hasn't been yet:** transparent with a 2px dashed olive border.
 - **Sponsored:** 6px-radius tag, oat/oat-hatch −45° stripes, 2px inset basil outline, dollar icon.
+- **Paid partnership, Enhanced listing, Charter merchant:** the same hatched tag with their own word and icon (dollar, plus-in-square, storefront). Everything paid shares this one look.
 - **Referral link:** transparent, 1.5px basil outline, weight 600, link icon.
 - **Woo-pon:** pistachio fill, 2px basil outline, ticket icon.
 
 ### Woo-pon Ticket (signature)
 A pistachio coupon with a 2px inset basil outline, 18px radius and 11px semicircular notches masked out of both sides; the amount in Bagel at 28px, the place in Bricolage 700, fine print under a dotted rule. The sponsored variant swaps the fill for the oat hatch.
+- **Details on the ticket:** the code in a dashed white box (Bagel, tabular figures), then a two-row list, *Runs* and *Excludes*, then the conditions under a dotted cut line with a small scissors mark. Nothing hides behind a tap.
 - **Redeeming:** each live ticket ends with one "Get the Woo-pon" button. Opened, it shows the ticket large with "Tina ate here · month", a code on white in Bagel with tabular figures and the date it's valid, then "Staff: mark as used" and Directions.
 - **Used and ended:** oat field, olive text and a dashed label in words ("Used Oct 9", "Ended Oct 1"). Never faded with opacity, which drops text below AA.
 - **Actions vs. links:** things that do something (Get, Save, RSVP, Add to bag, Enter) are buttons; things that go somewhere are links.
+
+### Paid surfaces (signature)
+Trust is the product, so paid things are drawn so they can't be mistaken for picks.
+- **Sponsor slot:** a 6px-radius frame in the oat hatch with a 2px basil outline; a head row with the Sponsored tag and "Paid placement · How paid spots work" (linking the editorial policy); a white body with the sponsor's logo or photo on oat (labeled as theirs), the name in **Bricolage 800 at 20px, never Bagel**, one line in their words and one secondary button. Variants: *home* (one, under Tina's latest picks, at most 640px wide), *rail* (place pages, one direct-sold local sponsor, image 5:2), *feed* (one in Explore after the fourth place, laid out like a row but never numbered).
+- **Empty means absent:** a slot nobody bought isn't rendered. No grey box, no "your ad here".
+- **No programmatic display ads in v1:** no ad networks, rectangles, pop-ups or autoplay until about 25K monthly pageviews, and then only inside these rules.
+- **Enhanced listing:** adds owner modules after Tina's take, each a white panel with a 2px basil outline headed "From the owner" (photos captioned "Owner's photo", story, menu highlights, booking links). It never changes her take, list order or guides, and free listings are never dimmed. An Enhanced page carries no sponsor rail.
+- **Featured decal:** the paid window decal for Charter merchants and Enhanced listings: rounded square, hatched frame, "Featured on" + wordmark, "Charter merchant · year", a QR code and "Paid listing · Tina's reviews can't be bought". It never carries the stamp.
+- **Two doors:** "Suggest a spot" (editorial, on How it works and Explore) and "Work with Tina" (commercial: sponsorship, partnerships, Enhanced, Woo-pon submissions, hosted-visit invitations) never share a form.
+
+### Sunday list signup (signature)
+Revenue infrastructure, not a footer field. A lemon block (basil on dark sheets) with a 2.5px basil outline: Bagel heading, the pitch "Worcester's best food deals and Tina's weekly picks, every Sunday.", one email field and a primary button, then a Bricolage 600 fine-print line. It sits right under the home hero, at the end of every place page and guide, on its own page and on the link-in-bio page. The weekly email follows one template: Tina's opener (hers or blank), three new finds, the Woo-pons with codes, one thing happening, then at most one labeled sponsor; the hatch falls back to flat oat in email clients.
 
 ### Sheet (signature)
 The page section itself: field-coloured rounded sheet with four corner registration marks (16px crosshair-in-circle at 28% opacity, inverted on basil) and a slug line centred 22px from the bottom edge in Bricolage 600 at 12px, width 85%, +0.04em, olive (pistachio on basil), naming the sheet, e.g. "LTEF · Sheet 3 of 6 · Palette".
@@ -405,6 +435,8 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 - **Do** pair every label, badge and verdict with a word and an icon.
 - **Do** draw food stickers on a 120u square with a 4u basil outline, round joins, a 9u white die-cut border, two or three flat fills and at most one white highlight at about −30°.
 - **Do** vary sticker tilts between −8° and +8°, never two neighbours at the same angle, and keep the wordmark within 3°.
+- **Do** design every paid surface with the hatched frame and a label from day one, and leave it out of the page when nothing is sold.
+- **Do** route editorial tips to "Suggest a spot" and anything commercial to "Work with Tina", never one form for both.
 
 ### Don't:
 - **Don't** set white or pale text on a pastel; white on lemon is 1.2:1.
@@ -417,10 +449,15 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 - **Don't** bring back houses, streetscapes, skylines or city clip-art, or the asphalt-and-mustard palette.
 - **Don't** set Bagel Fat One below 20px or for paragraphs, or set screen UI in all caps.
 - **Don't** add gradients, textures or shading to food stickers, or faces on food.
+- **Don't** dress a paid placement as a pick: no Bagel names, stamp, handwriting, "Featured" carousel, star display or slot in a best-of list.
+- **Don't** design programmatic display-ad blocks, paywalls, memberships or ticketing into v1, or leave nav slots for them.
+- **Don't** invent audience numbers or rates; leave them "Coming soon" until measured.
 
 ## Disclosure: who paid
 
 - **Tina paid**: `Tina ate here · [month]`; stamp and decal allowed.
 - **Hosted** (restaurant invited Tina and covered the meal): `Tina ate here` + the Hosted label (peach fill, basil outline, envelope icon) and a disclosure line above the take. Verdicts stay hers. No stamp, no decal.
 - **Paid partnership** (a brand paid Tina to post): `Paid partnership with [brand]` in the Sponsored hatch. No verdicts, no stamp; never in rankings, guides, Roulette or the Sunday list.
-- **Sponsored** (paid space on the site): hatched oat, brand voice, never in Tina's hand.
+- **Sponsored** (paid space on the site or in the Sunday email): hatched oat, brand voice, never in Tina's hand.
+- **Enhanced listing / Charter merchant** (the owner pays for extra modules on their page): hatched label, owner modules headed "From the owner" after Tina's take, the Featured decal (never the stamp). Ranking, guides and her take are untouched.
+- **The contract line**: "You're paying for content and reach, not for Tina's opinion." It appears in the media kit, sponsor agreements and the editorial policy.

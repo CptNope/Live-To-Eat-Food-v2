@@ -586,3 +586,28 @@ th, td { padding: 12px 14px; }
   .swatches .chip { aspect-ratio: 3 / 2; }
   .swatch .role { font-size: .875rem; }
 }
+
+/* money, labeled: one paid language (oat hatch, squarer corners, word + icon). Sponsor names in Bricolage, never Bagel. */
+.lbl.enhanced, .lbl.charter { border-radius: 6px; background: repeating-linear-gradient(-45deg, var(--oat) 0 6px, var(--oat-hatch) 6px 12px); box-shadow: inset 0 0 0 2px var(--basil); }
+.lbl.sm { min-height: 28px; padding: 2px 10px; font-size: .8125rem; }
+.paid { display: grid; gap: 10px; padding: 10px; border-radius: 6px; background: repeating-linear-gradient(-45deg, var(--oat) 0 7px, var(--oat-hatch) 7px 14px); box-shadow: inset 0 0 0 2px var(--basil); color: var(--basil); min-width: 0; }
+.paid-head { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; justify-content: space-between; padding: 2px 4px 0; font: 600 .8125rem/1.3 var(--f-ui); }
+.paid-body { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; align-items: center; padding: 14px 16px; border-radius: 4px; background: var(--vinyl); }
+.paid-mark { grid-row: span 3; width: 64px; aspect-ratio: 1; border-radius: 8px; background: var(--oat); display: grid; place-items: center; font: 700 .6875rem/1.2 var(--f-ui); color: var(--olive); text-align: center; padding: 4px; box-sizing: border-box; }
+.paid-name { margin: 0; font: 800 1.125rem/1.2 var(--f-ui); }
+.paid-line { margin: 0; font-size: .9375rem; line-height: 1.45; }
+.paid-cta { font: 700 .875rem var(--f-ui); color: var(--basil); }
+.paid.rail .paid-body { grid-template-columns: minmax(0, 1fr); }
+.paid.rail .paid-mark { grid-row: auto; width: 100%; aspect-ratio: 5 / 2; }
+.money-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 30px; align-items: start; }
+.money-grid figure { margin: 0; display: grid; gap: 12px; }
+.money-grid figcaption { font-size: .9375rem; }
+.signup-demo { display: grid; gap: 12px; padding: 22px 24px; border-radius: var(--r-sticker); background: var(--lemon); box-shadow: inset 0 0 0 2.5px var(--basil); }
+.signup-demo .d-s { margin: 0; }
+.signup-demo .row { display: flex; flex-wrap: wrap; gap: 10px; }
+.signup-demo .fake-input { flex: 1 1 200px; min-height: 48px; border-radius: var(--r-pill); background: var(--vinyl); box-shadow: inset 0 0 0 2px var(--basil); display: flex; align-items: center; padding: 0 16px; color: var(--olive); font: 500 1rem var(--f-read); }
+.owner-demo { display: grid; gap: 10px; padding: 18px 20px; border-radius: var(--r-sticker); background: var(--vinyl); box-shadow: inset 0 0 0 2px var(--basil); }
+.owner-demo .oh { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; padding-bottom: 10px; border-bottom: 2px dotted rgb(30 59 42 / .3); font: 800 1.0625rem var(--f-ui); }
+.contract { font: 400 clamp(1.5rem, 2.6vw, 2.125rem)/1.15 var(--f-display); max-width: 30ch; }
+.signup-demo, .owner-demo, .cols > .paid { align-self: start; align-content: start; }
+.money-grid .paid.rail .paid-mark { aspect-ratio: 3 / 1; }
