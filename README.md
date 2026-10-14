@@ -10,6 +10,8 @@ The idea: **the brand is a sticker sheet.** Every mark, label and food illustrat
 | Brand book | [`brand/index.html`](brand/index.html) | Strategy, color, typography, logo & marks, motifs, voice, imagery, applications, don'ts, build tokens |
 | Merch lookbook | [`merch/index.html`](merch/index.html) | Tees, hoodie, hat, sticker pack, tote, pin, punch card, restaurant window decal, print specs |
 
+The same system is also saved as a Claude Design System (tokens, fonts, logos, stickers, merch mockups and component previews): <https://claude.ai/artifact/3FK3oCDgfLmRHArTGLcX7i> (private until shared).
+
 ## Publish on GitHub Pages
 
 Settings → Pages → Source: **Deploy from a branch**, Branch: `main`, folder `/ (root)`. No build step. The site will be at `https://cptnope.github.io/Live-To-Eat-Food-v2/`.
