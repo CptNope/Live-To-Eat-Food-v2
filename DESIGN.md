@@ -371,10 +371,11 @@ Pill stickers: tactile, confident, rimmed in white vinyl.
 - **Load errors:** say what happened, keep filters and the map in place, and offer one Try again button. Empty results name the filters that are on and offer the one change that brings places back.
 
 ### Navigation
-- **Site bar:** the one-line wordmark at left (168–230px), pill links at right in Bricolage 700 at 15px, 44px tall. Hover fills butter; the current page becomes a white sticker with Lift. Under 720px the wordmark sits on its own row and the links become one swipeable row that fades at the edges, never three wrapped rows.
+- **Site bar:** the one-line wordmark at left (168–230px), then five pill links in Bricolage 700 at 15px, 44px tall (Explore, Guides, Woo-pons, Roulette, Events), a **More** pill that opens a white 20px-radius menu with the rest (Your plates, Giveaways, Tina, Shop, How it works, For restaurants), and one primary button, Get Sunday's list. Hover fills butter; the current page becomes a white sticker with Lift, and More takes that look when the current page is inside it. Under 1080px Events moves into More. Under 960px the links and button fold into a **Menu** pill that opens a grouped drawer (Find food · Around the table · Live to Eat Food) with the button at its foot. Menus close on Escape, an outside tap, or when another opens.
 - **Footer:** the same five links on every page (How it works, For restaurants, About Tina, Sunday list, Shop), after a one-line promise that suits the page. Home carries the full sitemap.
 - **Book contents:** a sticky rail of numbered pills, the number set in Bagel in leaf; the active section turns into a white lifted sticker. Under 1100px it becomes a horizontal scroller of butter pills.
-- **Phone tab bar (mockups):** a white floating 22px-radius bar with 22px icons over Bricolage 700 at 12px; inactive olive, active basil.
+- **Phone tab bar:** under 960px, a white floating 24px-radius bar pinned to the bottom with four tabs (Explore, Guides, Spin, Woo-pons): 22px line icons over Bricolage 700 at 12px, 52px tall; inactive olive, the current tab on a lemon pill in basil. It hides while the Menu drawer is open, and pages pad their bottom so nothing sits under it.
+- **Explore map:** a schematic, not a street map: one bubble per neighborhood, sized by its number of places and labelled with the count and name. Pressing a bubble filters the list to that neighborhood (pressing it again clears it); bubbles recount as other filters change and fade when empty.
 
 ### Trust Labels (signature)
 Pill labels, 36px tall, icon plus word, each visually unlike the others so meaning never rests on colour:
