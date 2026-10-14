@@ -338,7 +338,8 @@ Pill stickers: tactile, confident, rimmed in white vinyl.
 - **Load errors:** say what happened, keep filters and the map in place, and offer one Try again button. Empty results name the filters that are on and offer the one change that brings places back.
 
 ### Navigation
-- **Site bar:** the one-line wordmark at left (168–230px), pill links at right in Bricolage 700 at 15px, 44px tall. Hover fills butter; the current page becomes a white sticker with Lift.
+- **Site bar:** the one-line wordmark at left (168–230px), pill links at right in Bricolage 700 at 15px, 44px tall. Hover fills butter; the current page becomes a white sticker with Lift. Under 720px the wordmark sits on its own row and the links become one swipeable row that fades at the edges, never three wrapped rows.
+- **Footer:** the same five links on every page (How it works, For restaurants, About Tina, Sunday list, Shop), after a one-line promise that suits the page. Home carries the full sitemap.
 - **Book contents:** a sticky rail of numbered pills, the number set in Bagel in leaf; the active section turns into a white lifted sticker. Under 1100px it becomes a horizontal scroller of butter pills.
 - **Phone tab bar (mockups):** a white floating 22px-radius bar with 22px icons over Bricolage 700 at 12px; inactive olive, active basil.
 
@@ -353,6 +354,9 @@ Pill labels, 36px tall, icon plus word, each visually unlike the others so meani
 
 ### Woo-pon Ticket (signature)
 A pistachio coupon with a 2px inset basil outline, 18px radius and 11px semicircular notches masked out of both sides; the amount in Bagel at 28px, the place in Bricolage 700, fine print under a dotted rule. The sponsored variant swaps the fill for the oat hatch.
+- **Redeeming:** each live ticket ends with one "Get the Woo-pon" button. Opened, it shows the ticket large with "Tina ate here · month", a code on white in Bagel with tabular figures and the date it's valid, then "Staff: mark as used" and Directions.
+- **Used and ended:** oat field, olive text and a dashed label in words ("Used Oct 9", "Ended Oct 1"). Never faded with opacity, which drops text below AA.
+- **Actions vs. links:** things that do something (Get, Save, RSVP, Add to bag, Enter) are buttons; things that go somewhere are links.
 
 ### Sheet (signature)
 The page section itself: field-coloured rounded sheet with four corner registration marks (16px crosshair-in-circle at 28% opacity, inverted on basil) and a slug line centred 22px from the bottom edge in Bricolage 600 at 12px, width 85%, +0.04em, olive (pistachio on basil), naming the sheet, e.g. "LTEF · Sheet 3 of 6 · Palette".
