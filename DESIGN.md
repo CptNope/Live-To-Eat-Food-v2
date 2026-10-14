@@ -410,6 +410,15 @@ A pistachio coupon with a 2px inset basil outline, 18px radius and 11px semicirc
 - **Used and ended:** oat field, olive text and a dashed label in words ("Used Oct 9", "Ended Oct 1"). Never faded with opacity, which drops text below AA.
 - **Actions vs. links:** things that do something (Get, Save, RSVP, Add to bag, Enter) are buttons; things that go somewhere are links.
 
+### Place page (signature)
+One template for every place, free or Enhanced: hero (photo slot, label, name, meta, Tina's quote, Directions and Save), then **Tina's take**: "What Tina ordered" (the dish from her post on its sticker field, Bagel name) and her verdict, then the video, then Before you go (hours say "Not checked yet. Call ahead." until they are), then the neighborhood (titled "Tina's latest" when the area has fewer than two other places), then the Sunday list. Until Tina writes a verdict the slot shows a dashed olive "Tina's verdict goes here", never a phrase chosen for her. Enhanced adds the "From the owner" sheet after her take and nothing else.
+
+### Restaurant Roulette (signature)
+The wheel spins under a pointer that never moves (`roulette-wheel.svg` under `roulette-pointer.svg`). When it stops, the result scrolls into view and takes focus. On phones the order is title, wheel, Spin, then the mood and company choices folded behind "Adjust".
+
+### Explore list
+A sentence filter ("I want [craving] with [who] in [neighborhood]"), the neighborhood bubble map (sticky on desktop, a folded strip above the list on phones), rows that show what Tina ordered, 12 places at a time, and at most one Sponsored card, only after the fourth visible pick. An empty result names the filters that are on and offers the one change that brings places back.
+
 ### Paid surfaces (signature)
 Trust is the product, so paid things are drawn so they can't be mistaken for picks.
 - **Sponsor slot:** a 6px-radius frame in the oat hatch with a 2px basil outline; a head row with the Sponsored tag and "Paid placement · How paid spots work" (linking the editorial policy); a white body with the sponsor's logo or photo on oat (labeled as theirs), the name in **Bricolage 800 at 20px, never Bagel**, one line in their words and one secondary button. Variants: *home* (one, under Tina's latest picks, at most 640px wide), *rail* (place pages, one direct-sold local sponsor, image 5:2), *feed* (one in Explore after the fourth place, laid out like a row but never numbered).
