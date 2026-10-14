@@ -69,6 +69,27 @@ typography:
     fontSize: "0.8125rem"
     fontWeight: 800
     lineHeight: 1.3
+  body-sm:
+    fontFamily: "Figtree, Segoe UI, system-ui, -apple-system, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.55
+  small:
+    fontFamily: "Bricolage Grotesque, Figtree, Segoe UI, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 600
+    lineHeight: 1.4
+  slug:
+    fontFamily: "Bricolage Grotesque, Figtree, Segoe UI, system-ui, sans-serif"
+    fontSize: "0.75rem"
+    fontWeight: 600
+    lineHeight: 1.2
+    letterSpacing: "0.04em"
+  mono:
+    fontFamily: "ui-monospace, SF Mono, Cascadia Mono, Menlo, Consolas, monospace"
+    fontSize: "0.875rem"
+    fontWeight: 500
+    lineHeight: 1.6
   hand:
     fontFamily: "Shantell Sans, Comic Neue, Segoe Print, cursive"
     fontSize: "1.0625rem"
@@ -82,6 +103,12 @@ rounded:
   card: "20px"
   chip: "16px"
   inset: "14px"
+  frame: "22px"
+  ticket: "18px"
+  tag: "12px"
+  focus: "8px"
+  phone-body: "44px"
+  phone-screen: "34px"
   sponsored: "6px"
   pill: "999px"
 spacing:
@@ -258,6 +285,8 @@ Daylight pastels led by yellows and greens, held together by a single deep basil
 
 **Character:** A fat, rounded bagel of a display face that reads like a sticker title, paired with an open, friendly reading sans; a squared grotesque handles buttons and facts, and an informal hand belongs to Tina alone. All four are self-hosted WOFF2 under the SIL Open Font License, trimmed to the Latin set and to the weights and widths the system uses (Figtree 400–700, Bricolage 400–800 at 85–100% width, Shantell 500–800).
 
+Code samples (token blocks, theme.json) use the platform monospace stack (`ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace`) rather than a fifth webfont; it appears only in the build-tokens section.
+
 ### Hierarchy
 - **Display** (400, 44–96px fluid, 0.95): one per page, the page's big promise or a place name.
 - **Headline** (400, 36–64px fluid, 1.0): sheet (section) headings, set left in a two-column head with the lede beside them.
@@ -268,6 +297,10 @@ Daylight pastels led by yellows and greens, held together by a single deep basil
 - **Label** (Bricolage 700, 15–17px, 1.0): buttons, nav, tabs, trust labels.
 - **Meta** (Bricolage 600, 15px, 1.4, width 92%, olive): cuisine, neighbourhood, price, distance, figcaptions.
 - **Tag** (Bricolage 800, 13px, 1.3): chips, ratio tags, table heads, labels on stickers; never sentences.
+- **Body small** (Figtree 400, 16px, 1.55): card copy, figcaptions and body on phones; never below 16px for reading text.
+- **Small** (Bricolage 600, 14px, 1.4): facts lists, form hints and errors, the fine print on Woo-pons.
+- **Slug** (Bricolage 600, 12px, 0.04em tracking, olive): the printer's slug along the bottom of each sheet. Decoration, never information.
+- **Mono** (platform monospace, 14px, 1.6): token and code blocks only.
 - **Hand** (Shantell Sans 650, 17px in labels and notes, up to 34px in specimens and pull lines, 1.2, tomato): one line in Tina's own words, never invented.
 
 ### Named Rules
@@ -305,7 +338,7 @@ Depth is physical and shallow: paper sheets lifted barely off a table, stickers 
 
 ## Shapes
 
-Everything is soft and rounded, like die-cut vinyl: sheets at 36px (26px on phones), merch items 30px, stickers and panels 24px, cards 20px, swatch chips 16px, inner photo frames 14px, and pills for every button, nav link, chip and trust label. The one deliberate square-ish corner is the Sponsored tag (6px), so paid content reads as a different object. Food stickers are freeform silhouettes with a thick white border following the shape; the trust stamp is a 28-scallop bottle cap; the Woo-pon is a ticket with radial notches cut into both sides and a dotted perforation. Inner ink outlines on UI pieces run 2–2.5px basil (inset), matching the 4u outline in the artwork.
+Everything is soft and rounded, like die-cut vinyl: sheets at 36px (26px on phones), merch items 30px, stickers and panels 24px, cards 20px, swatch chips 16px, inner photo frames 14px, and pills for every button, nav link, chip and trust label. In between sit the 22px screenshot and stage frames, 18px Woo-pon tickets, 12px tags and disclosure lines, an 8px focus ring, and the phone mockups (44px body, 34px screen). The one deliberate square-ish corner is the Sponsored tag (6px), so paid content reads as a different object. Food stickers are freeform silhouettes with a thick white border following the shape; the trust stamp is a 28-scallop bottle cap; the Woo-pon is a ticket with radial notches cut into both sides and a dotted perforation. Inner ink outlines on UI pieces run 2–2.5px basil (inset), matching the 4u outline in the artwork.
 
 ## Components
 
