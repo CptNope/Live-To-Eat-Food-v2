@@ -71,6 +71,8 @@ code, kbd { font-family: var(--f-ui); font-stretch: 88%; font-weight: 600; font-
 .skip { position: absolute; left: 16px; top: -60px; background: var(--basil); color: var(--vinyl); padding: 10px 16px; border-radius: var(--r-pill); z-index: 10; font: 700 1rem var(--f-ui); }
 .skip:focus { top: 12px; }
 .skip:hover { color: var(--vinyl); }
+/* Controls that need JavaScript stay hidden until it runs. */
+.no-js [data-spin], .no-js .copy-btn { display: none; }
 .vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* ---------- type roles ---------- */
