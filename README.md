@@ -2,14 +2,14 @@
 
 A brand identity proposal for **Live to Eat Food**, Tina Vo's creator-led food guide to Worcester and Central Massachusetts. It replaces the first concept's triple-decker / asphalt-and-mustard direction with what Tina asked for: **food first, soft pastels led by yellows and greens, fun and modern, one system for the website and the merch.**
 
-The idea: **the brand is a sticker sheet.** Every mark, label and food illustration is a die-cut sticker you could peel off and put on a laptop, a takeout bag or a hoodie. The two o's in "Food" are sunny-side eggs.
+The idea: **the brand is a sticker sheet.** Every mark, label and food illustration is a die-cut sticker you could peel off and put on a laptop, a takeout bag or a hoodie. The two o's in "Food" are food too: a donut and a lemon by default, swappable for pizza + ramen or the classic sunny-side eggs.
 
 | Page | File | What it is |
 |---|---|---|
 | Overview | [`index.html`](index.html) | The brand in 60 seconds: intro, direction, palette, type, marks |
 | Brand book | [`brand/index.html`](brand/index.html) | Strategy, color, typography, logo & marks, motifs, voice, imagery, applications, don'ts, build tokens |
 | Merch lookbook | [`merch/index.html`](merch/index.html) | Tees, hoodie, hat, sticker pack, tote, pin, punch card, restaurant window decal, print specs |
-| Example site | [`site/index.html`](site/index.html) | 15 pages of the website built from the system: home, explore, place (paid and hosted visits), guides, Woo-pons, Restaurant Roulette, events, your plates, giveaways, Tina, shop, how it works, for restaurants. All content is placeholder |
+| Example site | [`site/index.html`](site/index.html) | 72 pages of the website built from the system: home, explore (filters and neighborhood map), 52 real place pages with Tina's TikToks, 5 neighborhood guides, Woo-pons, Restaurant Roulette, events, your plates, giveaways, Tina, shop, how it works, for restaurants. Places, quotes and videos come from the first concept's data; deals, events, prizes and the hosted visit are samples |
 
 The same system is also saved as a Claude Design System (tokens, fonts, logos, stickers, merch mockups and component previews): <https://claude.ai/artifact/3FK3oCDgfLmRHArTGLcX7i> (private until shared).
 
@@ -21,12 +21,12 @@ Settings → Pages → Source: **Deploy from a branch**, Branch: `main`, folder 
 
 ```
 index.html, brand/, merch/   the three brand book pages (plain HTML)
-site/                        the example website: 15 pages, site/css (tokens, components, layout), site/js/site.js (Roulette, toggles, demo messages)
+site/                        the example website: 72 pages, site/css (tokens, components, layout), site/js/places.js (Roulette data), site/js/site.js (nav menus, Explore filters, TikTok player, Roulette, demo messages)
 css/ltef.css                 the one stylesheet
 js/ltef.js                   small enhancements only (copy buttons, roulette demo, TOC highlight)
 fonts/                       Bagel Fat One, Figtree, Bricolage Grotesque, Shantell Sans (WOFF2, Latin subset, SIL OFL)
-assets/logo/                 wordmark (stacked, sticker, one-line, white), avatar, trust stamps — outlined SVG
-assets/stickers/             12 food stickers + Woo-pons ticket + roulette wheel — SVG
+assets/logo/                 wordmark (stacked, sticker, one-line, white) × 3 o pairs, avatar, trust stamps — outlined SVG
+assets/stickers/             24 food stickers + Woo-pons ticket + roulette wheel — SVG
 assets/merch/                garment and product mockups — SVG
 assets/site/                 screenshots of the example site for the overview — WebP
 tokens/theme.json            WordPress theme.json (v3) tokens
@@ -41,7 +41,7 @@ PRODUCT.md, DESIGN.md        product truth and design-system record
 |---|---|---|
 | Butter | `#FFF6CF` | Page ground (basil text 11.3:1) |
 | Lemon | `#FFE586` | Signature field (9.8:1) |
-| Yolk | `#FFC53D` | The egg, highlights (7.8:1) |
+| Yolk | `#FFC53D` | Lemon rind, yolks, highlights (7.8:1) |
 | Pistachio | `#DCEFC8` | Second field (10.0:1) |
 | Matcha | `#B3DA94` | Stamp, fills (7.8:1) |
 | Peach | `#FFD8C2` | Warm accent, sparingly |
