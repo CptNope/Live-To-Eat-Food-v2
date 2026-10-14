@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Live to Eat Food: Tina’s picks around Worcester and Central Mass. Example site built from the brand book.">
+<link rel="icon" href="../assets/logo/ltef-avatar.svg" type="image/svg+xml">
+<title>Woo-pons — Live to Eat Food</title>
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/site.css">
+<style>body{margin:0}
+a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style>
+</head>
+<body>
+<div style="background: var(--lemon); color: var(--basil); font-family: var(--font-reading); padding-bottom: 8px;">
+
+<a class="skip" href="#main">Skip to content</a>
+<aside class="demo-bar" aria-label="About this example site"><p><strong>Example site.</strong> <span class="demo-long">Built from the Live to Eat Food brand book. Every place, deal, date and price here is a placeholder, and Tina’s words are left blank on purpose.</span><span class="demo-short">Places, deals and dates are placeholders.</span></p><a class="demo-link" href="../index.html">Back to the brand book</a></aside>
+<header class="bar">
+  <a href="index.html" style="display: block; width: 220px;"><img src="../assets/logo/ltef-wordmark-line.svg" alt="Live to Eat Food home" style="width: 100%; display: block;"></a>
+  <nav aria-label="Main"><ul class="bar-nav"><li><a href="explore.html">Explore</a></li><li><a href="guides.html">Guides</a></li><li><a href="woo-pons.html" aria-current="page">Woo-pons</a></li><li><a href="roulette.html">Roulette</a></li><li><a href="events.html">Events</a></li><li><a href="your-plates.html">Your plates</a></li><li><a href="giveaways.html">Giveaways</a></li><li><a href="tina.html">Tina</a></li><li><a href="shop.html">Shop</a></li></ul></nav>
+</header>
+
+<main id="main">
+<section class="sheet" style="background: var(--pistachio); overflow: hidden;" aria-labelledby="h-deals">
+  <img class="food hide-sm" src="../assets/stickers/pizza.svg" alt="" style="width: 120px; right: 6%; top: 50px; transform: rotate(8deg);">
+  <img class="food hide-sm" src="../assets/stickers/boba.svg" alt="" style="width: 96px; right: 18%; top: 170px; transform: rotate(-6deg);">
+  <div class="wrap" style="display: flex; flex-direction: column; gap: 20px; position: relative;">
+    <img src="../assets/stickers/woopon.svg" alt="Woo-pons" style="width: 300px; transform: rotate(-3deg); filter: drop-shadow(0 6px 8px rgba(30,59,42,.2));">
+    <h1 id="h-deals" class="h-xl" style="max-width: 14ch;">Deals at places Tina eats at.</h1>
+    <p class="lede">Every Woo-pon is at a restaurant on Tina’s list. Show the ticket on your phone at the counter. Paid deals are marked Sponsored and sit in their own row.</p>
+    <div class="ltef-chips" role="group" aria-label="Filter deals">
+      <button class="ltef-chip" aria-pressed="true">All deals</button>
+      <button class="ltef-chip" aria-pressed="false">Ending soon</button>
+      <button class="ltef-chip" aria-pressed="false">Lunch</button>
+      <button class="ltef-chip" aria-pressed="false">Drinks &amp; dessert</button>
+      <button class="ltef-chip" aria-pressed="false">Shrewsbury St</button>
+      <button class="ltef-chip" aria-pressed="false">Canal District</button>
+    </div>
+  </div>
+  <p class="slug">LTEF · Woo-pons · Sample deals, names and terms are placeholders</p>
+</section>
+
+<section class="sheet" style="background: var(--butter);" aria-labelledby="h-list">
+  <div class="wrap">
+    <div class="head"><h2 id="h-list" class="h-l">This week’s Woo-pons</h2><p class="meta">6 deals · updated Monday</p></div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 30px;">
+      <div class="ltef-coupon" style="max-width: none;"><span class="ltef-coupon__off">$5 off</span><img src="../assets/stickers/pizza.svg" alt="" style="width: 54px; transform: rotate(8deg);"><span class="ltef-coupon__where">Pistachio Pizza Bar · Canal District</span><span class="ltef-coupon__fine">Two large pies or more · Ends Nov 30 · Show at the counter</span><a class="ltef-btn ltef-btn--sm" href="#counter" style="grid-column: 1 / -1; justify-self: start; margin-top: 8px;" aria-label="Get the Woo-pon: $5 off at Pistachio Pizza Bar"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4z"/><path d="M14.5 7v10" stroke-dasharray="2 2.4"/></g></svg>Get the Woo-pon</a></div>
+      <div class="ltef-coupon" style="max-width: none;"><span class="ltef-coupon__off">Free boba</span><img src="../assets/stickers/boba.svg" alt="" style="width: 52px; transform: rotate(-6deg);"><span class="ltef-coupon__where">Sunny Side Tea · Main South</span><span class="ltef-coupon__fine">With any entrée · Weekdays · Ends Dec 15</span><a class="ltef-btn ltef-btn--sm" href="#counter" style="grid-column: 1 / -1; justify-self: start; margin-top: 8px;" aria-label="Get the Woo-pon: Free boba at Sunny Side Tea"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4z"/><path d="M14.5 7v10" stroke-dasharray="2 2.4"/></g></svg>Get the Woo-pon</a></div>
+      <div class="ltef-coupon" style="max-width: none;"><span class="ltef-coupon__off">Free pancake</span><img src="../assets/stickers/dumpling.svg" alt="" style="width: 54px; transform: rotate(4deg);"><span class="ltef-coupon__where">Juniper Dumpling House · Shrewsbury St</span><span class="ltef-coupon__fine">With two dumpling orders · Dine-in · Ends Nov 30</span><a class="ltef-btn ltef-btn--sm" href="#counter" style="grid-column: 1 / -1; justify-self: start; margin-top: 8px;" aria-label="Get the Woo-pon: Free pancake at Juniper Dumpling House"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4z"/><path d="M14.5 7v10" stroke-dasharray="2 2.4"/></g></svg>Get the Woo-pon</a></div>
+      <div class="ltef-coupon" style="max-width: none;"><span class="ltef-coupon__off">2 tacos, $6</span><img src="../assets/stickers/taco.svg" alt="" style="width: 54px; transform: rotate(-5deg);"><span class="ltef-coupon__where">Matcha Taqueria · Main South</span><span class="ltef-coupon__fine">Tuesdays only · Ends Dec 31</span><a class="ltef-btn ltef-btn--sm" href="#counter" style="grid-column: 1 / -1; justify-self: start; margin-top: 8px;" aria-label="Get the Woo-pon: 2 tacos, $6 at Matcha Taqueria"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4z"/><path d="M14.5 7v10" stroke-dasharray="2 2.4"/></g></svg>Get the Woo-pon</a></div>
+      <div class="ltef-coupon" style="max-width: none;"><span class="ltef-coupon__off">10% off</span><img src="../assets/stickers/coffee.svg" alt="" style="width: 52px; transform: rotate(6deg);"><span class="ltef-coupon__where">Yolk Coffee Bar · Downtown</span><span class="ltef-coupon__fine">Before 10am · Ends Nov 22</span><a class="ltef-btn ltef-btn--sm" href="#counter" style="grid-column: 1 / -1; justify-self: start; margin-top: 8px;" aria-label="Get the Woo-pon: 10% off at Yolk Coffee Bar"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4z"/><path d="M14.5 7v10" stroke-dasharray="2 2.4"/></g></svg>Get the Woo-pon</a></div>
+      <div class="ltef-coupon" style="max-width: none;"><span class="ltef-coupon__off">Free dozen</span><img src="../assets/stickers/donut.svg" alt="" style="width: 52px; transform: rotate(-3deg);"><span class="ltef-coupon__where">Sunny Donut Co. · Shrewsbury St</span><span class="ltef-coupon__fine">With a dozen · Saturdays · Ends Dec 6</span><a class="ltef-btn ltef-btn--sm" href="#counter" style="grid-column: 1 / -1; justify-self: start; margin-top: 8px;" aria-label="Get the Woo-pon: Free dozen at Sunny Donut Co."><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4z"/><path d="M14.5 7v10" stroke-dasharray="2 2.4"/></g></svg>Get the Woo-pon</a></div>
+    </div>
+  </div>
+  <p class="slug">LTEF · Woo-pons · Tina has eaten at every place in this row</p>
+</section>
+
+<section id="counter" class="sheet" style="background: var(--pistachio);" aria-labelledby="h-counter">
+  <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 56px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 22px;">
+      <h2 id="h-counter" class="h-l">Using a Woo-pon</h2>
+      <ol style="list-style: none; margin: 0; padding: 0; display: grid; gap: 16px;">
+        <li style="display: flex; gap: 14px; align-items: flex-start;"><span class="step">1</span><span><strong>Tap Get the Woo-pon.</strong> It opens full screen, ready to show.</span></li>
+        <li style="display: flex; gap: 14px; align-items: flex-start;"><span class="step">2</span><span><strong>Show it before you pay.</strong> Staff read the code and the date at the counter.</span></li>
+        <li style="display: flex; gap: 14px; align-items: flex-start;"><span class="step">3</span><span><strong>Staff tap Used.</strong> The fine print says how often you can use it.</span></li>
+      </ol>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center;">
+        <div class="ltef-coupon" style="background: var(--oat); color: var(--olive); transform: rotate(-1deg);"><span class="ltef-coupon__off">Free boba</span><span class="ltef-lbl ltef-lbl--notyet" style="min-height: 28px; padding: 2px 10px; font-size: 13px;">Used Oct 9</span><span class="ltef-coupon__where">Sunny Side Tea · Main South</span></div>
+        <div class="ltef-coupon" style="background: var(--oat); color: var(--olive); transform: rotate(1deg);"><span class="ltef-coupon__off">Free side</span><span class="ltef-lbl ltef-lbl--notyet" style="min-height: 28px; padding: 2px 10px; font-size: 13px;">Ended Oct 1</span><span class="ltef-coupon__where">Little Lemon Noodle Co. · Park Ave</span></div>
+      </div>
+      <p class="meta" style="margin: 0;">Used and ended tickets are greyed and say so in words, so nobody shows one by mistake.</p>
+    </div>
+    <figure style="margin: 0; justify-self: center; width: min(100%, 340px);" aria-label="A Woo-pon open at the counter">
+      <div style="background: var(--butter); border-radius: 34px; padding: 22px 18px 26px; box-shadow: 0 0 0 10px var(--basil), var(--lift); display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;"><a href="woo-pons.html" class="linkish">Back</a><span class="meta" style="font-size: 13px;">Show this at the counter</span></div>
+        <div class="ltef-coupon" style="max-width: none; padding: 22px 22px 20px;">
+          <span class="ltef-coupon__off" style="font-size: 40px;">$5 off</span><img src="../assets/stickers/pizza.svg" alt="" style="width: 60px; transform: rotate(8deg);">
+          <span class="ltef-coupon__where" style="font-size: 16px;">Pistachio Pizza Bar · Canal District</span>
+          <span class="ltef-lbl ltef-lbl--tina" style="grid-column: 1 / -1; justify-self: start; min-height: 28px; padding: 2px 10px; font-size: 14px;">Tina ate here · Sep</span>
+          <span class="ltef-coupon__fine">Two large pies or more · Ends Nov 30</span>
+        </div>
+        <div style="background: var(--vinyl); border-radius: 20px; padding: 16px; text-align: center; box-shadow: inset 0 0 0 2px var(--basil);">
+          <p class="meta" style="margin: 0 0 4px;">Code</p>
+          <p style="margin: 0; font: 400 40px/1 var(--font-display); letter-spacing: .06em; font-variant-numeric: tabular-nums;">WOO-4821</p>
+          <p class="meta" style="margin: 8px 0 0;">Valid today, Wed Oct 14</p>
+        </div>
+        <button class="ltef-btn" type="button" style="justify-content: center; width: 100%;">Staff: mark as used</button>
+        <a class="ltef-btn ltef-btn--alt ltef-btn--sm" href="place.html" style="justify-content: center;">Directions</a>
+      </div>
+      <figcaption class="meta" style="text-align: center; margin-top: 18px;">Sample code and date.</figcaption>
+    </figure>
+  </div>
+  <p class="slug">LTEF · Woo-pons · At the counter</p>
+</section>
+
+<section class="sheet" style="background: var(--vinyl);" aria-labelledby="h-sp">
+  <div class="wrap two" style="align-items: start;">
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <h2 id="h-sp" class="h-m">Sponsored deals</h2>
+      <p style="max-width: 46ch;">Restaurants can pay to list a deal here. They never get a Woo-pon ticket, Tina’s handwriting or a spot on Restaurant Roulette, and paying never changes what she says.</p>
+    </div>
+    <div style="display: grid; gap: 22px;">
+      <div class="ltef-coupon ltef-coupon--sponsored" style="max-width: none;"><span class="ltef-coupon__off">2-for-1 brunch</span><span class="ltef-lbl ltef-lbl--sponsored" style="min-height: 28px; padding: 2px 10px; font-size: 13px;">Sponsored</span><span class="ltef-coupon__where">[Partner restaurant] · Downtown</span><span class="ltef-coupon__fine">Paid placement · Tina hasn’t reviewed this place · Ends Nov 30</span></div>
+      <div class="ltef-coupon ltef-coupon--sponsored" style="max-width: none;"><span class="ltef-coupon__off">Free appetizer</span><span class="ltef-lbl ltef-lbl--sponsored" style="min-height: 28px; padding: 2px 10px; font-size: 13px;">Sponsored</span><span class="ltef-coupon__where">[Partner restaurant] · Shrewsbury</span><span class="ltef-coupon__fine">Paid placement · Tina ate here in Aug; this deal is paid · Ends Dec 15</span></div>
+    </div>
+  </div>
+  <p class="slug">LTEF · Woo-pons · Paid kept apart</p>
+</section>
+
+<section class="sheet" style="background: var(--butter);" aria-labelledby="h-own">
+  <div class="wrap two" style="align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <h2 id="h-own" class="h-m">Own a place Tina loves?</h2>
+      <p style="max-width: 46ch;">Woo-pons are free to run for restaurants on her list. Tell us the deal, the dates and the fine print.</p>
+      <div><a class="ltef-btn" href="for-restaurants.html">Offer a Woo-pon</a></div>
+    </div>
+    <ol class="panel" style="list-style: none; margin: 0; display: grid; gap: 14px; counter-reset: s;">
+      <li style="display: flex; gap: 14px; align-items: center;"><span class="step">1</span>Send the offer and the end date.</li>
+      <li style="display: flex; gap: 14px; align-items: center;"><span class="step">2</span>We check it’s at a place on Tina’s list.</li>
+      <li style="display: flex; gap: 14px; align-items: center;"><span class="step">3</span>It goes live as a ticket people show at the counter.</li>
+    </ol>
+  </div>
+  <p class="slug">LTEF · Woo-pons · For restaurants</p>
+</section>
+</main>
+
+<footer class="foot">
+  <p style="max-width: 560px;"><strong>Every pick is a real meal.</strong> Woo-pons only go to places Tina has eaten at. Paid deals say Sponsored.</p>
+  <nav aria-label="Footer"><a href="how-it-works.html">How it works</a><a href="for-restaurants.html">For restaurants</a><a href="tina.html">About Tina</a><a href="index.html#sunday">Sunday list</a><a href="shop.html">Shop</a></nav>
+</footer>
+</div>
+<script src="js/site.js" defer></script>
+</body>
+</html>

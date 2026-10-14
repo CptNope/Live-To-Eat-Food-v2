@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Live to Eat Food: Tina’s picks around Worcester and Central Mass. Example site built from the brand book.">
+<link rel="icon" href="../assets/logo/ltef-avatar.svg" type="image/svg+xml">
+<title>For restaurants — Live to Eat Food</title>
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/site.css">
+<style>body{margin:0}
+a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style>
+</head>
+<body>
+<div style="background: var(--lemon); color: var(--basil); font-family: var(--font-reading); padding-bottom: 8px;">
+
+<a class="skip" href="#main">Skip to content</a>
+<aside class="demo-bar" aria-label="About this example site"><p><strong>Example site.</strong> <span class="demo-long">Built from the Live to Eat Food brand book. Every place, deal, date and price here is a placeholder, and Tina’s words are left blank on purpose.</span><span class="demo-short">Places, deals and dates are placeholders.</span></p><a class="demo-link" href="../index.html">Back to the brand book</a></aside>
+<header class="bar">
+  <a href="index.html" style="display: block; width: 220px;"><img src="../assets/logo/ltef-wordmark-line.svg" alt="Live to Eat Food home" style="width: 100%; display: block;"></a>
+  <nav aria-label="Main"><ul class="bar-nav"><li><a href="explore.html">Explore</a></li><li><a href="guides.html">Guides</a></li><li><a href="woo-pons.html">Woo-pons</a></li><li><a href="roulette.html">Roulette</a></li><li><a href="events.html">Events</a></li><li><a href="your-plates.html">Your plates</a></li><li><a href="giveaways.html">Giveaways</a></li><li><a href="tina.html">Tina</a></li><li><a href="shop.html">Shop</a></li></ul></nav>
+</header>
+
+<main id="main">
+<section class="sheet" style="background: var(--butter); overflow: hidden;" aria-labelledby="h-own">
+  <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 48px; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <h1 id="h-own" class="h-xl">For restaurants</h1>
+      <p class="lede">Your basic listing is free forever. Keep it right, tell us what’s new, and invite Tina if you’d like. What you can’t do is buy her opinion.</p>
+      <nav aria-label="On this page" style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <a class="ltef-chip" href="#claim" style="text-decoration: none;">Claim your page</a>
+        <a class="ltef-chip" href="#fix" style="text-decoration: none;">Fix hours or menu</a>
+        <a class="ltef-chip" href="#open" style="text-decoration: none;">Opening soon</a>
+        <a class="ltef-chip" href="#invite" style="text-decoration: none;">Invite Tina</a>
+        <a class="ltef-chip" href="#ads" style="text-decoration: none;">Advertise, labeled</a>
+      </nav>
+    </div>
+    <div style="position: relative; min-height: 360px;">
+      <img class="food" src="../assets/stickers/coffee.svg" alt="" style="width: 52%; left: 8%; top: 4%; transform: rotate(-6deg);">
+      <img class="food" src="../assets/stickers/woopon.svg" alt="Woo-pons ticket" style="width: 50%; right: 4%; bottom: 8%; transform: rotate(4deg);">
+    </div>
+  </div>
+  <p class="slug">LTEF · For restaurants</p>
+</section>
+
+<section class="sheet" style="background: var(--vinyl);" aria-label="Forms for restaurants">
+  <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 30px; align-items: start;">
+    <form id="claim" class="panel" style="display: flex; flex-direction: column; gap: 12px; background: var(--butter);" aria-labelledby="f-claim">
+      <h2 id="f-claim" class="h-m" style="font-size: 30px;">Claim your restaurant</h2>
+      <p style="font-size: 15px;">Claiming lets you fix your hours, menu and links, and see how many people Tina’s pages send your way: direction taps and menu clicks, counted exactly.</p>
+      <label for="c-place" style="font: 700 14px var(--font-interface);">Your restaurant</label><select id="c-place" required style="min-height: 48px; padding: 0 14px; border-radius: 999px; border: 2px solid var(--basil); font: 600 16px var(--font-interface); background: var(--vinyl); color: var(--basil);"><option value="">Pick a place</option></select>
+      <label for="c-mail" style="font: 700 14px var(--font-interface);">Work email</label><p id="c-mail-hint" class="field-hint">Use the restaurant’s own domain so we can confirm it’s yours.</p><input id="c-mail" type="email" required autocomplete="email" value="owner@gmial.com" aria-invalid="true" aria-describedby="c-mail-hint c-mail-err" style="min-height: 48px; padding: 0 16px; border-radius: 999px; border: 2px solid var(--basil); font: 500 16px var(--font-reading);"><p id="c-mail-err" class="field-err" role="alert"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5.5M12 16.5v.01"/></g></svg><span>That email doesn’t look right. Check the spelling after the @ (gmial → gmail).</span></p><p class="meta" style="font-size: 13px; margin: 0;">Shown: the error state</p>
+      <button class="ltef-btn ltef-btn--sm" type="submit" style="align-self: flex-start;"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.2l7 2.8v5.2c0 4.4-3 7.9-7 9.6-4-1.7-7-5.2-7-9.6V6z"/><path d="M8.8 12l2.2 2.2 4.3-4.4"/></g></svg>Claim this page</button>
+    </form>
+    <form id="fix" class="panel" style="display: flex; flex-direction: column; gap: 12px;" aria-labelledby="f-fix">
+      <h2 id="f-fix" class="h-m" style="font-size: 30px;">Fix your hours or menu</h2>
+      <p style="font-size: 15px;">Wrong hours send people to a locked door. Tell us what changed and we’ll update the page and its “checked” date.</p>
+      <label for="x-what" style="font: 700 14px var(--font-interface);">What’s wrong or changed</label><p id="x-what-hint" class="field-hint">For example: “Closed Mondays now” or a link to the new menu.</p><textarea id="x-what" rows="3" required aria-describedby="x-what-hint" style="padding: 12px 16px; border-radius: 18px; border: 2px solid var(--basil); font: 500 16px var(--font-reading);"></textarea>
+      <button class="ltef-btn ltef-btn--sm" type="submit" style="align-self: flex-start;">Send the fix</button>
+    </form>
+    <form id="open" class="panel" style="display: flex; flex-direction: column; gap: 12px;" aria-labelledby="f-open">
+      <h2 id="f-open" class="h-m" style="font-size: 30px;">Tell us you’re opening</h2>
+      <p style="font-size: 15px;">New openings are a big part of what Tina posts. There’s no fee and no promise she’ll come, but every one gets read.</p>
+      <label for="o-name" style="font: 700 14px var(--font-interface);">Restaurant name and address</label><input id="o-name" required autocomplete="street-address" style="min-height: 48px; padding: 0 16px; border-radius: 999px; border: 2px solid var(--basil); font: 500 16px var(--font-reading);">
+      <label for="o-date" style="font: 700 14px var(--font-interface);">Opening date (optional)</label><input id="o-date" type="date" style="min-height: 48px; padding: 0 16px; border-radius: 999px; border: 2px solid var(--basil); font: 500 16px var(--font-reading);">
+      <button class="ltef-btn ltef-btn--sm" type="submit" style="align-self: flex-start;">Send it</button>
+    </form>
+  </div>
+  <p class="slug">LTEF · For restaurants · Listing and fixes</p>
+</section>
+
+<section class="sheet" style="background: var(--pistachio);" aria-label="Invite and advertise">
+  <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 40px; align-items: start;">
+    <form id="invite" class="panel" style="display: flex; flex-direction: column; gap: 14px;" aria-label="Invite Tina">
+      <h2 class="h-m" style="font-size: 30px;">Invite Tina</h2>
+      <p>Restaurants can invite her. They can’t book a review. If she comes, she says what she thinks, the good and the honest. If you cover the meal, the visit is labeled Hosted, in words, above her take, and it doesn’t get the stamp or a window decal.</p>
+      <label for="i-why" style="font: 700 14px var(--font-interface);">Why she should come</label><p id="i-why-hint" class="field-hint">Say whether you’d cover the meal. If you do, the visit is labeled Hosted.</p><textarea id="i-why" rows="3" required aria-describedby="i-why-hint" style="padding: 12px 16px; border-radius: 18px; border: 2px solid var(--basil); font: 500 16px var(--font-reading);"></textarea>
+      <button class="ltef-btn ltef-btn--sm" type="submit" style="align-self: flex-start;">Send the invite</button>
+    </form>
+    <div id="ads" style="display: flex; flex-direction: column; gap: 16px; border-radius: 24px; padding: 26px 28px; background: repeating-linear-gradient(-45deg, var(--oat) 0 8px, var(--oat-hatch) 8px 16px); box-shadow: inset 0 0 0 2.5px var(--basil);">
+      <span class="ltef-lbl ltef-lbl--sponsored" style="align-self: flex-start;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v17M16 7.8c-.6-1.4-2.2-2.4-4-2.4-2.2 0-4 1.2-4 3s1.8 2.5 4 2.9 4 1.4 4 3.2-1.8 2.8-4 2.8c-1.9 0-3.5-1-4.1-2.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg>Sponsored</span>
+      <h2 class="h-m" style="font-size: 30px;">Advertise, labeled</h2>
+      <p>Sponsored placements pay for the site. They follow these rules, every time:</p>
+      <ol style="margin: 0; padding-left: 22px; display: grid; gap: 8px;">
+        <li>Every paid placement carries the hatched Sponsored label.</li>
+        <li>Never larger than the Tina pick beside it, and never inside her take, her handwriting or the Sunday list.</li>
+        <li>Sponsor photos are labeled as the sponsor’s.</li>
+        <li>Paying never changes what Tina says or where a place ranks.</li>
+        <li>Want Tina to make a post for you? That’s a paid partnership: labeled with your name, no verdict, never ranked.</li>
+      </ol>
+      <div><a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="how-it-works.html">Ask about sponsoring</a></div>
+    </div>
+  </div>
+  <p class="slug">LTEF · For restaurants · Invite and advertise</p>
+</section>
+
+<section class="sheet" style="background: var(--butter);" aria-labelledby="h-work">
+  <div class="wrap two" style="align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 14px;"><h2 id="h-work" class="h-m">Work with Live to Eat Food</h2><p style="max-width: 50ch;">Events, collaborations, tourism boards, local brands. If it helps people eat better around Central Mass and keeps Tina honest, let’s talk.</p></div>
+    <div style="display: flex; flex-wrap: wrap; gap: 14px;"><a class="ltef-btn" href="how-it-works.html">Get in touch</a><a class="ltef-btn ltef-btn--alt" href="woo-pons.html">Offer a Woo-pon</a><a class="ltef-btn ltef-btn--alt" href="giveaways.html">Donate a prize</a></div>
+  </div>
+  <p class="slug">LTEF · For restaurants · Partnerships</p>
+</section>
+</main>
+<footer class="foot">
+  <p style="max-width: 560px;"><strong>Being listed is free, forever.</strong> Paying never changes what Tina says.</p>
+  <nav aria-label="Footer"><a href="how-it-works.html">How it works</a><a href="for-restaurants.html">For restaurants</a><a href="tina.html">About Tina</a><a href="index.html#sunday">Sunday list</a><a href="shop.html">Shop</a></nav>
+</footer>
+</div>
+<script src="js/site.js" defer></script>
+</body>
+</html>
