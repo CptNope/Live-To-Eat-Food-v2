@@ -177,6 +177,10 @@ h1, h2, h3, .h-s, .ltef-card__name, .ltef-coupon__where { overflow-wrap: anywher
 .photo-note { position: absolute; left: 20px; bottom: 16px; background: var(--vinyl); padding: 4px 12px; border-radius: 999px; font-size: 13px; }
 .tina-quote { margin: 0; display: flex; flex-direction: column; gap: 6px; }
 .row-order { font: 600 15px/1.35 var(--font-interface); color: var(--basil); }
+@media (max-width: 560px) {  /* home picks: a swipeable row on phones, so the page reaches Woo-pons and Roulette sooner */
+  section[aria-labelledby="h-picks"] .cards { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 80%; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding: 8px 6px 18px; margin-inline: -6px; scrollbar-width: thin; }
+  section[aria-labelledby="h-picks"] .cards > * { scroll-snap-align: start; }
+}
 .find { display: grid; gap: 8px; max-width: 640px; }
 .find__label { font: 700 15px/1.2 var(--font-interface); color: var(--basil); }
 .find__row { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 18px; border-radius: var(--radius-pill); background: var(--vinyl); box-shadow: inset 0 0 0 2.5px var(--basil); }
