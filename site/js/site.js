@@ -95,6 +95,28 @@
     });
   });
 
+  // Woo-pons: "Get the Woo-pon" opens THAT ticket at the counter, never a fixed sample.
+  var counter = document.querySelector('[data-counter]');
+  if (counter) {
+    var cf = function (k) { return counter.querySelector('[data-c="' + k + '"]'); };
+    document.querySelectorAll('.ltef-coupon a[href="#counter"]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        var t = a.closest('.ltef-coupon'); if (!t) return;
+        var q = function (sel) { var el = t.querySelector(sel); return el ? el.textContent.trim() : ''; };
+        if (cf('off')) cf('off').textContent = q('.ltef-coupon__off');
+        if (cf('where')) cf('where').textContent = q('.ltef-coupon__where');
+        var code = t.querySelector('.ltef-coupon__code b'); if (cf('code') && code) cf('code').textContent = code.textContent;
+        var terms = t.querySelector('.ltef-coupon__terms'); if (cf('terms') && terms) cf('terms').innerHTML = terms.innerHTML;
+        if (cf('fine')) cf('fine').textContent = q('.ltef-coupon__fine').replace(/\s*·\s*Show the code before you pay$/, '');
+        var img = t.querySelector('img'); if (cf('img') && img) cf('img').src = img.src;
+        var d = new Date();
+        if (cf('valid')) cf('valid').textContent = 'Valid today, ' + d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).replace(',', '');
+        if (cf('cap')) cf('cap').textContent = 'Sample code. This is the ticket you opened.';
+        setTimeout(function () { counter.focus({ preventScroll: true }); }, 0);
+      });
+    });
+  }
+
   // Home: the craving sentence hands off to Explore, with a live count.
   var ask = document.querySelector('[data-home-ask]'), go = document.querySelector('[data-home-go]');
   if (ask && go) {
@@ -114,19 +136,21 @@
   if (list.length) {
     var form = document.querySelector('[data-explore-form]');
     var crav = document.getElementById('f-craving'), withSel = document.getElementById('f-with'), areaSel = document.getElementById('f-area');
-    var PAGE = 12, limit = PAGE, more = document.querySelector('[data-more]');
+    var PAGE = 12, limit = PAGE, more = document.querySelector('[data-more]'), qIn = document.getElementById('f-q');
+    var norm = function (t) { return (t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, '').trim(); };
+    var nameOk = function (r, q) { if (!q) return true; var n = norm(r.getAttribute('data-name')); return norm(q).split(/\s+/).every(function (w) { return n.indexOf(w) > -1; }); };
     var areaBtns = document.querySelectorAll('[data-filter-area]'), tinaBtn = document.querySelector('[data-filter-tina]');
     var countEl = document.querySelector('[data-count]'), note = document.querySelector('[data-count-note]'), empty = document.querySelector('[data-empty]');
     var bubbles = document.querySelectorAll('[data-map-area]');
     var params = new URLSearchParams(location.search);
-    var st = { area: params.get('area') || '', craving: params.get('craving') || '', with: params.get('with') || 'anyone', tina: params.get('tina') === '1' };
+    var st = { q: params.get('q') || '', area: params.get('area') || '', craving: params.get('craving') || '', with: params.get('with') || 'anyone', tina: params.get('tina') === '1' };
     function apply(push) {
-      if (crav) crav.value = st.craving; if (withSel) withSel.value = st.with; if (areaSel) areaSel.value = st.area;
+      if (crav) crav.value = st.craving; if (withSel) withSel.value = st.with; if (areaSel) areaSel.value = st.area; if (qIn && qIn.value !== st.q) qIn.value = st.q;
       areaBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-filter-area') === st.area ? 'true' : 'false'); });
       if (tinaBtn) tinaBtn.setAttribute('aria-pressed', st.tina ? 'true' : 'false');
       var n = 0, per = {};
       list.forEach(function (r) {
-        var rest = (!st.craving || (' ' + r.getAttribute('data-cravings') + ' ').indexOf(' ' + st.craving + ' ') > -1) &&
+        var rest = nameOk(r, st.q) && (!st.craving || (' ' + r.getAttribute('data-cravings') + ' ').indexOf(' ' + st.craving + ' ') > -1) &&
           (st.with === 'anyone' || (' ' + r.getAttribute('data-with') + ' ').indexOf(' ' + st.with + ' ') > -1) &&
           (!st.tina || r.getAttribute('data-tina') === '1');
         var ar = r.getAttribute('data-area'), ok = rest && (!st.area || ar === st.area);
@@ -144,6 +168,7 @@
         b.setAttribute('aria-label', nm + ': ' + c + (c === 1 ? ' place' : ' places') + (id === st.area ? ', showing' : ''));
       });
       if (countEl) countEl.textContent = n;
+      var cw = document.querySelector('[data-count-word]'); if (cw) cw.textContent = n === 1 ? 'place' : 'places';
       if (note) note.textContent = n === list.length ? 'Tina’s newest first' : 'Showing ' + n + ' of ' + list.length;
       if (empty) empty.hidden = n !== 0;
       if (more) { var left = n - limit; more.hidden = left <= 0; more.textContent = 'Show ' + Math.min(PAGE, left) + ' more of ' + left; }
@@ -156,7 +181,7 @@
       if (n === 0) explainEmpty();
       if (push && history.replaceState) {
         var q = new URLSearchParams();
-        if (st.area) q.set('area', st.area); if (st.craving) q.set('craving', st.craving);
+        if (st.q) q.set('q', st.q); if (st.area) q.set('area', st.area); if (st.craving) q.set('craving', st.craving);
         if (st.with !== 'anyone') q.set('with', st.with); if (st.tina) q.set('tina', '1');
         history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : ''));
       }
@@ -165,7 +190,7 @@
     function count(o) {
       var c = 0;
       list.forEach(function (r) {
-        if ((!o.area || r.getAttribute('data-area') === o.area) &&
+        if (nameOk(r, o.q) && (!o.area || r.getAttribute('data-area') === o.area) &&
           (!o.craving || (' ' + r.getAttribute('data-cravings') + ' ').indexOf(' ' + o.craving + ' ') > -1) &&
           (o.with === 'anyone' || (' ' + r.getAttribute('data-with') + ' ').indexOf(' ' + o.with + ' ') > -1) &&
           (!o.tina || r.getAttribute('data-tina') === '1')) c++;
@@ -176,6 +201,7 @@
     function explainEmpty() {
       var what = document.querySelector('[data-empty-what]'), hint = document.querySelector('[data-empty-hint]'), fix = document.querySelector('[data-empty-fix]');
       var on = [], drops = [];
+      if (st.q) { on.push('“' + st.q + '”'); drops.push(['q', '', 'with any name']); }
       if (st.craving) { on.push(optText(crav)); drops.push(['craving', '', 'without ' + optText(crav)]); }
       if (st.with !== 'anyone') { on.push('with ' + optText(withSel)); drops.push(['with', 'anyone', 'for anyone']); }
       if (st.area) { on.push('in ' + optText(areaSel)); drops.push(['area', '', 'everywhere']); }
@@ -183,6 +209,13 @@
       var best = null;
       drops.forEach(function (d) { var o = Object.assign({}, st); o[d[0]] = d[1]; var c = count(o); if (c && (!best || c > best.c)) best = { k: d[0], v: d[1], t: d[2], c: c }; });
       if (what) what.textContent = 'Nothing matches ' + on.join(', ') + '.';
+      if (st.q && !count({ q: st.q, area: '', craving: '', with: 'anyone', tina: false })) {  // the name itself isn't on the list
+        best = { k: 'q', v: '', c: list.length, t: '' };
+        if (what) what.textContent = 'Nothing on Tina’s list matches “' + st.q + '” yet.';
+        if (hint) hint.innerHTML = 'Check the spelling, or <a href="how-it-works.html#suggest">suggest it to Tina</a>. Suggestions are never for sale.';
+        if (fix) { fix.hidden = false; fix.textContent = 'Clear the search'; fix.onclick = function () { st.q = ''; limit = PAGE; apply(true); if (qIn) qIn.focus(); }; }
+        return;
+      }
       if (hint) hint.textContent = best ? 'Go ' + best.t + ' and there ' + (best.c === 1 ? 'is 1 place' : 'are ' + best.c + ' places') + '.' : 'Clear the filters to see every place.';
       if (fix) {
         fix.hidden = !best;
@@ -191,6 +224,7 @@
     }
     function reset() { limit = PAGE; }
     if (crav) crav.addEventListener('change', function () { st.craving = crav.value; reset(); apply(true); });
+    var qt; if (qIn) qIn.addEventListener('input', function () { clearTimeout(qt); qt = setTimeout(function () { st.q = qIn.value.trim(); reset(); apply(true); }, 150); });
     if (areaSel) areaSel.addEventListener('change', function () { st.area = areaSel.value; reset(); apply(true); });
     if (more) more.addEventListener('click', function () {
       var first = limit; limit += PAGE; apply(false);
@@ -205,7 +239,7 @@
       e.preventDefault(); var id = b.getAttribute('data-map-area'); st.area = st.area === id ? '' : id; reset(); apply(true);
       var h = document.getElementById('h-res'); if (h && h.getBoundingClientRect().top < 0) h.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     }); });
-    document.querySelectorAll('[data-filter-clear]').forEach(function (b) { b.addEventListener('click', function () { st = { area: '', craving: '', with: 'anyone', tina: false }; limit = PAGE; apply(true); }); });
+    document.querySelectorAll('[data-filter-clear]').forEach(function (b) { b.addEventListener('click', function () { st = { q: '', area: '', craving: '', with: 'anyone', tina: false }; limit = PAGE; apply(true); }); });
     if (form) form.addEventListener('submit', function (e) { e.preventDefault(); });
     apply(false);
   }
