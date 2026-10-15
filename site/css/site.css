@@ -306,6 +306,19 @@ select.slot { field-sizing: content; }
 .find__input:focus { outline: none; }
 .find__row:focus-within { outline: 3px solid var(--basil); outline-offset: 3px; }
 .find__input::placeholder { color: var(--olive); opacity: 1; }
+.find__input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; cursor: pointer; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%231E3B2A'/%3E%3Cpath d='M8.5 8.5l7 7M15.5 8.5l-7 7' stroke='%23FFF6CF' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") center / 22px no-repeat; }
+/* Explore on phones: the count sits right under the filters and jumps to the list */
+.count-jump { display: none; }
+@media (max-width: 720px) {
+  .count-jump { display: inline-flex; align-self: flex-start; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill); background: var(--basil); color: var(--vinyl); font: 700 16px/1 var(--font-interface); text-decoration: none; }
+  .count-jump svg { width: 18px; height: 18px; }
+}
+/* Phones: first sheets start closer to the nav, so the first screen holds the first decision and clears the tab bar */
+@media (max-width: 560px) {
+  main > .sheet:first-child { padding-top: 32px !important; }
+  #h-res { scroll-margin-top: 16px; }
+  main > .sheet:has(#h-res) { padding-top: 28px; }
+}
 .row-order__k { color: var(--olive); font-weight: 700; }
 .map-fold > summary { display: none; }
 @media (max-width: 720px) {
@@ -345,7 +358,10 @@ select.slot { field-sizing: content; }
 .map-area-link:focus-visible circle { stroke-width: 7; }
 .map-area-link.is-on circle { fill: var(--basil); }
 .map-area-link.is-on .map-count { fill: var(--lemon); }
-.map-area-link.is-empty { opacity: .35; }
+.map-area-link.is-empty circle { fill: var(--vinyl); stroke-dasharray: 7 7; }
+.map-area-link.is-empty .map-count { fill: var(--olive); }
+.map-area-link.is-on.is-empty circle { fill: var(--vinyl); stroke-width: 6; }
+.map-area-link.is-on.is-empty .map-count { fill: var(--basil); }
 .guide-stops { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; max-width: 900px; }
 .guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 24px; }
 .guide-card, .guide-link { display: flex; flex-direction: column; gap: 10px; color: var(--basil); text-decoration: none; transition: transform .4s cubic-bezier(.16,1,.3,1); }

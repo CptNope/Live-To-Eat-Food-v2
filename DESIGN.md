@@ -420,7 +420,7 @@ The wheel spins under a pointer that never moves (`roulette-wheel.svg` under `ro
 Each stop has one button (Get directions), a quiet "Tina's video" text link and an "I've been here" chip; no stop carries three buttons.
 
 ### Explore list
-A sentence filter ("I want [craving] with [who] in [neighborhood]"), the neighborhood bubble map (sticky on desktop, a folded strip above the list on phones), rows that show what Tina ordered, 12 places at a time, and at most one Sponsored card, only after the fourth visible pick. An empty result names the filters that are on and offers the one change that brings places back.
+A sentence filter ("I want [craving] with [who] in [neighborhood]"), the neighborhood bubble map (sticky on desktop, a folded strip above the list on phones), rows that show what Tina ordered, 12 places at a time, and at most one Sponsored card, only after the fourth visible pick. An empty result names the filters that are on and offers the one change that brings places back. On phones a basil count pill ("52 places ↓") sits right under the filters, updates with them and jumps to the list; neighborhoods with nothing left are drawn as dashed vinyl bubbles at full strength, never faded below readable contrast. The search placeholder fits a 390px screen ("Name or food, like ramen") and its clear button is drawn in basil. First sheets on phones start 32px under the nav so the first decision clears the tab bar.
 
 ### Paid surfaces (signature)
 Trust is the product, so paid things are drawn so they can't be mistaken for picks.
