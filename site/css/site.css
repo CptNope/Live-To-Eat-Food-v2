@@ -26,7 +26,7 @@ a:not([class]) { color: var(--leaf); text-decoration-thickness: 2px; text-underl
 a:not([class]):hover { color: var(--basil); }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
 p { margin: 0; }
-:focus-visible { outline: 3px solid var(--basil); outline-offset: 3px; border-radius: 8px; box-shadow: 0 0 0 6px var(--vinyl); }
+:focus-visible { outline: 3px solid var(--basil); outline-offset: 3px; box-shadow: 0 0 0 6px var(--vinyl); }
 
 /* site bar: five main links, More for the rest, one call to action (phones: Menu + tab bar) */
 .bar { position: relative; z-index: 40; display: flex; align-items: center; gap: 10px 22px; max-width: 1320px; margin: 0 auto; padding: 14px clamp(16px, 4vw, 56px) 8px; box-sizing: border-box; }
@@ -219,6 +219,11 @@ h1, h2, h3, .h-s, .ltef-card__name, .ltef-coupon__where { overflow-wrap: anywher
 @media (prefers-reduced-motion: reduce) {
   .roul-card--pick.is-dealt, .roul-card--pick.is-dealt .ltef-lbl--tina, .roul-card__spin { animation: none; }
 }
+
+/* polish */
+a:not([class]):focus-visible { border-radius: 6px; }
+a.tap { color: var(--leaf); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .18em; }
+select.slot { field-sizing: content; }
 
 /* ---- example site only ---- */
 .demo-bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: center; padding: 8px 16px; background: var(--basil); color: var(--butter); font: 600 14px/1.4 var(--font-interface); text-align: center; }
