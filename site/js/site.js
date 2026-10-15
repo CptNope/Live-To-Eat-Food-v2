@@ -18,7 +18,7 @@
 
   // Filter chips and toggle buttons (aria-pressed) outside Roulette.
   document.querySelectorAll('button[aria-pressed]').forEach(function (b) {
-    if (b.hasAttribute('data-mood') || b.hasAttribute('data-with') || b.matches('[data-filter-area],[data-filter-tina]')) return;
+    if (b.hasAttribute('data-mood') || b.hasAttribute('data-with') || b.matches('[data-filter-area],[data-filter-tina],[data-deal-filter]')) return;
     b.addEventListener('click', function () {
       var on = b.getAttribute('aria-pressed') !== 'true';
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -137,28 +137,69 @@
 
   // Woo-pons: "Show at the counter" opens THAT ticket full screen (above the tab bar), never a fixed sample.
   // Staff confirm before marking it used, and a slip can be undone while it is open.
-  function wireUsed(root) {
+  // "Used" is remembered for this visit (sessionStorage, so a closed tab forgets it): the page's ticket
+  // shows it, and the ticket reopens already used. Undo clears it everywhere.
+  var USED_KEY = 'ltef-used';
+  function usedMap() { try { return JSON.parse(sessionStorage.getItem(USED_KEY)) || {}; } catch (err) { return window.__ltefUsed || {}; } }
+  function saveUsed(m) { window.__ltefUsed = m; try { sessionStorage.setItem(USED_KEY, JSON.stringify(m)); } catch (err) {} }
+  function markCard(code) {
+    var t = document.querySelector('.ltef-coupon[data-code="' + code + '"]'); if (!t) return;
+    var at = usedMap()[code], tag = t.querySelector('.used-tag'), btn = t.querySelector('[data-open-ticket]');
+    t.classList.toggle('is-used', !!at);
+    if (at && !tag) { tag = document.createElement('span'); tag.className = 'ltef-lbl ltef-lbl--notyet used-tag'; t.insertBefore(tag, t.querySelector('.ltef-coupon__code')); }
+    if (tag) { if (at) tag.textContent = 'Used today at ' + at; else tag.remove(); }
+    if (btn) btn.lastChild.textContent = at ? 'Show the used ticket' : 'Show at the counter';
+    if (btn) btn.setAttribute('aria-label', btn.getAttribute('aria-label').replace(/^(Show at the counter|Show the used ticket)/, at ? 'Show the used ticket' : 'Show at the counter'));
+  }
+  function wireUsed(root, getCode) {
     var flow = root.querySelector('[data-used-flow]'); if (!flow) return;
     var ask = flow.querySelector('[data-used-ask]'), body = root.querySelector('.ltef-coupon') && root.querySelector('.ltef-coupon').parentNode;
-    function reset() { flow.innerHTML = ''; flow.appendChild(ask); if (body) body.classList.remove('is-used'); }
+    function code() { return getCode ? getCode() : ''; }
+    function showAsk() { flow.innerHTML = ''; flow.appendChild(ask); if (body) body.classList.remove('is-used'); }
+    function showDone(at, focus) {
+      flow.innerHTML = '<div class="used-flow__done" role="status"><span>Used today at ' + at + '</span><button type="button" data-undo>Undo</button></div>';
+      if (body) body.classList.add('is-used');
+      flow.querySelector('[data-undo]').addEventListener('click', function () {
+        var m = usedMap(); delete m[code()]; saveUsed(m); markCard(code()); showAsk(); ask.focus(); say('Back to unused.');
+      });
+      if (focus) flow.querySelector('[data-undo]').focus();
+    }
     ask.addEventListener('click', function () {
       flow.innerHTML = '<p class="used-flow__ask">Mark this Woo-pon used? Staff only, at the register.</p>' +
         '<div class="used-flow__row"><button class="ltef-btn" type="button" data-yes>Yes, it’s used</button><button class="ltef-btn ltef-btn--alt" type="button" data-no>Not yet</button></div>';
-      flow.querySelector('[data-no]').addEventListener('click', function () { reset(); ask.focus(); });
+      flow.querySelector('[data-no]').addEventListener('click', function () { showAsk(); ask.focus(); });
       flow.querySelector('[data-yes]').addEventListener('click', function () {
-        var t = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-        flow.innerHTML = '<div class="used-flow__done" role="status"><span>Used today at ' + t + '</span><button type="button" data-undo>Undo</button></div>';
-        if (body) body.classList.add('is-used');
-        flow.querySelector('[data-undo]').addEventListener('click', function () { reset(); ask.focus(); say('Back to unused.'); });
-        flow.querySelector('[data-undo]').focus();
+        var at = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        var m = usedMap(); if (code()) { m[code()] = at; saveUsed(m); markCard(code()); }
+        showDone(at, true);
         say('Marked as used. ' + DEMO);
       });
       flow.querySelector('[data-yes]').focus();
     });
+    var at0 = code() && usedMap()[code()]; if (at0) showDone(at0, false); else showAsk();
+  }
+  document.querySelectorAll('.ltef-coupon[data-code]').forEach(function (t) { markCard(t.getAttribute('data-code')); });
+
+  // Woo-pons chips filter the tickets, one at a time.
+  var dealChips = document.querySelectorAll('[data-deal-filter]');
+  if (dealChips.length) {
+    var dealCount = document.querySelector('[data-deal-count]');
+    dealChips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        var k = c.getAttribute('data-deal-filter'), n = 0;
+        dealChips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+        document.querySelectorAll('.ltef-coupon[data-tags]').forEach(function (t) {
+          var on = k === 'all' || (' ' + t.getAttribute('data-tags') + ' ').indexOf(' ' + k + ' ') > -1;
+          t.hidden = !on; if (on) n++;
+        });
+        if (dealCount) dealCount.textContent = n + (n === 1 ? ' deal' : ' deals') + (k === 'all' ? '' : ' of 6');
+      });
+    });
   }
   var counter = document.querySelector('[data-counter]');
   if (counter) {
-    wireUsed(counter);
+    var counterCode = function () { var c = counter.querySelector('[data-c="code"]'); return c ? c.textContent.trim() : ''; };
+    wireUsed(counter, counterCode);
     var cf = function (root, k) { return root.querySelector('[data-c="' + k + '"]'); };
     var fillFrom = function (root, t) {
       var q = function (sel) { var el = t.querySelector(sel); return el ? el.textContent.trim() : ''; };
@@ -191,7 +232,7 @@
         var back = card.querySelector('a.linkish');
         if (back) { var close = document.createElement('button'); close.type = 'button'; close.className = 'ticket-close'; close.textContent = 'Close'; close.addEventListener('click', function () { dlg.close(); }); back.replaceWith(close); }
         card.querySelectorAll('a.ltef-btn--alt').forEach(function (x) { x.remove(); });  // the sample's place link isn't this ticket's place
-        dlg.innerHTML = ''; dlg.appendChild(wrap); wireUsed(wrap);
+        dlg.innerHTML = ''; dlg.appendChild(wrap); var openCode = t.getAttribute('data-code'); wireUsed(wrap, function () { return openCode; });
         document.documentElement.style.overflow = 'hidden';
         dlg.showModal();
       });
