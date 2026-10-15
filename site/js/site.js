@@ -126,7 +126,7 @@
       var q = new URLSearchParams(); if (c) q.set('craving', c); if (a) q.set('area', a);
       go.href = 'explore.html' + (q.toString() ? '?' + q : '');
       var t = go.querySelector('[data-home-count]');
-      if (t) t.textContent = n === 0 ? 'None yet: see options' : 'Show me ' + n + (n === 1 ? ' place' : ' places');
+      if (t) t.textContent = n === 0 ? 'Nothing there yet: see what’s close' : 'Show me ' + n + (n === 1 ? ' place' : ' places');
     };
     ask.addEventListener('change', upd); ask.addEventListener('submit', function (e) { e.preventDefault(); location.href = go.href; }); upd();
   }
@@ -168,10 +168,11 @@
         b.setAttribute('aria-label', nm + ': ' + c + (c === 1 ? ' place' : ' places') + (id === st.area ? ', showing' : ''));
       });
       if (countEl) countEl.textContent = n;
+      var cs = document.querySelector('[data-count-slug]'); if (cs) cs.textContent = (n === list.length ? n : n + ' of ' + list.length) + (n === 1 && n === list.length ? ' place' : ' places');
       var cw = document.querySelector('[data-count-word]'); if (cw) cw.textContent = n === 1 ? 'place' : 'places';
       if (note) note.textContent = n === list.length ? 'Tina’s newest first' : 'Showing ' + n + ' of ' + list.length;
       if (empty) empty.hidden = n !== 0;
-      if (more) { var left = n - limit; more.hidden = left <= 0; more.textContent = 'Show ' + Math.min(PAGE, left) + ' more of ' + left; }
+      if (more) { var left = n - limit; more.hidden = left <= 0; more.textContent = left <= PAGE ? 'Show the last ' + (left === 1 ? 'one' : left) : 'Show ' + PAGE + ' more (' + left + ' left)'; }
       // A paid card never stands in for results: it shows only beside at least four picks.
       var shownRows = [].filter.call(list, function (r) { return !r.hidden; });
       document.querySelectorAll('.ltef-slot--feed').forEach(function (f) {

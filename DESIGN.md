@@ -447,6 +447,11 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 - **Do** vary sticker tilts between −8° and +8°, never two neighbours at the same angle, and keep the wordmark within 3°.
 - **Do** design every paid surface with the hatched frame and a label from day one, and leave it out of the page when nothing is sold.
 - **Do** route editorial tips to "Suggest a spot" and anything commercial to "Work with Tina", never one form for both.
+- **Do** call every maps link "Get directions", and name a link for where it goes ("See the place" when it opens our page).
+- **Do** let focus rings follow the control's own shape: pills get pill rings, inline links a 6px corner.
+- **Do** keep sheets off the lemon page color: a hero or signup sheet is butter, vinyl, pistachio or peach, never lemon on lemon.
+- **Don't** put a paid stop in a guide with fewer than four real stops.
+- **Don't** let Verified shout: it is an outlined leaf label, quieter than "Tina ate here".
 
 ### Don't:
 - **Don't** set white or pale text on a pastel; white on lemon is 1.2:1.
