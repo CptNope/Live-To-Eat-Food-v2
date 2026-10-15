@@ -181,6 +181,19 @@ h1, h2, h3, .h-s, .ltef-card__name, .ltef-coupon__where { overflow-wrap: anywher
   section[aria-labelledby="h-picks"] .cards { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 80%; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding: 8px 6px 18px; margin-inline: -6px; scrollbar-width: thin; }
   section[aria-labelledby="h-picks"] .cards > * { scroll-snap-align: start; }
 }
+.verdict-coming { display: grid; gap: 6px; padding: 16px 20px; border: 2.5px dashed var(--olive); border-radius: var(--radius-sticker); background: var(--butter); }
+.verdict-coming__k { font: 800 16px/1.2 var(--font-interface); color: var(--basil); }
+.verdict-coming p { margin: 0; font: 500 15px/1.5 var(--font-reading); color: var(--basil); }
+.verdict-coming p span { font-weight: 700; white-space: nowrap; }
+.take-video { width: min(100%, 300px); }
+@media (max-width: 720px) {
+  .place-hero { gap: 22px !important; }
+  .place-hero > div:last-child { display: contents !important; }
+  .place-hero .photo-slot { order: 1; aspect-ratio: 16 / 9; }
+  .place-hero .tina-quote, .place-hero > div:last-child > p:last-child { order: 2; }
+  .place-hero .photo-slot img { width: 90px !important; }
+  .take-video { width: min(100%, 260px); }
+}
 .find { display: grid; gap: 8px; max-width: 640px; }
 .find__label { font: 700 15px/1.2 var(--font-interface); color: var(--basil); }
 .find__row { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 18px; border-radius: var(--radius-pill); background: var(--vinyl); box-shadow: inset 0 0 0 2.5px var(--basil); }
