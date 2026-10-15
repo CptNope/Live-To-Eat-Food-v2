@@ -87,7 +87,7 @@ textarea.ltef-input { min-height: 96px; padding: 12px 16px; border-radius: 18px;
 .ltef-slot__why { font: 600 13px/1.3 var(--font-interface); color: var(--basil); }
 .ltef-slot__why a { display: inline-block; padding-block: 4px; color: inherit; text-decoration-thickness: 1.5px; text-underline-offset: .18em; }
 .ltef-slot__body { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 18px; align-items: center; padding: 16px 18px; border-radius: var(--radius-sponsored); background: var(--vinyl); min-width: 0; }
-.ltef-slot__mark { grid-row: span 3; width: 76px; aspect-ratio: 1; border-radius: var(--radius-sponsored); background: var(--oat); display: grid; place-items: center; padding: 6px; box-sizing: border-box; font: 700 12px/1.25 var(--font-interface); color: var(--olive); text-align: center; overflow: hidden; }
+.ltef-slot__mark { grid-row: span 3; width: 76px; aspect-ratio: 1; border-radius: var(--radius-sponsored); background: var(--oat); display: grid; place-items: center; padding: 6px; box-sizing: border-box; font: 700 13px/1.25 var(--font-interface); color: var(--olive); text-align: center; overflow: hidden; }
 .ltef-slot__mark img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
 .ltef-slot__name { margin: 0; font: 800 20px/1.15 var(--font-interface); letter-spacing: -.01em; }
 .ltef-slot__line { margin: 0; font: 500 16px/1.5 var(--font-reading); }
@@ -119,7 +119,7 @@ textarea.ltef-input { min-height: 96px; padding: 12px 16px; border-radius: 18px;
 /* Woo-pon details: the code, how long it runs and what it excludes are always on the ticket. Scissors mark the cut. */
 .ltef-coupon__code { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; justify-content: space-between; margin-top: 4px; padding: 8px 12px; border-radius: var(--radius-tag); background: var(--vinyl); border: 2px dashed var(--basil); }
 .ltef-coupon__code b { font: 400 22px/1 var(--font-display); letter-spacing: .06em; font-variant-numeric: tabular-nums; }
-.ltef-coupon__code span { font: 700 12px/1 var(--font-interface); color: var(--olive); }
+.ltef-coupon__code span { font: 700 13px/1 var(--font-interface); color: var(--olive); }
 .ltef-coupon__terms { grid-column: 1 / -1; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; margin: 2px 0 0; font: 500 14px/1.45 var(--font-reading); }
 .ltef-coupon__terms dt { font: 700 14px/1.45 var(--font-interface); color: var(--olive); }
 .ltef-coupon__terms dd { margin: 0; }

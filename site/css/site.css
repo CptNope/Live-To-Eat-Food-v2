@@ -148,7 +148,7 @@ h1, h2, h3, .h-s, .ltef-card__name, .ltef-coupon__where { overflow-wrap: anywher
 .roul-adjust__body { display: flex; flex-direction: column; gap: 22px; }
 @media (max-width: 720px) {
   .roul-grid { gap: 18px !important; }
-  .roul-grid .h-xl { font-size: 46px; }
+  .roul-grid .h-xl { font-size: 44px; }
   .roul-wheel { gap: 16px !important; }
   .roul-wheel > div:first-child { width: min(100%, 250px) !important; }
   .roul-left { display: contents !important; }
@@ -208,7 +208,7 @@ h1, h2, h3, .h-s, .ltef-card__name, .ltef-coupon__where { overflow-wrap: anywher
   .roul-grid:not([data-phase="idle"]) .roul-left > .h-xl { max-width: none !important; }
   .roul-grid:not([data-phase="idle"]) .roul-adjust > summary { display: flex; }
   .roul-grid:not([data-phase="idle"]) .roul-left { gap: 18px !important; }
-  .roul-grid:not([data-phase="idle"]) .roul-left > .h-xl { font-size: 52px; }
+  .roul-grid:not([data-phase="idle"]) .roul-left > .h-xl { font-size: clamp(36px, 4.6vw, 64px); line-height: 1; }
 }
 @media (max-width: 720px) {
   .roul-result { order: 2; }
@@ -443,7 +443,7 @@ select.slot { field-sizing: content; }
   body:has(.site-drawer[open]) .tabbar { display: none; }
   .tabbar { display: block; position: fixed; z-index: 45; left: 10px; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); }
   .tabbar ul { list-style: none; margin: 0 auto; padding: 6px; max-width: 520px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; border-radius: 24px; background: var(--vinyl); box-shadow: 0 0 0 1.5px rgba(30,59,42,.12), var(--lift-hi); }
-  .tabbar a { display: grid; justify-items: center; gap: 3px; min-height: 52px; padding: 6px 4px; border-radius: 18px; color: var(--olive); text-decoration: none; font: 700 12px/1 var(--font-interface); }
+  .tabbar a { display: grid; justify-items: center; gap: 3px; min-height: 52px; padding: 6px 4px; border-radius: 18px; color: var(--olive); text-decoration: none; font: 700 13px/1 var(--font-interface); }
   .tabbar svg { width: 22px; height: 22px; }
   .tabbar a[aria-current="page"] { background: var(--lemon); color: var(--basil); }
   body { padding-bottom: 92px; }
