@@ -233,6 +233,22 @@ select.slot { field-sizing: content; }
 /* Roulette: the tilted ticket keeps clear of the title */
 @media (min-width: 721px) { .roul-grid:not([data-phase="idle"]) .roul-result { margin-top: 10px; } }
 
+/* Woo-pons: the ticket at the counter fills the screen (above the tab bar), with a confirm and an undo for "used" */
+.ticket-dialog { box-sizing: border-box; width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)); border: 0; background: var(--basil); overflow-y: auto; }
+.ticket-dialog[open] { display: grid; place-items: center; }
+.ticket-dialog::backdrop { background: rgba(30,59,42,.7); }
+.ticket-dialog__card { width: min(100%, 420px); }
+.ticket-dialog__card > div { box-shadow: none !important; }
+.ticket-dialog [data-c="code"] { font-size: clamp(40px, 12vw, 56px) !important; }
+.ticket-close { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border: 0; border-radius: var(--radius-pill); background: var(--vinyl); box-shadow: inset 0 0 0 2px var(--basil); color: var(--basil); font: 700 15px/1 var(--font-interface); cursor: pointer; }
+.used-flow { display: grid; gap: 10px; }
+.used-flow__ask { margin: 0; font: 600 15px/1.4 var(--font-reading); color: var(--basil); text-align: center; }
+.used-flow__row { display: flex; gap: 10px; }
+.used-flow__row > * { flex: 1; justify-content: center; }
+.used-flow__done { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-radius: 18px; background: var(--oat); color: var(--olive); font: 700 15px/1.3 var(--font-interface); }
+.used-flow__done button { min-height: 44px; padding: 0 8px; border: 0; background: none; color: var(--basil); font: 700 15px/1 var(--font-interface); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.is-used .ltef-coupon, .is-used [data-c="code"] { opacity: .45; }
+
 /* ---- example site only ---- */
 .demo-bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: center; padding: 8px 16px; background: var(--basil); color: var(--butter); font: 600 14px/1.4 var(--font-interface); text-align: center; }
 .demo-bar p { margin: 0; }

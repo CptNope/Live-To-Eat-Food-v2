@@ -404,7 +404,7 @@ Pill labels, 36px tall, icon plus word, each visually unlike the others so meani
 - **Woo-pon:** pistachio fill, 2px basil outline, ticket icon.
 
 ### Woo-pon Ticket (signature)
-A pistachio coupon with a 2px inset basil outline, 18px radius and 11px semicircular notches masked out of both sides; the amount in Bagel at 28px, the place in Bricolage 700, fine print under a dotted rule. The sponsored variant swaps the fill for the oat hatch.
+A pistachio coupon with a 2px inset basil outline, 18px radius and 11px semicircular notches masked out of both sides; the amount in Bagel at 28px, the place in Bricolage 700, fine print under a dotted rule. The sponsored variant swaps the fill for the oat hatch. The code is printed on every ticket. "Show at the counter" opens that ticket full screen (above the tab bar, with a Close button and Escape), sized for staff to read; "Staff: mark as used" asks first ("Yes, it's used" / "Not yet") and then shows "Used today at …" with an Undo.
 - **Details on the ticket:** the code in a dashed white box (Bagel, tabular figures), then a two-row list, *Runs* and *Excludes*, then the conditions under a dotted cut line with a small scissors mark. Nothing hides behind a tap.
 - **Redeeming:** each live ticket ends with one "Get the Woo-pon" button. Opened, it shows the ticket large with "Tina ate here · month", a code on white in Bagel with tabular figures and the date it's valid, then "Staff: mark as used" and Directions.
 - **Used and ended:** oat field, olive text and a dashed label in words ("Used Oct 9", "Ended Oct 1"). Never faded with opacity, which drops text below AA.
