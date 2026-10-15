@@ -160,6 +160,24 @@ h1, h2, h3, .h-s, .ltef-card__name, .ltef-coupon__where { overflow-wrap: anywher
   .roul-adjust[open] > summary { margin-bottom: 18px; }
 }
 
+/* For restaurants: three doors. The paid one wears the sponsored hatch so it can't read as editorial. */
+.doors { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; max-width: 560px; }
+.door { display: flex; align-items: center; gap: 16px; padding: 18px 20px; border-radius: var(--radius-sticker); background: var(--vinyl); box-shadow: inset 0 0 0 2.5px var(--basil), var(--lift); color: var(--basil); text-decoration: none; transition: transform .4s cubic-bezier(.16,1,.3,1); }
+.door:hover { transform: translateY(-2px); }
+.door:focus-visible { outline: 3px solid var(--basil); outline-offset: 3px; }
+.door--paid { padding: 10px; background: repeating-linear-gradient(-45deg, var(--oat) 0 7px, var(--oat-hatch) 7px 14px); border-radius: var(--radius-sponsored); }
+.door--paid .door__txt { padding: 10px 12px; border-radius: var(--radius-sponsored); background: var(--vinyl); }
+.door__txt { flex: 1; display: grid; gap: 4px; min-width: 0; }
+.door__t { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font: 400 26px/1.1 var(--font-display); }
+.door--paid .door__t { font: 800 22px/1.15 var(--font-interface); }
+.door__line { font: 500 15px/1.45 var(--font-reading); color: var(--olive); }
+.door__go { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--basil); color: var(--vinyl); }
+.door__go svg { width: 20px; height: 20px; }
+.door--paid .door__go { margin-right: 10px; }
+.check { display: flex; gap: 12px; align-items: flex-start; font: 500 15px/1.45 var(--font-reading); color: var(--basil); cursor: pointer; }
+.check input { flex: none; width: 24px; height: 24px; margin: 0; accent-color: var(--basil); }
+.ask { align-self: flex-start; margin-top: auto; padding: 10px 0; font: 700 15px/1.2 var(--font-interface); color: var(--basil); text-underline-offset: 4px; }
+
 /* ---- example site only ---- */
 .demo-bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: center; padding: 8px 16px; background: var(--basil); color: var(--butter); font: 600 14px/1.4 var(--font-interface); text-align: center; }
 .demo-bar p { margin: 0; }

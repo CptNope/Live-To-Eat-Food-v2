@@ -314,3 +314,23 @@
   var reset = document.querySelector('[data-reset]'); if (reset) reset.addEventListener('click', function () { st.mood = 'anything'; st.with = 'anyone'; sync(); show('idle'); });
   sync();
 })();
+
+// Work with Tina: each "Ask about …" link (and ?about= from other pages) picks the matching line in the one form
+(function () {
+  var sel = document.getElementById('c-what'); if (!sel) return;
+  function pick(k, go) {
+    if (!k || !sel.querySelector('option[value="' + k + '"]')) return;
+    sel.value = k;
+    if (go) {
+      var c = document.getElementById('contact');
+      if (c) c.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      sel.focus({ preventScroll: true });
+    }
+  }
+  try { pick(new URLSearchParams(location.search).get('about'), false); } catch (err) {}
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-ask]'); if (!a) return;
+    e.preventDefault(); pick(a.getAttribute('data-ask'), true);
+    try { history.replaceState(null, '', '?about=' + a.getAttribute('data-ask') + '#contact'); } catch (err) {}
+  });
+})();
