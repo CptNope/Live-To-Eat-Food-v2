@@ -39,8 +39,48 @@
     });
   });
 
+  // Sunday's list: an on-brand error for a mistyped email, then the form turns into the answer:
+  // you're on the list, the date it lands, and what's inside. (Example site: nothing is saved.)
+  var ERR_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5.5M12 16.5v.01"/></g></svg>';
+  function nextSunday() {
+    var d = new Date(); d.setDate(d.getDate() + ((7 - d.getDay()) % 7 || 7));
+    return d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+  }
+  document.querySelectorAll('form.ltef-signup').forEach(function (f) {
+    var input = f.querySelector('input[type="email"]'); if (!input) return;
+    f.setAttribute('novalidate', '');
+    var err = document.createElement('p'); err.className = 'ltef-field__err'; err.id = input.id + '-err'; err.hidden = true;
+    input.closest('.ltef-field').appendChild(err);
+    function clear() { err.hidden = true; input.removeAttribute('aria-invalid'); input.removeAttribute('aria-describedby'); }
+    input.addEventListener('input', clear);
+    f.addEventListener('submit', function (e) {
+      e.preventDefault(); e.stopImmediatePropagation();
+      var v = input.value.trim();
+      if (!v || !input.checkValidity() || !/\.[a-z]{2,}$/i.test(v)) {
+        err.innerHTML = ERR_ICON + '<span>' + (!v ? 'Add your email and Sunday’s list comes to it.' : v.indexOf('@') < 0 ? 'That email is missing the @.' : 'That email needs an ending like .com after the @. Check the spelling.') + '</span>';
+        err.hidden = false; input.setAttribute('aria-invalid', 'true'); input.setAttribute('aria-describedby', err.id); input.focus();
+        return;
+      }
+      var keep = [].slice.call(f.children);
+      keep.forEach(function (c) { c.hidden = true; });  // the heading still names the form (aria-labelledby reads hidden text)
+      var done = document.createElement('div'); done.className = 'signup-done'; done.setAttribute('tabindex', '-1'); done.setAttribute('role', 'status');
+      done.innerHTML = '<span class="signup-done__stamp" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<div class="signup-done__txt"><p class="signup-done__h">You’re on Sunday’s list.</p>' +
+        '<p>The next one lands <strong>' + nextSunday() + '</strong>, in the morning, at <strong></strong>.</p>' +
+        '<p class="signup-done__fine">Example site: nothing was saved or sent.</p>' +
+        '<div class="signup-done__acts"><a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="email-sample.html">See a sample issue</a><button type="button" class="linkish">Use a different email</button></div></div>';
+      done.querySelectorAll('strong')[1].textContent = v;
+      f.appendChild(done);
+      if (!f.classList.contains('is-done')) { f.classList.add('is-done'); }
+      done.querySelector('button').addEventListener('click', function () {
+        done.remove(); f.classList.remove('is-done'); keep.forEach(function (c) { c.hidden = false; }); input.focus(); input.select();
+      });
+      done.focus();
+    });
+  });
+
   // Forms: validate in the browser, then say plainly that nothing was sent.
-  document.querySelectorAll('form').forEach(function (f) {
+  document.querySelectorAll('form:not(.ltef-signup)').forEach(function (f) {
     f.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!f.checkValidity()) { f.reportValidity(); return; }
