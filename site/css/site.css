@@ -379,6 +379,9 @@ select.slot { field-sizing: content; }
 .facts-list { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 26px; }
 .cards .ltef-card { width: auto; }
+@media (min-width: 721px) { .map-box { order: 2; } }  /* first in the DOM and the tab order (it filters), drawn to the right of the list */
+.map-area-link circle, .map-area-link [data-map-label] { transition: r .35s cubic-bezier(.16,1,.3,1), y .35s cubic-bezier(.16,1,.3,1); }
+@media (prefers-reduced-motion: reduce) { .map-area-link circle, .map-area-link [data-map-label] { transition: none; } }
 .map-box svg { width: 100%; height: auto; display: block; border-radius: 24px; background: var(--pistachio); }
 .map-area { font: 700 29px var(--font-interface); fill: var(--basil); paint-order: stroke; stroke: #e6f2dc; stroke-width: 6px; stroke-linejoin: round; }
 .map-count { font: 800 40px var(--font-display, var(--font-interface)); fill: var(--basil); }
@@ -390,7 +393,7 @@ select.slot { field-sizing: content; }
 .map-area-link.is-on circle { fill: var(--basil); }
 .map-area-link.is-on .map-count { fill: var(--lemon); }
 .map-area-link.is-empty circle { fill: var(--vinyl); stroke-dasharray: 7 7; }
-.map-area-link.is-empty .map-count { fill: var(--olive); }
+.map-area-link.is-empty .map-count { display: none; }
 .map-area-link.is-on.is-empty circle { fill: var(--vinyl); stroke-width: 6; }
 .map-area-link.is-on.is-empty .map-count { fill: var(--basil); }
 .guide-stops { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; max-width: 900px; }

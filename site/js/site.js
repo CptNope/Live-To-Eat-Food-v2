@@ -284,6 +284,13 @@
       bubbles.forEach(function (b) {
         var id = b.getAttribute('data-map-area'), c = per[id] || 0, t = b.querySelector('[data-map-count]');
         if (t) t.textContent = c;
+        // the bubble's size follows what's left in it (same scale as the build), down to a small dashed dot at zero
+        var circ = b.querySelector('circle'), lab = b.querySelector('[data-map-label]');
+        if (circ) {
+          var rMax = +circ.getAttribute('data-r-max'), r = c ? Math.min(rMax, 32 + 15 * Math.sqrt(c)) : 24, cy = +circ.getAttribute('cy');
+          circ.setAttribute('r', r.toFixed(0)); circ.style.r = r.toFixed(0) + 'px';
+          if (lab) { lab.setAttribute('y', (cy + r + 30).toFixed(0)); lab.style.y = (cy + r + 30).toFixed(0) + 'px'; }
+        }
         b.classList.toggle('is-on', id === st.area); b.classList.toggle('is-empty', !c);
         b.setAttribute('aria-current', id === st.area ? 'true' : 'false');
         var nm = (b.getAttribute('aria-label') || '').split(':')[0];
