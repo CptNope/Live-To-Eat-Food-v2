@@ -26,10 +26,29 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
 
 <main id="main">
 <section class="sheet sheet--dark" style="background: var(--basil); color: var(--butter); overflow: hidden;" aria-labelledby="h-roul">
-  <div class="wrap roul-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 56px; align-items: center;">
+  <div class="wrap roul-grid" data-phase="idle" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 56px; align-items: center;">
     <div class="roul-left" style="display: flex; flex-direction: column; gap: 22px;">
       <h1 id="h-roul" class="h-xl" style="color: var(--butter); max-width: 10ch;">Restaurant Roulette</h1>
       <p class="lede" style="color: var(--butter);">Can’t decide? Pick a craving, say who’s coming, spin. The wheel only lands on places Tina has eaten at, and sponsors never get on it.</p>
+      <div class="roul-result" aria-live="polite">
+      <div data-state="spinning" hidden>
+        <div class="roul-card roul-card--wait"><img src="../assets/stickers/roulette.svg" alt="" class="roul-card__spin"><div style="display: grid; gap: 6px;"><h2 class="h-m" style="color: var(--butter);">Spinning…</h2><p style="margin: 0;">Picking from <span data-f="count">6</span> of Tina’s places for <span data-f="filter">anything</span>.</p></div></div>
+      </div>
+      <div data-state="nomatch" hidden>
+        <div class="roul-card roul-card--none"><div style="display: grid; gap: 6px;"><h2 class="h-m" style="color: var(--butter);">Nothing on the wheel for <span data-f="filter">anything</span> yet.</h2><p style="margin: 0;">Tina hasn’t eaten anywhere that fits both. Try a different craving, or say anyone’s coming.</p></div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;"><button class="ltef-btn ltef-btn--sm ltef-btn--alt" type="button" data-widen>Anyone</button><button class="ltef-btn ltef-btn--sm ltef-btn--alt" type="button" data-reset>Reset filters</button></div></div>
+      </div>
+      <div data-state="pick" hidden>
+        <article class="roul-card roul-card--pick" aria-labelledby="h-result">
+          <div class="roul-card__labels"><span class="ltef-lbl ltef-lbl--tina">Tina ate here · <span data-f="month"></span></span><span data-hosted hidden><span class="ltef-lbl ltef-lbl--hosted"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><rect x="3.5" y="6" width="17" height="12.5" rx="2"/><path d="M4.5 7.5l7.5 6 7.5-6"/></g></svg>Hosted</span></span></div>
+          <div style="display: grid; gap: 6px;"><h2 id="h-result" class="roul-card__name"><span data-f="name"></span></h2><p class="meta" style="margin: 0;"><span data-f="meta"></span></p></div>
+          <span data-hosted hidden><p class="ltef-disclose" style="margin: 0;"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><rect x="3.5" y="6" width="17" height="12.5" rx="2"/><path d="M4.5 7.5l7.5 6 7.5-6"/></g></svg><span>Hosted visit: <span data-f="name"></span> invited Tina and covered this meal. Nobody paid for this page or saw it before it went up.</span></p></span>
+          <div class="ordered"><span class="ordered__ph" data-f="bg" style="background: var(--butter);"><img src="../assets/stickers/egg.svg" alt="" data-f="img" style="width: 56px;"></span><span class="ordered__txt"><span class="ordered__k">What Tina ordered</span><span class="ordered__dish"><span data-f="dish"></span></span></span></div>
+          <p class="ltef-note" style="font-size: 22px;">“<span data-f="quote"></span>”</p><p class="meta" style="margin: 0;">Tina on <a data-f="tt" href="https://www.tiktok.com/@livetoeatfoodie" target="_blank" rel="noopener">TikTok, <span data-f="date"></span></a></p>
+          <div class="roul-card__acts"><a class="ltef-btn" href="https://www.google.com/maps" data-f="maps" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.3"/></g></svg>Get directions</a><a class="ltef-btn ltef-btn--alt" href="place.html" data-f="href">See the place</a><button class="roul-again" type="button" data-spin><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4.5v4h-4"/></g></svg>Spin again</button></div>
+        </article>
+      </div>
+      </div>
       <details class="roul-adjust" open><summary>Adjust the mood and who’s coming<span class="roul-adjust__now" data-f="adjust"></span></summary>
       <div class="roul-adjust__body"><div style="display: flex; flex-direction: column; gap: 10px;">
         <span style="font: 700 15px var(--font-interface); color: var(--pistachio);">I’m in the mood for</span>
@@ -58,54 +77,6 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
   <p class="slug" style="color: var(--pistachio);">LTEF · Restaurant Roulette</p>
 </section>
 
-<section class="sheet" style="background: var(--butter);" aria-labelledby="h-result" aria-live="polite">
-  <div class="wrap">
-    <div data-state="idle">
-      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 30px;">
-        <img src="../assets/stickers/egg.svg" alt="" style="width: 110px; transform: rotate(-6deg); filter: drop-shadow(0 6px 8px rgba(30,59,42,.2));">
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <h2 id="h-result" class="h-m">Your pick lands here</h2>
-          <p style="max-width: 52ch;">Spin the wheel and Tina’s pick shows up with directions. Spin again and you won’t get the same place twice in a row.</p>
-        </div>
-      </div>
-    </div>
-    <div data-state="spinning" hidden>
-      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 30px;">
-        <img src="../assets/stickers/roulette.svg" alt="" style="width: 96px;">
-        <div style="display: flex; flex-direction: column; gap: 8px;"><h2 class="h-m">Spinning…</h2><p>Picking from <span data-f="count">6</span> of Tina’s places for <span data-f="filter">anything</span>.</p></div>
-      </div>
-    </div>
-    <div data-state="nomatch" hidden>
-      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px; padding: 22px 26px; border-radius: 24px; border: 2.5px dashed var(--olive);">
-        <div style="display: flex; flex-direction: column; gap: 6px; max-width: 60ch;"><h2 class="h-m">Nothing on the wheel for <span data-f="filter">anything</span> yet.</h2><p>Tina hasn’t eaten anywhere that fits both. Try a different craving, or say anyone’s coming.</p></div>
-        <div style="display: flex; flex-wrap: wrap; gap: 12px;"><button class="ltef-btn ltef-btn--sm" type="button" data-widen>Anyone</button><button class="ltef-btn ltef-btn--sm ltef-btn--alt" type="button" data-reset>Reset filters</button></div>
-      </div>
-    </div>
-    <div data-state="pick" hidden>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: center;">
-        <div data-f="bg" style="aspect-ratio: 4 / 3; border-radius: 20px; background: var(--butter); display: grid; place-items: center; box-shadow: 0 0 0 10px var(--vinyl), var(--lift);">
-          <img src="../assets/stickers/egg.svg" alt="" data-f="img" style="width: 42%;">
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
-          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-            <span class="ltef-lbl ltef-lbl--tina">Tina ate here · <span data-f="month"></span></span>
-            <span data-hosted hidden><span class="ltef-lbl ltef-lbl--hosted"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><rect x="3.5" y="6" width="17" height="12.5" rx="2"/><path d="M4.5 7.5l7.5 6 7.5-6"/></g></svg>Hosted</span></span>
-          </div>
-          <h2 class="h-l" style="overflow-wrap: anywhere;"><span data-f="name"></span></h2>
-          <p class="meta" style="font-size: 17px;"><span data-f="meta"></span></p>
-          <span data-hosted hidden><p class="ltef-disclose" style="margin: 0;"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><rect x="3.5" y="6" width="17" height="12.5" rx="2"/><path d="M4.5 7.5l7.5 6 7.5-6"/></g></svg><span>Hosted visit: <span data-f="name"></span> invited Tina and covered this meal. Nobody paid for this page or saw it before it went up.</span></p></span>
-          
-          <p class="ltef-note" style="font-size: 22px;">“<span data-f="quote"></span>”</p><p class="meta" style="margin: 0;">Tina on <a data-f="tt" href="https://www.tiktok.com/@livetoeatfoodie" target="_blank" rel="noopener">TikTok, <span data-f="date"></span></a></p>
-          <div style="display: flex; flex-wrap: wrap; gap: 14px;">
-            <a class="ltef-btn" href="place.html" data-f="href">See the place</a>
-            <button class="ltef-btn ltef-btn--alt" type="button" data-spin>Spin again</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <p class="slug">LTEF · Restaurant Roulette · Result</p>
-</section>
 </main>
 <footer class="foot">
   <p style="max-width: 560px;"><strong>Only real meals on the wheel.</strong> Every place here is one Tina has eaten at. If a restaurant covered her meal, the result says Hosted. Sponsors never get on the wheel.</p>
