@@ -27,67 +27,26 @@ a:not([class]){color:var(--leaf)}a:not([class]):hover{color:var(--basil)}</style
 <main id="main">
 <section class="sheet" style="background: var(--butter); overflow: hidden;" aria-labelledby="h-own">
   <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 48px; align-items: center;">
-    <div style="display: flex; flex-direction: column; gap: 20px;">
+    <div style="display: flex; flex-direction: column; gap: 22px;">
       <h1 id="h-own" class="h-xl">For restaurants</h1>
-      <p class="lede">Your basic listing is free forever. Keep it right and tell us what’s new. Advertising, Enhanced listings, Woo-pons and hosted visits live on <a href="work-with-tina.html">Work with Tina</a>. Nothing anywhere buys her opinion.</p>
-      <nav aria-label="On this page" style="display: flex; flex-wrap: wrap; gap: 10px;">
-        <a class="ltef-chip" href="#claim" style="text-decoration: none;">Claim your page</a>
-        <a class="ltef-chip" href="#fix" style="text-decoration: none;">Fix hours or menu</a>
-        <a class="ltef-chip" href="#open" style="text-decoration: none;">Opening soon</a>
-        <a class="ltef-chip" href="work-with-tina.html" style="text-decoration: none;">Work with Tina</a>
-      </nav>
+      <p class="lede">Being listed is free, forever. What did you come to do?</p>
+      <ul class="doors" aria-label="What you came to do"><li><a class="door" href="#listing"><span class="door__txt"><span class="door__t">Fix my listing</span><span class="door__line">Hours, menu, links, an opening or an event. Free.</span></span><span class="door__go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li><li><a class="door" href="how-it-works.html#suggest"><span class="door__txt"><span class="door__t">Ask Tina to visit</span><span class="door__line">It goes on her list to try, with everyone else’s. It can’t be paid for.</span></span><span class="door__go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li><li><a class="door door--paid" href="work-with-tina.html"><span class="door__txt"><span class="door__t">Advertise<span class="ltef-lbl ltef-lbl--sponsored ltef-lbl--sm" style="align-self: flex-start; justify-self: start;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v17M16 7.8c-.6-1.4-2.2-2.4-4-2.4-2.2 0-4 1.2-4 3s1.8 2.5 4 2.9 4 1.4 4 3.2-1.8 2.8-4 2.8c-1.9 0-3.5-1-4.1-2.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg>Paid</span></span><span class="door__line">Sponsored spots, Enhanced listings, Woo-pons and hosted visits, all labeled.</span></span><span class="door__go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li></ul>
+      <p class="meta" style="margin: 0;">Nothing here buys Tina’s opinion. <a href="editorial-policy.html">How we keep it that way</a></p>
     </div>
-    <div style="position: relative; min-height: 360px;">
+    <div class="hide-sm" style="position: relative; min-height: 360px;">
       <img class="food" src="../assets/stickers/coffee.svg" alt="" style="width: 52%; left: 8%; top: 4%; transform: rotate(-6deg);">
       <img class="food" src="../assets/stickers/woopon.svg" alt="Woo-pons ticket" style="width: 50%; right: 4%; bottom: 8%; transform: rotate(4deg);">
     </div>
   </div>
-  <p class="slug">LTEF · For restaurants</p>
+  <p class="slug">LTEF · For restaurants · Three doors</p>
 </section>
 
-<section class="sheet" style="background: var(--vinyl);" aria-label="Forms for restaurants">
-  <div class="wrap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 30px; align-items: start;">
-    <form id="claim" class="panel" style="display: flex; flex-direction: column; gap: 12px; background: var(--butter);" aria-labelledby="f-claim">
-      <h2 id="f-claim" class="h-m" style="font-size: 30px;">Claim your restaurant</h2>
-      <p style="font-size: 15px;">Claiming lets you fix your hours, menu and links, and see how many people Tina’s pages send your way: direction taps and menu clicks, counted exactly.</p>
-      <label for="c-place" style="font: 700 14px var(--font-interface);">Your restaurant</label><select id="c-place" required style="min-height: 48px; padding: 0 14px; border-radius: 999px; border: 2px solid var(--basil); font: 600 16px var(--font-interface); background: var(--vinyl); color: var(--basil);"><option value="">Pick a place</option></select>
-      <label for="c-mail" style="font: 700 14px var(--font-interface);">Work email</label><p id="c-mail-hint" class="field-hint">Any email you check. A restaurant-domain address is confirmed fastest; otherwise we call the number on your listing.</p><input id="c-mail" type="email" required autocomplete="email" value="owner@gmial.com" aria-invalid="true" aria-describedby="c-mail-hint c-mail-err" style="min-height: 48px; padding: 0 16px; border-radius: 999px; border: 2px solid var(--basil); font: 500 16px var(--font-reading);"><p id="c-mail-err" class="field-err" ><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5.5M12 16.5v.01"/></g></svg><span>That email doesn’t look right. Check the spelling after the @ (gmial → gmail).</span></p><p class="meta" style="font-size: 13px; margin: 0; padding: 4px 10px; border: 1.5px dashed var(--olive); border-radius: 999px; align-self: flex-start;">Example: how a typo is caught. Your form starts empty.</p>
-      <button class="ltef-btn ltef-btn--sm" type="submit" style="align-self: flex-start;"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.2l7 2.8v5.2c0 4.4-3 7.9-7 9.6-4-1.7-7-5.2-7-9.6V6z"/><path d="M8.8 12l2.2 2.2 4.3-4.4"/></g></svg>Claim this page</button>
-    </form>
-    <form id="fix" class="panel" style="display: flex; flex-direction: column; gap: 12px;" aria-labelledby="f-fix">
-      <h2 id="f-fix" class="h-m" style="font-size: 30px;">Fix your hours or menu</h2>
-      <p style="font-size: 15px;">Wrong hours send people to a locked door. Tell us what changed and we’ll update the page and its “checked” date.</p>
-      <label for="x-what" style="font: 700 14px var(--font-interface);">What’s wrong or changed</label><p id="x-what-hint" class="field-hint">For example: “Closed Mondays now” or a link to the new menu.</p><textarea id="x-what" rows="3" required aria-describedby="x-what-hint" style="padding: 12px 16px; border-radius: 18px; border: 2px solid var(--basil); font: 500 16px var(--font-reading);"></textarea>
-      <button class="ltef-btn ltef-btn--sm" type="submit" style="align-self: flex-start;">Send the fix</button>
-    </form>
-    <form id="open" class="panel" style="display: flex; flex-direction: column; gap: 12px;" aria-labelledby="f-open">
-      <h2 id="f-open" class="h-m" style="font-size: 30px;">Tell us you’re opening</h2>
-      <p style="font-size: 15px;">New openings are a big part of what Tina posts. There’s no fee and no promise she’ll come, but every one gets read.</p>
-      <label for="o-name" style="font: 700 14px var(--font-interface);">Restaurant name and address</label><input id="o-name" required autocomplete="street-address" style="min-height: 48px; padding: 0 16px; border-radius: 999px; border: 2px solid var(--basil); font: 500 16px var(--font-reading);">
-      <label for="o-date" style="font: 700 14px var(--font-interface);">Opening date (optional)</label><input id="o-date" type="date" style="min-height: 48px; padding: 0 16px; border-radius: 999px; border: 2px solid var(--basil); font: 500 16px var(--font-reading);">
-      <button class="ltef-btn ltef-btn--sm" type="submit" style="align-self: flex-start;">Send it</button>
-    </form>
+<section id="listing" class="sheet" style="background: var(--vinyl);" aria-labelledby="h-listing">
+  <div class="wrap two" style="align-items: start;">
+    <div style="display: grid; gap: 14px;"><h2 id="h-listing" class="h-l">Fix my listing</h2><p style="max-width: 44ch; margin: 0;">Wrong hours send people to a locked door. Tell us what changed and we’ll update the page and its “checked” date, usually within a day.</p><p class="meta" style="margin: 0; max-width: 44ch;">Openings, pop-ups and events go here too. Listing them is free; Tina coming is never promised.</p></div>
+    <form id="listing-form" class="panel" style="display: grid; gap: 16px;" aria-labelledby="h-listing"><div class="ltef-field"><label class="ltef-field__label" for="l-place">Your restaurant</label><p class="ltef-field__hint" id="l-place-h">Start typing to find it. Not on the list yet? Type the name and street.</p><input class="ltef-input" id="l-place" list="place-names" type="text" required aria-describedby="l-place-h" autocomplete="organization"></div><datalist id="place-names"><option value="111 Chop House"></option><option value="Alma Gaúcha"></option><option value="American Flatbread Co"></option><option value="Anh Thu II"></option><option value="Armsby Abbey"></option><option value="Baba Sushi"></option><option value="Basil N Spice"></option><option value="bb.q Chicken"></option><option value="Bocado Tapas Wine Bar"></option><option value="Boulevard Diner"></option><option value="Chashu Ramen + Izakaya"></option><option value="Coney Island Hot Dogs"></option><option value="Dalat"></option><option value="Daphne&#x27;s Tears"></option><option value="Deadhorse Hill"></option><option value="Green Island Oyster"></option><option value="Ground Round"></option><option value="honeygrow"></option><option value="Hungry Bowl"></option><option value="Island Fin"></option><option value="Kai Sushi"></option><option value="Kenichi"></option><option value="Kuru Kuru"></option><option value="La Scala"></option><option value="Leo&#x27;s Ristorante"></option><option value="Little Havana"></option><option value="Mercado"></option><option value="Mia Cane"></option><option value="MOTW Coffee"></option><option value="Nan Xiang Express"></option><option value="Nuovo"></option><option value="Oishi"></option><option value="Om Indian Grill"></option><option value="Panda Buffet"></option><option value="Pho Dakao"></option><option value="Phoever Whatever"></option><option value="Playa Bowls"></option><option value="Racha Thai"></option><option value="Rice Violet"></option><option value="Rio Viejo Cocina"></option><option value="Ruby Doo&#x27;s"></option><option value="Saigon"></option><option value="Sawa"></option><option value="Sugi Matcha"></option><option value="Suzette Crêperie"></option><option value="Tapa Vino"></option><option value="The Banh Mi Place"></option><option value="Tropeiro&#x27;s Grill"></option><option value="VIA Italian Table"></option><option value="Volturno"></option><option value="Wormtown Brewery"></option><option value="Yolk &amp; Crumb"></option></datalist><div class="ltef-field"><label class="ltef-field__label" for="l-mail">Your email</label><p class="ltef-field__hint" id="l-mail-h">Any email you check. We confirm it’s yours by calling the number on your listing.</p><input class="ltef-input" id="l-mail" type="email" required aria-describedby="l-mail-h" autocomplete="email"></div><div class="ltef-field"><label class="ltef-field__label" for="l-what">What’s wrong, changed or new</label><p class="ltef-field__hint" id="l-what-h">For example: “Closed Mondays now”, a link to the new menu, an opening date or a pop-up night.</p><textarea class="ltef-input" id="l-what" rows="3" required aria-describedby="l-what-h"></textarea></div><label class="check"><input type="checkbox" id="l-claim"><span>I own or run this place. Let me claim the page, fix it myself and see how many people Tina’s pages send my way.</span></label><button class="ltef-btn" type="submit" style="justify-self: start;"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.2l7 2.8v5.2c0 4.4-3 7.9-7 9.6-4-1.7-7-5.2-7-9.6V6z"/><path d="M8.8 12l2.2 2.2 4.3-4.4"/></g></svg>Send it</button></form>
   </div>
-  <p class="slug">LTEF · For restaurants · Listing and fixes</p>
-</section>
-
-<section class="sheet" style="background: var(--pistachio);" aria-labelledby="h-two">
-  <div class="wrap" style="display: grid; gap: 26px;">
-    <h2 id="h-two" class="h-l">Two doors, on purpose</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 30px; align-items: stretch;">
-      <div class="panel" style="display: flex; flex-direction: column; gap: 12px;"><h3 class="h-m" style="font-size: 30px;">Think Tina should try you?</h3><p>That’s an editorial suggestion. It goes to Tina’s list of places to try, with everyone else’s, and nothing about it is for sale.</p><div style="margin-top: auto;"><a class="ltef-btn ltef-btn--sm" href="how-it-works.html#suggest"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></g></svg>Suggest a spot</a></div></div>
-      <div class="ltef-slot" style="padding: 10px;"><div class="ltef-slot__head"><span class="ltef-lbl ltef-lbl--sponsored ltef-lbl--sm" style="align-self: flex-start; justify-self: start;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v17M16 7.8c-.6-1.4-2.2-2.4-4-2.4-2.2 0-4 1.2-4 3s1.8 2.5 4 2.9 4 1.4 4 3.2-1.8 2.8-4 2.8c-1.9 0-3.5-1-4.1-2.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg>Paid</span><span class="ltef-slot__why">Commercial</span></div><div class="ltef-slot__body" style="grid-template-columns: minmax(0, 1fr);"><p class="ltef-slot__name">Want to advertise, upgrade your listing or host Tina?</p><p class="ltef-slot__line">Sponsored spots, the Sunday list, Enhanced listings, Woo-pons and hosted visits. All labeled, all on one page.</p><a class="ltef-btn ltef-btn--sm ltef-slot__cta" href="work-with-tina.html">Work with Tina</a></div></div>
-    </div>
-  </div>
-  <p class="slug">LTEF · For restaurants · Two doors</p>
-</section>
-
-<section class="sheet" style="background: var(--butter);" aria-labelledby="h-work">
-  <div class="wrap two" style="align-items: center;">
-    <div style="display: flex; flex-direction: column; gap: 14px;"><h2 id="h-work" class="h-m">Work with Live to Eat Food</h2><p style="max-width: 50ch;">Events, collaborations, tourism boards, local brands. If it helps people eat better around Central Mass and keeps Tina honest, let’s talk.</p></div>
-    <div style="display: flex; flex-wrap: wrap; gap: 14px;"><a class="ltef-btn" href="work-with-tina.html#contact">Get in touch</a><a class="ltef-btn ltef-btn--alt" href="work-with-tina.html#woopon">Offer a Woo-pon</a><a class="ltef-btn ltef-btn--alt" href="giveaways.html">Donate a prize</a></div>
-  </div>
-  <p class="slug">LTEF · For restaurants · Partnerships</p>
+  <p class="slug">LTEF · For restaurants · Fix my listing</p>
 </section>
 </main>
 <footer class="foot">
