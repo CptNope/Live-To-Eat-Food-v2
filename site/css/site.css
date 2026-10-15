@@ -246,18 +246,20 @@ select.slot { field-sizing: content; }
   section[aria-labelledby="h-picks"] .cards { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 80%; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; padding: 8px 6px 18px; margin-inline: -6px; scrollbar-width: thin; }
   section[aria-labelledby="h-picks"] .cards > * { scroll-snap-align: start; }
 }
-.verdict-coming { display: grid; gap: 6px; padding: 16px 20px; border: 2.5px dashed var(--olive); border-radius: var(--radius-sticker); background: var(--butter); }
-.verdict-coming__k { font: 800 16px/1.2 var(--font-interface); color: var(--basil); }
-.verdict-coming p { margin: 0; font: 500 15px/1.5 var(--font-reading); color: var(--basil); }
-.verdict-coming p span { font-weight: 700; white-space: nowrap; }
-.take-video { width: min(100%, 300px); }
+/* Place page: her post leads. Video beside what she ordered and what she said; one quiet line for the verdict. */
+.place-hero { display: grid; gap: 40px 56px; align-items: start; }
+.place-hero--post { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); }
+.place-hero--none { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+.place-hero__main { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.place-take { display: grid; gap: 18px; margin-top: 8px; padding-top: 24px; border-top: 1.5px solid rgba(30,59,42,.18); max-width: 62ch; }
+.take-video { display: grid; gap: 10px; width: 100%; }
+.verdict-line { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font: 500 15px/1.4 var(--font-reading); color: var(--basil); }
+.verdict-line__k { padding: 4px 12px; border-radius: var(--radius-pill); box-shadow: inset 0 0 0 2px var(--olive); font: 800 14px/1.2 var(--font-interface); }
+.place-hero__sticker { width: 170px; height: auto; transform: rotate(6deg); filter: drop-shadow(0 8px 10px rgba(30,59,42,.2)); }
 @media (max-width: 720px) {
-  .place-hero { gap: 22px !important; }
-  .place-hero > div:last-child { display: contents !important; }
-  .place-hero .photo-slot { order: 1; aspect-ratio: 16 / 9; }
-  .place-hero .tina-quote, .place-hero > div:last-child > p:last-child { order: 2; }
-  .place-hero .photo-slot img { width: 90px !important; }
-  .take-video { width: min(100%, 260px); }
+  .place-hero, .place-hero--post, .place-hero--none { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .place-hero--post .take-video { order: 2; width: min(100%, 260px); justify-self: center; }
+  .place-hero__sticker { display: none; }
 }
 .find { display: grid; gap: 8px; max-width: 640px; }
 .find__label { font: 700 15px/1.2 var(--font-interface); color: var(--basil); }
