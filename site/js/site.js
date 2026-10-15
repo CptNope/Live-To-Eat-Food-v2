@@ -245,7 +245,7 @@
   }
 
   // Restaurant Roulette, on the real places Tina has posted from.
-  var spinBtn = document.querySelector('[data-spin]');
+  var spinBtn = document.querySelector('.roul-wheel [data-spin]') || document.querySelector('[data-spin]');
   var wheel = document.querySelector('[data-wheel]');
   if (!spinBtn || !wheel || !window.LTEF_PLACES) return;
   var PLACES = window.LTEF_PLACES;
@@ -253,7 +253,12 @@
   var timer;
   var label = spinBtn.querySelector('[data-spin-label]');
   var states = {}; document.querySelectorAll('[data-state]').forEach(function (el) { states[el.getAttribute('data-state')] = el; });
-  function show(name) { Object.keys(states).forEach(function (k) { states[k].hidden = k !== name; }); }
+  var grid = document.querySelector('.roul-grid'), slot = document.querySelector('.roul-result');
+  function show(name) {
+    Object.keys(states).forEach(function (k) { states[k].hidden = k !== name; });
+    if (grid) grid.setAttribute('data-phase', states[name] ? name : 'idle');
+  }
+  function phone() { return window.matchMedia && window.matchMedia('(max-width: 720px)').matches; }
   function pool() {
     return PLACES.filter(function (p) {
       return (st.mood === 'anything' || p.cravings.indexOf(st.mood) > -1) && (st.with === 'anyone' || p.with.indexOf(st.with) > -1);
@@ -273,8 +278,10 @@
   function choose(key, val) { if (st.spinning) return; st[key] = val; sync(); if (states.nomatch && !states.nomatch.hidden) show('idle'); }
   document.querySelectorAll('[data-mood]').forEach(function (b) { b.addEventListener('click', function () { choose('mood', b.getAttribute('data-mood')); }); });
   document.querySelectorAll('[data-with]').forEach(function (b) { b.addEventListener('click', function () { choose('with', b.getAttribute('data-with')); }); });
-  function spin() {
+  function spin(e) {
     if (st.spinning) return;
+    // From the result's own "Spin again": bring the wheel back into view first.
+    var fromCard = e && e.currentTarget && e.currentTarget.closest && e.currentTarget.closest('.roul-card');
     var cur = pool();
     fill('filter', filterText());
     if (!cur.length) { show('nomatch'); return; }
@@ -285,8 +292,15 @@
     // aria-disabled, not disabled: a disabled button drops keyboard focus to <body>.
     st.spinning = true; spinBtn.setAttribute('aria-disabled', 'true'); spinBtn.setAttribute('aria-busy', 'true');
     if (label) label.textContent = 'Spinning…';
-    fill('count', String(cur.length)); show('spinning');
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Hold the result's height while the wheel turns, so nothing below jumps up.
+    if (slot) slot.style.minHeight = slot.offsetHeight ? slot.offsetHeight + 'px' : '';
+    fill('count', String(cur.length)); show('spinning');
+    if (fromCard) {
+      var wr = wheel.getBoundingClientRect();
+      if (wr.top < 0 || wr.bottom > window.innerHeight) wheel.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      spinBtn.focus({ preventScroll: true });
+    }
     clearTimeout(timer);
     timer = setTimeout(function () {
       var p = cur[i]; st.pick = p; st.spinning = false;
@@ -296,9 +310,17 @@
       document.querySelectorAll('[data-f="bg"]').forEach(function (el) { el.style.background = p.bg; });
       document.querySelectorAll('[data-f="img"]').forEach(function (el) { el.src = p.img; el.alt = 'Photo slot for ' + p.name; });
       document.querySelectorAll('[data-f="href"]').forEach(function (el) { el.href = p.href; });
+      document.querySelectorAll('[data-f="maps"]').forEach(function (el) { el.href = p.maps; el.setAttribute('aria-label', 'Get directions to ' + p.name + ' (opens maps)'); });
+      fill('dish', p.dish);
       document.querySelectorAll('[data-f="tt"]').forEach(function (el) { el.href = p.url; });
       document.querySelectorAll('[data-hosted]').forEach(function (el) { el.hidden = true; });
       show('pick');
+      if (slot) slot.style.minHeight = '';
+      // Deal the ticket: restart its landing each spin.
+      var card = states.pick && states.pick.querySelector('.roul-card--pick');
+      if (card) { card.classList.remove('is-dealt'); void card.offsetWidth; card.classList.add('is-dealt'); }
+      // On wider screens the choices fold so the ticket sits beside the wheel.
+      if (!phone()) document.querySelectorAll('.roul-adjust').forEach(function (d) { d.open = false; });
       // Bring the answer into view and hand focus to its name.
       var head = states.pick && states.pick.querySelector('h2');
       if (head) {
@@ -310,8 +332,9 @@
     }, reduce ? 0 : 3200);
   }
   document.querySelectorAll('[data-spin]').forEach(function (b) { b.addEventListener('click', spin); });
-  var widen = document.querySelector('[data-widen]'); if (widen) widen.addEventListener('click', function () { st.with = 'anyone'; sync(); show('idle'); });
-  var reset = document.querySelector('[data-reset]'); if (reset) reset.addEventListener('click', function () { st.mood = 'anything'; st.with = 'anyone'; sync(); show('idle'); });
+  function back() { show('idle'); if (!phone()) document.querySelectorAll('.roul-adjust').forEach(function (d) { d.open = true; }); spinBtn.focus(); }
+  var widen = document.querySelector('[data-widen]'); if (widen) widen.addEventListener('click', function () { st.with = 'anyone'; sync(); back(); });
+  var reset = document.querySelector('[data-reset]'); if (reset) reset.addEventListener('click', function () { st.mood = 'anything'; st.with = 'anyone'; sync(); back(); });
   sync();
 })();
 
