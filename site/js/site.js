@@ -50,7 +50,7 @@
 
   // Buttons that would need the real backend.
   document.querySelectorAll('button[type="button"]').forEach(function (b) {
-    if (b.hasAttribute('aria-pressed') || b.matches('[data-spin],[data-widen],[data-reset],[data-filter-clear],[data-more],[data-empty-fix],.tt-play') ||
+    if (b.hasAttribute('aria-pressed') || b.matches('[data-spin],[data-widen],[data-reset],[data-filter-clear],[data-more],[data-empty-fix],[data-used-ask],.tt-play') ||
         b.hasAttribute('aria-haspopup') || b.closest('.demo-bar')) return;
     b.addEventListener('click', function () { if (!b.hasAttribute('aria-pressed')) say(DEMO); });
   });
@@ -95,24 +95,65 @@
     });
   });
 
-  // Woo-pons: "Get the Woo-pon" opens THAT ticket at the counter, never a fixed sample.
+  // Woo-pons: "Show at the counter" opens THAT ticket full screen (above the tab bar), never a fixed sample.
+  // Staff confirm before marking it used, and a slip can be undone while it is open.
+  function wireUsed(root) {
+    var flow = root.querySelector('[data-used-flow]'); if (!flow) return;
+    var ask = flow.querySelector('[data-used-ask]'), body = root.querySelector('.ltef-coupon') && root.querySelector('.ltef-coupon').parentNode;
+    function reset() { flow.innerHTML = ''; flow.appendChild(ask); if (body) body.classList.remove('is-used'); }
+    ask.addEventListener('click', function () {
+      flow.innerHTML = '<p class="used-flow__ask">Mark this Woo-pon used? Staff only, at the register.</p>' +
+        '<div class="used-flow__row"><button class="ltef-btn" type="button" data-yes>Yes, it’s used</button><button class="ltef-btn ltef-btn--alt" type="button" data-no>Not yet</button></div>';
+      flow.querySelector('[data-no]').addEventListener('click', function () { reset(); ask.focus(); });
+      flow.querySelector('[data-yes]').addEventListener('click', function () {
+        var t = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        flow.innerHTML = '<div class="used-flow__done" role="status"><span>Used today at ' + t + '</span><button type="button" data-undo>Undo</button></div>';
+        if (body) body.classList.add('is-used');
+        flow.querySelector('[data-undo]').addEventListener('click', function () { reset(); ask.focus(); say('Back to unused.'); });
+        flow.querySelector('[data-undo]').focus();
+        say('Marked as used. ' + DEMO);
+      });
+      flow.querySelector('[data-yes]').focus();
+    });
+  }
   var counter = document.querySelector('[data-counter]');
   if (counter) {
-    var cf = function (k) { return counter.querySelector('[data-c="' + k + '"]'); };
-    document.querySelectorAll('.ltef-coupon a[href="#counter"]').forEach(function (a) {
-      a.addEventListener('click', function () {
+    wireUsed(counter);
+    var cf = function (root, k) { return root.querySelector('[data-c="' + k + '"]'); };
+    var fillFrom = function (root, t) {
+      var q = function (sel) { var el = t.querySelector(sel); return el ? el.textContent.trim() : ''; };
+      if (cf(root, 'off')) cf(root, 'off').textContent = q('.ltef-coupon__off');
+      if (cf(root, 'where')) cf(root, 'where').textContent = q('.ltef-coupon__where');
+      var code = t.querySelector('.ltef-coupon__code b'); if (cf(root, 'code') && code) cf(root, 'code').textContent = code.textContent;
+      var terms = t.querySelector('.ltef-coupon__terms'); if (cf(root, 'terms') && terms) cf(root, 'terms').innerHTML = terms.innerHTML;
+      if (cf(root, 'fine')) cf(root, 'fine').textContent = q('.ltef-coupon__fine').replace(/\s*·\s*Show the code before you pay$/, '');
+      var img = t.querySelector('img'); if (cf(root, 'img') && img) cf(root, 'img').src = img.src;
+      var d = new Date();
+      if (cf(root, 'valid')) cf(root, 'valid').textContent = 'Valid today, ' + d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).replace(',', '');
+    };
+    var dlg = null, opener = null;
+    var canDialog = typeof HTMLDialogElement === 'function' && 'showModal' in HTMLDialogElement.prototype;
+    document.querySelectorAll('.ltef-coupon [data-open-ticket]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
         var t = a.closest('.ltef-coupon'); if (!t) return;
-        var q = function (sel) { var el = t.querySelector(sel); return el ? el.textContent.trim() : ''; };
-        if (cf('off')) cf('off').textContent = q('.ltef-coupon__off');
-        if (cf('where')) cf('where').textContent = q('.ltef-coupon__where');
-        var code = t.querySelector('.ltef-coupon__code b'); if (cf('code') && code) cf('code').textContent = code.textContent;
-        var terms = t.querySelector('.ltef-coupon__terms'); if (cf('terms') && terms) cf('terms').innerHTML = terms.innerHTML;
-        if (cf('fine')) cf('fine').textContent = q('.ltef-coupon__fine').replace(/\s*·\s*Show the code before you pay$/, '');
-        var img = t.querySelector('img'); if (cf('img') && img) cf('img').src = img.src;
-        var d = new Date();
-        if (cf('valid')) cf('valid').textContent = 'Valid today, ' + d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).replace(',', '');
-        if (cf('cap')) cf('cap').textContent = 'Sample code. This is the ticket you opened.';
-        setTimeout(function () { counter.focus({ preventScroll: true }); }, 0);
+        fillFrom(counter, t);
+        if (cf(counter, 'cap')) cf(counter, 'cap').textContent = 'Sample code. This is the ticket you opened.';
+        if (!canDialog) { setTimeout(function () { counter.focus({ preventScroll: true }); }, 0); return; }  // no dialog support: the in-page counter
+        e.preventDefault(); opener = a;
+        if (!dlg) {
+          dlg = document.createElement('dialog'); dlg.className = 'ticket-dialog'; dlg.setAttribute('aria-label', 'Woo-pon, ready to show at the counter');
+          document.body.appendChild(dlg);
+          dlg.addEventListener('close', function () { document.documentElement.style.overflow = ''; if (opener) opener.focus(); });
+          dlg.addEventListener('click', function (ev) { if (ev.target === dlg) dlg.close(); });
+        }
+        var card = counter.firstElementChild.cloneNode(true);
+        var wrap = document.createElement('div'); wrap.className = 'ticket-dialog__card'; wrap.appendChild(card);
+        var back = card.querySelector('a.linkish');
+        if (back) { var close = document.createElement('button'); close.type = 'button'; close.className = 'ticket-close'; close.textContent = 'Close'; close.addEventListener('click', function () { dlg.close(); }); back.replaceWith(close); }
+        card.querySelectorAll('a.ltef-btn--alt').forEach(function (x) { x.remove(); });  // the sample's place link isn't this ticket's place
+        dlg.innerHTML = ''; dlg.appendChild(wrap); wireUsed(wrap);
+        document.documentElement.style.overflow = 'hidden';
+        dlg.showModal();
       });
     });
   }
