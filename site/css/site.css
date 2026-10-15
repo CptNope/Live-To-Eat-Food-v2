@@ -225,6 +225,14 @@ a:not([class]):focus-visible { border-radius: 6px; }
 a.tap { color: var(--leaf); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .18em; }
 select.slot { field-sizing: content; }
 
+/* Work with Tina: offers in three small groups instead of one wall */
+.offer-groups { display: grid; gap: 40px; }
+.offer-group { display: grid; gap: 16px; }
+.offer-group__h { margin: 0; font: 800 15px/1.2 var(--font-interface); color: var(--olive); padding-bottom: 10px; border-bottom: 1.5px solid rgba(30,59,42,.18); }
+.offer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 24px; }
+/* Roulette: the tilted ticket keeps clear of the title */
+@media (min-width: 721px) { .roul-grid:not([data-phase="idle"]) .roul-result { margin-top: 10px; } }
+
 /* ---- example site only ---- */
 .demo-bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: center; padding: 8px 16px; background: var(--basil); color: var(--butter); font: 600 14px/1.4 var(--font-interface); text-align: center; }
 .demo-bar p { margin: 0; }
@@ -261,6 +269,19 @@ select.slot { field-sizing: content; }
   .place-hero--post .take-video { order: 2; width: min(100%, 260px); justify-self: center; }
   .place-hero__sticker { display: none; }
 }
+/* Place page facts: one panel, a rail beside it only when a sponsor is sold */
+.go-grid { display: grid; gap: 30px; align-items: start; }
+.go-grid--rail { grid-template-columns: minmax(0, 1fr) minmax(0, 360px); }
+.go-rail { display: grid; gap: 14px; min-width: 0; }
+.facts-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 22px 44px; width: 100%; }
+.facts-worth { display: grid; gap: 10px; align-content: start; }
+@media (max-width: 900px) { .go-grid--rail { grid-template-columns: minmax(0, 1fr); } }
+/* Guide stops: one button per stop, the rest quieter */
+.stop-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 4px; }
+.stop-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font: 700 15px/1 var(--font-interface); color: var(--basil); text-underline-offset: 4px; }
+.stop-link svg { width: 18px; height: 18px; }
+.stop-been { margin-left: auto; }
+@media (max-width: 560px) { .stop-been { margin-left: 0; } }
 .find { display: grid; gap: 8px; max-width: 640px; }
 .find__label { font: 700 15px/1.2 var(--font-interface); color: var(--basil); }
 .find__row { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 18px; border-radius: var(--radius-pill); background: var(--vinyl); box-shadow: inset 0 0 0 2.5px var(--basil); }
