@@ -209,6 +209,7 @@
         b.setAttribute('aria-label', nm + ': ' + c + (c === 1 ? ' place' : ' places') + (id === st.area ? ', showing' : ''));
       });
       if (countEl) countEl.textContent = n;
+      var cj = document.querySelector('[data-count-jump]'); if (cj) cj.textContent = n === 0 ? 'No places yet' : n + (n === 1 ? ' place' : ' places');
       var cs = document.querySelector('[data-count-slug]'); if (cs) cs.textContent = (n === list.length ? n : n + ' of ' + list.length) + (n === 1 && n === list.length ? ' place' : ' places');
       var cw = document.querySelector('[data-count-word]'); if (cw) cw.textContent = n === 1 ? 'place' : 'places';
       if (note) note.textContent = n === list.length ? 'Tina’s newest first' : 'Showing ' + n + ' of ' + list.length;
