@@ -177,6 +177,14 @@ h1, h2, h3, .h-s, .ltef-card__name, .ltef-coupon__where { overflow-wrap: anywher
 .photo-note { position: absolute; left: 20px; bottom: 16px; background: var(--vinyl); padding: 4px 12px; border-radius: 999px; font-size: 13px; }
 .tina-quote { margin: 0; display: flex; flex-direction: column; gap: 6px; }
 .row-order { font: 600 15px/1.35 var(--font-interface); color: var(--basil); }
+.find { display: grid; gap: 8px; max-width: 640px; }
+.find__label { font: 700 15px/1.2 var(--font-interface); color: var(--basil); }
+.find__row { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 18px; border-radius: var(--radius-pill); background: var(--vinyl); box-shadow: inset 0 0 0 2.5px var(--basil); }
+.find__row svg { width: 20px; height: 20px; flex: none; color: var(--olive); }
+.find__input { flex: 1; min-width: 0; border: 0; background: transparent; font: 500 17px var(--font-reading); color: var(--basil); padding: 12px 0; }
+.find__input:focus { outline: none; }
+.find__row:focus-within { outline: 3px solid var(--basil); outline-offset: 3px; }
+.find__input::placeholder { color: var(--olive); opacity: 1; }
 .row-order__k { color: var(--olive); font-weight: 700; }
 .map-fold > summary { display: none; }
 @media (max-width: 720px) {
