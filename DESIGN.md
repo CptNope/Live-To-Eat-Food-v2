@@ -453,6 +453,9 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 - **Do** route editorial tips to "Suggest a spot" and anything commercial to "Work with Tina", never one form for both.
 - **Do** date every "Tina ate here" label with month and year ("Oct 2026"), samples included.
 - **Do** set apostrophes curly in names and in Tina's words (Leo’s, they’re); the data is converted at build.
+- **Do** set a dish in sentence case when it follows "Tina ordered" (roasted carrots, pho in a stone bowl); proper words keep their capital (Korean, Thai, Neapolitan).
+- **Do** keep text at 13px or larger; only the sheet slug line is 12px.
+- **Don't** show "Get Sunday's list" in the header on the Sunday page itself, or repeat a guide's opening quote at its own stop.
 - **Do** keep one name per filter: "Only places Tina’s been", on home and in Explore.
 - **Do** call every maps link "Get directions", and name a link for where it goes ("See the place" when it opens our page).
 - **Do** let focus rings follow the control's own shape: pills get pill rings, inline links a 6px corner.
