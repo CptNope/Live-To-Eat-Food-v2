@@ -612,3 +612,7 @@ th, td { padding: 12px 14px; }
 .contract { font: 400 clamp(1.5rem, 2.6vw, 2.125rem)/1.15 var(--f-display); max-width: 30ch; }
 .signup-demo, .owner-demo, .cols > .paid { align-self: start; align-content: start; }
 .money-grid .paid.rail .paid-mark { aspect-ratio: 3 / 1; }
+/* brand book hero: the whole sticker set, peelable */
+.hero-stickers { display: grid; grid-auto-flow: dense; grid-template-columns: repeat(auto-fill, minmax(clamp(52px, 7vw, 76px), 1fr)); gap: clamp(10px, 1.6vw, 18px); align-items: center; justify-items: center; margin-top: 8px; }
+.hero-stickers .food { width: 100%; max-width: 76px; height: auto; }
+.hero-stickers .food.wide { grid-column: span 2; max-width: 150px; }
