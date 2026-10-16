@@ -17,7 +17,7 @@ Static HTML + one CSS file, served by GitHub Pages from the repository root (`Cp
 
 ## Product Purpose
 
-Live to Eat Food is a creator-led food discovery brand for Worcester & Central Mass. The website bottles ten years of Tina eating through the city on her own dime and makes it searchable: restaurant discovery, deals ("Woo-pons"), Restaurant Roulette (spin-the-wheel), an events calendar, community photo pages, giveaways, and merch. Success for this repo: one visual system, approved by Tina, that the website and merchandise (tees, hoodies, hats, die-cut stickers) can both be built from.
+Live to Eat Food is a creator-led food discovery brand for Worcester & Central Mass. The website bottles ten years of Tina eating through the city on her own dime and makes it searchable: restaurant discovery, deals ("Woo-pons"), Restaurant Roulette (spin-the-wheel), an events calendar (food and non-food), daily deals, what's new, community photo pages (Your bites), giveaways, a food help page (pantries, free meals, Woo Fridges), and, for owners, a partners directory and restaurant jobs. Merch is on hold until Tina designs it. Success for this repo: one visual system, approved by Tina, that the website and merchandise (tees, hoodies, hats, die-cut stickers) can both be built from.
 
 ## Positioning
 
@@ -27,12 +27,12 @@ The creator is the product. Every recommendation traces to a real meal Tina paid
 
 - Tina posts on Instagram and TikTok; the site and merch extend that presence, they don't replace it.
 - Paid placements exist (sponsors, deals) and are always labeled; they never touch ratings or Tina's takes.
-- Merch is sold and given away (giveaways), and is worn around the city, so it is a public face of the brand.
+- Merch is on hold (Oct 2026): Tina wants to design it herself, in detail, later. When it comes back it is worn around the city, so it is a public face of the brand.
 
 ## Capabilities and Constraints
 
 - Website features named in the brief: restaurant/place pages, discovery, Woo-pons deals, Restaurant Roulette, events calendar, community photo pages, giveaways, merch.
-- Monetization surfaces (from the monetization plan, Oct 2026): home sponsor slot, place-page sponsor rail, one in-feed sponsored card, a Sunday email sponsor slot, Enhanced listings ($29–59/mo pilot, to confirm), 25 Charter merchants with a Featured decal, a Work with Tina media kit, an editorial and disclosure policy page, and a link-in-bio page.
+- Monetization surfaces (from the monetization plan, Oct 2026): home sponsor slot, place-page sponsor rail, one in-feed sponsored card, a Monthly Crumbs email sponsor slot, Enhanced listings ($29–59/mo pilot, to confirm), 25 Charter merchants with a Featured decal, a Work with Tina media kit, an editorial and disclosure policy page, and a link-in-bio page.
 - Typefaces must be freely available (Google Fonts) with fallbacks.
 - Body text must meet WCAG AA; body text ≥ 16px; meaning never carried by color alone.
 - Deliverable: Part A overview (`index.html`) + Part B brand book (`brand/index.html`), HTML + one CSS file.
@@ -60,7 +60,7 @@ The creator is the product. Every recommendation traces to a real meal Tina paid
 3. Tina's voice is real or absent: her words are quoted, never written for her.
 4. One system, two worlds: everything must work on a phone screen and on a cotton tee.
 5. Specific beats enthusiastic.
-6. Money, labeled: revenue is direct-sold in year one (sponsor slots, the Sunday list sponsor, paid partnerships, Enhanced listings, Woo-pons as a sales door). Every paid surface is designed in from the start, labeled the same way everywhere, and absent when unsold. No programmatic display ads until about 25K monthly pageviews; no memberships, paywalls or ticketing yet. The contract line: "You're paying for content and reach, not for Tina's opinion."
+6. Money, labeled: revenue is direct-sold in year one (sponsor slots, the Monthly Crumbs sponsor, paid partnerships, Enhanced listings, Woo-pons as a sales door). Every paid surface is designed in from the start, labeled the same way everywhere, and absent when unsold. No programmatic display ads until about 25K monthly pageviews; no memberships, paywalls or ticketing yet. The contract line: "You're paying for content and reach, not for Tina's opinion."
 
 ## Accessibility & Inclusion
 

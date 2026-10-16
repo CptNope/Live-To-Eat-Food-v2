@@ -254,6 +254,15 @@ select.slot { field-sizing: content; }
 /* the search pill carries the ring; the input inside it draws none */
 .find__input:focus-visible { outline: none; box-shadow: none; }
 
+/* Tina's feedback, Oct 16 */
+.ltef-coupon__tina { grid-column: 1 / -1; justify-self: start; }
+.day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 22px; }
+.day-col { display: grid; gap: 14px; align-content: start; scroll-margin-top: 24px; }
+.job-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 18px; align-items: center; }
+@media (max-width: 720px) { .job-row { grid-template-columns: 1fr; } .job-row .ltef-btn { justify-self: start; } }
+.day-col__h { display: flex; align-items: center; gap: 10px; }
+.day-col.is-today .day-col__h::after { content: "Today"; padding: 4px 12px; border-radius: var(--radius-pill); background: var(--basil); color: var(--lemon); font: 800 14px/1.2 var(--font-interface); }
+
 /* ---- example site only ---- */
 .demo-bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: center; padding: 8px 16px; background: var(--basil); color: var(--butter); font: 600 14px/1.4 var(--font-interface); text-align: center; }
 .demo-bar p { margin: 0; }
@@ -305,7 +314,7 @@ select.slot { field-sizing: content; }
 .stop-link svg { width: 18px; height: 18px; }
 .stop-been { margin-left: auto; }
 @media (max-width: 560px) { .stop-been { margin-left: 0; } }
-/* Sunday's list: the signup turns into its answer. One moment: the check presses on like a stamp. */
+/* Monthly Crumbs: the signup turns into its answer. One moment: the check presses on like a stamp. */
 .signup-done { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: start; outline: none; }
 .signup-done__stamp { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--basil); color: var(--lemon); box-shadow: 0 0 0 4px var(--vinyl), var(--lift); }
 .ltef-signup--dark .signup-done__stamp { background: var(--lemon); color: var(--basil); }
