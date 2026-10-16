@@ -7,9 +7,11 @@ The idea: **the brand is a sticker sheet.** Every mark, label and food illustrat
 | Page | File | What it is |
 |---|---|---|
 | Overview | [`index.html`](index.html) | The brand in 60 seconds: intro, direction, palette, type, marks |
-| Brand book | [`brand/index.html`](brand/index.html) | Strategy, color, typography, logo & marks, motifs, voice, imagery, applications, don'ts, build tokens |
-| Merch lookbook | [`merch/index.html`](merch/index.html) | Tees, hoodie, hat, sticker pack, tote, pin, punch card, restaurant window decal, print specs |
+| Brand book | [`brand/index.html`](brand/index.html) | Strategy, color, typography (with the display-font options), logo & marks (with the stamp options), motifs, voice, imagery, applications and the newer pages, don'ts, build tokens |
+| Merch lookbook | [`merch/index.html`](merch/index.html) | On hold (Oct 2026): Tina will design the merch herself later. Concepts for tees, hoodie, hat, sticker pack, tote, pin, punch card, restaurant window decal, print specs |
 | Example site | [`site/index.html`](site/index.html) | 83 pages of the website built from the system: home, explore (filters and neighborhood map), 52 real place pages with Tina's TikToks, 5 neighborhood guides, Woo-pons, daily deals, what's new, Restaurant Roulette, events, your bites, giveaways, food help (pantries, free meals, Woo Fridges), Tina, how it works, for restaurants with a partners directory and restaurant jobs, plus the paid side kept visibly apart: Work with Tina (media kit), the editorial and disclosure policy, the Monthly Crumbs newsletter page and its issue and welcome emails, a sample Enhanced listing and a link-in-bio page. Places, quotes and videos come from the first concept's data; deals, events, prizes and the hosted visit are samples |
+
+**Open for Tina:** the display font (Bagel today, or Bricolage ExtraBold, Young Serif, Outfit or Gloock), the Tina ate here stamp (today's, or ink, tomato, plate or check), the Monthly Crumbs name and cadence, and her Facebook page link. The options are in the brand book and on the design canvas's Options board; nothing changes until she picks. The design canvas lays its boards out in site navigation order: the main bar, the More menu, the footer and newsletter, then pages opened from a list, phone screens, and what's waiting on Tina.
 
 The same system is also saved as a Claude Design System (tokens, fonts, logos, stickers, merch mockups and component previews): <https://claude.ai/artifact/3FK3oCDgfLmRHArTGLcX7i> (private until shared).
 
