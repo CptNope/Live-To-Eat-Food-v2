@@ -2,7 +2,7 @@
    One file for the overview, the brand book and the merch lookbook.
    World: a sticker sheet. Pastel backing sheets, white die-cut stickers, basil ink. */
 
-@font-face { font-family: "Bagel Fat One"; src: url("../fonts/bagel-fat-one.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Outfit"; src: url("../fonts/outfit-bold.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 @font-face { font-family: "Figtree"; src: url("../fonts/figtree.woff2") format("woff2"); font-weight: 400 700; font-style: normal; font-display: swap; }
 @font-face { font-family: "Figtree"; src: url("../fonts/figtree-italic.woff2") format("woff2"); font-weight: 400 700; font-style: italic; font-display: swap; }
 @font-face { font-family: "Bricolage Grotesque"; src: url("../fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 400 800; font-stretch: 85% 100%; font-display: swap; }
@@ -28,7 +28,7 @@
   --chili: #EE8467;
   --latte: #E8C9A3;
 
-  --f-display: "Bagel Fat One", "Arial Rounded MT Bold", "Nunito", system-ui, sans-serif;
+  --f-display: "Outfit", "Helvetica Neue", Arial, system-ui, sans-serif;
   --f-read: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
   --f-ui: "Bricolage Grotesque", "Figtree", "Segoe UI", system-ui, sans-serif;
   --f-hand: "Shantell Sans", "Comic Neue", "Segoe Print", cursive;

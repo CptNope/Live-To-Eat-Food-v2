@@ -394,7 +394,7 @@
       "refersTo": "sticker",
       "description": "A white vinyl sticker with the kiss-cut ring, slight tilt and the peel hover, sitting on a butter sheet.",
       "html": "<div class=\"ds-sheet\"><div class=\"ds-sticker\"><h3 class=\"ds-sticker-title\">Food first</h3><p class=\"ds-sticker-body\">Dishes and ingredients lead every surface.</p></div><p class=\"ds-slug\">LTEF · Sheet 2 of 6 · Direction</p></div>",
-      "css": ".ds-sheet { --field: var(--butter, #FFF6CF); position: relative; background: var(--field); border-radius: 36px; padding: 48px 32px 64px; box-shadow: 0 1px 0 rgb(30 59 42 / .06), 0 14px 30px -20px rgb(30 59 42 / .4); color: var(--basil, #1E3B2A); font: 400 1.0625rem/1.6 Figtree, 'Segoe UI', system-ui, sans-serif; } .ds-sticker { display: inline-block; max-width: 300px; background: var(--vinyl, #FFFFFF); border-radius: 24px; padding: 22px 22px 24px; box-shadow: 0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .16), 0 1px 1px rgb(30 59 42 / .10), 0 8px 18px -8px rgb(30 59 42 / .32); transform: rotate(-1.5deg); transition: transform .5s cubic-bezier(.16, 1, .3, 1), box-shadow .5s cubic-bezier(.16, 1, .3, 1); } .ds-sticker:hover { transform: rotate(-4.5deg) translateY(-4px) scale(1.03); box-shadow: 0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .16), 0 2px 2px rgb(30 59 42 / .10), 0 18px 30px -12px rgb(30 59 42 / .38); } .ds-sticker-title { margin: 0 0 10px; font: 400 1.5rem/1.1 'Bagel Fat One', 'Arial Rounded MT Bold', Nunito, system-ui, sans-serif; letter-spacing: -0.01em; } .ds-sticker-body { margin: 0; } .ds-slug { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); margin: 0; white-space: nowrap; font: 600 .75rem/1.2 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; font-stretch: 85%; letter-spacing: .04em; color: var(--olive, #46583E); }"
+      "css": ".ds-sheet { --field: var(--butter, #FFF6CF); position: relative; background: var(--field); border-radius: 36px; padding: 48px 32px 64px; box-shadow: 0 1px 0 rgb(30 59 42 / .06), 0 14px 30px -20px rgb(30 59 42 / .4); color: var(--basil, #1E3B2A); font: 400 1.0625rem/1.6 Figtree, 'Segoe UI', system-ui, sans-serif; } .ds-sticker { display: inline-block; max-width: 300px; background: var(--vinyl, #FFFFFF); border-radius: 24px; padding: 22px 22px 24px; box-shadow: 0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .16), 0 1px 1px rgb(30 59 42 / .10), 0 8px 18px -8px rgb(30 59 42 / .32); transform: rotate(-1.5deg); transition: transform .5s cubic-bezier(.16, 1, .3, 1), box-shadow .5s cubic-bezier(.16, 1, .3, 1); } .ds-sticker:hover { transform: rotate(-4.5deg) translateY(-4px) scale(1.03); box-shadow: 0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .16), 0 2px 2px rgb(30 59 42 / .10), 0 18px 30px -12px rgb(30 59 42 / .38); } .ds-sticker-title { margin: 0 0 10px; font: 400 1.5rem/1.1 'Outfit', 'Helvetica Neue', Arial, system-ui, sans-serif; letter-spacing: -0.01em; } .ds-sticker-body { margin: 0; } .ds-slug { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); margin: 0; white-space: nowrap; font: 600 .75rem/1.2 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; font-stretch: 85%; letter-spacing: .04em; color: var(--olive, #46583E); }"
     },
     {
       "name": "Site Navigation",
@@ -434,7 +434,7 @@
       "refersTo": "coupon",
       "description": "Pistachio deal ticket with notched sides and a dotted perforation above the fine print.",
       "html": "<div class=\"ds-coupon\"><span class=\"ds-coupon-off\">$5 off</span><span class=\"ds-coupon-where\">Sample Noodle Bar</span><span class=\"ds-coupon-fine\">Sample deal · weeknights · ends Nov 30</span></div>",
-      "css": ".ds-coupon { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; max-width: 320px; background: var(--pistachio, #DCEFC8); color: var(--basil, #1E3B2A); border-radius: 18px; padding: 16px 22px; box-shadow: inset 0 0 0 2px var(--basil, #1E3B2A); -webkit-mask: radial-gradient(circle 11px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat; mask: radial-gradient(circle 11px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat; } .ds-coupon-off { font: 400 1.75rem/1 'Bagel Fat One', 'Arial Rounded MT Bold', Nunito, system-ui, sans-serif; } .ds-coupon-where { font: 700 .875rem 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; } .ds-coupon-fine { grid-column: 1 / -1; font: 400 .8125rem/1.4 Figtree, 'Segoe UI', system-ui, sans-serif; color: var(--olive, #46583E); border-top: 2px dotted rgb(30 59 42 / .35); padding-top: 8px; margin-top: 6px; }"
+      "css": ".ds-coupon { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; max-width: 320px; background: var(--pistachio, #DCEFC8); color: var(--basil, #1E3B2A); border-radius: 18px; padding: 16px 22px; box-shadow: inset 0 0 0 2px var(--basil, #1E3B2A); -webkit-mask: radial-gradient(circle 11px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat; mask: radial-gradient(circle 11px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat; } .ds-coupon-off { font: 400 1.75rem/1 'Outfit', 'Helvetica Neue', Arial, system-ui, sans-serif; } .ds-coupon-where { font: 700 .875rem 'Bricolage Grotesque', Figtree, 'Segoe UI', system-ui, sans-serif; } .ds-coupon-fine { grid-column: 1 / -1; font: 400 .8125rem/1.4 Figtree, 'Segoe UI', system-ui, sans-serif; color: var(--olive, #46583E); border-top: 2px dotted rgb(30 59 42 / .35); padding-top: 8px; margin-top: 6px; }"
     },
     {
       "name": "Tina's Verdicts",
@@ -452,7 +452,7 @@
       "Rounded pastel backing sheets stacked down the page, each with corner registration marks and a bottom slug.",
       "White vinyl stickers with a printed kiss-cut ring and a soft basil-tinted lift.",
       "One ink: basil green carries all text and outlines; pastels are grounds and fills only.",
-      "Four type voices with fixed jobs: Bagel Fat One shouts, Figtree reads, Bricolage Grotesque labels, Shantell Sans is Tina's hand.",
+      "Four type voices with fixed jobs: Outfit shouts, Figtree reads, Bricolage Grotesque labels, Shantell Sans is Tina's hand.",
       "Flat-colour food stickers with a 4u basil outline and a 9u white die-cut border.",
       "One authored motion, the peel."
     ],
@@ -474,7 +474,7 @@
       },
       {
         "name": "The Four Voices Rule",
-        "body": "Each face has one job and two roles never mix inside one element. Bagel shouts, Figtree reads, Bricolage labels, Shantell is Tina.",
+        "body": "Each face has one job and two roles never mix inside one element. Outfit shouts, Figtree reads, Bricolage labels, Shantell is Tina.",
         "section": "typography"
       },
       {
@@ -484,7 +484,7 @@
       },
       {
         "name": "The Tabular Facts Rule",
-        "body": "Prices, times, hex codes and tables use tabular numerals. Bagel tracks at −0.01em; everything else at 0.",
+        "body": "Prices, times, hex codes and tables use tabular numerals. Outfit tracks at −0.01em; everything else at 0.",
         "section": "typography"
       },
       {

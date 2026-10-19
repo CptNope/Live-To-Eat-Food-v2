@@ -19,25 +19,25 @@ colors:
   latte: "#E8C9A3"
 typography:
   display:
-    fontFamily: "Bagel Fat One, Arial Rounded MT Bold, Nunito, system-ui, sans-serif"
+    fontFamily: "Outfit, Helvetica Neue, Arial, system-ui, sans-serif"
     fontSize: "clamp(2.75rem, 7.4vw, 6rem)"
     fontWeight: 400
     lineHeight: 0.95
     letterSpacing: "-0.01em"
   headline:
-    fontFamily: "Bagel Fat One, Arial Rounded MT Bold, Nunito, system-ui, sans-serif"
+    fontFamily: "Outfit, Helvetica Neue, Arial, system-ui, sans-serif"
     fontSize: "clamp(2.25rem, 5vw, 4rem)"
     fontWeight: 400
     lineHeight: 1
     letterSpacing: "-0.01em"
   title:
-    fontFamily: "Bagel Fat One, Arial Rounded MT Bold, Nunito, system-ui, sans-serif"
+    fontFamily: "Outfit, Helvetica Neue, Arial, system-ui, sans-serif"
     fontSize: "clamp(1.625rem, 3vw, 2.25rem)"
     fontWeight: 400
     lineHeight: 1.08
     letterSpacing: "-0.01em"
   title-sm:
-    fontFamily: "Bagel Fat One, Arial Rounded MT Bold, Nunito, system-ui, sans-serif"
+    fontFamily: "Outfit, Helvetica Neue, Arial, system-ui, sans-serif"
     fontSize: "1.375rem"
     fontWeight: 400
     lineHeight: 1.15
@@ -256,7 +256,7 @@ Density is relaxed and generous: big sheet padding, 30px grid gaps, one field co
 - Rounded pastel backing sheets stacked down the page, each with corner registration marks and a bottom slug.
 - White vinyl stickers with a printed kiss-cut ring and a soft basil-tinted lift.
 - One ink: basil green carries all text and outlines; pastels are grounds and fills only.
-- Four type voices with fixed jobs: Bagel Fat One shouts, Figtree reads, Bricolage Grotesque labels, Shantell Sans is Tina's hand.
+- Four type voices with fixed jobs: Outfit shouts, Figtree reads, Bricolage Grotesque labels, Shantell Sans is Tina's hand.
 - Flat-colour food stickers with a 4u basil outline and a 9u white die-cut border.
 - One authored motion, the peel.
 
@@ -270,11 +270,11 @@ Daylight pastels led by yellows and greens, held together by a single deep basil
 
 ### Secondary
 - **Pistachio Sheet** (`pistachio`): the second field. Deals, guides, community, alternating sheets, the Woo-pon ticket and deal labels.
-- **Matcha Fill** (`matcha`): small fills only: the trust stamp, "Do" badges, illustration greens.
+- **Matcha Fill** (`matcha`): small fills only: "Do" badges, illustration greens.
 - **Leaf Link** (`leaf`): links in running text (underlined, 2px), primary button hover, the Verified label fill.
 
 ### Tertiary
-- **Tomato Hand** (`tomato`): Tina's handwriting only: her notes, verdicts and the stamp centre. Never a button, link, sale, error or ad.
+- **Tomato Hand** (`tomato`): Tina's handwriting only: her notes and verdicts. Never a button, link, sale, error or ad.
 - **Yolk** (`yolk`): the lemon rind in the wordmark, yolks, number badges, step dots, text selection. Never fills anything wider than a button.
 - **Peach Blush** (`peach`): a warm accent field, at most one sheet per page; also the "Fail" chip fill.
 - **Chili** (`chili`) and **Latte** (`latte`): illustration only (pepperoni, roulette pointer, bread, cones, coffee). Never carry text.
@@ -294,12 +294,12 @@ Daylight pastels led by yellows and greens, held together by a single deep basil
 
 ## Typography
 
-**Display Font:** Bagel Fat One (with Arial Rounded MT Bold, Nunito, system-ui)
+**Display Font:** Outfit 700 (with Helvetica Neue, Arial, system-ui). Tina picked it over Bagel Fat One on Oct 19, 2026; Bagel Fat One survives only in the wordmark's outlined letters.
 **Body Font:** Figtree (with Segoe UI, system-ui, -apple-system)
 **Label/Interface Font:** Bricolage Grotesque (with Figtree, system-ui), widths 85–100
 **Hand Font:** Shantell Sans (with Comic Neue, Segoe Print, cursive)
 
-**Character:** A fat, rounded bagel of a display face that reads like a sticker title, paired with an open, friendly reading sans; a squared grotesque handles buttons and facts, and an informal hand belongs to Tina alone. All four are self-hosted WOFF2 under the SIL Open Font License, trimmed to the Latin set and to the weights and widths the system uses (Figtree 400–700, Bricolage 400–800 at 85–100% width, Shantell 500–800).
+**Character:** A bold, round geometric display face that reads clean and friendly without the bubble, paired with an open, friendly reading sans; a squared grotesque handles buttons and facts, and an informal hand belongs to Tina alone. All four are self-hosted WOFF2 under the SIL Open Font License, trimmed to the Latin set and to the weights and widths the system uses (Figtree 400–700, Bricolage 400–800 at 85–100% width, Shantell 500–800).
 
 Code samples (token blocks, theme.json) use the platform monospace stack (`ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace`) rather than a fifth webfont; it appears only in the build-tokens section.
 
@@ -307,7 +307,7 @@ Code samples (token blocks, theme.json) use the platform monospace stack (`ui-mo
 - **Display** (400, 44–96px fluid, 0.95): one per page, the page's big promise or a place name.
 - **Headline** (400, 36–64px fluid, 1.0): sheet (section) headings, set left in a two-column head with the lede beside them.
 - **Title** (400, 26–36px fluid, 1.08): card titles, deal amounts, merch lines, the hero line under the wordmark.
-- **Title small** (400, 22px, 1.15): place names in lists, small sticker titles. Bagel is never used below 20px.
+- **Title small** (400, 22px, 1.15): place names in lists, small sticker titles. The display face is never used below 20px.
 - **Lede** (Figtree 400, 19–22px fluid, 1.5): sheet intros, max 40–50ch.
 - **Body** (Figtree 400, 17px, 1.6; 16px floor on phones): everything people read, max 68ch, `ss01` on.
 - **Label** (Bricolage 700, 15–17px, 1.0): buttons, nav, tabs, trust labels.
@@ -320,11 +320,11 @@ Code samples (token blocks, theme.json) use the platform monospace stack (`ui-mo
 - **Hand** (Shantell Sans 650, 17px in labels and notes, up to 34px in specimens and pull lines, 1.2, tomato): one line in Tina's own words, never invented.
 
 ### Named Rules
-**The Four Voices Rule.** Each face has one job and two roles never mix inside one element. Bagel shouts, Figtree reads, Bricolage labels, Shantell is Tina.
+**The Four Voices Rule.** Each face has one job and two roles never mix inside one element. Outfit shouts, Figtree reads, Bricolage labels, Shantell is Tina.
 
-**The Sentence Case Rule.** Headings and buttons are sentence case. All caps live only in artwork (the stamp rim, tiny printed tags inside the Woo-pon ticket, decal and punch card), never in screen UI.
+**The Sentence Case Rule.** Headings and buttons are sentence case. All caps live only in artwork (tiny printed tags inside the Woo-pon ticket, decal and punch card), never in screen UI.
 
-**The Tabular Facts Rule.** Prices, times, hex codes and tables use tabular numerals. Bagel tracks at −0.01em; everything else at 0.
+**The Tabular Facts Rule.** Prices, times, hex codes and tables use tabular numerals. Outfit tracks at −0.01em; everything else at 0.
 
 ## Layout
 
@@ -354,7 +354,7 @@ Depth is physical and shallow: paper sheets lifted barely off a table, stickers 
 
 ## Shapes
 
-Everything is soft and rounded, like die-cut vinyl: sheets at 36px (26px on phones), merch items 30px, stickers and panels 24px, cards 20px, swatch chips 16px, inner photo frames 14px, and pills for every button, nav link, chip and trust label. In between sit the 22px screenshot and stage frames, 18px Woo-pon tickets, 12px tags and disclosure lines, an 8px focus ring, and the phone mockups (44px body, 34px screen). The one deliberate square-ish corner is the Sponsored tag (6px), so paid content reads as a different object. Food stickers are freeform silhouettes with a thick white border following the shape; the trust stamp is a 28-scallop bottle cap; the Woo-pon is a ticket with radial notches cut into both sides and a dotted perforation. Inner ink outlines on UI pieces run 2–2.5px basil (inset), matching the 4u outline in the artwork.
+Everything is soft and rounded, like die-cut vinyl: sheets at 36px (26px on phones), merch items 30px, stickers and panels 24px, cards 20px, swatch chips 16px, inner photo frames 14px, and pills for every button, nav link, chip and trust label. In between sit the 22px screenshot and stage frames, 18px Woo-pon tickets, 12px tags and disclosure lines, an 8px focus ring, and the phone mockups (44px body, 34px screen). The one deliberate square-ish corner is the Sponsored tag (6px), so paid content reads as a different object. Food stickers are freeform silhouettes with a thick white border following the shape; the trust stamp is a plate seen from above, fork and knife at the rim; the Woo-pon is a ticket with radial notches cut into both sides and a dotted perforation. Inner ink outlines on UI pieces run 2–2.5px basil (inset), matching the 4u outline in the artwork.
 
 ## Components
 
@@ -389,7 +389,7 @@ Pill stickers: tactile, confident, rimmed in white vinyl.
 ### Navigation
 - **Site bar:** the one-line wordmark at left (168–230px), then five pill links in Bricolage 700 at 15px, 44px tall (Explore, Guides, Woo-pons, Roulette, Events), a **More** pill that opens a white 20px-radius menu with the rest (Daily deals, What's new, Your bites, Giveaways, Food help, Tina, How it works, For restaurants, Work with Tina), and one primary button, Get Monthly Crumbs. Hover fills butter; the current page becomes a white sticker with Lift, and More takes that look when the current page is inside it. Under 1080px Events moves into More. Under 960px the links and button fold into a **Menu** pill that opens a grouped drawer (Find food · Around town · For restaurants · Live to Eat Food) with the button at its foot. Menus close on Escape, an outside tap, or when another opens.
 - **Footer:** the same seven links on every page (How it works, Editorial policy, Food help, For restaurants, Work with Tina, About Tina, Monthly Crumbs), after a one-line promise that suits the page. The editorial policy link is never dropped.
-- **Book contents:** a sticky rail of numbered pills, the number set in Bagel in leaf; the active section turns into a white lifted sticker. Under 1100px it becomes a horizontal scroller of butter pills.
+- **Book contents:** a sticky rail of numbered pills, the number set in Outfit in leaf; the active section turns into a white lifted sticker. Under 1100px it becomes a horizontal scroller of butter pills.
 - **Phone tab bar:** under 960px, a white floating 24px-radius bar pinned to the bottom with four tabs (Explore, Guides, Spin, Woo-pons): 22px line icons over Bricolage 700 at 12px, 52px tall; inactive olive, the current tab on a lemon pill in basil. It hides while the Menu drawer is open, and pages pad their bottom so nothing sits under it.
 - **Explore map:** a schematic, not a street map: one bubble per neighborhood, sized by its number of places and labelled with the count and name. Pressing a bubble filters the list to that neighborhood (pressing it again clears it); bubbles recount as other filters change and fade when empty.
 
@@ -404,9 +404,12 @@ Pill labels, 36px tall, icon plus word, each visually unlike the others so meani
 - **Woo-pon:** pistachio fill, 2px basil outline, ticket icon.
 
 ### Woo-pon Ticket (signature)
-A pistachio coupon with a 2px inset basil outline, 18px radius and 11px semicircular notches masked out of both sides; the amount in Bagel at 28px, the place in Bricolage 700, fine print under a dotted rule. The sponsored variant swaps the fill for the oat hatch. Woo-pons are local deals Tina found, at any business, free to run: they don't need her to have eaten there, so every ticket says which, with "Tina ate here · [month]" or the dashed "Tina hasn't been yet" label under the place. A business that pays to promote a deal gets Sponsored and its own row. The code is printed on every ticket. "Show at the counter" opens that ticket full screen (above the tab bar, with a Close button and Escape), sized for staff to read; "Staff: mark as used" asks first ("Yes, it's used" / "Not yet") and then shows "Used today at …" with an Undo.
-- **Details on the ticket:** the code in a dashed white box (Bagel, tabular figures), then a two-row list, *Runs* and *Excludes*, then the conditions under a dotted cut line with a small scissors mark. Nothing hides behind a tap.
-- **Redeeming:** each live ticket ends with one "Show at the counter" button. It opens that ticket full screen: the ticket large with "Tina ate here", the code on white in Bagel with tabular figures and the date it's valid, then "Staff: mark as used", which confirms first and can be undone. Used is remembered for the visit: the ticket on the page turns oat with olive text, a dashed "Used today at …" label and the code struck through, its button becomes "Show the used ticket", and it reopens already used. Never faded.
+A pistachio coupon with a 2px inset basil outline, 18px radius and 11px semicircular notches masked out of both sides; the amount in Outfit at 28px, the place in Bricolage 700, fine print under a dotted rule. The sponsored variant swaps the fill for the oat hatch. Woo-pons are local deals at any business; they don't need Tina to have eaten there, so every ticket says which, with "Tina ate here · [month]" or the dashed "Tina hasn't been yet" label under the place. They are paid listings (Tina's proposal, Oct 19, pricing to confirm: a business's first two weeks are free, once, then $10 a week), so the list opens with a hatched "Paid listings" tag and the line "Businesses pay to list Woo-pons. That never buys a pick." A business that pays extra to promote a deal gets Sponsored and its own row.
+- **Colour by kind:** the ticket fill says what it is and a small tag above the amount says it in words: pistachio for food and drink, peach for services (a barber, a car wash), lemon for online codes. A key under the heading names all three; chips filter Food & drink and Services for real.
+- **Online codes:** a separate "Online codes from Tina's partners" sheet for longer-running discount codes from brands she works with (eyewear and the like). Each lemon ticket carries "Paid partnership with [brand]", the code, how long it runs and a Shop button instead of Show at the counter; they never appear in Roulette, guides or her picks.
+- **The ticket mark:** the Woo-pons sticker has a barcode on its stub (Tina's pick), clear of the perforation. The code is printed on every ticket. "Show at the counter" opens that ticket full screen (above the tab bar, with a Close button and Escape), sized for staff to read; "Staff: mark as used" asks first ("Yes, it's used" / "Not yet") and then shows "Used today at …" with an Undo.
+- **Details on the ticket:** the code in a dashed white box (Outfit, tabular figures), then a two-row list, *Runs* and *Excludes*, then the conditions under a dotted cut line with a small scissors mark. Nothing hides behind a tap.
+- **Redeeming:** each live ticket ends with one "Show at the counter" button. It opens that ticket full screen: the ticket large with "Tina ate here", the code on white in Outfit with tabular figures and the date it's valid, then "Staff: mark as used", which confirms first and can be undone. Used is remembered for the visit: the ticket on the page turns oat with olive text, a dashed "Used today at …" label and the code struck through, its button becomes "Show the used ticket", and it reopens already used. Never faded.
 - **Filtering:** the chips above the tickets filter for real, one at a time (All deals, Ending in November, Lunch, Drinks & dessert, a neighborhood), and the count beside them follows ("3 deals of 6").
 - **Used and ended:** oat field, olive text and a dashed label in words ("Used Oct 9", "Ended Oct 1"). Never faded with opacity, which drops text below AA.
 - **Actions vs. links:** things that do something (Get, Save, RSVP, Add to bag, Enter) are buttons; things that go somewhere are links.
@@ -426,7 +429,7 @@ A sentence filter ("I want [craving] with [who] in [neighborhood]"), the neighbo
 
 ### Paid surfaces (signature)
 Trust is the product, so paid things are drawn so they can't be mistaken for picks.
-- **Sponsor slot:** a 6px-radius frame in the oat hatch with a 2px basil outline; a head row with the Sponsored tag and "Paid placement · How paid spots work" (linking the editorial policy); a white body with the sponsor's logo or photo on oat (labeled as theirs), the name in **Bricolage 800 at 20px, never Bagel**, one line in their words and one secondary button. Variants: *home* (one, under Tina's latest picks, at most 640px wide), *rail* (place pages, one direct-sold local sponsor, image 5:2), *feed* (one in Explore after the fourth place, laid out like a row but never numbered).
+- **Sponsor slot:** a 6px-radius frame in the oat hatch with a 2px basil outline; a head row with the Sponsored tag and "Paid placement · How paid spots work" (linking the editorial policy); a white body with the sponsor's logo or photo on oat (labeled as theirs), the name in **Bricolage 800 at 20px, never the display face**, one line in their words and one secondary button. Variants: *home* (one, under Tina's latest picks, at most 640px wide), *rail* (place pages, one direct-sold local sponsor, image 5:2), *feed* (one in Explore after the fourth place, laid out like a row but never numbered).
 - **Empty means absent:** a slot nobody bought isn't rendered. No grey box, no "your ad here".
 - **No programmatic display ads in v1:** no ad networks, rectangles, pop-ups or autoplay until about 25K monthly pageviews, and then only inside these rules.
 - **Enhanced listing:** adds owner modules after Tina's take, each a white panel with a 2px basil outline headed "From the owner" (photos captioned "Owner's photo", story, menu highlights, booking links). It never changes her take, list order or guides, and free listings are never dimmed. An Enhanced page carries no sponsor rail.
@@ -435,16 +438,19 @@ Trust is the product, so paid things are drawn so they can't be mistaken for pic
 - **Owner pages:** For restaurants opens on three doors, nothing else: *Fix my listing* (free; one form for hours, menu, openings and events, with an optional claim box and every real place suggested as you type), *Ask Tina to visit* (goes to Suggest a spot) and *Advertise* (wears the sponsored hatch and a Paid label, goes to Work with Tina). Work with Tina has one audience line instead of empty stat tiles, three jump links, one card per thing on offer (Woo-pons and hosted visits included), grouped under three small headings (On the site, With Tina, For your restaurant) so no row holds more than three, and **one** Get in touch form; each card's "Ask about…" link picks its line in that form.
 
 ### Monthly Crumbs signup (signature)
-Revenue infrastructure, not a footer field. A lemon block (basil on dark sheets) with a 2.5px basil outline: Bagel heading, the pitch "Worcester's best food deals and Tina's latest picks, once a month.", one email field and a primary button, then a Bricolage 600 fine-print line. On home it comes once, after Tina's picks, Woo-pons and Roulette (help first, then ask), plus the header button. It also closes every place page and guide, has its own page, and sits second on the link-in-bio page. A mistyped email gets the peach field error in words ("That email is missing the @."), never the browser bubble. Once it's sent, the block becomes its answer in place: a basil check that presses on like a stamp, "You're on the list for Monthly Crumbs.", the date the next one lands and the address it goes to, "See a sample issue" and "Use a different email" (no motion with reduced motion). The newsletter is monthly (first Sunday; the name and cadence are Tina's to confirm, biweekly is the fallback) and follows one template: Tina's opener (hers or blank), new finds, the Woo-pons with codes, one thing happening, then at most one labeled sponsor; the hatch falls back to flat oat in email clients.
+Revenue infrastructure, not a footer field. A lemon block (basil on dark sheets) with a 2.5px basil outline: Outfit heading, the pitch "Worcester's best food deals and Tina's latest picks, once a month.", one email field and a primary button, then a Bricolage 600 fine-print line. On home it comes once, after Tina's picks, Woo-pons and Roulette (help first, then ask), plus the header button. It also closes every place page and guide, has its own page, and sits second on the link-in-bio page. A mistyped email gets the peach field error in words ("That email is missing the @."), never the browser bubble. Once it's sent, the block becomes its answer in place: a basil check that presses on like a stamp, "You're on the list for Monthly Crumbs.", the date the next one lands and the address it goes to, "See a sample issue" and "Use a different email" (no motion with reduced motion). The newsletter is monthly (first Sunday; the name and cadence are Tina's to confirm, biweekly is the fallback) and follows one template: Tina's opener (hers or blank), new finds, the Woo-pons with codes, one thing happening, then at most one labeled sponsor; the hatch falls back to flat oat in email clients.
 
 ### Pages added from Tina's notes (Oct 2026)
-- **Events** is "What's on around Worcester": food and non-food events (markets, music, art walks, classes), Tina's own marked with her sushi-roll avatar. "Tell us about it" goes to the page's own Add your event form (`#submit`), never to Fix my listing.
+- **Events** is "Out & About Worcester": food and non-food events (markets, music, art walks, classes), Tina's own marked with her sushi-roll avatar. "Tell us about it" goes to the page's own Add your event form (`#submit`), never to Fix my listing.
 - **Daily deals:** weekly specials by day (Monday to Sunday columns with day chips and a "Today" pill on the current day). Each card names the place, the special and where it came from ("per Tina" or "from the owner"); a day with nothing is a dashed "Nothing on Fridays yet. Know one?" card. Specials, not Woo-pons: no code.
 - **What's new:** new dishes, test runs and seasonal menus while they last, each with a kind tag (Limited run, Testing it, Seasonal, New on the menu), how long it's around and who spotted it. Gone means off the page.
 - **Food help:** pantries, free hot meals, the Project Bread hotline, the food bank's map and Woo Fridges. No ads, sponsors, stickers or sign-up anywhere on it; every entry has directions or a phone number, the sources and the date checked are printed, and the four Woo Fridges are listed with their addresses and directions, Woo Fridge's donation rules, and links to its map and Instagram for the latest.
 - **Find partners** and **Restaurant jobs** sit under For restaurants (a "More for owners" pair of doors). Partners is a directory by need (photography, packaging and paper, websites, marketing and social, signs and print, accounting); jobs filter by kind with real chips. Neither is a pick: a listing or post never changes what Tina says, and both say so.
 - **Shop** is on hold: Tina will design the merch herself later. The board stays on the canvas, labeled, and nothing on the site links to it.
-- **Open for Tina** (Options board on the canvas): the display font (Bagel today; Bricolage ExtraBold, Young Serif, Outfit Bold or Gloock) and the stamp (today's; ink, tomato, plate or check). Nothing changes until she picks.
+- **Tina's picks (Oct 19)** (Options board on the canvas): Outfit 700 for the display face, sushi roll + bagel for the o's, the plate for the stamp and a barcode on the Woo-pons ticket stub. Still open: an Outfit-lettered wordmark (drawn as an option) and her Facebook link.
+- **Tina's page** adds *Tina in the press* (her Team Dinner interview and the Worcester Telegram & Gazette feature, each a card that opens the source) and *Tina in the wild* (photos readers send of running into her, credited, posted after she has seen them, with a consent box on the form).
+- **Your bites** takes any place people tried because of Tina's posts, not only the dish she ordered.
+- **Dish search:** Explore's search reads names, cuisines and what Tina ordered; owners can paste their menu when they fix or claim a listing, and confirmed dishes join the search. An empty search says so and offers Tell Tina and Confirm your menu.
 
 ### Sheet (signature)
 The page section itself: field-coloured rounded sheet with four corner registration marks (16px crosshair-in-circle at 28% opacity, inverted on basil) and a slug line centred 22px from the bottom edge in Bricolage 600 at 12px, width 85%, +0.04em, olive (pistachio on basil), naming the sheet, e.g. "LTEF · Sheet 3 of 6 · Palette".
@@ -480,12 +486,12 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 - **Don't** put the stamp, Tina's handwriting or a quote in her voice on a sponsored placement, and give sponsored modules no stickers.
 - **Don't** rate with stars or numbers; use Tina's verdicts in words.
 - **Don't** place stickers over food photos, prices, labels or body text; they go around content, on the field.
-- **Do** keep the wordmark's food o's as a drawn pair: sushi roll + pizza by default (Tina's pick, Oct 2026); pizza + ramen or the classic eggs for a guide, season or campaign; donut + lemon is retired. One pair per surface.
+- **Do** keep the wordmark's food o's as a drawn pair: sushi roll + bagel by default (Tina's pick, Oct 19 2026); sushi + pizza, pizza + ramen or the classic eggs for a guide, season or campaign; donut + lemon is retired. One pair per surface.
 - **Don't** stretch, squash or recolour the wordmark, mix two o pairs, swap in other stickers for the o's or split its lines.
 - **Don't** bring back houses, streetscapes, skylines or city clip-art, or the asphalt-and-mustard palette.
-- **Don't** set Bagel Fat One below 20px or for paragraphs, or set screen UI in all caps.
+- **Don't** set the display face below 20px or for paragraphs, or set screen UI in all caps.
 - **Don't** add gradients, textures or shading to food stickers, or faces on food.
-- **Don't** dress a paid placement as a pick: no Bagel names, stamp, handwriting, "Featured" carousel, star display or slot in a best-of list.
+- **Don't** dress a paid placement as a pick: no display-face names, stamp, handwriting, "Featured" carousel, star display or slot in a best-of list.
 - **Don't** design programmatic display-ad blocks, paywalls, memberships or ticketing into v1, or leave nav slots for them.
 - **Don't** invent audience numbers or rates; leave them "Coming soon" until measured.
 

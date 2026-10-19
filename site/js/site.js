@@ -210,7 +210,7 @@
           var on = k === 'all' || (' ' + t.getAttribute('data-tags') + ' ').indexOf(' ' + k + ' ') > -1;
           t.hidden = !on; if (on) n++;
         });
-        if (dealCount) dealCount.textContent = n + (n === 1 ? ' deal' : ' deals') + (k === 'all' ? '' : ' of 6');
+        if (dealCount) dealCount.textContent = n + (n === 1 ? ' deal' : ' deals') + (k === 'all' ? '' : ' of ' + document.querySelectorAll('.ltef-coupon[data-tags]').length);
       });
     });
   }
@@ -318,7 +318,7 @@
       var cj = document.querySelector('[data-count-jump]'); if (cj) cj.textContent = n === 0 ? 'No places yet' : n + (n === 1 ? ' place' : ' places');
       var cs = document.querySelector('[data-count-slug]'); if (cs) cs.textContent = (n === list.length ? n : n + ' of ' + list.length) + (n === 1 && n === list.length ? ' place' : ' places');
       var cw = document.querySelector('[data-count-word]'); if (cw) cw.textContent = n === 1 ? 'place' : 'places';
-      if (note) note.textContent = n === list.length ? 'Tina’s newest first' : 'Showing ' + n + ' of ' + list.length;
+      if (note) note.textContent = n === list.length ? 'Tina’s newest first' : 'Showing ' + n + ' of ' + list.length + (st.q ? ' · matching names, cuisines and what Tina ordered' : '');
       if (empty) empty.hidden = n !== 0;
       if (more) { var left = n - limit; more.hidden = left <= 0; more.textContent = left <= PAGE ? 'Show the last ' + (left === 1 ? 'one' : left) : 'Show ' + PAGE + ' more (' + left + ' left)'; }
       // A paid card never stands in for results: it shows only beside at least four picks.
@@ -360,8 +360,8 @@
       if (what) what.textContent = 'Nothing matches ' + on.join(', ') + '.';
       if (st.q && !count({ q: st.q, area: '', craving: '', with: 'anyone', tina: false })) {  // the name itself isn't on the list
         best = { k: 'q', v: '', c: list.length, t: '' };
-        if (what) what.textContent = 'Nothing on Tina’s list matches “' + st.q + '” yet.';
-        if (hint) hint.innerHTML = 'Check the spelling, or <a href="how-it-works.html#suggest">suggest it to Tina</a>. Suggestions are never for sale.';
+        if (what) what.textContent = 'No place on the list shows “' + st.q + '” yet.';
+        if (hint) hint.innerHTML = 'Search looks at place names, cuisines and what Tina ordered. When owners claim their pages and confirm their menus, those dishes show up here too. Know where to get it? <a href="how-it-works.html#suggest">Tell Tina</a>. Own a restaurant? <a href="for-restaurants.html#listing">Confirm your menu</a>.';
         if (fix) { fix.hidden = false; fix.textContent = 'Clear the search'; fix.onclick = function () { st.q = ''; limit = PAGE; apply(true); if (qIn) qIn.focus(); }; }
         return;
       }

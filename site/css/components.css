@@ -134,3 +134,12 @@ textarea.ltef-input { min-height: 96px; padding: 12px 16px; border-radius: 18px;
 /* Tina's quotes run a touch looser over several lines; card labels stay on one line. */
 .ltef-note { line-height: 1.3; }
 .ltef-card__ph .ltef-lbl--tina { white-space: nowrap; font-size: 15px; }
+
+/* Woo-pons by kind (Oct 19): the fill says what it is, the tag says it in words */
+.ltef-coupon--service { background: var(--peach); }
+.ltef-coupon--online { background: var(--lemon); }
+.ltef-coupon--service .ltef-coupon__fine::before { background-color: var(--peach); }
+.ltef-coupon--online .ltef-coupon__fine::before { background-color: var(--lemon); }
+.ltef-coupon__kind { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: 7px; font: 800 13px/1.2 var(--font-interface); color: var(--basil); }
+.ltef-coupon__kind::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--basil); }
+.ltef-coupon > .ltef-lbl--partner { grid-column: 1 / -1; }

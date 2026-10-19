@@ -2,7 +2,7 @@
 
 A brand identity proposal for **Live to Eat Food**, Tina Vo's creator-led food guide to Worcester and Central Massachusetts. It replaces the first concept's triple-decker / asphalt-and-mustard direction with what Tina asked for: **food first, soft pastels led by yellows and greens, fun and modern, one system for the website and the merch.**
 
-The idea: **the brand is a sticker sheet.** Every mark, label and food illustration is a die-cut sticker you could peel off and put on a laptop, a takeout bag or a hoodie. The two o's in "Food" are food too: a sushi roll and a pizza by default (Tina's pick), swappable for pizza + ramen or the classic sunny-side eggs.
+The idea: **the brand is a sticker sheet.** Every mark, label and food illustration is a die-cut sticker you could peel off and put on a laptop, a takeout bag or a hoodie. The two o's in "Food" are food too: a sushi roll and a bagel by default (Tina's pick), swappable for pizza + ramen or the classic sunny-side eggs.
 
 | Page | File | What it is |
 |---|---|---|
@@ -11,7 +11,7 @@ The idea: **the brand is a sticker sheet.** Every mark, label and food illustrat
 | Merch lookbook | [`merch/index.html`](merch/index.html) | On hold (Oct 2026): Tina will design the merch herself later. Concepts for tees, hoodie, hat, sticker pack, tote, pin, punch card, restaurant window decal, print specs |
 | Example site | [`site/index.html`](site/index.html) | 83 pages of the website built from the system: home, explore (filters and neighborhood map), 52 real place pages with Tina's TikToks, 5 neighborhood guides, Woo-pons, daily deals, what's new, Restaurant Roulette, events, your bites, giveaways, food help (pantries, free meals, Woo Fridges), Tina, how it works, for restaurants with a partners directory and restaurant jobs, plus the paid side kept visibly apart: Work with Tina (media kit), the editorial and disclosure policy, the Monthly Crumbs newsletter page and its issue and welcome emails, a sample Enhanced listing and a link-in-bio page. Places, quotes and videos come from the first concept's data; deals, events, prizes and the hosted visit are samples |
 
-**Open for Tina:** the display font (Bagel today, or Bricolage ExtraBold, Young Serif, Outfit or Gloock), the Tina ate here stamp (today's, or ink, tomato, plate or check), the Monthly Crumbs name and cadence, and her Facebook page link. The options are in the brand book and on the design canvas's Options board; nothing changes until she picks. The design canvas lays its boards out in site navigation order: the main bar, the More menu, the footer and newsletter, then pages opened from a list, phone screens, and what's waiting on Tina.
+**Tina's picks (Oct 19):** Outfit 700 for headings, the sushi roll + bagel o's, the plate stamp and a barcode on the Woo-pons ticket, now live everywhere. **Still open:** an Outfit-lettered wordmark (drawn as an option), Woo-pons pricing (two weeks free, then $10 a week, shown as to confirm), the Monthly Crumbs name and cadence, and her Facebook page link. The design canvas lays its boards out in site navigation order: the main bar, the More menu, the footer and newsletter, then pages opened from a list, phone screens, and what's waiting on Tina.
 
 The same system is also saved as a Claude Design System (tokens, fonts, logos, stickers, merch mockups and component previews): <https://claude.ai/artifact/3FK3oCDgfLmRHArTGLcX7i> (private until shared).
 
