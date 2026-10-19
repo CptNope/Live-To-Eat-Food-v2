@@ -1,5 +1,5 @@
 /* Live to Eat Food website: tokens (from the ltef design system) + page layout. */
-@font-face { font-family: "Bagel Fat One"; src: url("../../fonts/bagel-fat-one.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Outfit"; src: url("../../fonts/outfit-bold.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 @font-face { font-family: "Figtree"; src: url("../../fonts/figtree.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
 @font-face { font-family: "Figtree"; src: url("../../fonts/figtree-italic.woff2") format("woff2"); font-weight: 400 700; font-style: italic; font-display: swap; }
 @font-face { font-family: "Bricolage Grotesque"; src: url("../../fonts/bricolage-grotesque.woff2") format("woff2"); font-weight: 400 800; font-stretch: 85% 100%; font-display: swap; }
@@ -9,7 +9,7 @@
   --butter: #fff6cf; --lemon: #ffe586; --yolk: #ffc53d; --pistachio: #dcefc8; --matcha: #b3da94; --peach: #ffd8c2;
   --vinyl: #ffffff; --oat: #efeadb; --oat-hatch: #e4decb; --basil: #1e3b2a; --olive: #46583e; --leaf: #2b6436;
   --tomato: #b3311a; --chili: #ee8467; --latte: #e8c9a3;
-  --font-display: "Bagel Fat One", "Arial Rounded MT Bold", Nunito, system-ui, sans-serif;
+  --font-display: "Outfit", "Helvetica Neue", Arial, system-ui, sans-serif;
   --font-reading: Figtree, "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-interface: "Bricolage Grotesque", Figtree, system-ui, sans-serif;
   --font-hand: "Shantell Sans", "Comic Neue", cursive;
@@ -262,6 +262,12 @@ select.slot { field-sizing: content; }
 @media (max-width: 720px) { .job-row { grid-template-columns: 1fr; } .job-row .ltef-btn { justify-self: start; } }
 .day-col__h { display: flex; align-items: center; gap: 10px; }
 .day-col.is-today .day-col__h::after { content: "Today"; padding: 4px 12px; border-radius: var(--radius-pill); background: var(--basil); color: var(--lemon); font: 800 14px/1.2 var(--font-interface); }
+
+/* Tina's notes, Oct 19 */
+.deal-key { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; font: 700 15px/1.3 var(--font-interface); }
+.deal-key__item { display: inline-flex; gap: 8px; align-items: center; }
+.deal-key__sw { width: 22px; height: 22px; border-radius: 7px; box-shadow: inset 0 0 0 2px var(--basil); }
+.deal-key__paid { flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-weight: 600; }
 
 /* ---- example site only ---- */
 .demo-bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: center; padding: 8px 16px; background: var(--basil); color: var(--butter); font: 600 14px/1.4 var(--font-interface); text-align: center; }

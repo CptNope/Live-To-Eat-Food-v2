@@ -17,7 +17,7 @@ Static HTML + one CSS file, served by GitHub Pages from the repository root (`Cp
 
 ## Product Purpose
 
-Live to Eat Food is a creator-led food discovery brand for Worcester & Central Mass. The website bottles ten years of Tina eating through the city on her own dime and makes it searchable: restaurant discovery, deals ("Woo-pons"), Restaurant Roulette (spin-the-wheel), an events calendar (food and non-food), daily deals, what's new, community photo pages (Your bites), giveaways, a food help page (pantries, free meals, Woo Fridges), and, for owners, a partners directory and restaurant jobs. Merch is on hold until Tina designs it. Success for this repo: one visual system, approved by Tina, that the website and merchandise (tees, hoodies, hats, die-cut stickers) can both be built from.
+Live to Eat Food is a creator-led food discovery brand for Worcester & Central Mass. The website bottles ten years of Tina eating through the city on her own dime and makes it searchable: restaurant discovery, deals ("Woo-pons"), Restaurant Roulette (spin-the-wheel), an events calendar (food and non-food), daily deals, what's new, community photo pages (Your bites), giveaways, a food help page (pantries, free meals, Woo Fridges), and, for owners, a partners directory and restaurant jobs. Merch is on hold until Tina designs it. Woo-pons are planned as paid listings (two weeks free per business, then about $10 a week, to confirm), alongside online partner codes; the Tina page carries press and reader photos; Explore searches dishes, with owner-confirmed menus to come. Success for this repo: one visual system, approved by Tina, that the website and merchandise (tees, hoodies, hats, die-cut stickers) can both be built from.
 
 ## Positioning
 
@@ -60,7 +60,7 @@ The creator is the product. Every recommendation traces to a real meal Tina paid
 3. Tina's voice is real or absent: her words are quoted, never written for her.
 4. One system, two worlds: everything must work on a phone screen and on a cotton tee.
 5. Specific beats enthusiastic.
-6. Money, labeled: revenue is direct-sold in year one (sponsor slots, the Monthly Crumbs sponsor, paid partnerships, Enhanced listings, Woo-pons as a sales door). Every paid surface is designed in from the start, labeled the same way everywhere, and absent when unsold. No programmatic display ads until about 25K monthly pageviews; no memberships, paywalls or ticketing yet. The contract line: "You're paying for content and reach, not for Tina's opinion."
+6. Money, labeled: revenue is direct-sold in year one (sponsor slots, the Monthly Crumbs sponsor, paid partnerships, Enhanced listings, Woo-pons as paid listings (two weeks free, then a low weekly fee, to confirm)). Every paid surface is designed in from the start, labeled the same way everywhere, and absent when unsold. No programmatic display ads until about 25K monthly pageviews; no memberships, paywalls or ticketing yet. The contract line: "You're paying for content and reach, not for Tina's opinion."
 
 ## Accessibility & Inclusion
 

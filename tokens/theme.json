@@ -82,15 +82,15 @@
       "fontFamilies": [
         {
           "slug": "display",
-          "name": "Display — Bagel Fat One",
-          "fontFamily": "\"Bagel Fat One\", \"Arial Rounded MT Bold\", system-ui, sans-serif",
+          "name": "Display — Outfit",
+          "fontFamily": "\"Outfit\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
           "fontFace": [
             {
-              "fontFamily": "Bagel Fat One",
-              "fontWeight": "400",
+              "fontFamily": "Outfit",
+              "fontWeight": "100 900",
               "fontStyle": "normal",
               "src": [
-                "file:./assets/fonts/bagel-fat-one.woff2"
+                "file:./assets/fonts/outfit-bold.woff2"
               ]
             }
           ]
