@@ -18,7 +18,7 @@
 
   // Filter chips and toggle buttons (aria-pressed) outside Roulette.
   document.querySelectorAll('button[aria-pressed]').forEach(function (b) {
-    if (b.hasAttribute('data-mood') || b.hasAttribute('data-with') || b.matches('[data-filter-area],[data-filter-tina],[data-deal-filter],[data-job-filter]')) return;
+    if (b.hasAttribute('data-mood') || b.hasAttribute('data-with') || b.matches('[data-filter-area],[data-filter-tina],[data-deal-filter],[data-job-filter],[data-rv-filter]')) return;
     b.addEventListener('click', function () {
       var on = b.getAttribute('aria-pressed') !== 'true';
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -93,7 +93,7 @@
 
   // Buttons that would need the real backend.
   document.querySelectorAll('button[type="button"]').forEach(function (b) {
-    if (b.hasAttribute('aria-pressed') || b.matches('[data-spin],[data-widen],[data-reset],[data-filter-clear],[data-more],[data-empty-fix],[data-used-ask],.tt-play') ||
+    if (b.hasAttribute('aria-pressed') || b.matches('[data-spin],[data-widen],[data-reset],[data-filter-clear],[data-more],[data-empty-fix],[data-used-ask],.tt-play,[data-rv],[data-rv-filter]') ||
         b.hasAttribute('aria-haspopup') || b.closest('.demo-bar')) return;
     b.addEventListener('click', function () { if (!b.hasAttribute('aria-pressed')) say(DEMO); });
   });
@@ -182,6 +182,54 @@
     var at0 = code() && usedMap()[code()]; if (at0) showDone(at0, false); else showAsk();
   }
   document.querySelectorAll('.ltef-coupon[data-code]').forEach(function (t) { markCard(t.getAttribute('data-code')); });
+
+  // Review queue (mock-up): approve, ask for changes, decline; nothing is saved or sent.
+  var rvList = document.querySelector('.rv-list');
+  if (rvList) {
+    var cnt = function (sel, d) { var e = document.querySelector(sel); if (e) e.textContent = Math.max(0, (+e.textContent || 0) + d); };
+    var done = function (card, msg, which) {
+      card.classList.add('is-done');
+      var st = card.querySelector('.rv-status'); st.innerHTML = '';
+      st.appendChild(document.createTextNode(msg + ' '));
+      var u = document.createElement('button'); u.type = 'button'; u.className = 'ltef-btn ltef-btn--sm ltef-btn--alt'; u.textContent = 'Undo'; u.setAttribute('data-rv', 'undo');
+      st.appendChild(u); card.setAttribute('data-done', which); cnt('[data-rv-waiting]', -1); if (which) cnt('[data-rv-' + which + ']', 1); u.focus();
+    };
+    rvList.addEventListener('click', function (ev) {
+      var b = ev.target.closest('[data-rv]'); if (!b) return;
+      var card = b.closest('.rv-item'), act = b.getAttribute('data-rv');
+      var panel = function (n) { return card.querySelector('[data-rv-panel="' + n + '"]'); };
+      if (act === 'approve') done(card, 'Approved. It goes live now, and they get an email.', 'approved');
+      else if (act === 'changes' || act === 'decline') {
+        var p = panel(act), other = panel(act === 'changes' ? 'decline' : 'changes'), open = p.hidden;
+        p.hidden = !open; other.hidden = true; b.setAttribute('aria-expanded', open ? 'true' : 'false');
+        card.querySelectorAll('[data-rv="changes"],[data-rv="decline"]').forEach(function (x) { if (x !== b) x.setAttribute('aria-expanded', 'false'); });
+        if (open) { var f = p.querySelector('textarea, select'); if (f) f.focus(); }
+      }
+      else if (act === 'send-changes') done(card, 'Sent. They’ll get your note and can send it again.', '');
+      else if (act === 'confirm-decline') { var add = panel('decline').querySelector('input[type=checkbox]'); done(card, 'Declined. They get a short, polite no' + (add && add.checked ? ', and they’re on your don’t-work-with list.' : '.'), 'declined'); }
+      else if (act === 'undo') {
+        var w = card.getAttribute('data-done'); card.classList.remove('is-done'); card.querySelector('.rv-status').innerHTML = '';
+        card.querySelectorAll('[data-rv-panel]').forEach(function (p) { p.hidden = true; });
+        cnt('[data-rv-waiting]', 1); if (w) cnt('[data-rv-' + w + ']', -1); card.querySelector('[data-rv="approve"]').focus();
+      }
+    });
+    var rvTabs = document.querySelectorAll('[data-rv-filter]');
+    rvTabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        var k = t.getAttribute('data-rv-filter'), n = 0;
+        rvTabs.forEach(function (o) { o.setAttribute('aria-pressed', o === t ? 'true' : 'false'); });
+        rvList.querySelectorAll('.rv-item').forEach(function (c) { var on = k === 'all' || c.getAttribute('data-type') === k; c.hidden = !on; if (on) n++; });
+        var e = rvList.querySelector('[data-rv-empty]'); if (e) e.hidden = n !== 0;
+      });
+    });
+    var addN = document.querySelector('[data-rv="add-nope"]');
+    if (addN) addN.addEventListener('click', function () {
+      var i = document.getElementById('rv-add'), v = i && i.value.trim(); if (!v) { if (i) i.focus(); return; }
+      var li = document.createElement('li'), st = document.createElement('strong'), m = document.createElement('span');
+      st.textContent = v; m.className = 'meta'; m.textContent = 'Added just now (on this mock-up only)';
+      li.appendChild(st); li.appendChild(m); document.querySelector('.rv-nope').appendChild(li); i.value = ''; say('Added to your don’t-work-with list. ' + DEMO);
+    });
+  }
 
   // Restaurant jobs: chips filter the sample listings, one at a time.
   var jobChips = document.querySelectorAll('[data-job-filter]');

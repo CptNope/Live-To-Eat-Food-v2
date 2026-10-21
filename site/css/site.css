@@ -269,6 +269,49 @@ select.slot { field-sizing: content; }
 .deal-key__sw { width: 22px; height: 22px; border-radius: 7px; box-shadow: inset 0 0 0 2px var(--basil); }
 .deal-key__paid { flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-weight: 600; }
 
+/* Oct 21: footer credit, Jeremy's listing, Tina's review queue (mock-up) */
+.foot-credit { flex: 1 1 100%; margin: 0; font: 600 14px/1.4 var(--font-interface); color: var(--olive); }
+.foot-credit a { font: inherit; color: var(--basil); }
+.web-card { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 40px; align-items: center; padding: clamp(24px, 4vw, 48px); }
+.web-card__shot { display: grid; place-items: center; aspect-ratio: 4 / 3; border-radius: 20px; background: var(--lemon); box-shadow: inset 0 0 0 2.5px var(--basil); }
+@media (max-width: 760px) { .web-card { grid-template-columns: 1fr; } }
+.rv-bar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 18px clamp(16px, 4vw, 40px); background: var(--basil); color: var(--vinyl); }
+.rv-bar__logo { display: block; width: 190px; padding: 8px 12px; border-radius: 12px; background: var(--butter); }
+.rv-bar__title { font: 700 22px/1 var(--font-display); }
+.rv-bar .rv-bar__who { margin-left: auto; color: var(--butter); }
+.rv-mock { margin: 14px 18px 0; padding: 12px 18px; border-radius: 14px; border: 2.5px dashed var(--olive); font: 700 15px/1.4 var(--font-interface); }
+.rv-counts { display: flex; flex-wrap: wrap; gap: 12px; }
+.rv-counts p { margin: 0; padding: 10px 16px; border-radius: 14px; background: var(--butter); box-shadow: inset 0 0 0 2px var(--basil); font: 600 15px var(--font-interface); }
+.rv-counts b { font: 700 22px/1 var(--font-display); margin-right: 4px; }
+.rv-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: 30px; align-items: start; }
+@media (max-width: 960px) { .rv-layout { grid-template-columns: 1fr; } }
+.rv-list, .rv-side { display: grid; gap: 22px; align-content: start; }
+.rv-item { display: grid; gap: 12px; padding: 22px; border-radius: 22px; background: var(--vinyl); box-shadow: 0 0 0 5px var(--vinyl), 0 0 0 6.5px rgba(30,59,42,.16), var(--lift); }
+.rv-item__head { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.rv-item__title { margin: 0; }
+.rv-facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0; font-size: 16px; }
+.rv-facts dt { font: 700 14px/1.5 var(--font-interface); }
+.rv-facts dd { margin: 0; }
+.rv-flags { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rv-flag { padding: 10px 14px; border-radius: 12px; font: 600 15px/1.4 var(--font-interface); box-shadow: inset 0 0 0 2px var(--basil); }
+.rv-flag--money { background: var(--pistachio); }
+.rv-flag--ok { background: var(--butter); }
+.rv-flag--check { background: var(--lemon); }
+.rv-flag--stop { background: var(--peach); box-shadow: inset 0 0 0 2.5px var(--basil), inset 6px 0 0 var(--basil); padding-left: 20px; }
+.rv-photo { aspect-ratio: 4 / 3; max-width: 260px; border-radius: 14px; border: 2.5px dashed var(--olive); display: grid; place-items: center; }
+.rv-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.rv-more { display: grid; gap: 12px; padding: 16px; border-radius: 16px; background: var(--butter); }
+.rv-more[hidden] { display: none; }
+.rv-check { display: flex; gap: 10px; align-items: center; font: 600 15px var(--font-interface); }
+.rv-check input { width: 24px; height: 24px; margin: 0; accent-color: var(--basil); }
+.rv-status { margin: 0; font: 700 16px var(--font-interface); }
+.rv-status:empty { display: none; }
+.rv-item.is-done { background: var(--oat); box-shadow: inset 0 0 0 2px var(--basil); }
+.rv-item.is-done .rv-actions, .rv-item.is-done .rv-more, .rv-item.is-done .rv-flags, .rv-item.is-done .rv-facts, .rv-item.is-done .rv-photo { display: none; }
+.rv-nope { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rv-nope li { display: grid; gap: 2px; padding: 10px 0; border-top: 1.5px solid rgba(30,59,42,.14); }
+.rv-steps { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+
 /* ---- example site only ---- */
 .demo-bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: center; padding: 8px 16px; background: var(--basil); color: var(--butter); font: 600 14px/1.4 var(--font-interface); text-align: center; }
 .demo-bar p { margin: 0; }
