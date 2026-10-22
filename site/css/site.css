@@ -312,6 +312,18 @@ select.slot { field-sizing: content; }
 .rv-nope li { display: grid; gap: 2px; padding: 10px 0; border-top: 1.5px solid rgba(30,59,42,.14); }
 .rv-steps { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
 
+/* Oct 22: Tina's follower dashboard */
+.fol-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: clamp(12px, 2vw, 20px); }
+@media (max-width: 720px) { .fol-tile { padding: 16px; } .fol-tile--total { grid-column: 1 / -1; } }
+.fol-tile { display: grid; gap: 4px; align-content: start; padding: 20px 22px; border-radius: 22px; background: var(--butter); box-shadow: inset 0 0 0 2.5px var(--basil); }
+.fol-tile__name { margin: 0; font: 800 16px/1.2 var(--font-interface); }
+.fol-tile__n { margin: 6px 0 0; font: 700 clamp(40px, 4.4vw, 56px)/1 var(--font-display); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.fol-tile__unit { margin: 0 0 6px; font: 600 15px var(--font-interface); }
+.fol-tile .tap { font: 700 15px var(--font-interface); color: var(--leaf); }
+.fol-tile--total { background: var(--basil); color: var(--lemon); box-shadow: none; }
+.fol-tile--total .fol-tile__n, .fol-tile--total .fol-tile__name { color: var(--lemon); }
+.fol-tile--total p { color: var(--butter); }
+
 /* ---- example site only ---- */
 .demo-bar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: center; padding: 8px 16px; background: var(--basil); color: var(--butter); font: 600 14px/1.4 var(--font-interface); text-align: center; }
 .demo-bar p { margin: 0; }
