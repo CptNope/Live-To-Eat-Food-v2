@@ -1,0 +1,1697 @@
+{
+ "areas": {
+  "canal": {
+   "name": "Canal District",
+   "siding": "brick",
+   "town": "Worcester"
+  },
+  "downtown": {
+   "name": "Downtown",
+   "siding": "blue",
+   "town": "Worcester"
+  },
+  "shrewsbury-st": {
+   "name": "Shrewsbury Street",
+   "siding": "mustard",
+   "town": "Worcester"
+  },
+  "park-ave": {
+   "name": "Park Ave",
+   "siding": "green",
+   "town": "Worcester"
+  },
+  "south": {
+   "name": "South Worcester",
+   "siding": "green",
+   "town": "Worcester"
+  },
+  "shrewsbury": {
+   "name": "Shrewsbury",
+   "siding": "bluelt",
+   "town": "Shrewsbury"
+  },
+  "leominster": {
+   "name": "Leominster",
+   "siding": "greenlt",
+   "town": "Leominster"
+  },
+  "west-side": {
+   "name": "West Side",
+   "siding": "bluelt",
+   "town": "Worcester"
+  },
+  "main-south": {
+   "name": "Main South",
+   "siding": "bricklt",
+   "town": "Worcester"
+  }
+ },
+ "cravings": [
+  {
+   "id": "anything",
+   "label": "anything"
+  },
+  {
+   "id": "spicy",
+   "label": "something spicy"
+  },
+  {
+   "id": "bowls",
+   "label": "noodles and bowls"
+  },
+  {
+   "id": "pizza",
+   "label": "pizza"
+  },
+  {
+   "id": "italian",
+   "label": "Italian"
+  },
+  {
+   "id": "sushi",
+   "label": "sushi"
+  },
+  {
+   "id": "classic",
+   "label": "a Worcester classic"
+  },
+  {
+   "id": "drinks",
+   "label": "a drink with dinner"
+  },
+  {
+   "id": "quick",
+   "label": "something quick"
+  },
+  {
+   "id": "sweet",
+   "label": "something sweet"
+  },
+  {
+   "id": "new",
+   "label": "somewhere new"
+  }
+ ],
+ "withs": [
+  {
+   "id": "anyone",
+   "label": "anyone"
+  },
+  {
+   "id": "date",
+   "label": "a date"
+  },
+  {
+   "id": "group",
+   "label": "a group"
+  },
+  {
+   "id": "family",
+   "label": "the family"
+  }
+ ],
+ "guides": [
+  {
+   "id": "new",
+   "title": "New since 2025, and Tina's already been",
+   "short": "New since 2025",
+   "siding": "brick",
+   "lede": "Three places that opened recently, in the order they opened: candlepin and flatbread in the Canal District, stir-fry off Route 9, and the Mongolian BBQ that got Tina to Leominster.",
+   "meta": "3 openings, May 2025 to early 2026",
+   "note": {
+    "place": "hungry-bowl",
+    "text": "Thank goodness Hungry Bowl opened in Leominster."
+   },
+   "stops": [
+    {
+     "place": "american-flatbread",
+     "say": "Wood-fired flatbread upstairs and ten candlepin lanes downstairs, inside The Cove. It brought public candlepin back to Worcester for the first time since Colonial Bowling closed in 2020.",
+     "extra": "Opened May 10, 2025"
+    },
+    {
+     "place": "honeygrow",
+     "say": "Made-to-order stir-fry and salads at Lakeway Commons, right off Route 9. Pick a protein and a base; the honeybars are the dessert.",
+     "extra": "Opened July 7, 2025"
+    },
+    {
+     "sponsor": true
+    },
+    {
+     "place": "hungry-bowl",
+     "say": "Her first Mongolian BBQ, and the reason this guide heads north up I-190.",
+     "extra": "Mongolian BBQ, about 30 minutes up I-190"
+    }
+   ]
+  },
+  {
+   "id": "shrewsbury-st",
+   "title": "Shrewsbury Street, stop by stop",
+   "short": "Shrewsbury Street",
+   "siding": "mustard",
+   "lede": "Restaurant Row in street-number order, from Leo Turo Way out toward Route 9. Tina has posted from nine of these eleven; the Boulevard Diner and Leo's are still on her list.",
+   "meta": "11 stops on one street",
+   "note": {
+    "place": "chop-house",
+    "text": "Do not miss out on the haddock or the brussel sprouts."
+   },
+   "stops": [
+    {
+     "place": "leos",
+     "say": "Italian, just off Shrewsbury Street at the Leo Turo Way corner. Not on Tina's TikTok yet."
+    },
+    {
+     "place": "volturno",
+     "say": "Neapolitan pizza at 72, sharing the address with Wormtown Brewery's taproom."
+    },
+    {
+     "place": "via",
+     "say": "Italian at 89. Tina has been back more than once."
+    },
+    {
+     "place": "nuovo",
+     "say": "A few doors up at 92."
+    },
+    {
+     "place": "chop-house",
+     "say": "The street's steakhouse at 111."
+    },
+    {
+     "sponsor": true
+    },
+    {
+     "place": "boulevard-diner",
+     "say": "A 1936 Worcester Lunch Car Company diner, car no. 730. Not on Tina's TikTok yet."
+    },
+    {
+     "place": "la-scala",
+     "say": "Italian at 183."
+    },
+    {
+     "place": "kenichi",
+     "say": "Sushi at 270."
+    },
+    {
+     "place": "mercado",
+     "say": "Peruvian and Ecuadorian food at 278, in the space Flying Rhino left in 2025."
+    },
+    {
+     "place": "basil-n-spice",
+     "say": "Thai at 299, one of Tina's repeat stops."
+    },
+    {
+     "place": "tropeiros",
+     "say": "All-you-can-eat Brazilian steakhouse at 480, toward the Route 9 end of the street."
+    }
+   ]
+  },
+  {
+   "id": "public-market",
+   "title": "Inside the Worcester Public Market",
+   "short": "Public Market",
+   "siding": "blue",
+   "lede": "One roof at 160 Green St in the Canal District, and the four counters Tina keeps coming back to. Park once, eat four times.",
+   "meta": "4 counters, one building",
+   "note": {
+    "place": "tapa-vino",
+    "text": "Please try the roasted carrots."
+   },
+   "stops": [
+    {
+     "place": "tapa-vino",
+     "say": "Tapas, with its own entrance on Harding St. Tina's most-posted spot in the market."
+    },
+    {
+     "place": "ruby-doos",
+     "say": "Korean fusion: tacos, loaded potatoes, and whatever the special is."
+    },
+    {
+     "place": "little-havana",
+     "say": "Cuban bowls, beans and plantains."
+    },
+    {
+     "place": "kuru-kuru",
+     "say": "Ramen. Tina's pick is the black garlic."
+    }
+   ]
+  },
+  {
+   "id": "park-ave",
+   "title": "Park Ave, bowl by bowl",
+   "short": "Park Ave",
+   "siding": "green",
+   "lede": "Worcester's best stretch for pho, poké and sushi, from Island Fin at 41 to Pho Dakao at 593, with one detour onto Chandler St.",
+   "meta": "7 stops, north to south",
+   "note": {
+    "place": "dalat",
+    "text": "I'm gonna be a regular here now."
+   },
+   "stops": [
+    {
+     "place": "island-fin",
+     "say": "Poké bowls at the Trolley Yard plaza, 41 Park Ave."
+    },
+    {
+     "place": "mia-cane",
+     "say": "Coffee, croffles and matcha at 261."
+    },
+    {
+     "place": "baba-sushi",
+     "say": "Sushi at 309."
+    },
+    {
+     "place": "dalat",
+     "say": "Vietnamese at 425. Tina recommends the crab udon noodle soup, rice rolls and coco mango slush."
+    },
+    {
+     "place": "phoever-whatever",
+     "say": "Pho in a stone bowl at 433, next door to Dalat."
+    },
+    {
+     "place": "pho-dakao",
+     "say": "Pho, vermicelli and noodle soups at 593."
+    },
+    {
+     "place": "kai-sushi",
+     "say": "Around the corner at 232 Chandler St: sushi, and an all-you-can-eat salmon deal."
+    }
+   ]
+  },
+  {
+   "id": "worth-the-drive",
+   "title": "Worth the drive",
+   "short": "Worth the drive",
+   "siding": "green",
+   "lede": "Three of Tina's finds outside the city: two along Route 9 in Shrewsbury and one up I-190 in Leominster.",
+   "meta": "Route 9 east, then I-190 north",
+   "note": {
+    "place": "ground-round",
+    "text": "We found the most well rounded menu at Ground Round!"
+   },
+   "stops": [
+    {
+     "place": "honeygrow",
+     "say": "Stir-fry and salads at Lakeway Commons, right on Route 9 in Shrewsbury.",
+     "extra": "Route 9, Shrewsbury"
+    },
+    {
+     "place": "ground-round",
+     "say": "A big American pub menu on Grafton St in Shrewsbury.",
+     "extra": "Grafton St, Shrewsbury"
+    },
+    {
+     "place": "hungry-bowl",
+     "say": "Mongolian BBQ in Leominster, about 30 minutes north of Worcester on I-190.",
+     "extra": "About 30 minutes up I-190"
+    }
+   ]
+  }
+ ],
+ "places": [
+  {
+   "id": "hungry-bowl",
+   "name": "Hungry Bowl",
+   "num": "865",
+   "street": "Merriam Ave",
+   "area": "leominster",
+   "cuisine": "Mongolian BBQ",
+   "cravings": [
+    "bowls",
+    "new"
+   ],
+   "with": [
+    "anyone",
+    "group",
+    "family"
+   ],
+   "dish": "Mongolian BBQ, off the grill",
+   "isNew": true,
+   "tina": {
+    "quote": "It's un-bowl-ievable that I've never tried Mongolian BBQ before.",
+    "date": "Feb 2026",
+    "sort": 20260209,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7604965242379996430",
+    "platform": "TikTok"
+   },
+   "facts": [
+    "About 30 minutes north of Worcester on I-190",
+    "Tina's first time trying Mongolian BBQ"
+   ]
+  },
+  {
+   "id": "american-flatbread",
+   "name": "American Flatbread Co",
+   "num": "85",
+   "street": "Green St",
+   "area": "canal",
+   "cuisine": "Flatbread and candlepin",
+   "cravings": [
+    "pizza",
+    "drinks",
+    "new"
+   ],
+   "with": [
+    "anyone",
+    "date",
+    "group",
+    "family"
+   ],
+   "dish": "Wood-fired flatbread upstairs, candlepin lanes downstairs",
+   "isNew": true,
+   "tina": {
+    "quote": "Please don't crowd the place cause I wanna go back.",
+    "date": "May 2025",
+    "sort": 20250528,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7509509382808292651",
+    "platform": "TikTok"
+   },
+   "facts": [
+    "Opened May 10, 2025, inside The Cove",
+    "10 candlepin lanes, rented by the hour",
+    "10 New England drafts"
+   ]
+  },
+  {
+   "id": "racha-thai",
+   "name": "Racha Thai",
+   "num": "545",
+   "street": "Southwest Cutoff",
+   "area": "south",
+   "cuisine": "Thai",
+   "price": "$15–30",
+   "cravings": [
+    "spicy",
+    "bowls"
+   ],
+   "with": [
+    "anyone",
+    "date",
+    "family"
+   ],
+   "dish": "Thai, at The Worcester Fair",
+   "tina": {
+    "quote": "Our favorite Thai place in Worcester has to be Racha Thai.",
+    "date": "Mar 2025",
+    "sort": 20250327,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7486636461693979946",
+    "platform": "TikTok",
+    "posts": 5
+   },
+   "facts": [
+    "Inside The Worcester Fair plaza",
+    "Price range $15–30"
+   ]
+  },
+  {
+   "id": "honeygrow",
+   "name": "honeygrow",
+   "num": "193",
+   "street": "Boston Turnpike",
+   "area": "shrewsbury",
+   "cuisine": "Stir-fry",
+   "cravings": [
+    "bowls",
+    "new",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Made-to-order stir-fry, off Route 9",
+   "isNew": true,
+   "tina": {
+    "quote": "Ca-noodling around with some honeygrow. What's your order?",
+    "date": "Jul 2025",
+    "sort": 20250729,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7532590916696132919",
+    "platform": "TikTok",
+    "posts": 3
+   },
+   "facts": [
+    "Opened July 7, 2025, at Lakeway Commons",
+    "Stir-fry, salads and honeybars"
+   ]
+  },
+  {
+   "id": "ground-round",
+   "name": "Ground Round",
+   "num": "271",
+   "street": "Grafton St",
+   "area": "shrewsbury",
+   "cuisine": "American pub",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "anyone",
+    "group",
+    "family"
+   ],
+   "dish": "Pub menu, the whole spread",
+   "tina": {
+    "quote": "We found the most well rounded menu at Ground Round!",
+    "date": "Sept 2025",
+    "sort": 20250927,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7554878364746648846",
+    "platform": "TikTok",
+    "posts": 3,
+    "giveaway": "Dec 2025"
+   },
+   "facts": [
+    "On Grafton St in Shrewsbury"
+   ]
+  },
+  {
+   "id": "playa-bowls",
+   "name": "Playa Bowls",
+   "num": "1",
+   "street": "Green Island Blvd",
+   "area": "canal",
+   "cuisine": "Acai and fruit bowls",
+   "cravings": [
+    "bowls",
+    "quick",
+    "sweet"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Acai bowls, piled high",
+   "tina": {
+    "quote": "Quit playa-ing around and stop at Playa Bowls.",
+    "date": "Oct 2025",
+    "sort": 20251008,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7558980619980541197",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": [
+    "Green Island, near Kelley Square"
+   ]
+  },
+  {
+   "id": "bocado",
+   "name": "Bocado Tapas Wine Bar",
+   "num": "82",
+   "street": "Winter St",
+   "area": "canal",
+   "cuisine": "Spanish tapas",
+   "price": "$30 and under",
+   "cravings": [
+    "drinks"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "dish": "40+ tapas, paella, Spanish wine",
+   "tina": {
+    "quote": "My tastebuds are on tapas the world when they're eating Bocado.",
+    "date": "Aug 2025",
+    "sort": 20250807,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7535892018044751159",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": [
+    "Exclusively Spanish wine list",
+    "Fried goat cheese and paella are signatures"
+   ]
+  },
+  {
+   "id": "panda-buffet",
+   "name": "Panda Buffet",
+   "num": null,
+   "street": null,
+   "area": "south",
+   "cuisine": "Buffet",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "anyone",
+    "family",
+    "group"
+   ],
+   "dish": "The buffet, honestly",
+   "tina": {
+    "quote": "In summary, it's an average buffet…and I'm still gonna eat there sometimes.",
+    "date": "Aug 2025",
+    "sort": 20250812,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7537763472541584653",
+    "platform": "TikTok",
+    "honest": true
+   },
+   "facts": [
+    "Tina's honest take: average, convenient, and she still goes"
+   ]
+  },
+  {
+   "id": "chashu",
+   "name": "Chashu Ramen + Izakaya",
+   "num": "38",
+   "street": "Franklin St",
+   "area": "downtown",
+   "cuisine": "Ramen and izakaya",
+   "price": "$31–50",
+   "cravings": [
+    "bowls",
+    "drinks"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "dish": "Ramen, Brussels sprouts, udon",
+   "tina": {
+    "quote": "That seafood boil ramen special was incredible.",
+    "date": "Aug 2025",
+    "sort": 20250808,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7536269559175662861",
+    "platform": "TikTok",
+    "posts": 3
+   },
+   "facts": [
+    "Closed Tuesdays",
+    "Anime on the screens, murals on the walls",
+    "Sushi menu on pause as of May 2026, per Tina"
+   ]
+  },
+  {
+   "id": "rio-viejo",
+   "name": "Rio Viejo Cocina",
+   "num": "50",
+   "street": "Franklin St",
+   "area": "downtown",
+   "cuisine": "Mexican, Jalisco style",
+   "cravings": [
+    "spicy",
+    "drinks"
+   ],
+   "with": [
+    "anyone",
+    "group",
+    "family"
+   ],
+   "dish": "Street tacos, fajitas, churros",
+   "tina": {
+    "quote": "Let's taco 'bout this new spot!",
+    "date": "Apr 2026",
+    "sort": 20260407,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7626120566881209614",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": [
+    "Owner Jaime Avila started with the Taco Libre food truck"
+   ]
+  },
+  {
+   "id": "coney-island",
+   "name": "Coney Island Hot Dogs",
+   "num": "158",
+   "street": "Southbridge St",
+   "area": "downtown",
+   "cuisine": "Hot dogs",
+   "cravings": [
+    "classic",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Hot dogs with the secret sauce",
+   "tina": {
+    "quote": "Me n my dogs.",
+    "date": "Jun 2026",
+    "sort": 20260625,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7655378843779239182",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": [
+    "Open since 1918",
+    "The neon sign went up in 1938",
+    "Initials carved into the wooden booths"
+   ]
+  },
+  {
+   "id": "pho-dakao",
+   "name": "Pho Dakao",
+   "num": "593",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Vietnamese",
+   "cravings": [
+    "bowls",
+    "spicy",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Pho, vermicelli, noodle soups",
+   "tina": {
+    "quote": "If you don't like Vietnamese food…what the pho is wrong with you?",
+    "date": "Mar 2026",
+    "sort": 20260307,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7614645904292810015",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": [
+    "Pho, noodle soups and vermicelli"
+   ]
+  },
+  {
+   "id": "baba-sushi",
+   "name": "Baba Sushi",
+   "num": "309",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Sushi",
+   "cravings": [
+    "sushi"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "dish": "Sushi and nigiri",
+   "tina": {
+    "quote": "If you don't like sushi….baba bye.",
+    "date": "Jun 2026",
+    "sort": 20260616,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7652094866901552398",
+    "platform": "TikTok",
+    "posts": 3
+   },
+   "facts": [
+    "On Park Ave"
+   ]
+  },
+  {
+   "id": "volturno",
+   "name": "Volturno",
+   "num": "72",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Neapolitan pizza",
+   "cravings": [
+    "pizza"
+   ],
+   "with": [
+    "anyone",
+    "date",
+    "group"
+   ],
+   "dish": "Wood-fired Neapolitan pizza",
+   "tina": {
+    "quote": "These pizzas are egg-cellent…especially when they're BOGO on Monday/Tuesdays!",
+    "date": "Aug 2026",
+    "sort": 20260803,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7669833089807355150",
+    "platform": "TikTok",
+    "posts": 5,
+    "giveaway": "Dec 2025"
+   },
+   "facts": [
+    "Buy-one-get-one pizza on Mondays and Tuesdays, per Tina (Aug 2026)",
+    "Shares 72 Shrewsbury St with Wormtown Brewery"
+   ]
+  },
+  {
+   "id": "wormtown",
+   "name": "Wormtown Brewery",
+   "num": "72",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Brewery",
+   "cravings": [
+    "drinks"
+   ],
+   "with": [
+    "group"
+   ],
+   "dish": "Local beer on Restaurant Row",
+   "facts": [
+    "Next door to Volturno at 72"
+   ]
+  },
+  {
+   "id": "via",
+   "name": "VIA Italian Table",
+   "num": "89",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Italian",
+   "cravings": [
+    "italian",
+    "pizza"
+   ],
+   "with": [
+    "date",
+    "group",
+    "family"
+   ],
+   "dish": "Pasta on Restaurant Row",
+   "tina": {
+    "quote": "It's im-pasta-ble to resist a delicious meal at VIA.",
+    "date": "Oct 2025",
+    "sort": 20251007,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7558625087113432351",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": []
+  },
+  {
+   "id": "nuovo",
+   "name": "Nuovo",
+   "num": "92",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Mediterranean",
+   "cravings": [
+    "italian"
+   ],
+   "with": [
+    "date"
+   ],
+   "dish": "Pasta and pesto",
+   "tina": {
+    "quote": "Don't be a pest(o)…get your own dish cause I'm not sharing.",
+    "date": "Nov 2025",
+    "sort": 20251129,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7578257727940480311",
+    "platform": "TikTok",
+    "posts": 3,
+    "giveaway": "Dec 2025"
+   },
+   "facts": []
+  },
+  {
+   "id": "chop-house",
+   "name": "111 Chop House",
+   "num": "111",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Steakhouse",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "date"
+   ],
+   "dish": "Haddock and Brussels sprouts",
+   "tina": {
+    "quote": "Do not miss out on the haddock or the brussel sprouts - absolute bangers.",
+    "date": "Jul 2025",
+    "sort": 20250719,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7528793973931003191",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": []
+  },
+  {
+   "id": "boulevard-diner",
+   "name": "Boulevard Diner",
+   "num": "155",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Classic diner",
+   "cravings": [
+    "classic",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Diner counter in a 1936 lunch car",
+   "facts": [
+    "Built in 1936 by the Worcester Lunch Car Company, car no. 730"
+   ]
+  },
+  {
+   "id": "mercado",
+   "name": "Mercado",
+   "num": "278",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Peruvian and Ecuadorian",
+   "cravings": [
+    "new",
+    "spicy"
+   ],
+   "with": [
+    "anyone",
+    "group"
+   ],
+   "dish": "Peruvian and Ecuadorian plates",
+   "isNew": true,
+   "tina": {
+    "quote": "Seas the day with a bite at Mercado.",
+    "date": "Apr 2026",
+    "sort": 20260410,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7627228359784811789",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": [
+    "In the former Flying Rhino space; Flying Rhino closed in June 2025 after 25 years"
+   ]
+  },
+  {
+   "id": "leos",
+   "name": "Leo's Ristorante",
+   "num": "11",
+   "street": "Leo Turo Way",
+   "area": "shrewsbury-st",
+   "cuisine": "Italian",
+   "cravings": [
+    "italian"
+   ],
+   "with": [
+    "family",
+    "group"
+   ],
+   "dish": "Italian",
+   "facts": [
+    "Just off Shrewsbury St"
+   ]
+  },
+  {
+   "id": "tapa-vino",
+   "name": "Tapa Vino",
+   "num": "160",
+   "street": "Green St",
+   "area": "canal",
+   "cuisine": "Tapas",
+   "cravings": [
+    "drinks",
+    "new"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "dish": "Roasted carrots and the specials",
+   "isNew": true,
+   "tina": {
+    "quote": "Please try the roasted carrots.",
+    "date": "Aug 2026",
+    "sort": 20260830,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7679824231772867854",
+    "platform": "TikTok",
+    "posts": 12,
+    "giveaway": "Dec 2025"
+   },
+   "facts": [
+    "Inside the Worcester Public Market, 160 Green St; entrance on Harding St"
+   ]
+  },
+  {
+   "id": "ruby-doos",
+   "name": "Ruby Doo's",
+   "num": "160",
+   "street": "Green St",
+   "area": "canal",
+   "cuisine": "Korean fusion",
+   "cravings": [
+    "spicy",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "group"
+   ],
+   "dish": "Korean fusion tacos and potatoes",
+   "tina": {
+    "quote": "This place serves spud-tacular Korean fusion dishes.",
+    "date": "Apr 2026",
+    "sort": 20260415,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7629116482634386701",
+    "platform": "TikTok",
+    "posts": 5
+   },
+   "facts": [
+    "Inside the Worcester Public Market, 160 Green St"
+   ]
+  },
+  {
+   "id": "little-havana",
+   "name": "Little Havana",
+   "num": "160",
+   "street": "Green St",
+   "area": "canal",
+   "cuisine": "Cuban",
+   "cravings": [
+    "bowls",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Cuban bowls",
+   "tina": {
+    "quote": "It's like a Cuban party in your mouth.",
+    "date": "Aug 2025",
+    "sort": 20250817,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7539567595729538317",
+    "platform": "TikTok",
+    "posts": 7,
+    "giveaway": "Dec 2025"
+   },
+   "facts": [
+    "Inside the Worcester Public Market, 160 Green St"
+   ]
+  },
+  {
+   "id": "kuru-kuru",
+   "name": "Kuru Kuru",
+   "num": "160",
+   "street": "Green St",
+   "area": "canal",
+   "cuisine": "Ramen",
+   "cravings": [
+    "bowls",
+    "spicy"
+   ],
+   "with": [
+    "anyone",
+    "date"
+   ],
+   "dish": "Black garlic ramen",
+   "tina": {
+    "quote": "Miso obsessed with this black garlic ramen.",
+    "date": "Oct 2025",
+    "sort": 20251029,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7566713147600522526",
+    "platform": "TikTok",
+    "posts": 4
+   },
+   "facts": [
+    "Inside the Worcester Public Market, 160 Green St"
+   ]
+  },
+  {
+   "id": "green-island-oyster",
+   "name": "Green Island Oyster",
+   "num": "90",
+   "street": "Harding St",
+   "area": "canal",
+   "cuisine": "Oysters and seafood",
+   "cravings": [
+    "drinks"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "dish": "Oysters and a lobster roll flight",
+   "tina": {
+    "quote": "I saw they had a lobster roll flight….& I immediately took flight.",
+    "date": "Aug 2026",
+    "sort": 20260812,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7673158700118347021",
+    "platform": "TikTok",
+    "posts": 5
+   },
+   "facts": []
+  },
+  {
+   "id": "om-indian",
+   "name": "Om Indian Grill",
+   "num": "118",
+   "street": "Water St",
+   "area": "canal",
+   "cuisine": "Indian",
+   "cravings": [
+    "spicy"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Curry and samosas",
+   "tina": {
+    "quote": "This has been the best Indian cuisine I've had in a long time!",
+    "date": "May 2025",
+    "sort": 20250523,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7507677318111022382",
+    "platform": "TikTok",
+    "posts": 4
+   },
+   "facts": []
+  },
+  {
+   "id": "suzette",
+   "name": "Suzette Crêperie",
+   "num": "126",
+   "street": "Water St",
+   "area": "canal",
+   "cuisine": "Crêpes",
+   "cravings": [
+    "sweet",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "date",
+    "family"
+   ],
+   "dish": "Sweet and savory crêpes",
+   "tina": {
+    "quote": "Life is crepe when you visit Suzette.",
+    "date": "Feb 2026",
+    "sort": 20260211,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7605668470885338382",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": []
+  },
+  {
+   "id": "sugi-matcha",
+   "name": "Sugi Matcha",
+   "num": "19",
+   "street": "Harrison St",
+   "area": "canal",
+   "cuisine": "Matcha bar",
+   "cravings": [
+    "sweet",
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "dish": "Seasonal matcha drinks",
+   "tina": {
+    "quote": "Udderly obsessed with the Jasmine specials at Sugi Matcha right now.",
+    "date": "Aug 2026",
+    "sort": 20260809,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7672003834985663758",
+    "platform": "TikTok",
+    "posts": 5
+   },
+   "facts": []
+  },
+  {
+   "id": "deadhorse-hill",
+   "name": "Deadhorse Hill",
+   "num": "281",
+   "street": "Main St",
+   "area": "downtown",
+   "cuisine": "New American",
+   "cravings": [
+    "drinks"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "dish": "Seasonal plates and the burger",
+   "tina": {
+    "quote": "Deadhorse Hill is o-fish-ally back from their summer break serving up some delicious dishes.",
+    "date": "Aug 2026",
+    "sort": 20260815,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7674244828212759821",
+    "platform": "TikTok",
+    "posts": 8,
+    "giveaway": "Dec 2025"
+   },
+   "facts": []
+  },
+  {
+   "id": "armsby-abbey",
+   "name": "Armsby Abbey",
+   "num": "144",
+   "street": "Main St",
+   "area": "downtown",
+   "cuisine": "Gastropub",
+   "cravings": [
+    "drinks",
+    "classic"
+   ],
+   "with": [
+    "group",
+    "date"
+   ],
+   "dish": "Pub plates and craft beer",
+   "tina": {
+    "quote": "I can't believe they're opened 7 days a week, so I can always catch a reliable meal here.",
+    "date": "Jan 2026",
+    "sort": 20260126,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7599655738490817822",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": [
+    "Open seven days a week, per Tina (Jan 2026)"
+   ]
+  },
+  {
+   "id": "rice-violet",
+   "name": "Rice Violet",
+   "num": "287",
+   "street": "Main St",
+   "area": "downtown",
+   "cuisine": "Thai",
+   "cravings": [
+    "spicy",
+    "bowls"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Thai rice and noodle plates",
+   "tina": {
+    "quote": "It's always a rice day when you have a delicious meal at Rice Violet.",
+    "date": "Mar 2026",
+    "sort": 20260316,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7617999211174415629",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": []
+  },
+  {
+   "id": "oishi",
+   "name": "Oishi",
+   "num": "389",
+   "street": "Main St",
+   "area": "downtown",
+   "cuisine": "Sushi",
+   "cravings": [
+    "sushi"
+   ],
+   "with": [
+    "anyone",
+    "date"
+   ],
+   "dish": "Sushi rolls",
+   "tina": {
+    "quote": "Does cream cheese belong in sushi?!",
+    "date": "Mar 2026",
+    "sort": 20260312,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7616420900228861197",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": []
+  },
+  {
+   "id": "alma-gaucha",
+   "name": "Alma Gaúcha",
+   "num": "526",
+   "street": "Main St",
+   "area": "downtown",
+   "cuisine": "Brazilian steakhouse",
+   "cravings": [],
+   "with": [
+    "group",
+    "family"
+   ],
+   "dish": "Grilled meats, carved at the table",
+   "tina": {
+    "quote": "Alma god, this was delicious.",
+    "date": "Apr 2026",
+    "sort": 20260414,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7628711132139670797",
+    "platform": "TikTok",
+    "posts": 3
+   },
+   "facts": []
+  },
+  {
+   "id": "la-scala",
+   "name": "La Scala",
+   "num": "183",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Italian",
+   "cravings": [
+    "italian"
+   ],
+   "with": [
+    "date",
+    "family"
+   ],
+   "dish": "Soup and pasta",
+   "tina": {
+    "quote": "Our first trip to La Scala was soup-er.",
+    "date": "May 2026",
+    "sort": 20260524,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7643572101235985678",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": []
+  },
+  {
+   "id": "kenichi",
+   "name": "Kenichi",
+   "num": "270",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Sushi",
+   "cravings": [
+    "sushi"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "dish": "Tuna and sushi",
+   "tina": {
+    "quote": "My siblings have it tu(na) good sometimes.",
+    "date": "Dec 2025",
+    "sort": 20251223,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7587198150666997005",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": []
+  },
+  {
+   "id": "basil-n-spice",
+   "name": "Basil N Spice",
+   "num": "299",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Thai",
+   "cravings": [
+    "spicy",
+    "bowls"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Thai noodles and curries",
+   "tina": {
+    "quote": "I never get Thai-ed of the food at Basil N Spice.",
+    "date": "Nov 2025",
+    "sort": 20251119,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7574222800156724535",
+    "platform": "TikTok",
+    "posts": 5,
+    "giveaway": "Dec 2025"
+   },
+   "facts": []
+  },
+  {
+   "id": "tropeiros",
+   "name": "Tropeiro's Grill",
+   "num": "480",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Brazilian steakhouse",
+   "cravings": [],
+   "with": [
+    "group",
+    "family"
+   ],
+   "dish": "All-you-can-eat grilled meats",
+   "tina": {
+    "quote": "Got beef? Resolve it over a Valentine's meal at Tropeiro's.",
+    "date": "Feb 2026",
+    "sort": 20260205,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7603498504111131918",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": [
+    "Tina's post included a reader discount code"
+   ]
+  },
+  {
+   "id": "kai-sushi",
+   "name": "Kai Sushi",
+   "num": "232",
+   "street": "Chandler St",
+   "area": "park-ave",
+   "cuisine": "Sushi",
+   "cravings": [
+    "sushi"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "dish": "All-you-can-eat salmon and hand rolls",
+   "tina": {
+    "quote": "$85 for all you can eat salmon is a dream.",
+    "date": "Jun 2026",
+    "sort": 20260627,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7656149480328203533",
+    "platform": "TikTok",
+    "posts": 12,
+    "giveaway": "Dec 2025"
+   },
+   "facts": [
+    "Hosts tuna-cutting and hand-roll events, per Tina"
+   ]
+  },
+  {
+   "id": "island-fin",
+   "name": "Island Fin",
+   "num": "41",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Poké bowls",
+   "cravings": [
+    "bowls",
+    "quick",
+    "sushi"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "dish": "Poké bowls and pickles",
+   "tina": {
+    "quote": "Their portion size is truly unbeatable.",
+    "date": "Jun 2025",
+    "sort": 20250611,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7514758388362808618",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": []
+  },
+  {
+   "id": "mia-cane",
+   "name": "Mia Cane",
+   "num": "261",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Coffee, croffles and acai",
+   "cravings": [
+    "sweet",
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "dish": "Pandan matcha and croffles",
+   "tina": {
+    "quote": "Pandan + matcha is a matcha made in heaven.",
+    "date": "Aug 2026",
+    "sort": 20260814,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7673886535816580365",
+    "platform": "TikTok",
+    "posts": 5
+   },
+   "facts": []
+  },
+  {
+   "id": "dalat",
+   "name": "Dalat",
+   "num": "425",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Vietnamese",
+   "cravings": [
+    "bowls",
+    "spicy"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Crab udon noodle soup and rice rolls",
+   "tina": {
+    "quote": "I especially recommend the crab udon noodle soup, rice rolls, and the coco mango slush.",
+    "date": "Aug 2026",
+    "sort": 20260811,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7672781095653395726",
+    "platform": "TikTok",
+    "posts": 3
+   },
+   "facts": []
+  },
+  {
+   "id": "phoever-whatever",
+   "name": "Phoever Whatever",
+   "num": "433",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Vietnamese",
+   "cravings": [
+    "bowls"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Pho in a stone bowl",
+   "tina": {
+    "quote": "This stone bowl will keep your meal pho-king hot.",
+    "date": "Sept 2026",
+    "sort": 20260925,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7689595235499822349",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": []
+  },
+  {
+   "id": "banh-mi-place",
+   "name": "The Banh Mi Place",
+   "num": "649",
+   "street": "Chandler St",
+   "area": "park-ave",
+   "cuisine": "Banh mi",
+   "cravings": [
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "dish": "Banh mi and refreshers",
+   "tina": {
+    "quote": "Banh mis are like a pate in your mouth.",
+    "date": "Feb 2026",
+    "sort": 20260201,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7601951796780666143",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": []
+  },
+  {
+   "id": "yolk-and-crumb",
+   "name": "Yolk & Crumb",
+   "num": "1130",
+   "street": "Pleasant St",
+   "area": "west-side",
+   "cuisine": "Bakery",
+   "cravings": [
+    "sweet",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Pastries",
+   "tina": {
+    "quote": "You're in dire knead of this bakery in your life…I'm still shook.",
+    "date": "Apr 2026",
+    "sort": 20260418,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7630131441434758413",
+    "platform": "TikTok",
+    "posts": 3
+   },
+   "facts": []
+  },
+  {
+   "id": "daphnes-tears",
+   "name": "Daphne's Tears",
+   "num": "1094",
+   "street": "Pleasant St",
+   "area": "west-side",
+   "cuisine": "Bagels and pies",
+   "cravings": [
+    "quick",
+    "sweet"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Bagel sandwiches and holiday pies",
+   "tina": {
+    "quote": "You can eat more hole foods at Daphne's Tears.",
+    "date": "Sept 2025",
+    "sort": 20250929,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7555627253976059191",
+    "platform": "TikTok",
+    "posts": 5,
+    "giveaway": "Dec 2025"
+   },
+   "facts": []
+  },
+  {
+   "id": "saigon",
+   "name": "Saigon",
+   "num": "976",
+   "street": "Main St",
+   "area": "main-south",
+   "cuisine": "Vietnamese",
+   "cravings": [
+    "bowls",
+    "spicy"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Vietnamese soups and fried plates",
+   "tina": {
+    "quote": "The cure to a cold New England is Saigon.",
+    "date": "Jan 2026",
+    "sort": 20260102,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7590867253059538231",
+    "platform": "TikTok",
+    "posts": 4
+   },
+   "facts": []
+  },
+  {
+   "id": "anh-thu",
+   "name": "Anh Thu II",
+   "num": "91",
+   "street": "Stafford St",
+   "area": "main-south",
+   "cuisine": "Vietnamese",
+   "cravings": [
+    "bowls"
+   ],
+   "with": [
+    "family",
+    "group"
+   ],
+   "dish": "Pho and a long menu",
+   "tina": {
+    "quote": "My parents' pho-king favorite Vietnamese restaurant in Worcester is Anh Thu II.",
+    "date": "Aug 2025",
+    "sort": 20250829,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7544009874171088142",
+    "platform": "TikTok",
+    "posts": 3
+   },
+   "facts": []
+  },
+  {
+   "id": "nan-xiang",
+   "name": "Nan Xiang Express",
+   "num": "20",
+   "street": "Boston Turnpike",
+   "area": "shrewsbury",
+   "cuisine": "Soup dumplings",
+   "cravings": [
+    "bowls",
+    "new"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "dish": "Soup dumplings",
+   "isNew": true,
+   "tina": {
+    "quote": "Here's the inside soup about the new dumpling spot in Shrewsbury.",
+    "date": "Feb 2026",
+    "sort": 20260226,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7611232877405031694",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": []
+  },
+  {
+   "id": "bbq-chicken",
+   "name": "bb.q Chicken",
+   "num": "288",
+   "street": "Boston Turnpike",
+   "area": "shrewsbury",
+   "cuisine": "Korean fried chicken",
+   "cravings": [
+    "spicy",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "group"
+   ],
+   "dish": "Korean fried chicken wings",
+   "tina": {
+    "quote": "Soy blessed to be eating these wings.",
+    "date": "May 2026",
+    "sort": 20260512,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7639009491081547021",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": []
+  },
+  {
+   "id": "sawa",
+   "name": "Sawa",
+   "num": "551",
+   "street": "Boston Turnpike",
+   "area": "shrewsbury",
+   "cuisine": "Hibachi",
+   "cravings": [],
+   "with": [
+    "group",
+    "family"
+   ],
+   "dish": "Hibachi at the grill",
+   "tina": {
+    "quote": "We had a fire time getting hibachi at Sawa!",
+    "date": "Jan 2026",
+    "sort": 20260122,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7598247468421238029",
+    "platform": "TikTok",
+    "posts": 2
+   },
+   "facts": []
+  },
+  {
+   "id": "motw-coffee",
+   "name": "MOTW Coffee",
+   "num": "378",
+   "street": "Maple Ave",
+   "area": "shrewsbury",
+   "cuisine": "Coffee and pastries",
+   "cravings": [
+    "sweet",
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "dish": "Matcha drinks and pastries",
+   "tina": {
+    "quote": "I've been going bananas for matcha everywhere.",
+    "date": "Oct 2026",
+    "sort": 20261006,
+    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7693342291343248653",
+    "platform": "TikTok",
+    "posts": 1
+   },
+   "facts": [
+    "Suite 3108, 378 Maple Ave, Shrewsbury, per Tina's post."
+   ]
+  }
+ ]
+}

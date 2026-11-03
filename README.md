@@ -10,6 +10,7 @@ The idea: **the brand is a sticker sheet.** Every mark, label and food illustrat
 | Brand book | [`brand/index.html`](brand/index.html) | Strategy, color, typography (with the display-font options), logo & marks (with the stamp options), motifs, voice, imagery, applications and the newer pages, don'ts, build tokens |
 | Launch questions | [`launch/index.html`](launch/index.html) | Every question and decision still open before launch, grouped (brand, facts to confirm, money, legal, build), with who decides each and what's already settled |
 | Example site | [`site/index.html`](site/index.html) | 87 pages of the website built from the system: home, explore (filters and neighborhood map), 52 real place pages with Tina's TikToks, 5 neighborhood guides, Woo-pons, daily deals, what's new, Restaurant Roulette, events, your bites, giveaways, food help (call ahead, phone numbers, SNAP, pantries, free meals, Woo Fridges), Tina, how it works, for restaurants with a partners directory and restaurant jobs, plus the paid side kept visibly apart: Work with Tina (media kit), the editorial and disclosure policy, the Monthly Crumbs newsletter page and its issue and welcome emails, a sample Enhanced listing, a link-in-bio page, Send something in (`site/submit.html`: every form, its price and what happens next), the business card (`site/business-card.html`), a mock-up of Tina's private review queue (`site/review-queue.html`) and Tina's brand picks (`site/tinas-picks.html`). Every page on the canvas is also a page on the site, and every site page is listed on the overview. Places, quotes and videos come from the first concept's data; deals, events, ads, prizes and the hosted visit are samples |
+| WordPress | [`wordpress/`](wordpress/README.md) | The real site: a block theme (`live-to-eat-food/`) and a companion plugin (`ltef-core/`) with places, Woo-pons, events, jobs, ad spots, every submission form and Tina's review queue. Install steps and what's still open are in its README |
 
 **Tina's picks (Oct 19):** Outfit 700 for headings, the sushi roll + bagel o's, the plate stamp and a barcode on the Woo-pons ticket.
 
@@ -37,6 +38,7 @@ assets/photos/videos/        real video covers, once tools/fetch-video-covers.py
 tools/fetch-video-covers.py  swaps the drawn video stills for each TikTok's own cover (run where TikTok is reachable)
 assets/site/                 screenshots of the example site for the overview — WebP
 tokens/theme.json            WordPress theme.json (v3) tokens
+wordpress/                   the WordPress block theme + companion plugin; build-zips.sh makes the installable zips
 tokens/ltef-tokens.css       the same tokens as CSS custom properties
 favicon.svg, apple-touch-icon.png
 PRODUCT.md, DESIGN.md        product truth and design-system record

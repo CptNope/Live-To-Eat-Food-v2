@@ -461,6 +461,9 @@ Revenue infrastructure, not a footer field. A lemon block (basil on dark sheets)
 ### Sheet (signature)
 The page section itself: field-coloured rounded sheet with four corner registration marks (16px crosshair-in-circle at 28% opacity, inverted on basil) and a slug line centred 22px from the bottom edge in Bricolage 600 at 12px, width 85%, +0.04em, olive (pistachio on basil), naming the sheet, e.g. "LTEF · Sheet 3 of 6 · Palette".
 
+### In WordPress (`wordpress/`)
+The block theme carries the same tokens in `theme.json` and the same stylesheet (site layout, components, page sections, then a thin WordPress layer). The components map to blocks: the sheet, panel and dashed card are **group block styles** (*Sheet*, *Panel*, *Dashed*; the field colour is the group's background); *Alt* is the outlined button; *Lede*, *Hand* (Tina's handwriting, tomato) and *Meta* are paragraph styles. Place cards and rows, the video still, Woo-pon tickets, ad spots (sold or "Ad space open"), events, jobs, Roulette and every form are server-rendered blocks from the companion plugin, so they always use live content and can't drift from these rules in the editor. Sheets pad to the 1240 content width, and their children stay left-aligned, as on the example site.
+
 ## Do's and Don'ts
 
 ### Do:

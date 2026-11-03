@@ -1,0 +1,34 @@
+<?php
+/**
+ * Title: Footer
+ * Slug: live-to-eat-food/footer
+ * Categories: footer
+ * Block Types: core/template-part/footer
+ * Inserter: no
+ */
+$u = function ( $p ) {
+	return esc_url( home_url( $p ) );
+};
+?>
+<!-- wp:group {"tagName":"footer","className":"ltef-footer","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"top"}} -->
+<footer class="wp-block-group ltef-footer"><!-- wp:group {"style":{"layout":{"selfStretch":"fixed","flexSize":"560px"}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group"><!-- wp:paragraph -->
+<p><strong>Every pick is a real meal.</strong> Tina pays for her meals; when she doesn’t, the page says so. Paid things always say so too.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"ltef-credit"} -->
+<p class="ltef-credit">Site designed and built by <a href="https://jeremyanderson.tech" target="_blank" rel="noreferrer noopener">Jeremy Anderson Tech</a>, a Live to Eat Food partner.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:navigation {"ariaLabel":"Footer","overlayMenu":"never","layout":{"type":"flex","flexWrap":"wrap"}} -->
+<!-- wp:navigation-link {"label":"How it works","url":"<?php echo $u( '/how-it-works/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Editorial policy","url":"<?php echo $u( '/editorial-policy/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Food help","url":"<?php echo $u( '/food-help/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"For restaurants","url":"<?php echo $u( '/for-restaurants/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Work with Tina","url":"<?php echo $u( '/work-with-tina/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"About Tina","url":"<?php echo $u( '/tina/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Monthly Crumbs","url":"<?php echo $u( '/crumbs/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Send something in","url":"<?php echo $u( '/submit/' ); ?>","kind":"custom"} /-->
+<!-- /wp:navigation --></footer>
+<!-- /wp:group -->

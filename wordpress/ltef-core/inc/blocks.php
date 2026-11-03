@@ -1,0 +1,340 @@
+<?php
+/**
+ * Dynamic blocks. Each renders on the server from the content types; the editor shows a live preview.
+ *
+ * @package LTEF
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Block definitions: name => [ title, description, icon, attributes, render callback, uses post context ].
+ */
+function ltef_block_defs() {
+	return array(
+		'place-take'     => array( 'Place: Tina’s take', 'Labels, verdict, what Tina ordered and her line, with the hosted-visit note when it applies.', 'format-quote', array(), 'ltef_block_place_take', true ),
+		'place-video'    => array( 'Place: Tina’s video', 'Her post as a paused still; it loads only when pressed.', 'video-alt3', array(), 'ltef_block_place_video', true ),
+		'place-facts'    => array( 'Place: Before you go', 'Address, hours, phone and what’s worth knowing, with the place-page ad spot beside it.', 'info-outline', array( 'showAd' => array( 'type' => 'boolean', 'default' => true ) ), 'ltef_block_place_facts', true ),
+		'place-card'     => array( 'Place card', 'One place as a card. Use inside a Query Loop of places.', 'id', array(), 'ltef_block_place_card', true ),
+		'latest-places'  => array( 'Tina’s latest picks', 'Her newest places as cards.', 'location', array( 'count' => array( 'type' => 'number', 'default' => 4 ) ), 'ltef_block_latest_places', false ),
+		'explore'        => array( 'Explore every place', 'Every place with search and filters, and the Explore ad spot after the fourth.', 'search', array(), 'ltef_block_explore', false ),
+		'woopons'        => array( 'Woo-pons', 'The live Woo-pons with filter chips, or only the online partner codes.', 'tickets-alt', array( 'show' => array( 'type' => 'string', 'default' => 'local' ) ), 'ltef_block_woopons', false ),
+		'woopon-ticket'  => array( 'Woo-pon ticket', 'The current Woo-pon as a ticket.', 'tickets-alt', array(), 'ltef_block_woopon_ticket', true ),
+		'ad-spot'        => array( 'Ad spot', 'The sold ad for this spot, or “Ad space open” with a way to advertise.', 'megaphone', array( 'spot' => array( 'type' => 'string', 'default' => 'home' ) ), 'ltef_block_ad_spot', false ),
+		'submit-form'    => array( 'Submission form', 'A form that sends to Tina’s review queue.', 'feedback', array( 'form' => array( 'type' => 'string', 'default' => 'woopon' ) ), 'ltef_block_submit_form', false ),
+		'events'         => array( 'Upcoming events', 'Events from today on, premium listings first in their week.', 'calendar-alt', array( 'count' => array( 'type' => 'number', 'default' => 12 ) ), 'ltef_block_events', false ),
+		'jobs'           => array( 'Restaurant jobs', 'Open job posts with filter chips.', 'businessperson', array(), 'ltef_block_jobs', false ),
+		'roulette'       => array( 'Restaurant Roulette', 'The wheel: Tina’s places or every restaurant.', 'image-rotate', array(), 'ltef_block_roulette', false ),
+		'verdicts'       => array( 'Tina’s two verdicts', 'Favorite and Don’t miss, explained.', 'star-filled', array(), 'ltef_block_verdicts', false ),
+	);
+}
+
+add_action( 'init', 'ltef_register_blocks' );
+function ltef_register_blocks() {
+	wp_register_script( 'ltef-editor', LTEF_URL . 'assets/js/editor.js', array( 'wp-blocks', 'wp-element', 'wp-server-side-render', 'wp-block-editor', 'wp-components', 'wp-i18n' ), LTEF_VERSION, true );
+	$defs = array();
+	foreach ( ltef_block_defs() as $slug => $d ) {
+		list( $title, $desc, $icon, $attrs, $cb, $uses_post ) = $d;
+		register_block_type(
+			'ltef/' . $slug,
+			array(
+				'api_version'     => 3,
+				'title'           => $title,
+				'description'     => $desc,
+				'category'        => 'ltef',
+				'icon'            => $icon,
+				'attributes'      => $attrs,
+				'uses_context'    => $uses_post ? array( 'postId', 'postType' ) : array(),
+				'render_callback' => $cb,
+				'editor_script'   => 'ltef-editor',
+				'supports'        => array( 'html' => false, 'align' => array( 'wide', 'full' ) ),
+			)
+		);
+		$defs[ 'ltef/' . $slug ] = array( 'title' => $title, 'description' => $desc, 'icon' => $icon, 'attributes' => $attrs, 'usesContext' => $uses_post ? array( 'postId', 'postType' ) : array() );
+	}
+	wp_add_inline_script( 'ltef-editor', 'window.LTEF_BLOCKS = ' . wp_json_encode( $defs ) . ';', 'before' );
+}
+
+add_filter(
+	'block_categories_all',
+	function ( $cats ) {
+		array_unshift( $cats, array( 'slug' => 'ltef', 'title' => 'Live to Eat Food' ) );
+		return $cats;
+	}
+);
+
+/** Front-end script: video play, filters, Roulette, the VIP flyer field. */
+add_action(
+	'wp_enqueue_scripts',
+	function () {
+		wp_enqueue_script( 'ltef', LTEF_URL . 'assets/js/ltef.js', array(), LTEF_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	}
+);
+
+function ltef_ctx_post( $block ) {
+	if ( isset( $block->context['postId'] ) ) {
+		return (int) $block->context['postId'];
+	}
+	return (int) get_the_ID();
+}
+
+function ltef_wrap( $html, $class = '' ) {
+	return '<div ' . get_block_wrapper_attributes( array( 'class' => $class ) ) . '>' . $html . '</div>';
+}
+
+function ltef_block_place_take( $attrs, $content, $block ) {
+	$id = ltef_ctx_post( $block );
+	if ( ! $id || 'ltef_place' !== get_post_type( $id ) ) {
+		return '';
+	}
+	$out  = '<div class="place-labels">' . ltef_place_labels( $id ) . '</div>';
+	$out .= '<p class="meta place-meta">' . esc_html( ltef_place_meta_line( $id ) ) . '</p>';
+	$v    = ltef_verdict_html( ltef_meta( $id, 'verdict' ) );
+	if ( ltef_meta( $id, 'hosted' ) ) {
+		$out .= '<p class="ltef-disclose">' . ltef_icon( 'mail' ) . '<span>Hosted visit: ' . esc_html( get_the_title( $id ) ) . ' invited Tina and covered this meal. Nobody paid for this page or saw it before it went up.</span></p>';
+	}
+	if ( ltef_tina_ate( $id ) ) {
+		$dish = ltef_meta( $id, 'dish' );
+		if ( $dish ) {
+			$out .= '<div class="ordered"><span class="ordered__ph" style="background: var(--' . esc_attr( ltef_place_field( $id ) ) . ');"><img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $id ) ) ) . '" alt="" width="56" height="56"></span><span class="ordered__txt"><span class="ordered__k">What Tina ordered</span><span class="ordered__dish">' . esc_html( $dish ) . '</span></span></div>';
+		}
+		if ( ltef_meta( $id, 'tina_quote' ) ) {
+			$out .= '<p class="ltef-note place-quote">“' . esc_html( ltef_meta( $id, 'tina_quote' ) ) . '”</p>';
+		}
+		$out .= $v ? '<div class="ltef-verdicts">' . $v . '</div>' : '<p class="verdict-line"><span class="verdict-line__k">No verdict yet</span> Tina marks a place Favorite or Don’t miss when it really gets her. <a href="' . esc_url( home_url( '/how-it-works/#verdicts' ) ) . '">How verdicts work</a></p>';
+	} else {
+		$out .= '<p class="verdict-line"><span class="verdict-line__k">Not yet</span> Tina hasn’t posted from here. <a href="' . esc_url( home_url( '/how-it-works/#suggest' ) ) . '">Think she should go?</a></p>';
+	}
+	return ltef_wrap( $out, 'place-take' );
+}
+
+function ltef_block_place_video( $attrs, $content, $block ) {
+	$id = ltef_ctx_post( $block );
+	return $id ? ltef_wrap( ltef_video_html( $id ), 'place-video' ) : '';
+}
+
+function ltef_block_place_facts( $attrs, $content, $block ) {
+	$id = ltef_ctx_post( $block );
+	if ( ! $id || 'ltef_place' !== get_post_type( $id ) ) {
+		return '';
+	}
+	$rail = '';
+	if ( ! empty( $attrs['showAd'] ) && ! ltef_meta( $id, 'enhanced' ) && 0 === $id % 2 ) {
+		$area = ltef_place_area_name( $id );
+		$rail = '<div class="go-rail"><h2 class="go-rail__h">From a local business</h2>' . ltef_ad_spot( 'rail', $area ? 'Reach people looking at ' . $area . ' places. One local business per page.' : '' ) . '</div>';
+	}
+	return ltef_wrap( '<div class="go-grid' . ( $rail ? ' go-grid--rail' : '' ) . '">' . ltef_place_facts( $id ) . $rail . '</div>', 'place-facts' );
+}
+
+function ltef_block_place_card( $attrs, $content, $block ) {
+	$id = ltef_ctx_post( $block );
+	return $id ? ltef_wrap( ltef_place_card( $id ) ) : '';
+}
+
+/** Places Tina ate at, newest post first. */
+function ltef_tina_places( $count = -1 ) {
+	return get_posts(
+		array(
+			'post_type'   => 'ltef_place',
+			'post_status' => 'publish',
+			'numberposts' => $count,
+			'meta_key'    => 'ltef_tina_date', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'orderby'     => array( 'meta_value' => 'DESC', 'date' => 'DESC' ),
+			'meta_query'  => array( array( 'key' => 'ltef_tina_date', 'value' => '', 'compare' => '!=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+		)
+	);
+}
+
+function ltef_block_latest_places( $attrs ) {
+	$posts = ltef_tina_places( max( 1, (int) ( $attrs['count'] ?? 4 ) ) );
+	if ( ! $posts ) {
+		return ltef_wrap( '<p class="meta">Tina’s places show up here once they’re added under Places.</p>' );
+	}
+	return ltef_wrap( '<div class="cards">' . implode( '', array_map( function ( $p ) { return ltef_place_card( $p->ID ); }, $posts ) ) . '</div>' );
+}
+
+function ltef_block_explore() {
+	$tina  = ltef_tina_places();
+	$rest  = get_posts(
+		array(
+			'post_type'   => 'ltef_place',
+			'post_status' => 'publish',
+			'numberposts' => -1,
+			'orderby'     => 'title',
+			'order'       => 'ASC',
+			'meta_query'  => array( 'relation' => 'OR', array( 'key' => 'ltef_tina_date', 'compare' => 'NOT EXISTS' ), array( 'key' => 'ltef_tina_date', 'value' => '' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+		)
+	);
+	$all   = array_merge( $tina, $rest );
+	$rows  = array_map( function ( $p ) { return ltef_place_row( $p->ID ); }, $all );
+	if ( count( $rows ) >= 4 ) {
+		array_splice( $rows, 4, 0, array( ltef_ad_spot( 'feed' ) ) );
+	}
+	$opts = function ( $tax, $any ) {
+		$terms = get_terms( array( 'taxonomy' => $tax, 'hide_empty' => true ) );
+		$o     = '<option value="">' . esc_html( $any ) . '</option>';
+		foreach ( is_wp_error( $terms ) ? array() : $terms as $t ) {
+			$o .= '<option value="' . esc_attr( $t->slug ) . '">' . esc_html( $t->name ) . '</option>';
+		}
+		return $o;
+	};
+	$form = '<form class="explore-find panel" role="search" data-explore-form>'
+		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-q">Looking for a dish or a place?</label><input class="ltef-input" id="ex-q" type="search" placeholder="A dish or a place, like crudo or fufu" data-explore-q></div>'
+		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-craving">Craving</label><select class="ltef-input" id="ex-craving" data-explore-craving>' . $opts( 'ltef_craving', 'Anything' ) . '</select></div>'
+		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-area">Neighborhood</label><select class="ltef-input" id="ex-area" data-explore-area>' . $opts( 'ltef_area', 'Everywhere' ) . '</select></div>'
+		. '<button class="ltef-chip" type="button" aria-pressed="false" data-explore-tina>Only places Tina’s been</button></form>';
+	$out  = $form . '<p class="meta" aria-live="polite" data-explore-count>' . count( $all ) . ' places</p><div class="explore-list">' . implode( '', $rows ) . '</div>'
+		. '<p class="meta explore-empty" data-explore-empty hidden>Nothing matches. Try another craving or neighborhood, or <a href="' . esc_url( home_url( '/how-it-works/#suggest' ) ) . '">tell Tina where to go</a>.</p>';
+	return ltef_wrap( $out, 'ltef-explore' );
+}
+
+function ltef_live_woopons( $online ) {
+	$posts = get_posts( array( 'post_type' => 'ltef_woopon', 'post_status' => 'publish', 'numberposts' => -1, 'orderby' => 'date', 'order' => 'DESC' ) );
+	$live  = array_filter(
+		$posts,
+		function ( $p ) use ( $online ) {
+			$is_online = 'online' === ltef_meta( $p->ID, 'kind' );
+			return ltef_woopon_live( $p->ID ) && $is_online === $online;
+		}
+	);
+	usort(
+		$live,
+		function ( $a, $b ) {
+			return ( 'vip' === ltef_meta( $b->ID, 'tier' ) ) <=> ( 'vip' === ltef_meta( $a->ID, 'tier' ) );
+		}
+	);
+	return $live;
+}
+
+function ltef_block_woopons( $attrs ) {
+	$online = 'online' === ( $attrs['show'] ?? 'local' );
+	$live   = ltef_live_woopons( $online );
+	if ( ! $live ) {
+		return ltef_wrap( '<p class="meta">No Woo-pons live right now. <a href="#submit">Run one</a>: the first two weeks are free.</p>' );
+	}
+	$tickets = implode( '', array_map( function ( $p ) { return ltef_woopon_ticket( $p->ID ); }, $live ) );
+	$chips   = '';
+	if ( ! $online ) {
+		$chips = '<div class="ltef-chips" role="group" aria-label="Filter deals"><button class="ltef-chip" type="button" data-deal-filter="all" aria-pressed="true">All deals</button><button class="ltef-chip" type="button" data-deal-filter="food" aria-pressed="false">Food &amp; drink</button><button class="ltef-chip" type="button" data-deal-filter="service" aria-pressed="false">Services</button><button class="ltef-chip" type="button" data-deal-filter="soon" aria-pressed="false">Ending soon</button></div>'
+			. '<p class="meta" aria-live="polite"><span data-deal-count>' . count( $live ) . ' deals</span> · Businesses pay to list Woo-pons; that never buys a pick.</p>';
+	}
+	return ltef_wrap( $chips . '<div class="woopon-grid">' . $tickets . '</div>', 'ltef-woopons' );
+}
+
+function ltef_block_woopon_ticket( $attrs, $content, $block ) {
+	$id = ltef_ctx_post( $block );
+	return $id && 'ltef_woopon' === get_post_type( $id ) ? ltef_wrap( ltef_woopon_ticket( $id ) ) : '';
+}
+
+function ltef_block_ad_spot( $attrs ) {
+	return ltef_wrap( ltef_ad_spot( sanitize_key( $attrs['spot'] ?? 'home' ) ) );
+}
+
+function ltef_block_events( $attrs ) {
+	$posts = get_posts(
+		array(
+			'post_type'   => 'ltef_event',
+			'post_status' => 'publish',
+			'numberposts' => max( 1, (int) ( $attrs['count'] ?? 12 ) ),
+			'meta_key'    => 'ltef_date', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'orderby'     => 'meta_value',
+			'order'       => 'ASC',
+			'meta_query'  => array( array( 'key' => 'ltef_date', 'value' => ltef_today(), 'compare' => '>=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+		)
+	);
+	if ( ! $posts ) {
+		return ltef_wrap( '<p class="meta">Nothing listed yet. <a href="#submit">Add your event</a>: listing is free.</p>' );
+	}
+	// premium listings first within their week
+	usort(
+		$posts,
+		function ( $a, $b ) {
+			$wa = gmdate( 'oW', strtotime( ltef_meta( $a->ID, 'date' ) ) );
+			$wb = gmdate( 'oW', strtotime( ltef_meta( $b->ID, 'date' ) ) );
+			if ( $wa !== $wb ) {
+				return strcmp( $wa, $wb );
+			}
+			$pa = (int) ltef_meta( $a->ID, 'premium' );
+			$pb = (int) ltef_meta( $b->ID, 'premium' );
+			return $pb <=> $pa ?: strcmp( ltef_meta( $a->ID, 'date' ), ltef_meta( $b->ID, 'date' ) );
+		}
+	);
+	return ltef_wrap( '<div class="ev-list">' . implode( '', array_map( function ( $p ) { return ltef_event_row( $p->ID ); }, $posts ) ) . '</div>' );
+}
+
+function ltef_block_jobs() {
+	$posts = get_posts( array( 'post_type' => 'ltef_job', 'post_status' => 'publish', 'numberposts' => -1 ) );
+	$posts = array_filter( $posts, function ( $p ) { $u = ltef_meta( $p->ID, 'until' ); return ! $u || $u >= ltef_today(); } );
+	if ( ! $posts ) {
+		return ltef_wrap( '<p class="meta">No jobs posted right now. <a href="#post-job">Post one</a>.</p>' );
+	}
+	$chips = '<div class="ltef-chips" role="group" aria-label="Kind of job"><button class="ltef-chip" type="button" data-job-filter="all" aria-pressed="true">All jobs</button><button class="ltef-chip" type="button" data-job-filter="front" aria-pressed="false">Front of house</button><button class="ltef-chip" type="button" data-job-filter="kitchen" aria-pressed="false">Kitchen</button><button class="ltef-chip" type="button" data-job-filter="manage" aria-pressed="false">Management</button><button class="ltef-chip" type="button" data-job-filter="part" aria-pressed="false">Part-time</button></div>';
+	return ltef_wrap( $chips . '<div class="job-list">' . implode( '', array_map( function ( $p ) { return ltef_job_row( $p->ID ); }, $posts ) ) . '</div><p class="meta">Posts come from the businesses, and each is a paid post. A job post isn’t a pick: it never changes what Tina says about a place.</p>' );
+}
+
+function ltef_block_verdicts() {
+	return ltef_wrap( '<div class="ltef-verdicts">' . ltef_verdict_html( 'favorite' ) . ltef_verdict_html( 'dont-miss' ) . '</div><p>No stars and no scores. When a place or a dish really gets her, Tina marks it <strong>Favorite</strong> (the star: she keeps going back) or <strong>Don’t miss</strong> (the target: order this one). Most places get neither, and that’s fine: the post and her words say the rest. Only Tina gives them, only for meals she ate, and nothing pays for one.</p>', 'verdicts-row' );
+}
+
+function ltef_block_roulette() {
+	$places = get_posts( array( 'post_type' => 'ltef_place', 'post_status' => 'publish', 'numberposts' => -1 ) );
+	$data   = array();
+	foreach ( $places as $p ) {
+		$cr = get_the_terms( $p->ID, 'ltef_craving' );
+		$wi = get_the_terms( $p->ID, 'ltef_with' );
+		$data[] = array(
+			'id'       => $p->ID,
+			'name'     => $p->post_title,
+			'meta'     => ltef_place_meta_line( $p->ID ),
+			'tina'     => ltef_tina_ate( $p->ID ),
+			'month'    => ltef_month_label( ltef_meta( $p->ID, 'tina_date' ) ),
+			'quote'    => (string) ltef_meta( $p->ID, 'tina_quote' ),
+			'dish'     => (string) ltef_meta( $p->ID, 'dish' ),
+			'url'      => (string) ltef_meta( $p->ID, 'tina_video' ),
+			'href'     => get_permalink( $p->ID ),
+			'maps'     => ltef_maps_url( $p->post_title, (string) ltef_meta( $p->ID, 'address' ) ),
+			'img'      => ltef_sticker_url( ltef_place_sticker( $p->ID ) ),
+			'bg'       => 'var(--' . ltef_place_field( $p->ID ) . ')',
+			'cravings' => ( $cr && ! is_wp_error( $cr ) ) ? wp_list_pluck( $cr, 'slug' ) : array(),
+			'with'     => ( $wi && ! is_wp_error( $wi ) ) ? wp_list_pluck( $wi, 'slug' ) : array(),
+		);
+	}
+	$chips = function ( $attr, $items ) {
+		$h = '';
+		$i = 0;
+		foreach ( $items as $k => $v ) {
+			$h .= '<button class="ltef-chip" type="button" data-' . $attr . '="' . esc_attr( $k ) . '" aria-pressed="' . ( 0 === $i++ ? 'true' : 'false' ) . '">' . esc_html( $v ) . '</button>';
+		}
+		return $h;
+	};
+	$cravings = array( '' => 'Anything' );
+	foreach ( get_terms( array( 'taxonomy' => 'ltef_craving', 'hide_empty' => true ) ) as $t ) {
+		if ( ! is_wp_error( $t ) && is_object( $t ) ) {
+			$cravings[ $t->slug ] = $t->name;
+		}
+	}
+	$withs = array( '' => 'Anyone' );
+	foreach ( get_terms( array( 'taxonomy' => 'ltef_with', 'hide_empty' => true ) ) as $t ) {
+		if ( is_object( $t ) && 'anyone' !== $t->slug ) {
+			$withs[ $t->slug ] = $t->name;
+		}
+	}
+	$wheel = function_exists( 'get_theme_file_uri' ) ? get_theme_file_uri( 'assets/img/stickers/roulette-wheel.svg' ) : '';
+	$ptr   = function_exists( 'get_theme_file_uri' ) ? get_theme_file_uri( 'assets/img/stickers/roulette-pointer.svg' ) : '';
+	$html  = '<div class="roul" data-roulette>'
+		. '<div class="roul-left"><div class="roul-result" aria-live="polite">'
+		. '<div class="roul-card roul-card--wait" data-state="spinning" hidden><p class="h-m">Spinning…</p><p>Picking from <span data-f="count"></span> places.</p></div>'
+		. '<div class="roul-card roul-card--none" data-state="nomatch" hidden><p class="h-m">Nothing on the wheel for that yet.</p><p>Try a different craving, or say anyone’s coming.</p></div>'
+		. '<article class="roul-card roul-card--pick" data-state="pick" hidden><div class="roul-card__labels"><span class="ltef-lbl ltef-lbl--tina" data-if="tina">' . ltef_icon( 'pen' ) . 'Tina ate here · <span data-f="month"></span></span><span class="ltef-lbl ltef-lbl--notyet" data-if="notyet">Tina hasn’t been yet</span></div>'
+		. '<h2 class="roul-card__name" tabindex="-1" data-f="name"></h2><p class="meta" data-f="meta"></p>'
+		. '<div data-if="tina"><div class="ordered"><span class="ordered__ph" data-f="bg"><img src="" alt="" data-f="img" width="56" height="56"></span><span class="ordered__txt"><span class="ordered__k">What Tina ordered</span><span class="ordered__dish" data-f="dish"></span></span></div><p class="ltef-note">“<span data-f="quote"></span>”</p></div>'
+		. '<p data-if="notyet">Tina hasn’t eaten here yet, so there’s no video or take. It’s on the wheel because you picked all restaurants.</p>'
+		. '<div class="roul-card__acts"><a class="ltef-btn" href="#" data-f="maps" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions</a><a class="ltef-btn ltef-btn--alt" href="#" data-f="video" data-if="tina" target="_blank" rel="noopener">' . ltef_icon( 'play' ) . 'Watch Tina’s video</a><a class="ltef-btn ltef-btn--alt" href="#" data-f="href">See the place</a></div></article></div>'
+		. '<div class="roul-adjust"><div class="roul-group"><span class="roul-group__h">Spin from</span><div class="ltef-chips" role="group" aria-label="Which places">' . $chips( 'where', array( 'tina' => 'Where Tina ate', 'all' => 'All restaurants' ) ) . '</div></div>'
+		. '<div class="roul-group"><span class="roul-group__h">I’m in the mood for</span><div class="ltef-chips" role="group" aria-label="Craving">' . $chips( 'mood', $cravings ) . '</div></div>'
+		. '<div class="roul-group"><span class="roul-group__h">Who’s coming</span><div class="ltef-chips" role="group" aria-label="Who’s coming">' . $chips( 'with', $withs ) . '</div></div></div></div>'
+		. '<div class="roul-wheel"><div class="roul-wheel__disc"><img src="' . esc_url( $ptr ) . '" alt="" class="roul-pointer"><img src="' . esc_url( $wheel ) . '" alt="Restaurant Roulette wheel" data-wheel></div>'
+		. '<button class="ltef-btn ltef-btn--alt roul-spin" type="button" data-spin>' . ltef_icon( 'spin' ) . '<span data-spin-label>Spin for it</span></button></div>'
+		. '<script type="application/json" data-roulette-places>' . wp_json_encode( $data, JSON_HEX_TAG | JSON_HEX_AMP ) . '</script></div>';
+	return ltef_wrap( $html, 'ltef-roulette' );
+}
