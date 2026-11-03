@@ -616,3 +616,8 @@ th, td { padding: 12px 14px; }
 .hero-stickers { display: grid; grid-auto-flow: dense; grid-template-columns: repeat(auto-fill, minmax(clamp(52px, 7vw, 76px), 1fr)); gap: clamp(10px, 1.6vw, 18px); align-items: center; justify-items: center; margin-top: 8px; }
 .hero-stickers .food { width: 100%; max-width: 76px; height: auto; }
 .hero-stickers .food.wide { grid-column: span 2; max-width: 150px; }
+
+/* Nov 2: the business card in Applications */
+.card-mock { display: grid; gap: 16px; justify-items: center; }
+.app:nth-child(even) .card-mock { order: 2; }
+.card-mock img { width: min(100%, 420px); height: auto; border-radius: 10px; box-shadow: var(--lift); }

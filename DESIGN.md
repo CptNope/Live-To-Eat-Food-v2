@@ -266,7 +266,7 @@ Daylight pastels led by yellows and greens, held together by a single deep basil
 
 ### Primary
 - **Basil Ink** (`basil`): the brand's one ink. All body text, headings, outlines, the primary button, the dark closing sheet. Reaches AA on every pastel (9.8:1 on lemon, 11.3:1 on butter).
-- **Lemon Sheet** (`lemon`): the signature field. Hero sheets, the merch hero, giveaways, the avatar disc, the page canvas behind the sheets and the browser theme colour.
+- **Lemon Sheet** (`lemon`): the signature field. Hero sheets, giveaways, the business card front, the avatar disc, the page canvas behind the sheets and the browser theme colour.
 
 ### Secondary
 - **Pistachio Sheet** (`pistachio`): the second field. Deals, guides, community, alternating sheets, the Woo-pon ticket and deal labels.
@@ -283,7 +283,7 @@ Daylight pastels led by yellows and greens, held together by a single deep basil
 - **Butter Ground** (`butter`): the default sheet field and reading ground; also nav hover, table heads and the phone-screen ground.
 - **White Vinyl** (`vinyl`): sticker faces, panels, cards, die-cut borders, the secondary button, the ring around the primary button.
 - **Olive** (`olive`): secondary text, captions, meta, slugs, inactive tabs, dashed outlines (7.1:1 on butter).
-- **Oat** (`oat`) with **Oat Hatch** (`oat-hatch`): paid surfaces only, always as a −45° stripe of the two, a basil outline and the word "Sponsored".
+- **Oat** (`oat`) with **Oat Hatch** (`oat-hatch`): paid surfaces only, always as a −45° stripe of the two, a basil outline and the words "Paid ad" (or the paid thing's own name: VIP Woo-pon, Premium listing, Job post, Paid visit).
 
 ### Named Rules
 **The One Ink Rule.** Text is basil (or olive for secondary, leaf for links, tomato for Tina's hand). White text appears only on basil or leaf. White or pale text on a pastel never ships: white on lemon is 1.2:1.
@@ -294,7 +294,7 @@ Daylight pastels led by yellows and greens, held together by a single deep basil
 
 ## Typography
 
-**Display Font:** Outfit 700 (with Helvetica Neue, Arial, system-ui). Tina picked it over Bagel Fat One on Oct 19, 2026; Bagel Fat One survives only in the wordmark's outlined letters.
+**Display Font:** Outfit 700 (with Helvetica Neue, Arial, system-ui). Tina picked it over Bagel Fat One on Oct 19, 2026, and on Nov 2 the wordmark moved to Outfit as well: the bubble letters are retired (kept as `assets/logo/options/ltef-wordmark-bagel.svg`).
 **Body Font:** Figtree (with Segoe UI, system-ui, -apple-system)
 **Label/Interface Font:** Bricolage Grotesque (with Figtree, system-ui), widths 85–100
 **Hand Font:** Shantell Sans (with Comic Neue, Segoe Print, cursive)
@@ -306,7 +306,7 @@ Code samples (token blocks, theme.json) use the platform monospace stack (`ui-mo
 ### Hierarchy
 - **Display** (400, 44–96px fluid, 0.95): one per page, the page's big promise or a place name.
 - **Headline** (400, 36–64px fluid, 1.0): sheet (section) headings, set left in a two-column head with the lede beside them.
-- **Title** (400, 26–36px fluid, 1.08): card titles, deal amounts, merch lines, the hero line under the wordmark.
+- **Title** (400, 26–36px fluid, 1.08): card titles, deal amounts, prices, the hero line under the wordmark.
 - **Title small** (400, 22px, 1.15): place names in lists, small sticker titles. The display face is never used below 20px.
 - **Lede** (Figtree 400, 19–22px fluid, 1.5): sheet intros, max 40–50ch.
 - **Body** (Figtree 400, 17px, 1.6; 16px floor on phones): everything people read, max 68ch, `ss01` on.
@@ -344,7 +344,7 @@ Depth is physical and shallow: paper sheets lifted barely off a table, stickers 
 - **Sheet** (`box-shadow: 0 1px 0 rgb(30 59 42 / .06), 0 14px 30px -20px rgb(30 59 42 / .4)`): every backing sheet.
 - **Lift** (`box-shadow: 0 1px 1px rgb(30 59 42 / .10), 0 8px 18px -8px rgb(30 59 42 / .32)`): stickers, panels, buttons, current nav item, phone UI pieces.
 - **Lift high** (`box-shadow: 0 2px 2px rgb(30 59 42 / .10), 0 18px 30px -12px rgb(30 59 42 / .38)`): peeled (hovered) link stickers and the phone mockup frame.
-- **Kiss-cut ring** (`box-shadow: 0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .16)`): prepended to Lift on every sticker, panel, table wrap and do/don't figure; merch items use 6px/7.5px.
+- **Kiss-cut ring** (`box-shadow: 0 0 0 5px var(--field), 0 0 0 6.5px rgb(30 59 42 / .16)`): prepended to Lift on every sticker, panel, table wrap and do/don't figure.
 - **Food sticker drop** (`filter: drop-shadow(0 1px 1px rgb(30 59 42 / .12)) drop-shadow(0 6px 8px rgb(30 59 42 / .18))`): SVG food stickers, which carry their own white die-cut border.
 
 ### Named Rules
@@ -354,7 +354,7 @@ Depth is physical and shallow: paper sheets lifted barely off a table, stickers 
 
 ## Shapes
 
-Everything is soft and rounded, like die-cut vinyl: sheets at 36px (26px on phones), merch items 30px, stickers and panels 24px, cards 20px, swatch chips 16px, inner photo frames 14px, and pills for every button, nav link, chip and trust label. In between sit the 22px screenshot and stage frames, 18px Woo-pon tickets, 12px tags and disclosure lines, an 8px focus ring, and the phone mockups (44px body, 34px screen). The one deliberate square-ish corner is the Sponsored tag (6px), so paid content reads as a different object. Food stickers are freeform silhouettes with a thick white border following the shape; the trust stamp is a plate seen from above, fork and knife at the rim; the Woo-pon is a ticket with radial notches cut into both sides and a dotted perforation. Inner ink outlines on UI pieces run 2–2.5px basil (inset), matching the 4u outline in the artwork.
+Everything is soft and rounded, like die-cut vinyl: sheets at 36px (26px on phones), stickers and panels 24px, cards 20px, swatch chips 16px, inner photo frames 14px, and pills for every button, nav link, chip and trust label. In between sit the 22px screenshot and stage frames, 18px Woo-pon tickets, 12px tags and disclosure lines, an 8px focus ring, and the phone mockups (44px body, 34px screen). The one deliberate square-ish corner is the Sponsored tag (6px), so paid content reads as a different object. Food stickers are freeform silhouettes with a thick white border following the shape; the trust stamp is a plate seen from above, fork and knife at the rim; the Woo-pon is a ticket with radial notches cut into both sides and a dotted perforation. Inner ink outlines on UI pieces run 2–2.5px basil (inset), matching the 4u outline in the artwork.
 
 ## Components
 
@@ -373,7 +373,7 @@ Pill stickers: tactile, confident, rimmed in white vinyl.
 - **State:** selected chips flip to basil fill with white text and drop the ring. Pass/Fail and Do/Don't badges always pair an icon with a word.
 
 ### Cards / Containers
-- **Corner Style:** stickers and panels 24px; app cards 20px; merch items 30px.
+- **Corner Style:** stickers and panels 24px; app cards 20px.
 - **Background:** white vinyl on a pastel sheet.
 - **Shadow Strategy:** kiss-cut ring plus Lift (see Elevation & Depth).
 - **Border:** none; outlines are inset shadows.
@@ -398,13 +398,13 @@ Pill labels, 36px tall, icon plus word, each visually unlike the others so meani
 - **Tina ate here:** white pill, 2.5px inset tomato outline, Shantell Sans 700 in tomato, always with the visit month.
 - **Verified business:** leaf fill, white Bricolage, shield icon.
 - **Tina hasn't been yet:** transparent with a 2px dashed olive border.
-- **Sponsored:** 6px-radius tag, oat/oat-hatch −45° stripes, 2px inset basil outline, dollar icon.
+- **Paid ad** (said "Sponsored" until Nov 2, 2026): 6px-radius tag, oat/oat-hatch −45° stripes, 2px inset basil outline, dollar icon. The same tag carries *VIP Woo-pon* (star icon), *Premium listing*, *Job post* and *Paid visit*.
 - **Paid partnership, Enhanced listing, Charter merchant:** the same hatched tag with their own word and icon (dollar, plus-in-square, storefront). Everything paid shares this one look.
 - **Referral link:** transparent, 1.5px basil outline, weight 600, link icon.
 - **Woo-pon:** pistachio fill, 2px basil outline, ticket icon.
 
 ### Woo-pon Ticket (signature)
-A pistachio coupon with a 2px inset basil outline, 18px radius and 11px semicircular notches masked out of both sides; the amount in Outfit at 28px, the place in Bricolage 700, fine print under a dotted rule. The sponsored variant swaps the fill for the oat hatch. Woo-pons are local deals (just "local deals": businesses send them in, so it never says Tina found them) at any business; they don't need Tina to have eaten there, so every ticket says which, with "Tina ate here · [month]" or the dashed "Tina hasn't been yet" label under the place. They are paid listings (Tina's proposal, Oct 19, pricing to confirm: a business's first two weeks are free, once, then $10 a week), so the list opens with a hatched "Paid listings" tag and the line "Businesses pay to list Woo-pons. That never buys a pick." A business that pays extra to promote a deal gets Sponsored and its own row.
+A pistachio coupon with a 2px inset basil outline, 18px radius and 11px semicircular notches masked out of both sides; the amount in Outfit at 28px, the place in Bricolage 700, fine print under a dotted rule. The sponsored variant swaps the fill for the oat hatch. Woo-pons are local deals (just "local deals": businesses send them in, so it never says Tina found them) at any business; they don't need Tina to have eaten there, so every ticket says which, with "Tina ate here · [month]" or the dashed "Tina hasn't been yet" label under the place. They are paid listings (Tina's proposal, Oct 19, pricing to confirm: a business's first two weeks are free, once, then $10 a week), so the list opens with a hatched "Paid listings" tag and the line "Businesses pay to list Woo-pons. That never buys a pick." A VIP Woo-pon ($100, presented in Tina's monthly video) gets the hatched "VIP Woo-pon" label on its ticket.
 - **Colour by kind:** the ticket fill says what it is and a small tag above the amount says it in words: pistachio for food and drink, peach for services (a barber, a car wash), lemon for online codes. A key under the heading names all three; chips filter Food & drink and Services for real.
 - **Online codes:** a separate "Online codes from Tina's partners" sheet for longer-running discount codes from brands she works with (eyewear and the like). Each lemon ticket carries "Paid partnership with [brand]", the code, how long it runs and a Shop button instead of Show at the counter; they never appear in Roulette, guides or her picks. Jeremy Anderson Tech's card sits here too, with "Partner: Tina earns a referral fee" (20% off maintenance and hosting, code LTEF20).
 - **The ticket mark:** the Woo-pons sticker has a barcode on its stub (Tina's pick), clear of the perforation. The code is printed on every ticket. "Show at the counter" opens that ticket full screen (above the tab bar, with a Close button and Escape), sized for staff to read; "Staff: mark as used" asks first ("Yes, it's used" / "Not yet") and then shows "Used today at …" with an Undo.
@@ -425,28 +425,28 @@ The wheel spins under a pointer that never moves (`roulette-wheel.svg` under `ro
 Each stop has one button (Get directions), a quiet "Tina's video" text link and an "I've been here" chip; no stop carries three buttons. Guides Tina is still putting together (Budget-friendly bites, Quick meals) show as dashed "In the works" cards at the foot of the Guides page, never with stops filled in for her.
 
 ### Explore list
-A sentence filter ("I want [craving] with [who] in [neighborhood]"), the neighborhood bubble map (sticky on desktop, a folded strip above the list on phones), rows that show what Tina ordered, 12 places at a time, and at most one Sponsored card, only after the fourth visible pick. An empty result names the filters that are on and offers the one change that brings places back. On phones a basil count pill ("52 places ↓") sits right under the filters, updates with them and jumps to the list; neighborhoods with nothing left shrink to a small dashed vinyl dot (no number), never faded below readable contrast. Every bubble's size follows what the filters leave in it, on the same scale the map is built with, and bubbles keep a clear gap (no two touch, labels included). The map comes before the list in the page and the tab order, because it is a filter; on wide screens it is drawn to the right. The search placeholder fits a 390px screen ("Name or food, like ramen") and its clear button is drawn in basil. First sheets on phones start 32px under the nav so the first decision clears the tab bar.
+A sentence filter ("I want [craving] with [who] in [neighborhood]"), the neighborhood bubble map (sticky on desktop, a folded strip above the list on phones), rows that show what Tina ordered, 12 places at a time, and no paid card at launch (the in-list paid card, after the fourth visible pick, is switched off). An empty result names the filters that are on and offers the one change that brings places back. On phones a basil count pill ("52 places ↓") sits right under the filters, updates with them and jumps to the list; neighborhoods with nothing left shrink to a small dashed vinyl dot (no number), never faded below readable contrast. Every bubble's size follows what the filters leave in it, on the same scale the map is built with, and bubbles keep a clear gap (no two touch, labels included). The map comes before the list in the page and the tab order, because it is a filter; on wide screens it is drawn to the right. The search placeholder fits a 390px screen ("Name or food, like ramen") and its clear button is drawn in basil. First sheets on phones start 32px under the nav so the first decision clears the tab bar.
 
 ### Paid surfaces (signature)
 Trust is the product, so paid things are drawn so they can't be mistaken for picks.
-- **Sponsor slot:** a 6px-radius frame in the oat hatch with a 2px basil outline; a head row with the Sponsored tag and "Paid placement · How paid spots work" (linking the editorial policy); a white body with the sponsor's logo or photo on oat (labeled as theirs), the name in **Bricolage 800 at 20px, never the display face**, one line in their words and one secondary button. Variants: *home* (one, under Tina's latest picks, at most 640px wide), *rail* (place pages, one direct-sold local sponsor, image 5:2), *feed* (one in Explore after the fourth place, laid out like a row but never numbered).
+- **Sponsor slot:** a 6px-radius frame in the oat hatch with a 2px basil outline; a head row with the Paid ad tag and "Paid placement · How paid spots work" (linking the editorial policy); a white body with the sponsor's logo or photo on oat (labeled as theirs), the name in **Bricolage 800 at 20px, never the display face**, one line in their words and one secondary button. Variants: *home* (one, under Tina's latest picks, at most 640px wide), *rail* (place pages, one direct-sold local sponsor, image 5:2), *feed* (one in Explore after the fourth place, laid out like a row but never numbered).
 - **Empty means absent:** a slot nobody bought isn't rendered. No grey box, no "your ad here".
 - **No programmatic display ads in v1:** no ad networks, rectangles, pop-ups or autoplay until about 25K monthly pageviews, and then only inside these rules.
 - **Enhanced listing:** adds owner modules after Tina's take, each a white panel with a 2px basil outline headed "From the owner" (photos captioned "Owner's photo", story, menu highlights, booking links). It never changes her take, list order or guides, and free listings are never dimmed. An Enhanced page carries no sponsor rail.
 - **Featured decal:** the paid window decal for Charter merchants and Enhanced listings: rounded square, hatched frame, "Featured on" + wordmark, "Charter merchant · year", a QR code and "Paid listing · Tina's reviews can't be bought". It never carries the stamp.
-- **Two doors:** "Suggest a spot" (editorial, on How it works and Explore) and "Work with Tina" (commercial: sponsorship, partnerships, Enhanced, Woo-pon submissions, hosted-visit invitations) never share a form.
+- **Two doors:** "Suggest a spot" (editorial, on How it works and Explore) and "Work with Tina" (commercial: Woo-pons, premium events, job posts, Monthly Crumbs ads, paid visits, partnerships, Enhanced, hosted-visit invitations) never share a form.
 - **Owner pages:** For restaurants opens on three doors, nothing else: *Fix my listing* (free; one form for hours, menu, openings and events, with an optional claim box and every real place suggested as you type), *Ask Tina to visit* (goes to Suggest a spot) and *Advertise* (wears the sponsored hatch and a Paid label, goes to Work with Tina). Work with Tina has one audience line instead of empty stat tiles, three jump links, one card per thing on offer (Woo-pons and hosted visits included), grouped under three small headings (On the site, With Tina, For your restaurant) so no row holds more than three, and **one** Get in touch form; each card's "Ask about…" link picks its line in that form.
 
 ### Monthly Crumbs signup (signature)
-Revenue infrastructure, not a footer field. A lemon block (basil on dark sheets) with a 2.5px basil outline: Outfit heading, the pitch "Worcester's best food deals and Tina's latest picks, once a month.", one email field and a primary button, then a Bricolage 600 fine-print line. On home it comes once, after Tina's picks, Woo-pons and Roulette (help first, then ask), plus the header button. It also closes every place page and guide, has its own page, and sits second on the link-in-bio page. A mistyped email gets the peach field error in words ("That email is missing the @."), never the browser bubble. Once it's sent, the block becomes its answer in place: a basil check that presses on like a stamp, "You're on the list for Monthly Crumbs.", the date the next one lands and the address it goes to, "See a sample issue" and "Use a different email" (no motion with reduced motion). The newsletter is monthly (first Sunday; the name and cadence are Tina's to confirm, biweekly is the fallback) and follows one template: Tina's opener (hers or blank), new finds, the Woo-pons with codes, one thing happening, then at most one labeled sponsor; the hatch falls back to flat oat in email clients.
+Revenue infrastructure, not a footer field. A lemon block (basil on dark sheets) with a 2.5px basil outline: Outfit heading, the pitch "Worcester's best food deals and Tina's latest picks, once a month.", one email field and a primary button, then a Bricolage 600 fine-print line. On home it comes once, after Tina's picks, Woo-pons and Roulette (help first, then ask), plus the header button. It also closes every place page and guide, has its own page, and sits second on the link-in-bio page. A mistyped email gets the peach field error in words ("That email is missing the @."), never the browser bubble. Once it's sent, the block becomes its answer in place: a basil check that presses on like a stamp, "You're on the list for Monthly Crumbs.", the date the next one lands and the address it goes to, "See a sample issue" and "Use a different email" (no motion with reduced motion). The newsletter is monthly (first Sunday; the name and cadence are Tina's to confirm, biweekly is the fallback) and follows one template: Tina's opener (hers or blank), new finds, the Woo-pons with codes, one thing happening, then a few labeled paid ads between the parts; the hatch falls back to flat oat in email clients. The demo issue (Nov 2026) runs: Tina's month in a few lines and three numbers, her 3 best bites, readers' top 3 bites, a paid ad, everywhere she posted, the month's Woo-pons, events published, a paid ad, coming up, a paid ad.
 
 ### Pages added from Tina's notes (Oct 2026)
 - **Events** is "Out & About Worcester+" (the + is for everything past the city line; screen readers hear "and beyond"): food and non-food events (markets, music, art walks, classes), Tina's own marked with her sushi-roll avatar. "Tell us about it" goes to the page's own Add your event form (`#submit`), never to Fix my listing.
 - **Daily deals:** weekly specials by day (Monday to Sunday columns with day chips and a "Today" pill on the current day). Each card names the place, the special and where it came from ("per Tina" or "from the owner"); a day with nothing is a dashed "Nothing on Fridays yet. Know one?" card. Specials, not Woo-pons: no code.
 - **What's new:** new dishes, test runs and seasonal menus while they last, each with a kind tag (Limited run, Testing it, Seasonal, New on the menu), how long it's around and who spotted it. Gone means off the page.
-- **Food help:** pantries, free hot meals, the Project Bread hotline, the food bank's map and Woo Fridges. No ads, sponsors, stickers or sign-up anywhere on it; every entry has directions or a phone number, the sources and the date checked are printed, and the four Woo Fridges are listed with their addresses and directions, Woo Fridge's donation rules, and links to its map and Instagram for the latest.
+- **Food help:** a lemon "Call ahead before you go" note with a phone icon in the hero, then the Project Bread hotline and the food bank's map, **SNAP (food stamps)** (apply on DTA Connect, by phone on the DTA Assistance Line, or in person at the Worcester DTA office; HIP on fresh produce and the REC Mobile Market; the self-service kiosks), pantries and free hot meals each with a tappable phone number (Bricolage 800, 19px), and Woo Fridges. No ads, stickers or sign-up anywhere on it; every entry has directions or a phone number, the sources and the date checked are printed, and the four Woo Fridges are listed with their addresses and directions, Woo Fridge's donation rules, and links to its map and Instagram for the latest.
 - **Find partners** and **Restaurant jobs** sit under For restaurants (a "More for owners" pair of doors). Partners is a directory by need (photography, packaging and paper, websites, marketing and social, signs and print, accounting); jobs filter by kind with real chips. Neither is a pick: a listing or post never changes what Tina says, and both say so.
-- **Shop** is on hold: Tina will design the merch herself later. The board stays on the canvas, labeled, and nothing on the site links to it.
+- **No merch** (Nov 2, 2026): the Shop board, the shop page and the merch lookbook are gone. The garment mockups stay in `assets/merch` for reference only.
 - **Review before anything goes up:** every form (listings, menus, Woo-pons, events, specials, jobs, partners, photos) lands in Tina's review queue, and nothing publishes itself. The editorial policy says so and that we can turn down any business, deal or event, including ones that don't welcome everyone.
 - **Tina's picks (Oct 19)** (Options board on the canvas): Outfit 700 for the display face, sushi roll + bagel for the o's, the plate for the stamp and a barcode on the Woo-pons ticket stub. Still open: an Outfit-lettered wordmark (drawn as an option).
 - **Following along (Tina's page):** a dashboard of four butter tiles (Instagram, TikTok, YouTube, Facebook: the count in Outfit, "followers" or "subscribers", the handle as a link) and a basil total tile ("Across all four"). Counts are samples until Tina confirms them; on the live site Instagram, TikTok and YouTube can refresh daily from their APIs and Facebook is entered by hand. Two columns on phones, with the total across both.
@@ -467,7 +467,7 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 - **Do** set basil text on every pastel field; it clears AA everywhere (9.8:1 on lemon, 11.3:1 on butter).
 - **Do** give every white sticker surface the kiss-cut ring in its sheet's field colour plus the Lift shadow.
 - **Do** let one field colour own each sheet, and use peach on one sheet per page at most.
-- **Do** keep earned and paid visibly different: hand and tomato for Tina, hatch, oat and the word "Sponsored" for paid spots.
+- **Do** keep earned and paid visibly different: hand and tomato for Tina, hatch, oat and the words "Paid ad" for paid spots.
 - **Do** pair every label, badge and verdict with a word and an icon.
 - **Do** draw food stickers on a 120u square with a 4u basil outline, round joins, a 9u white die-cut border, two or three flat fills and at most one white highlight at about −30°.
 - **Do** vary sticker tilts between −8° and +8°, never two neighbours at the same angle, and keep the wordmark within 3°.
@@ -483,14 +483,14 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 - **Do** let focus rings follow the control's own shape: pills get pill rings, inline links a 6px corner.
 - **Do** keep sheets off the lemon page color: a hero or signup sheet is butter, vinyl, pistachio or peach, never lemon on lemon.
 - **Don't** put a paid stop in a guide with fewer than four real stops.
-- **Don't** repeat the promise. Each page says it once, in the footer line beside the editorial policy link; paid things keep their labels, and a sponsor's line is in the sponsor's words, not ours about them.
+- **Don't** repeat the promise. Each page says it once, in the footer line beside the editorial policy link; paid things keep their labels, and an advertiser's line is in the advertiser's words, not ours about them.
 - **Don't** let Verified shout: it is an outlined leaf label, quieter than "Tina ate here".
 
 ### Don't:
 - **Don't** set white or pale text on a pastel; white on lemon is 1.2:1.
 - **Don't** use tomato for anything but Tina's hand: not buttons, links, sales, errors or alerts.
-- **Don't** put the stamp, Tina's handwriting or a quote in her voice on a sponsored placement, and give sponsored modules no stickers.
-- **Don't** rate with stars or numbers; use Tina's verdicts in words.
+- **Don't** put the stamp, Tina's handwriting or a quote in her voice on a paid ad, and give paid modules no stickers.
+- **Don't** rate with stars or numbers; use Tina's two verdicts, Favorite and Don't miss, each with its icon.
 - **Don't** place stickers over food photos, prices, labels or body text; they go around content, on the field.
 - **Do** keep the wordmark's food o's as a drawn pair: sushi roll + bagel by default (Tina's pick, Oct 19 2026); sushi + pizza, pizza + ramen or the classic eggs for a guide, season or campaign; donut + lemon is retired. One pair per surface.
 - **Don't** stretch, squash or recolour the wordmark, mix two o pairs, swap in other stickers for the o's or split its lines.
@@ -505,7 +505,19 @@ The page section itself: field-coloured rounded sheet with four corner registrat
 
 - **Tina paid**: `Tina ate here · [month]`; stamp and decal allowed.
 - **Hosted** (restaurant invited Tina and covered the meal): `Tina ate here` + the Hosted label (peach fill, basil outline, envelope icon) and a disclosure line above the take. Verdicts stay hers. No stamp, no decal.
-- **Paid partnership** (a brand paid Tina to post): `Paid partnership with [brand]` in the Sponsored hatch. No verdicts, no stamp; never in rankings, guides, Roulette or Monthly Crumbs.
-- **Sponsored** (paid space on the site or in the Monthly Crumbs email): hatched oat, brand voice, never in Tina's hand.
+- **Paid partnership** (a brand paid Tina to post): `Paid partnership with [brand]` in the paid hatch. No verdicts, no stamp; never in rankings, guides, Roulette or Monthly Crumbs.
+- **Paid ad** (paid space; at launch only in the Monthly Crumbs email): hatched oat, the advertiser's voice, never in Tina's hand.
+- **Paid visit** (a business books Tina to visit and make a video): labeled Paid visit everywhere it runs; no verdict, no stamp.
 - **Enhanced listing / Charter merchant** (the owner pays for extra modules on their page): hatched label, owner modules headed "From the owner" after Tina's take, the Featured decal (never the stamp). Ranking, guides and her take are untouched.
-- **The contract line**: "You're paying for content and reach, not for Tina's opinion." It appears in the media kit, sponsor agreements and the editorial policy.
+- **The contract line**: "You're paying for content and reach, not for Tina's opinion." It appears in the media kit, advertiser agreements and the editorial policy.
+
+### Decided at the launch meeting (Nov 2, 2026)
+- **Verdicts:** two pills in Tina's hand, tomato ink, each with its icon so colour is never the only cue: *Favorite* (filled star, lemon fill) and *Don't miss* (target, vinyl fill). Most places get neither; a real place page says "No verdict yet" in the interface face, never an empty pill.
+- **No ad spots on the site:** the home spot, place-page rail, Explore card and Woo-pons paid row are switched off (`ADS_ON = False` in the build). Paid ads run only in Monthly Crumbs.
+- **Woo-pons page order:** the deals, *Using a Woo-pon*, *Run a Woo-pon* (three tier cards: Try it free · 2 weeks free, Weekly · $10 a week, VIP Woo-pon · $100 on the oat hatch; what happens next; the form with exclusions, start and end dates, fine print and a contact phone), then *Online deals from Tina's partners*. A VIP ticket carries the hatched "VIP Woo-pon" label (star icon) on its own row after the kind tag.
+- **Events and jobs:** a premium event listing ($50 a month) is pinned at the top of its week with the hatched "Premium listing" tag; the event form asks Free or Premium plus a phone. A job post is $100 a month and says so beside the form.
+- **Send something in** (`site/submit.html`): every form on the site in one list (For businesses, For everyone), each row with Free or the hatched Paid tag, the price, and one button to the form; four steps of what happens next (Tina reads it within about two days, checks it, confirms any price by email before charging, then it goes up labeled). Every footer links it.
+- **Testimonials:** dashed, transparent slots ("[A line from an owner…]") on Work with Tina and For restaurants, with "We never write a testimonial for anyone, and a quote is never paid for." They stay empty until real.
+- **Roulette:** a "Spin from" chip pair (Where Tina ate · All restaurants). A place she hasn't been to shows the dashed "Tina hasn't been yet" label and a line saying why it's on the wheel; one of hers shows what she ordered, her line and a "Watch Tina's video" button.
+- **Video stills:** `tools/fetch-video-covers.py` swaps the drawn plate for each TikTok's own cover (`.tt--cover`, `object-fit: cover`), saved as WebP in `assets/photos/videos`.
+- **Business card:** US 3.5 × 2 in with 0.125 in bleed, text outlined. Front: the stacked wordmark on lemon, "Local food, deals and Tina's picks around Worcester", the domain and handle. Back: "Own a local business?" in Outfit, three Figtree lines, the URL in tomato, and a 1 in QR code (version 4, level Q, basil on a white tile with a quiet zone) that opens https://livetoeatfood.com/for-restaurants, verified by decoding.

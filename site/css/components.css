@@ -143,3 +143,11 @@ textarea.ltef-input { min-height: 96px; padding: 12px 16px; border-radius: 18px;
 .ltef-coupon__kind { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: 7px; font: 800 13px/1.2 var(--font-interface); color: var(--basil); }
 .ltef-coupon__kind::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--basil); }
 .ltef-coupon > .ltef-lbl--partner { grid-column: 1 / -1; }
+
+/* Nov 2: two verdicts. Favorite (star) and Don't miss (target): tomato ink in Tina's hand, an icon so colour is never the only cue */
+.ltef-verdict { display: inline-flex; align-items: center; gap: 6px; }
+.ltef-verdict__i { width: 17px; height: 17px; flex: none; }
+.ltef-verdict--fav { background: var(--lemon); }
+.ltef-verdict--miss { background: var(--vinyl); }
+/* A VIP Woo-pon: the hatched paid label on its own row of the ticket */
+.ltef-coupon__vip { grid-column: 1 / -1; justify-self: start; }
