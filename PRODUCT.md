@@ -32,7 +32,7 @@ The creator is the product. Every recommendation traces to a real meal Tina paid
 ## Capabilities and Constraints
 
 - Website features named in the brief: restaurant/place pages, discovery, Woo-pons deals, Restaurant Roulette, events calendar, community photo pages, giveaways.
-- Monetization surfaces (from the monetization plan, Oct 2026, as changed Nov 2): paid ads in Monthly Crumbs (the on-site home spot, place-page rail and in-feed card are designed but off at launch), Woo-pons with a VIP tier, premium event listings, job posts, paid visits, Enhanced listings ($29–59/mo pilot, to confirm), 25 Charter merchants with a Featured decal, a Work with Tina media kit, an editorial and disclosure policy page, and a link-in-bio page.
+- Monetization surfaces (from the monetization plan, Oct 2026, as changed Nov 2): four ad spots on the site (home, place-page rail, in-feed card, guides; unsold ones invite businesses to advertise) and paid ads in Monthly Crumbs, Woo-pons with a VIP tier, premium event listings, job posts, paid visits, Enhanced listings ($29–59/mo pilot, to confirm), 25 Charter merchants with a Featured decal, a Work with Tina media kit, an editorial and disclosure policy page, and a link-in-bio page.
 - Typefaces must be freely available (Google Fonts) with fallbacks.
 - Body text must meet WCAG AA; body text ≥ 16px; meaning never carried by color alone.
 - Deliverable: Part A overview (`index.html`) + Part B brand book (`brand/index.html`), HTML + one CSS file.
@@ -70,7 +70,7 @@ WCAG 2.2 AA for all information. Pastels are fields and fills only; text always 
 
 - Soft launch the first week of November. Tina checks submissions every night or every other night.
 - Verdicts: two, *Favorite* (star) and *Don't miss* (target). Most places get neither.
-- No merch. No ad spots on the site at launch; paid ads run in Monthly Crumbs, several per issue. "Paid ad" replaces "Sponsored".
+- No merch. "Paid ad" replaces "Sponsored". The site's ad spots stay, and an unsold one says "Ad space open" with a way to advertise (Jeremy, Nov 2); Monthly Crumbs carries several paid ads per issue.
 - Prices: Woo-pons 2 weeks free (once), then $10 a week; VIP Woo-pon $100, presented in Tina's monthly video, up to 10 a month; premium event listing $50 a month (listing stays free); job post $100 a month; paid visits at Tina's rate.
 - Woo-pon submissions ask for exclusions, start and end dates and a contact phone; the form sits on the Woo-pons page right after "Using a Woo-pon".
 - Roulette can spin all restaurants or only where Tina ate; a result from her list links her video.

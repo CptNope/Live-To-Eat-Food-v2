@@ -329,6 +329,8 @@ select.slot { field-sizing: content; }
 .tier { display: grid; gap: 10px; align-content: start; }
 .tier__price { margin: 0; font: 700 clamp(30px, 3vw, 40px)/1 var(--font-display); }
 .tier--vip { background: repeating-linear-gradient(-45deg, var(--oat) 0 7px, var(--oat-hatch) 7px 14px); }
+.slot-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 24px; align-items: start; }
+.slot-pair figcaption { margin-top: 8px; }
 .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px; }
 .offer-price { margin: 0; font: 700 15px/1.35 var(--font-interface); }
 .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px; }

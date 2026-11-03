@@ -151,3 +151,9 @@ textarea.ltef-input { min-height: 96px; padding: 12px 16px; border-radius: 18px;
 .ltef-verdict--miss { background: var(--vinyl); }
 /* A VIP Woo-pon: the hatched paid label on its own row of the ticket */
 .ltef-coupon__vip { grid-column: 1 / -1; justify-self: start; }
+/* An ad spot nobody has bought: dashed olive, no hatch (nothing here is paid), and one way to advertise */
+.ltef-slot--open { background: transparent; box-shadow: none; border: 2px dashed var(--olive); }
+.ltef-slot--open .ltef-slot__body { background: var(--vinyl); }
+.ltef-slot--open .ltef-slot__mark { background: transparent; border: 2px dashed var(--olive); color: var(--olive); text-align: center; }
+.ltef-lbl--open { background: var(--butter); box-shadow: inset 0 0 0 2px var(--olive); color: var(--basil); }
+@media (max-width: 560px) { .ltef-slot--open .ltef-slot__mark { display: none; } .ltef-slot--open .ltef-slot__body, .ltef-slot--open.ltef-slot--feed .ltef-slot__body { grid-template-columns: minmax(0, 1fr); } .ltef-slot--open.ltef-slot--feed .ltef-slot__cta { grid-column: 1; grid-row: auto; } }
