@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Static HTML + one CSS file, served by GitHub Pages from the repository root (`CptNope/Live-To-Eat-Food-v2`). No build step, no framework, JavaScript only for trivial enhancement. The production site that this brand book serves is a separate WordPress build (target launch late Nov 2026); the brand book ships a `theme.json`-ready token block for it.
+Static HTML + one CSS file, served by GitHub Pages from the repository root (`CptNope/Live-To-Eat-Food-v2`). No build step, no framework, JavaScript only for trivial enhancement. The production site that this brand book serves is a separate WordPress build (target launch late Nov 2026); the brand book ships a `theme.json`-ready token block for it, and `wordpress/` holds that build: a block theme plus a companion plugin for places, Woo-pons, events, jobs, ad spots, the forms and the review queue.
 
 ## Users
 

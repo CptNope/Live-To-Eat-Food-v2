@@ -1,0 +1,36 @@
+<!-- wp:template-part {"slug":"header","area":"header","tagName":"div"} /-->
+<!-- wp:group {"tagName":"main","anchor":"main","className":"ltef-main","layout":{"type":"default"}} -->
+<main id="main" class="wp-block-group ltef-main">
+<!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"butter","layout":{"type":"constrained","contentSize":"1240px"}} -->
+<section class="wp-block-group is-style-sheet has-butter-background-color has-background">
+<!-- wp:heading {"level":1} -->
+<h1 class="wp-block-heading">Guides</h1>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"is-style-lede"} -->
+<p class="is-style-lede">Tina’s walks and drives: the places in order, what to order at each, and how to get there.</p>
+<!-- /wp:paragraph -->
+<!-- wp:query {"queryId":1,"query":{"perPage":12,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true}} -->
+<div class="wp-block-query"><!-- wp:post-template {"className":"cards","layout":{"type":"grid","minimumColumnWidth":"300px"}} -->
+<!-- wp:group {"className":"is-style-panel ltef-guide-card"} -->
+<div class="wp-block-group is-style-panel ltef-guide-card"><!-- wp:post-title {"level":2,"isLink":true} /-->
+<!-- wp:post-excerpt {"moreText":"Read the guide"} /--></div>
+<!-- /wp:group -->
+<!-- /wp:post-template -->
+
+<!-- wp:query-pagination -->
+<!-- wp:query-pagination-previous /-->
+<!-- wp:query-pagination-numbers /-->
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination -->
+
+<!-- wp:query-no-results -->
+<!-- wp:paragraph -->
+<p>Nothing here yet.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results --></div>
+<!-- /wp:query -->
+</section>
+<!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","area":"footer","tagName":"div"} /-->
