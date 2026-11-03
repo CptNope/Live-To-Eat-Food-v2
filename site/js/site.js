@@ -559,3 +559,11 @@
     try { history.replaceState(null, '', '?about=' + a.getAttribute('data-ask') + '#contact'); } catch (err) {}
   });
 })();
+
+// Run a Woo-pon: a VIP Woo-pon needs a flyer for Tina's monthly video; the upload shows, and is required, only then
+(function () {
+  var tier = document.getElementById('wp-tier'), box = document.querySelector('[data-vip-only]'), file = document.getElementById('wp-flyer');
+  if (!tier || !box || !file) return;
+  function sync() { var vip = tier.value === 'vip'; box.hidden = !vip; file.required = vip; if (!vip) file.value = ''; }
+  tier.addEventListener('change', sync); sync();
+})();

@@ -331,6 +331,8 @@ select.slot { field-sizing: content; }
 .tier--vip { background: repeating-linear-gradient(-45deg, var(--oat) 0 7px, var(--oat-hatch) 7px 14px); }
 .slot-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 24px; align-items: start; }
 .slot-pair figcaption { margin-top: 8px; }
+input[type="file"].ltef-input { border-radius: 16px; padding: 10px 12px; font: 600 15px var(--font-interface); }
+input[type="file"].ltef-input::file-selector-button { margin-right: 12px; padding: 8px 16px; border: 0; border-radius: 999px; background: var(--basil); color: var(--vinyl); font: 700 14px var(--font-interface); cursor: pointer; }
 .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px; }
 .offer-price { margin: 0; font: 700 15px/1.35 var(--font-interface); }
 .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px; }
