@@ -18,7 +18,7 @@
 
   // Filter chips and toggle buttons (aria-pressed) outside Roulette.
   document.querySelectorAll('button[aria-pressed]').forEach(function (b) {
-    if (b.hasAttribute('data-mood') || b.hasAttribute('data-with') || b.matches('[data-filter-area],[data-filter-tina],[data-deal-filter],[data-job-filter],[data-rv-filter]')) return;
+    if (b.hasAttribute('data-mood') || b.hasAttribute('data-with') || b.hasAttribute('data-where') || b.matches('[data-filter-area],[data-filter-tina],[data-deal-filter],[data-job-filter],[data-rv-filter]')) return;
     b.addEventListener('click', function () {
       var on = b.getAttribute('aria-pressed') !== 'true';
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -93,7 +93,7 @@
 
   // Buttons that would need the real backend.
   document.querySelectorAll('button[type="button"]').forEach(function (b) {
-    if (b.hasAttribute('aria-pressed') || b.matches('[data-spin],[data-widen],[data-reset],[data-filter-clear],[data-more],[data-empty-fix],[data-used-ask],.tt-play,[data-rv],[data-rv-filter]') ||
+    if (b.hasAttribute('aria-pressed') || b.matches('[data-spin],[data-where],[data-widen],[data-reset],[data-filter-clear],[data-more],[data-empty-fix],[data-used-ask],.tt-play,[data-rv],[data-rv-filter]') ||
         b.hasAttribute('aria-haspopup') || b.closest('.demo-bar')) return;
     b.addEventListener('click', function () { if (!b.hasAttribute('aria-pressed')) say(DEMO); });
   });
@@ -446,7 +446,7 @@
   var wheel = document.querySelector('[data-wheel]');
   if (!spinBtn || !wheel || !window.LTEF_PLACES) return;
   var PLACES = window.LTEF_PLACES;
-  var st = { mood: 'anything', with: 'anyone', turn: 0, pick: null, spinning: false };
+  var st = { where: 'tina', mood: 'anything', with: 'anyone', turn: 0, pick: null, spinning: false };
   var timer;
   var label = spinBtn.querySelector('[data-spin-label]');
   var states = {}; document.querySelectorAll('[data-state]').forEach(function (el) { states[el.getAttribute('data-state')] = el; });
@@ -458,15 +458,16 @@
   function phone() { return window.matchMedia && window.matchMedia('(max-width: 720px)').matches; }
   function pool() {
     return PLACES.filter(function (p) {
-      return (st.mood === 'anything' || p.cravings.indexOf(st.mood) > -1) && (st.with === 'anyone' || p.with.indexOf(st.with) > -1);
+      return (st.where === 'all' || p.tina) && (st.mood === 'anything' || p.cravings.indexOf(st.mood) > -1) && (st.with === 'anyone' || p.with.indexOf(st.with) > -1);
     });
   }
   function chipText(attr, val) { var b = document.querySelector('[' + attr + '="' + val + '"]'); return b ? b.textContent.toLowerCase() : val; }
-  function filterText() { return (st.mood === 'anything' ? 'anything' : chipText('data-mood', st.mood)) + (st.with === 'anyone' ? '' : ', with ' + chipText('data-with', st.with)); }
+  function filterText() { return (st.mood === 'anything' ? 'anything' : chipText('data-mood', st.mood)) + (st.with === 'anyone' ? '' : ', with ' + chipText('data-with', st.with)) + (st.where === 'all' ? ', all restaurants' : ''); }
   function fill(f, v) { document.querySelectorAll('[data-f="' + f + '"]').forEach(function (el) { el.textContent = v; }); }
   function sync() {
     document.querySelectorAll('[data-mood]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-mood') === st.mood ? 'true' : 'false'); });
     document.querySelectorAll('[data-with]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-with') === st.with ? 'true' : 'false'); });
+    document.querySelectorAll('[data-where]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-where') === st.where ? 'true' : 'false'); });
     fill('count', String(pool().length));
     fill('adjust', filterText());
   }
@@ -475,6 +476,7 @@
   function choose(key, val) { if (st.spinning) return; st[key] = val; sync(); if (states.nomatch && !states.nomatch.hidden) show('idle'); }
   document.querySelectorAll('[data-mood]').forEach(function (b) { b.addEventListener('click', function () { choose('mood', b.getAttribute('data-mood')); }); });
   document.querySelectorAll('[data-with]').forEach(function (b) { b.addEventListener('click', function () { choose('with', b.getAttribute('data-with')); }); });
+  document.querySelectorAll('[data-where]').forEach(function (b) { b.addEventListener('click', function () { choose('where', b.getAttribute('data-where')); }); });
   function spin(e) {
     if (st.spinning) return;
     // From the result's own "Spin again": bring the wheel back into view first.
@@ -503,13 +505,16 @@
       var p = cur[i]; st.pick = p; st.spinning = false;
       spinBtn.removeAttribute('aria-disabled'); spinBtn.removeAttribute('aria-busy');
       if (label) label.textContent = 'Spin again';
-      ['name', 'meta', 'month', 'quote', 'date'].forEach(function (k) { fill(k, p[k]); });
+      ['name', 'meta', 'month', 'quote', 'date'].forEach(function (k) { fill(k, p[k] || ''); });
+      // Tina's places show her order, her line and her video; the rest say she hasn't been yet
+      document.querySelectorAll('[data-if="tina"]').forEach(function (el) { el.hidden = !p.tina; });
+      document.querySelectorAll('[data-if="notyet"]').forEach(function (el) { el.hidden = !!p.tina; });
+      document.querySelectorAll('[data-f="video"]').forEach(function (el) { if (p.url) el.href = p.url; el.setAttribute('aria-label', 'Watch Tina’s video at ' + p.name + ' (opens TikTok)'); });
       document.querySelectorAll('[data-f="bg"]').forEach(function (el) { el.style.background = p.bg; });
       document.querySelectorAll('[data-f="img"]').forEach(function (el) { el.src = p.img; el.alt = 'Photo slot for ' + p.name; });
       document.querySelectorAll('[data-f="href"]').forEach(function (el) { el.href = p.href; });
       document.querySelectorAll('[data-f="maps"]').forEach(function (el) { el.href = p.maps; el.setAttribute('aria-label', 'Get directions to ' + p.name + ' (opens maps)'); });
-      fill('dish', p.dish);
-      document.querySelectorAll('[data-f="tt"]').forEach(function (el) { el.href = p.url; });
+      fill('dish', p.dish || '');
       document.querySelectorAll('[data-hosted]').forEach(function (el) { el.hidden = true; });
       show('pick');
       if (slot) slot.style.minHeight = '';
@@ -531,7 +536,7 @@
   document.querySelectorAll('[data-spin]').forEach(function (b) { b.addEventListener('click', spin); });
   function back() { show('idle'); if (!phone()) document.querySelectorAll('.roul-adjust').forEach(function (d) { d.open = true; }); spinBtn.focus(); }
   var widen = document.querySelector('[data-widen]'); if (widen) widen.addEventListener('click', function () { st.with = 'anyone'; sync(); back(); });
-  var reset = document.querySelector('[data-reset]'); if (reset) reset.addEventListener('click', function () { st.mood = 'anything'; st.with = 'anyone'; sync(); back(); });
+  var reset = document.querySelector('[data-reset]'); if (reset) reset.addEventListener('click', function () { st.where = 'tina'; st.mood = 'anything'; st.with = 'anyone'; sync(); back(); });
   sync();
 })();
 
