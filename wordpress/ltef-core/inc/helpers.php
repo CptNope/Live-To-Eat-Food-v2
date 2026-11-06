@@ -19,6 +19,8 @@ function ltef_settings() {
 		'vip_limit'       => 10,
 		'event_premium'   => 50,
 		'job_post'        => 100,
+		'enhanced_low'    => 29,
+		'enhanced_high'   => 59,
 		'dont_work_with'  => '',
 		'reply_days'      => 2,
 	);
@@ -87,6 +89,32 @@ function ltef_money( $n ) {
 	$n = (float) $n;
 	return '$' . ( floor( $n ) == $n ? number_format_i18n( $n ) : number_format_i18n( $n, 2 ) );
 }
+
+/**
+ * [ltef_price key="woopon_weekly"] prints a live price from the settings, so a price
+ * changed under Money → Prices & split changes everywhere on the site at once.
+ * Counts (free weeks, VIP limit) print as plain numbers.
+ */
+add_shortcode(
+	'ltef_price',
+	function ( $atts ) {
+		$atts   = shortcode_atts( array( 'key' => '' ), $atts, 'ltef_price' );
+		$counts = array( 'woopon_free', 'vip_limit', 'reply_days' );
+		$v      = ltef_setting( sanitize_key( $atts['key'] ) );
+		if ( null === $v ) {
+			return '';
+		}
+		return esc_html( in_array( $atts['key'], $counts, true ) ? (string) (int) $v : ltef_money( $v ) );
+	}
+);
+
+/** Templates and template parts don't run shortcodes, so live prices are filled in as each block renders. */
+add_filter(
+	'render_block',
+	function ( $html ) {
+		return ( is_string( $html ) && false !== strpos( $html, '[ltef_price' ) ) ? do_shortcode( $html ) : $html;
+	}
+);
 
 /** Today in the site's timezone, Y-m-d. */
 function ltef_today() {

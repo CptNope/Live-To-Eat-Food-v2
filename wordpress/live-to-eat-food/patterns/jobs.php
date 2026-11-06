@@ -36,7 +36,7 @@ $u = function ( $p ) {
 <h2 id="h-post" class="wp-block-heading">Hiring?</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Post the job, the hours and how to apply. A job post is $100 a month and is labeled as a paid post. It goes up once we’ve checked the business is real.</p>
+<p>Post the job, the hours and how to apply. A job post is [ltef_price key="job_post"] a month and is labeled as a paid post. It goes up once we’ve checked the business is real.</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->
