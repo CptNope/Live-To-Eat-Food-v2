@@ -33,6 +33,10 @@ Requires WordPress 6.6 or newer (tested on 6.8) and PHP 7.4 or newer.
 
 **Privacy:** contact details, the raw form fields, the don't-work-with flag and decline reasons are protected meta. They never reach the REST API or the site. The don't-work-with list lives only in Settings. Don't type names from it into pages, posts or this repo.
 
+### YouTube copies of Tina's videos
+
+Each place has an optional **YouTube copy of the video** field. When it's filled in (a Shorts, youtu.be or watch link), the site plays that video in YouTube's privacy-enhanced player instead of TikTok's, and "Watch the video" links to YouTube. That way it also plays where TikTok is blocked. The TikTok link stays as the record of when Tina ate there.
+
 ## Money (private)
 
 **Money** in the admin menu is for Tina and Jeremy only. It's visible to administrators, and only the ones ticked under *Prices & split* once anyone is ticked. Nothing on it reaches the site, the REST API or search.
