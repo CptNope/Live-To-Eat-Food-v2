@@ -444,6 +444,7 @@ function ltef_money_handle() {
 			}
 		}
 		update_option( 'ltef_settings', $s, false );
+		ltef_money_clear_page_cache();
 		$back( 'Prices saved. They’re live on the site now.' );
 	}
 
@@ -476,6 +477,15 @@ function ltef_money_handle() {
 		ltef_money_csv();
 	}
 	$back( 'Nothing to do.', true );
+}
+
+/** Pages show prices, so cached copies are cleared when prices change (Breeze and Varnish on Cloudways, plus WordPress's own cache). */
+function ltef_money_clear_page_cache() {
+	do_action( 'breeze_clear_all_cache' );
+	do_action( 'breeze_clear_varnish' );
+	if ( function_exists( 'wp_cache_flush' ) ) {
+		wp_cache_flush();
+	}
 }
 
 function ltef_money_delete_receipt( $id ) {
