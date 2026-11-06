@@ -134,7 +134,7 @@ function ltef_register_settings() {
 			'type'              => 'array',
 			'sanitize_callback' => function ( $in ) {
 				$out = ltef_settings();
-				foreach ( array( 'woopon_weekly', 'woopon_free', 'woopon_vip', 'vip_limit', 'event_premium', 'job_post', 'reply_days' ) as $k ) {
+				foreach ( array( 'woopon_weekly', 'woopon_free', 'woopon_vip', 'vip_limit', 'event_premium', 'job_post', 'enhanced_low', 'enhanced_high', 'reply_days' ) as $k ) {
 					if ( isset( $in[ $k ] ) ) {
 						$out[ $k ] = max( 0, (float) $in[ $k ] );
 					}
@@ -157,12 +157,7 @@ function ltef_settings_page() {
 	};
 	printf( '<tr><th scope="row"><label for="ltef-notify">Send new submissions to</label></th><td><input type="email" id="ltef-notify" name="ltef_settings[notify_email]" value="%s" class="regular-text"></td></tr>', esc_attr( $s['notify_email'] ) );
 	$num( 'reply_days', 'Reply within (days)', 'The site promises this.' );
-	$num( 'woopon_free', 'Free Woo-pon trial (weeks)', 'Once per business.' );
-	$num( 'woopon_weekly', 'Woo-pon, per week ($)', '' );
-	$num( 'woopon_vip', 'VIP Woo-pon ($)', 'Presented in Tina’s monthly video.' );
-	$num( 'vip_limit', 'VIP Woo-pons per month', '' );
-	$num( 'event_premium', 'Premium event listing, per month ($)', '' );
-	$num( 'job_post', 'Job post, per month ($)', '' );
+	echo '<tr><th scope="row">Prices</th><td><a href="' . esc_url( admin_url( 'admin.php?page=ltef-money&tab=settings' ) ) . '">Edit prices under Money</a></td></tr>';
 	printf( '<tr><th scope="row"><label for="ltef-dww">Don’t-work-with list</label></th><td><textarea id="ltef-dww" name="ltef_settings[dont_work_with]" rows="6" class="large-text">%s</textarea><p class="description"><strong>Private.</strong> One business per line. Never shown on the site; submissions that match are flagged in the review queue.</p></td></tr>', esc_textarea( $s['dont_work_with'] ) );
 	echo '</table>';
 	submit_button( 'Save settings' );

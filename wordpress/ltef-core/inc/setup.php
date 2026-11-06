@@ -45,6 +45,7 @@ function ltef_setup_page() {
 	$btn( 'pages', 'Create the pages', 'Home, Guides, Roulette, Food help, Send something in, Work with Tina and the rest, filled from the theme’s patterns. Pages that already exist are left alone.' );
 	$btn( 'places', 'Import Tina’s places and guides', '52 places and 5 guides from her public posts (the first concept’s data). Re-check hours and details before launch.' );
 	$btn( 'samples', 'Add labeled samples', 'A few sample Woo-pons, events and jobs so the pages aren’t empty while you build. Delete them before launch.' );
+	$btn( 'refresh', 'Refresh the built-in pages', 'Replaces Food help, Send something in, Work with Tina and the other built-in pages with the theme’s latest version (live prices included). Edits you made to those pages are replaced; the old versions stay under each page’s Revisions.' );
 	echo '</div>';
 }
 
@@ -62,6 +63,8 @@ function ltef_handle_setup() {
 		$msg = ltef_import_places();
 	} elseif ( 'samples' === $do ) {
 		$msg = ltef_add_samples();
+	} elseif ( 'refresh' === $do ) {
+		$msg = ltef_refresh_pages();
 	}
 	wp_safe_redirect( admin_url( 'tools.php?page=ltef-setup&ltef_msg=' . rawurlencode( $msg ) ) );
 	exit;
@@ -98,6 +101,20 @@ function ltef_create_pages() {
 	}
 	flush_rewrite_rules();
 	return $made . ' pages created. Home and Guides are set under Settings → Reading.';
+}
+
+/** Re-fills the built-in pages from the theme's patterns. WordPress keeps the old content as a revision. */
+function ltef_refresh_pages() {
+	$n = 0;
+	foreach ( ltef_pages() as $slug => $def ) {
+		$page = $def[1] ? get_page_by_path( $slug ) : null;
+		$pat  = $page && class_exists( 'WP_Block_Patterns_Registry' ) ? WP_Block_Patterns_Registry::get_instance()->get_registered( $def[1] ) : null;
+		if ( $pat && ! empty( $pat['content'] ) && $pat['content'] !== $page->post_content ) {
+			wp_update_post( array( 'ID' => $page->ID, 'post_content' => wp_slash( $pat['content'] ) ) );
+			++$n;
+		}
+	}
+	return $n ? $n . ' pages refreshed from the theme.' : 'The pages already match the theme.';
 }
 
 function ltef_term( $tax, $slug, $name ) {

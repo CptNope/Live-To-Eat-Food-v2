@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Live to Eat Food Core
  * Description:       Places, Woo-pons, events, jobs, ad spots and the submission forms for Live to Eat Food. Every submission waits in Tina's review queue until she approves it. Pairs with the Live to Eat Food block theme.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Jeremy Anderson Tech
@@ -28,6 +28,7 @@ require_once LTEF_DIR . 'inc/blocks.php';
 require_once LTEF_DIR . 'inc/forms.php';
 require_once LTEF_DIR . 'inc/admin.php';
 require_once LTEF_DIR . 'inc/setup.php';
+require_once LTEF_DIR . 'inc/money.php';
 
 register_activation_hook(
 	__FILE__,

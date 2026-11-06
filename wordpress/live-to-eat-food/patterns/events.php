@@ -36,7 +36,7 @@ $u = function ( $p ) {
 <h2 id="h-submit" class="wp-block-heading">Add your event</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Food or not: pop-ups, markets, shows, art walks, classes and fundraisers. Listing is free. A premium listing is $50 a month: pinned near the top of its week and labeled Premium listing.</p>
+<p>Food or not: pop-ups, markets, shows, art walks, classes and fundraisers. Listing is free. A premium listing is [ltef_price key="event_premium"] a month: pinned near the top of its week and labeled Premium listing.</p>
 <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->

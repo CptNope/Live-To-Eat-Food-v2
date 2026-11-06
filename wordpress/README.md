@@ -33,6 +33,22 @@ Requires WordPress 6.6 or newer (tested on 6.8) and PHP 7.4 or newer.
 
 **Privacy:** contact details, the raw form fields, the don't-work-with flag and decline reasons are protected meta. They never reach the REST API or the site. The don't-work-with list lives only in Settings. Don't type names from it into pages, posts or this repo.
 
+## Money (private)
+
+**Money** in the admin menu is for Tina and Jeremy only. It's visible to administrators, and only the ones ticked under *Prices & split* once anyone is ticked. Nothing on it reaches the site, the REST API or search.
+
+- **Overview:** income, expenses and profit for this month, last month, this year or all time; where the money goes; what each partner spent, is still owed, has earned, has been paid and is due now; a 12-month chart; a CSV download for the accountant.
+- **Income:** one line per payment (what it's for, from whom, how it was paid). Stripe payments will add themselves once Stripe is connected.
+- **Expenses:** one line per cost, with **who paid** (a partner or the business) and an optional receipt photo or PDF (up to 10 MB; a phone can take the photo right there). Receipts are stored outside the public web folder on Cloudways (`private_html/ltef-receipts`), or in a hidden folder elsewhere, and open only for someone signed in who can see Money.
+- **Payouts:** money actually moved to a partner, so *Due now* stays right.
+- **Prices & split:** the prices the site shows, the two partners' shares (entered by them; blank until they do), an optional reserve held back before dividing, and who can see the page.
+
+**How it divides:** income, minus costs the business paid itself, first pays back money the partners spent personally, oldest expense first (an expense marked as a gift isn't paid back). Then the reserve, if any, is held back. Whatever's left is divided by the shares. Shares aren't calculated until they add up to 100%.
+
+**Live prices:** prices on the site come from these settings through `[ltef_price key="woopon_weekly"]` (keys: `woopon_free`, `woopon_weekly`, `woopon_vip`, `vip_limit`, `event_premium`, `job_post`, `enhanced_low`, `enhanced_high`). Pages created before version 1.1 still hold typed-in prices: run **Tools → Live to Eat Food setup → Refresh the built-in pages** once after updating. The old text stays under each page's Revisions.
+
+This isn't accounting software. Keep the CSV and the receipts for whoever does the taxes.
+
 ## The theme
 
 - `theme.json` carries the brand tokens: the palette, Outfit / Figtree / Bricolage / Shantell (self-hosted, SIL OFL), spacing, and the 760 / 1240 widths.
