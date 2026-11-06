@@ -155,10 +155,14 @@ function ltef_video_html( $post_id ) {
 		return '';
 	}
 	$title = 'Tina’s video at ' . get_the_title( $post_id );
-	$tt    = ltef_tiktok_id( $url );
+	$yt_url = (string) ltef_meta( $post_id, 'youtube' );
+	$yt     = ltef_youtube_id( $yt_url ? $yt_url : $url );
+	$tt     = $yt ? '' : ltef_tiktok_id( $url ); // a YouTube copy wins: it plays in more places
+	$out    = $yt ? ( $yt_url ? $yt_url : $url ) : $url;
 	$cover = '';
-	$cover_rel = 'assets/photos/videos/' . $tt . '.webp';
-	if ( $tt && file_exists( get_theme_file_path( $cover_rel ) ) ) {
+	$tt_cover  = ltef_tiktok_id( $url );
+	$cover_rel = 'assets/photos/videos/' . $tt_cover . '.webp';
+	if ( $tt_cover && file_exists( get_theme_file_path( $cover_rel ) ) ) {
 		$cover = '<img class="tt-cover" src="' . esc_url( get_theme_file_uri( $cover_rel ) ) . '" alt="" width="540" height="960" loading="lazy">';
 	} elseif ( has_post_thumbnail( $post_id ) ) {
 		$cover = get_the_post_thumbnail( $post_id, 'large', array( 'class' => 'tt-cover', 'alt' => '' ) );
@@ -166,19 +170,20 @@ function ltef_video_html( $post_id ) {
 	$still = $cover ? $cover : '<span class="tt-plate" aria-hidden="true"></span><img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ) . '" alt="" width="148" height="148">';
 	$quote = (string) ltef_meta( $post_id, 'tina_quote' );
 	$cap   = mb_strlen( $quote ) > 72 ? rtrim( mb_substr( $quote, 0, 70 ) ) . '…' : $quote;
-	$play  = $tt ? '<button class="tt-play" type="button" aria-label="' . esc_attr( 'Play ' . $title ) . '">' . ltef_icon( 'play' ) . '</button>' : '';
+	$play  = ( $tt || $yt ) ? '<button class="tt-play" type="button" aria-label="' . esc_attr( 'Play ' . $title ) . '">' . ltef_icon( 'play' ) . '</button>' : '';
 	return sprintf(
-		'<div class="take-video" id="video"><div class="tt%1$s" data-tt="%2$s" data-title="%3$s" style="background: var(--%4$s);">%5$s<a class="tt-out" href="%6$s" target="_blank" rel="noopener">Watch the video</a>%7$s<span class="tt-cap" aria-hidden="true"><b>@livetoeatfoodie · %8$s</b><span>%9$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>%10$s</div>',
+		'<div class="take-video" id="video"><div class="tt%1$s" data-tt="%2$s"%11$s data-title="%3$s" style="background: var(--%4$s);">%5$s<a class="tt-out" href="%6$s" target="_blank" rel="noopener">Watch the video</a>%7$s<span class="tt-cap" aria-hidden="true"><b>@livetoeatfoodie · %8$s</b><span>%9$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>%10$s</div>',
 		$cover ? ' tt--cover' : '',
 		esc_attr( $tt ),
 		esc_attr( $title ),
 		esc_attr( ltef_place_field( $post_id ) ),
 		$still,
-		esc_url( $url ),
+		esc_url( $out ),
 		$play,
 		esc_html( ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ) ),
 		esc_html( $cap ),
-		$tt ? '<p class="meta">Plays in TikTok’s player. Nothing loads until you press play.</p>' : ''
+		$yt ? '<p class="meta">Plays in YouTube’s privacy-enhanced player. Nothing loads until you press play.</p>' : ( $tt ? '<p class="meta">Plays in TikTok’s player. Nothing loads until you press play.</p>' : '' ),
+		$yt ? ' data-yt="' . esc_attr( $yt ) . '"' : ''
 	);
 }
 

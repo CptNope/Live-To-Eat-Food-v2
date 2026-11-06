@@ -84,6 +84,11 @@ function ltef_tiktok_id( $url ) {
 	return preg_match( '#/video/(\d+)#', (string) $url, $m ) ? $m[1] : '';
 }
 
+/** The 11-character id from a YouTube link (watch, youtu.be, Shorts or embed). */
+function ltef_youtube_id( $url ) {
+	return preg_match( '#(?:youtu\.be/|youtube(?:-nocookie)?\.com/(?:watch\?(?:.*&)?v=|shorts/|embed/|live/))([A-Za-z0-9_-]{11})#', (string) $url, $m ) ? $m[1] : '';
+}
+
 /** Price shown as money, no cents when whole. */
 function ltef_money( $n ) {
 	$n = (float) $n;

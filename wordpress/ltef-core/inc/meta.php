@@ -21,6 +21,7 @@ function ltef_fields( $type ) {
 			'dish'        => array( 'What Tina ordered', 'text', 'From her post. Leave blank if she hasn’t been.' ),
 			'tina_quote'  => array( 'Tina’s line', 'textarea', 'Her words from the post, exactly. Never written for her.' ),
 			'tina_video'  => array( 'Tina’s video link', 'url', 'The TikTok, Instagram or YouTube post. Filled in means Tina ate here.' ),
+			'youtube'     => array( 'YouTube copy of the video', 'url', 'Optional. When filled in, the site plays this one instead of TikTok, so it also works where TikTok is blocked.' ),
 			'tina_date'   => array( 'Month she posted', 'month', 'Shown as “Tina ate here · Aug 2026”.' ),
 			'verdict'     => array( 'Tina’s verdict', 'select', 'Only Tina picks this. Most places get neither.', array( '' => 'No verdict', 'favorite' => 'Favorite (star)', 'dont-miss' => 'Don’t miss (target)' ) ),
 			'hosted'      => array( 'Hosted visit', 'checkbox', 'The place invited Tina and covered the meal. The page says so above her take.' ),

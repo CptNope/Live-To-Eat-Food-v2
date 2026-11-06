@@ -4,13 +4,15 @@
 	var reduce = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 	function $$( sel, root ) { return Array.prototype.slice.call( ( root || document ).querySelectorAll( sel ) ); }
 
-	// Tina's TikTok: a still until pressed, then TikTok's own player in place.
+	// Tina's video: a still until pressed, then YouTube's (privacy mode) or TikTok's own player in place.
 	$$( '.tt' ).forEach( function ( box ) {
-		var btn = box.querySelector( '.tt-play' ), id = box.getAttribute( 'data-tt' );
-		if ( ! btn || ! id ) return;
+		var btn = box.querySelector( '.tt-play' ), id = box.getAttribute( 'data-tt' ), yt = box.getAttribute( 'data-yt' );
+		if ( ! btn || ! ( id || yt ) ) return;
 		btn.addEventListener( 'click', function () {
 			var f = document.createElement( 'iframe' );
-			f.src = 'https://www.tiktok.com/player/v1/' + id + '?music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=1&autoplay=1';
+			f.src = yt
+				? 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent( yt ) + '?autoplay=1&rel=0&playsinline=1'
+				: 'https://www.tiktok.com/player/v1/' + id + '?music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=1&autoplay=1';
 			f.title = box.getAttribute( 'data-title' ) || 'Tina’s video';
 			f.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
 			f.setAttribute( 'allowfullscreen', '' );
