@@ -140,8 +140,21 @@ function ltef_import_places() {
 		return implode( "\n", array_map( function ( $v ) { return $v['month'] . ' | ' . $v['url'] . ' | ' . $v['caption']; }, $p['more'] ?? array() ) );
 	};
 	$m = 0;
+	$skipped = 0;
+	// Never add a business that's on Tina's private don't-work-with list. The names stay on the server.
+	$norm  = function ( $t ) { return preg_replace( '/[^a-z0-9]/', '', strtolower( remove_accents( (string) $t ) ) ); };
+	$avoid = array_filter( array_map( $norm, preg_split( '/\r\n|\r|\n/', (string) ltef_setting( 'dont_work_with' ) ) ), function ( $x ) { return strlen( $x ) >= 4; } );
 	foreach ( $data['places'] as $p ) {
 		$existing = get_page_by_path( $p['id'], OBJECT, 'ltef_place' );
+		if ( ! $existing ) {
+			$name = $norm( $p['name'] );
+			foreach ( $avoid as $a ) {
+				if ( false !== strpos( $name, $a ) || false !== strpos( $a, $name ) ) {
+					++$skipped;
+					continue 2;
+				}
+			}
+		}
 		if ( $existing ) {
 			$ids[ $p['id'] ] = $existing->ID;
 			// Her other videos: add the ones the place doesn't have yet (matched by link), keep anything typed in by hand.
@@ -166,6 +179,8 @@ function ltef_import_places() {
 			'town'    => 'Worcester' === $town ? '' : $town,
 			'cuisine' => $p['cuisine'] ?? '',
 			'price'   => $p['price'] ?? '',
+			'phone'   => $p['phone'] ?? '',
+			'website' => $p['website'] ?? '',
 			'facts'   => implode( "\n", $p['facts'] ?? array() ),
 		);
 		if ( ! empty( $p['tina'] ) ) {
@@ -242,7 +257,7 @@ function ltef_import_places() {
 		);
 		++$r;
 	}
-	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added to places.', $n, $g, $r, $m );
+	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added to places.', $n, $g, $r, $m ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
 }
 
 function ltef_add_samples() {

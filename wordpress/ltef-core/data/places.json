@@ -79,6 +79,11 @@
    "name": "Maine",
    "siding": "blue",
    "town": "Maine"
+  },
+  "east-side": {
+   "name": "East Side",
+   "siding": "bluelt",
+   "town": "Worcester"
   }
  },
  "cravings": [
@@ -5619,6 +5624,1002 @@
     "platform": "TikTok"
    },
    "more": [],
+   "facts": []
+  },
+  {
+   "id": "the-sole-proprietor",
+   "name": "The Sole Proprietor",
+   "kind": "eat",
+   "num": "118",
+   "street": "Highland St",
+   "area": "west-side",
+   "cuisine": "Seafood",
+   "cravings": [
+    "classic",
+    "drinks"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "phone": "(508) 798-3474",
+   "website": "https://thesole.com",
+   "facts": []
+  },
+  {
+   "id": "all-in-poke",
+   "name": "All In Poke",
+   "kind": "eat",
+   "num": "160",
+   "street": "Green St",
+   "area": "canal",
+   "cuisine": "Poké bowls",
+   "cravings": [
+    "bowls",
+    "sushi",
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(774) 615-9645",
+   "website": "https://allinpoke.com",
+   "facts": []
+  },
+  {
+   "id": "shawarma-palace",
+   "name": "Shawarma Palace",
+   "kind": "eat",
+   "num": "20",
+   "street": "Franklin St",
+   "area": "downtown",
+   "cuisine": "Shawarma",
+   "cravings": [
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "group"
+   ],
+   "phone": "(508) 755-6500",
+   "website": "https://theshawarmapalace.com",
+   "facts": []
+  },
+  {
+   "id": "root-and-press",
+   "name": "Root and Press",
+   "kind": "eat",
+   "num": "156",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Cafe",
+   "cravings": [
+    "quick",
+    "sweet"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(774) 823-3878",
+   "website": "https://rootandpress.com",
+   "facts": []
+  },
+  {
+   "id": "belmont-vegetarian",
+   "name": "Belmont Vegetarian",
+   "kind": "eat",
+   "num": "157",
+   "street": "Belmont St",
+   "area": "east-side",
+   "cuisine": "Vegetarian",
+   "cravings": [
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 798-8898",
+   "website": "",
+   "facts": []
+  },
+  {
+   "id": "miss-worcester-diner",
+   "name": "Miss Worcester Diner",
+   "kind": "eat",
+   "num": "300",
+   "street": "Southbridge St",
+   "area": "downtown",
+   "cuisine": "Diner",
+   "cravings": [
+    "classic",
+    "quick"
+   ],
+   "with": [
+    "anyone",
+    "family"
+   ],
+   "phone": "(508) 753-5600",
+   "website": "",
+   "facts": []
+  },
+  {
+   "id": "sushi-miyazawa",
+   "name": "Sushi Miyazawa",
+   "kind": "eat",
+   "num": "372",
+   "street": "Chandler St",
+   "area": "park-ave",
+   "cuisine": "Sushi",
+   "cravings": [
+    "sushi"
+   ],
+   "with": [
+    "date"
+   ],
+   "phone": "(774) 420-2900",
+   "website": "https://sushimiyazawa.com",
+   "facts": []
+  },
+  {
+   "id": "westside-steak-bbq",
+   "name": "Westside Steak & BBQ",
+   "kind": "eat",
+   "num": "2",
+   "street": "Richmond Ave",
+   "area": "west-side",
+   "cuisine": "Steak and barbecue",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "group",
+    "family"
+   ],
+   "phone": "(508) 756-6328",
+   "website": "https://westsidesteakbbq.com",
+   "facts": []
+  },
+  {
+   "id": "meze-estiatorio",
+   "name": "Meze Estiatorio",
+   "kind": "eat",
+   "num": "166",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Greek",
+   "cravings": [
+    "drinks"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "phone": "(508) 418-6393",
+   "website": "https://mezeestiatorio.com",
+   "facts": []
+  },
+  {
+   "id": "chanis-kosher-deli",
+   "name": "Chani's Kosher Deli",
+   "kind": "eat",
+   "num": "22",
+   "street": "Newton Ave",
+   "area": "west-side",
+   "cuisine": "Kosher deli",
+   "cravings": [
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 752-0904",
+   "website": "https://chaniskosher.com",
+   "facts": []
+  },
+  {
+   "id": "fatimas-cafe",
+   "name": "Fatima's Cafe",
+   "kind": "eat",
+   "num": "43",
+   "street": "West Boylston St",
+   "area": "north-worcester",
+   "cuisine": "African",
+   "cravings": [
+    "spicy"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 762-9797",
+   "website": "https://fatimascafe.com",
+   "facts": []
+  },
+  {
+   "id": "sabrosa-venezuela",
+   "name": "Sabrosa Venezuela",
+   "kind": "eat",
+   "num": "220",
+   "street": "Harding St",
+   "area": "canal",
+   "cuisine": "Venezuelan",
+   "cravings": [
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(774) 641-2987",
+   "website": "https://sabrosavenezuela.com",
+   "facts": []
+  },
+  {
+   "id": "palmas-bakery",
+   "name": "Palma's Bakery",
+   "kind": "eat",
+   "num": "3B",
+   "street": "Rice Sq",
+   "area": "east-side",
+   "cuisine": "Bakery",
+   "cravings": [
+    "sweet"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 798-9942",
+   "website": "https://palmabakery.com",
+   "facts": []
+  },
+  {
+   "id": "giovannis-bakery",
+   "name": "Giovanni's Italian Bakery and Deli",
+   "kind": "eat",
+   "num": "207",
+   "street": "Hope Ave",
+   "area": "south",
+   "cuisine": "Italian bakery and deli",
+   "cravings": [
+    "sweet",
+    "italian"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 798-8800",
+   "website": "",
+   "facts": []
+  },
+  {
+   "id": "loving-hut",
+   "name": "Loving Hut",
+   "kind": "eat",
+   "num": "415",
+   "street": "Chandler St",
+   "area": "park-ave",
+   "cuisine": "Vegan",
+   "cravings": [
+    "bowls"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 459-0367",
+   "website": "https://toasttab.com/lovinghut-chandler",
+   "facts": []
+  },
+  {
+   "id": "cranberries",
+   "name": "Cranberries Restaurant",
+   "kind": "eat",
+   "num": "142",
+   "street": "Massasoit Rd",
+   "area": "east-side",
+   "cuisine": "Diner",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(508) 753-7885",
+   "website": "https://cranberries-diner.wixsite.com/home",
+   "facts": []
+  },
+  {
+   "id": "momo-palace",
+   "name": "Momo Palace",
+   "kind": "eat",
+   "num": "160",
+   "street": "Green St",
+   "area": "canal",
+   "cuisine": "Nepalese",
+   "cravings": [
+    "spicy"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(774) 314-5506",
+   "website": "https://momopalace.com",
+   "facts": []
+  },
+  {
+   "id": "family-table",
+   "name": "Family Table",
+   "kind": "eat",
+   "num": "545",
+   "street": "Southwest Cutoff",
+   "area": "south",
+   "cuisine": "Diner",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(508) 459-9335",
+   "website": "https://familytableeat.com",
+   "facts": []
+  },
+  {
+   "id": "cafe-reyes",
+   "name": "Cafe Reyes",
+   "kind": "eat",
+   "num": "421",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Cuban",
+   "cravings": [
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 762-9900",
+   "website": "https://cafereyes.org",
+   "facts": []
+  },
+  {
+   "id": "route-12-cafe",
+   "name": "Route 12 Cafe",
+   "kind": "eat",
+   "num": "580",
+   "street": "West Boylston St",
+   "area": "north-worcester",
+   "cuisine": "Breakfast",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(774) 823-3823",
+   "website": "https://route12cafe.com",
+   "facts": []
+  },
+  {
+   "id": "pizza-works",
+   "name": "Pizza Works",
+   "kind": "eat",
+   "num": "456",
+   "street": "Grove St",
+   "area": "north-worcester",
+   "cuisine": "Pizza",
+   "cravings": [
+    "pizza"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(508) 853-9066",
+   "website": "",
+   "facts": []
+  },
+  {
+   "id": "lou-rocs-diner",
+   "name": "Lou Roc's Diner",
+   "kind": "eat",
+   "num": "1074",
+   "street": "West Boylston St",
+   "area": "north-worcester",
+   "cuisine": "Diner",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(508) 852-6888",
+   "website": "https://lourocsdiner.com",
+   "facts": []
+  },
+  {
+   "id": "on-the-rise-baking",
+   "name": "On The Rise Baking",
+   "kind": "eat",
+   "num": "1120",
+   "street": "Pleasant St",
+   "area": "west-side",
+   "cuisine": "Bakery",
+   "cravings": [
+    "sweet"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 752-3809",
+   "website": "https://ontherisebaking.com",
+   "facts": []
+  },
+  {
+   "id": "alteas-eatery",
+   "name": "Altea's Eatery",
+   "kind": "eat",
+   "num": "259",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Brunch",
+   "cravings": [
+    "classic",
+    "drinks"
+   ],
+   "with": [
+    "group"
+   ],
+   "phone": "(508) 767-1639",
+   "website": "https://alteaseatery.com",
+   "facts": []
+  },
+  {
+   "id": "city-line-diner",
+   "name": "City Line Diner",
+   "kind": "eat",
+   "num": "1420",
+   "street": "Main St",
+   "area": "main-south",
+   "cuisine": "Diner",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(774) 420-2992",
+   "website": "https://citylinediner.com",
+   "facts": []
+  },
+  {
+   "id": "gibbys-ice-cream",
+   "name": "Gibby's Famous Ice Cream",
+   "kind": "eat",
+   "num": "42",
+   "street": "Sunderland Rd",
+   "area": "west-side",
+   "cuisine": "Ice cream",
+   "cravings": [
+    "sweet"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(508) 753-1095",
+   "website": "https://gibsonfarms.biz",
+   "facts": []
+  },
+  {
+   "id": "bahnans-bakery",
+   "name": "Bahnan's Bakery",
+   "kind": "eat",
+   "num": "344",
+   "street": "Pleasant St",
+   "area": "west-side",
+   "cuisine": "Lebanese bakery",
+   "cravings": [
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 796-5365",
+   "website": "https://bahnans.com",
+   "facts": []
+  },
+  {
+   "id": "pickle-barrel-deli",
+   "name": "Pickle Barrel Deli",
+   "kind": "eat",
+   "num": "305",
+   "street": "Pleasant St",
+   "area": "west-side",
+   "cuisine": "Deli",
+   "cravings": [
+    "quick",
+    "classic"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 754-0921",
+   "website": "https://pbrestaurantanddeli.com",
+   "facts": []
+  },
+  {
+   "id": "mint-kitchen",
+   "name": "Mint Kitchen & Bar",
+   "kind": "eat",
+   "num": "79",
+   "street": "Maywood St",
+   "area": "main-south",
+   "cuisine": "Vietnamese",
+   "cravings": [
+    "bowls"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 459-1532",
+   "website": "https://mintworcester.com",
+   "facts": []
+  },
+  {
+   "id": "good-as-gold",
+   "name": "Good As Gold Coffee",
+   "kind": "eat",
+   "num": "115",
+   "street": "Green St",
+   "area": "canal",
+   "cuisine": "Coffee",
+   "cravings": [
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "",
+   "website": "https://goodasgold.com",
+   "facts": []
+  },
+  {
+   "id": "cali-urban-grill",
+   "name": "Cali Urban Grill",
+   "kind": "eat",
+   "num": "394",
+   "street": "Belmont St",
+   "area": "east-side",
+   "cuisine": "Mexican",
+   "cravings": [
+    "quick",
+    "spicy"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(774) 420-2018",
+   "website": "https://mycaliurbangrill.com",
+   "facts": []
+  },
+  {
+   "id": "theatre-cafe",
+   "name": "Theatre Cafe",
+   "kind": "eat",
+   "num": "529",
+   "street": "Main St",
+   "area": "downtown",
+   "cuisine": "Cafe",
+   "cravings": [
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 799-7190",
+   "website": "https://theatre-cafe.net",
+   "facts": []
+  },
+  {
+   "id": "akra-eatery",
+   "name": "ākra Eatery",
+   "kind": "eat",
+   "num": "1280",
+   "street": "Grafton St",
+   "area": "east-side",
+   "cuisine": "African",
+   "cravings": [
+    "spicy",
+    "new"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(774) 545-4727",
+   "website": "https://akraeatery.com",
+   "facts": []
+  },
+  {
+   "id": "pepes-taqueria",
+   "name": "Pepe's Taquería",
+   "kind": "eat",
+   "num": "645",
+   "street": "Chandler St",
+   "area": "park-ave",
+   "cuisine": "Mexican",
+   "cravings": [
+    "spicy",
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 796-5796",
+   "website": "https://pepestaqueriaworcester.com",
+   "facts": []
+  },
+  {
+   "id": "sham-restaurant",
+   "name": "Sham Restaurant",
+   "kind": "eat",
+   "num": "50",
+   "street": "Water St",
+   "area": "canal",
+   "cuisine": "Mediterranean",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "group"
+   ],
+   "phone": "(508) 373-2022",
+   "website": "https://shamrestaurants.com",
+   "facts": []
+  },
+  {
+   "id": "torito",
+   "name": "Torito Mexican Restaurant",
+   "kind": "eat",
+   "num": "537",
+   "street": "Lincoln St",
+   "area": "east-side",
+   "cuisine": "Mexican",
+   "cravings": [
+    "spicy",
+    "drinks"
+   ],
+   "with": [
+    "group"
+   ],
+   "phone": "(508) 304-8665",
+   "website": "https://toritomex.com",
+   "facts": []
+  },
+  {
+   "id": "dinos",
+   "name": "Dino's Restaurant",
+   "kind": "eat",
+   "num": "13",
+   "street": "Lord St",
+   "area": "shrewsbury-st",
+   "cuisine": "Italian",
+   "cravings": [
+    "italian"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(508) 753-9978",
+   "website": "https://dinosrestaurantworcester.com",
+   "facts": []
+  },
+  {
+   "id": "la-cucina-italiana",
+   "name": "La Cucina Italiana",
+   "kind": "eat",
+   "num": "1393",
+   "street": "Grafton St",
+   "area": "east-side",
+   "cuisine": "Italian",
+   "cravings": [
+    "italian"
+   ],
+   "with": [
+    "date",
+    "family"
+   ],
+   "phone": "(508) 797-3354",
+   "website": "https://lacucinaitalianaworcester.com",
+   "facts": []
+  },
+  {
+   "id": "woo-bar",
+   "name": "The Woo Bar & Grill",
+   "kind": "eat",
+   "num": "358",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Burgers",
+   "cravings": [
+    "classic",
+    "drinks"
+   ],
+   "with": [
+    "group"
+   ],
+   "phone": "(774) 243-6130",
+   "website": "https://thewoobar.com",
+   "facts": []
+  },
+  {
+   "id": "pho-at-194",
+   "name": "Pho at 194",
+   "kind": "eat",
+   "num": "194",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Vietnamese",
+   "cravings": [
+    "bowls"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 459-0707",
+   "website": "https://phoat194.com",
+   "facts": []
+  },
+  {
+   "id": "meraki-dessert-bar",
+   "name": "Meraki Cafè Dessert Bar",
+   "kind": "eat",
+   "num": "274",
+   "street": "Shrewsbury St",
+   "area": "shrewsbury-st",
+   "cuisine": "Desserts",
+   "cravings": [
+    "sweet"
+   ],
+   "with": [
+    "date"
+   ],
+   "phone": "(508) 459-1241",
+   "website": "https://merakidessertbar.com",
+   "facts": []
+  },
+  {
+   "id": "el-basha-park-ave",
+   "name": "El Basha (Park Ave)",
+   "kind": "eat",
+   "num": "256",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Lebanese",
+   "cravings": [
+    "classic"
+   ],
+   "with": [
+    "family",
+    "group"
+   ],
+   "phone": "(508) 795-0222",
+   "website": "https://elbasharestaurants.com",
+   "facts": []
+  },
+  {
+   "id": "desi-bar-grill",
+   "name": "Desi Bar & Grill",
+   "kind": "eat",
+   "num": "393",
+   "street": "Chandler St",
+   "area": "park-ave",
+   "cuisine": "Indian",
+   "cravings": [
+    "spicy"
+   ],
+   "with": [
+    "group"
+   ],
+   "phone": "(774) 548-1138",
+   "website": "https://desibargrill.com",
+   "facts": []
+  },
+  {
+   "id": "pampas-steakhouse",
+   "name": "Pampas Brazilian Steakhouse",
+   "kind": "eat",
+   "num": "145",
+   "street": "East Central St",
+   "area": "downtown",
+   "cuisine": "Brazilian steakhouse",
+   "cravings": [],
+   "with": [
+    "group",
+    "family"
+   ],
+   "phone": "(508) 757-1070",
+   "website": "https://pampasbraziliansteak.com",
+   "facts": []
+  },
+  {
+   "id": "mezcal-tequila-kitchen",
+   "name": "Mezcal Tequila Kitchen",
+   "kind": "eat",
+   "num": "11",
+   "street": "East Central St",
+   "area": "downtown",
+   "cuisine": "Mexican",
+   "cravings": [
+    "spicy",
+    "drinks"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "phone": "(508) 926-8308",
+   "website": "https://mezcaltequilakitchen.com",
+   "facts": []
+  },
+  {
+   "id": "chuan-shabu",
+   "name": "Chuan Shabu",
+   "kind": "eat",
+   "num": "301",
+   "street": "Park Ave",
+   "area": "park-ave",
+   "cuisine": "Hot pot",
+   "cravings": [
+    "bowls"
+   ],
+   "with": [
+    "group"
+   ],
+   "phone": "(508) 762-9213",
+   "website": "",
+   "facts": []
+  },
+  {
+   "id": "red-pepper",
+   "name": "Red Pepper",
+   "kind": "eat",
+   "num": "1083",
+   "street": "Main St",
+   "area": "main-south",
+   "cuisine": "Chinese",
+   "cravings": [
+    "spicy"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(774) 243-6488",
+   "website": "https://redpepperworcester.com",
+   "facts": []
+  },
+  {
+   "id": "the-mercantile",
+   "name": "The Mercantile",
+   "kind": "eat",
+   "num": "2",
+   "street": "Mercantile St",
+   "area": "downtown",
+   "cuisine": "American",
+   "cravings": [
+    "drinks"
+   ],
+   "with": [
+    "date",
+    "group"
+   ],
+   "phone": "(774) 389-5180",
+   "website": "https://themercantileworcester.com",
+   "facts": []
+  },
+  {
+   "id": "nu-kitchen",
+   "name": "NU Kitchen",
+   "kind": "eat",
+   "num": "335",
+   "street": "Chandler St",
+   "area": "park-ave",
+   "cuisine": "Healthy bowls and salads",
+   "cravings": [
+    "bowls",
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 926-8800",
+   "website": "https://thenukitchen.com",
+   "facts": []
+  },
+  {
+   "id": "i-love-frankies",
+   "name": "I Love Frankie's",
+   "kind": "eat",
+   "num": "90",
+   "street": "Providence St",
+   "area": "east-side",
+   "cuisine": "Pizza",
+   "cravings": [
+    "pizza"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(508) 753-5353",
+   "website": "https://worcestersbestpizza.com",
+   "facts": []
+  },
+  {
+   "id": "greater-good",
+   "name": "Greater Good Imperial Brewing",
+   "kind": "eat",
+   "num": "55",
+   "street": "Millbrook St",
+   "area": "downtown",
+   "cuisine": "Brewery",
+   "cravings": [
+    "drinks"
+   ],
+   "with": [
+    "group"
+   ],
+   "phone": "(508) 926-8736",
+   "website": "https://greatergoodimperials.com",
+   "facts": []
+  },
+  {
+   "id": "golden-semiramis",
+   "name": "Golden Semiramis Bakery",
+   "kind": "eat",
+   "num": "486",
+   "street": "Lincoln St",
+   "area": "east-side",
+   "cuisine": "Bakery",
+   "cravings": [
+    "sweet"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 304-9452",
+   "website": "https://goldensemiramis.com",
+   "facts": []
+  },
+  {
+   "id": "el-sombrero",
+   "name": "El Sombrero Taqueria",
+   "kind": "eat",
+   "num": "1",
+   "street": "Kelley Sq",
+   "area": "canal",
+   "cuisine": "Mexican",
+   "cravings": [
+    "spicy",
+    "quick"
+   ],
+   "with": [
+    "anyone"
+   ],
+   "phone": "(508) 304-9403",
+   "website": "https://elsombrero-taqueria.com",
+   "facts": []
+  },
+  {
+   "id": "rosalinas-kitchen",
+   "name": "Rosalina's Kitchen",
+   "kind": "eat",
+   "num": "83",
+   "street": "Hamilton St",
+   "area": "east-side",
+   "cuisine": "Italian",
+   "cravings": [
+    "italian"
+   ],
+   "with": [
+    "family"
+   ],
+   "phone": "(508) 926-8887",
+   "website": "https://rosalinaskitchen.com",
    "facts": []
   }
  ],
