@@ -327,7 +327,8 @@ function ltef_block_roulette() {
 			'dish'     => (string) ltef_meta( $p->ID, 'dish' ),
 			'url'      => $vs ? $vs[0]['url'] : (string) ltef_meta( $p->ID, 'tina_video' ),
 			'href'     => get_permalink( $p->ID ),
-			'maps'     => ltef_maps_url( $p->post_title, (string) ltef_meta( $p->ID, 'address' ) ),
+			'maps'     => ltef_maps_url( $p->post_title, (string) ltef_meta( $p->ID, 'address' ), ltef_town_state( ltef_meta( $p->ID, 'town' ) ) ),
+			'town'     => ltef_meta( $p->ID, 'town' ) ? (string) ltef_meta( $p->ID, 'town' ) : 'Worcester',
 			'img'      => ltef_sticker_url( ltef_place_sticker( $p->ID ) ),
 			'bg'       => 'var(--' . ltef_place_field( $p->ID ) . ')',
 			'cravings' => ( $cr && ! is_wp_error( $cr ) ) ? wp_list_pluck( $cr, 'slug' ) : array(),
@@ -354,18 +355,26 @@ function ltef_block_roulette() {
 			$withs[ $t->slug ] = $t->name;
 		}
 	}
+	// Towns for the "Where" picker: Worcester first, then the rest A to Z.
+	$towns = array_count_values( wp_list_pluck( $data, 'town' ) );
+	uksort( $towns, function ( $a, $b ) { return ( 'Worcester' === $b ) <=> ( 'Worcester' === $a ) ?: strcasecmp( $a, $b ); } );
+	$town_opts = '<option value="">Anywhere</option>';
+	foreach ( $towns as $t => $n ) {
+		$town_opts .= '<option value="' . esc_attr( $t ) . '">' . esc_html( $t ) . '</option>';
+	}
 	$wheel = function_exists( 'get_theme_file_uri' ) ? get_theme_file_uri( 'assets/img/stickers/roulette-wheel.svg' ) : '';
 	$ptr   = function_exists( 'get_theme_file_uri' ) ? get_theme_file_uri( 'assets/img/stickers/roulette-pointer.svg' ) : '';
 	$html  = '<div class="roul" data-roulette>'
 		. '<div class="roul-left"><div class="roul-result" aria-live="polite">'
 		. '<div class="roul-card roul-card--wait" data-state="spinning" hidden><p class="h-m">Spinning…</p><p>Picking from <span data-f="count"></span> places.</p></div>'
-		. '<div class="roul-card roul-card--none" data-state="nomatch" hidden><p class="h-m">Nothing on the wheel for that yet.</p><p>Try a different craving, or say anyone’s coming.</p></div>'
+		. '<div class="roul-card roul-card--none" data-state="nomatch" hidden><p class="h-m">Nothing on the wheel for that yet.</p><p>Try another town or craving, say anyone’s coming, or spin from all restaurants.</p></div>'
 		. '<article class="roul-card roul-card--pick" data-state="pick" hidden><div class="roul-card__labels"><span class="ltef-lbl ltef-lbl--tina" data-if="tina">' . ltef_icon( 'pen' ) . 'Tina ate here · <span data-f="month"></span></span><span class="ltef-lbl ltef-lbl--notyet" data-if="notyet">Tina hasn’t been yet</span></div>'
 		. '<h2 class="roul-card__name" tabindex="-1" data-f="name"></h2><p class="meta" data-f="meta"></p>'
 		. '<div data-if="tina"><div class="ordered"><span class="ordered__ph" data-f="bg"><img src="" alt="" data-f="img" width="56" height="56"></span><span class="ordered__txt"><span class="ordered__k">What Tina ordered</span><span class="ordered__dish" data-f="dish"></span></span></div><p class="ltef-note">“<span data-f="quote"></span>”</p></div>'
 		. '<p data-if="notyet">Tina hasn’t eaten here yet, so there’s no video or take. It’s on the wheel because you picked all restaurants.</p>'
 		. '<div class="roul-card__acts"><a class="ltef-btn" href="#" data-f="maps" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions</a><a class="ltef-btn ltef-btn--alt" href="#" data-f="video" data-if="tina" target="_blank" rel="noopener">' . ltef_icon( 'play' ) . 'Watch Tina’s video</a><a class="ltef-btn ltef-btn--alt" href="#" data-f="href">See the place</a></div></article></div>'
 		. '<div class="roul-adjust"><div class="roul-group"><span class="roul-group__h">Spin from</span><div class="ltef-chips" role="group" aria-label="Which places">' . $chips( 'where', array( 'tina' => 'Where Tina ate', 'all' => 'All restaurants' ) ) . '</div></div>'
+		. '<div class="roul-group"><label class="roul-group__h" for="roul-town">In or near</label><select class="ltef-input roul-town" id="roul-town" data-roul-town>' . $town_opts . '</select></div>'
 		. '<div class="roul-group"><span class="roul-group__h">I’m in the mood for</span><div class="ltef-chips" role="group" aria-label="Craving">' . $chips( 'mood', $cravings ) . '</div></div>'
 		. '<div class="roul-group"><span class="roul-group__h">Who’s coming</span><div class="ltef-chips" role="group" aria-label="Who’s coming">' . $chips( 'with', $withs ) . '</div></div></div></div>'
 		. '<div class="roul-wheel"><div class="roul-wheel__disc"><img src="' . esc_url( $ptr ) . '" alt="" class="roul-pointer"><img src="' . esc_url( $wheel ) . '" alt="Restaurant Roulette wheel" data-wheel></div>'

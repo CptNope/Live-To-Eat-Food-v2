@@ -168,3 +168,6 @@ body { background: var(--lemon); }
 .ltef-video .video-cap { font-size: clamp(20px, 2.2vw, 26px); overflow-wrap: anywhere; }
 @media (max-width: 700px) { .ltef-video { grid-template-columns: minmax(0, 300px); } }
 .explore-more-wrap { display: flex; justify-content: center; margin: 24px 0 0; }
+/* The section's heading colour (butter on basil) was winning over the card's own: keep the picked name readable on the cream card. */
+.ltef-roulette .roul-card .roul-card__name { color: var(--basil); }
+.roul-town { max-width: 360px; }
