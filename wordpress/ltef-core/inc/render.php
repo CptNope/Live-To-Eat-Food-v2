@@ -148,19 +148,25 @@ function ltef_place_row( $post_id ) {
 	);
 }
 
-/** Tina's video as a paused still. Nothing loads from TikTok until someone presses play. */
+/**
+ * Tina's video as a paused still. Nothing loads from any platform until someone presses play.
+ * It plays the best copy there is (see ltef_video_sources) and links to the others underneath.
+ */
 function ltef_video_html( $post_id ) {
 	$url = ltef_meta( $post_id, 'tina_video' );
 	if ( ! $url ) {
 		return '';
 	}
-	$title = 'Tina’s video at ' . get_the_title( $post_id );
-	$yt_url = (string) ltef_meta( $post_id, 'youtube' );
-	$yt     = ltef_youtube_id( $yt_url ? $yt_url : $url );
-	$tt     = $yt ? '' : ltef_tiktok_id( $url ); // a YouTube copy wins: it plays in more places
-	$out    = $yt ? ( $yt_url ? $yt_url : $url ) : $url;
-	$cover = '';
-	$tt_cover  = ltef_tiktok_id( $url );
+	$title   = 'Tina’s video at ' . get_the_title( $post_id );
+	$sources = ltef_video_sources( $post_id );
+	$main    = $sources ? $sources[0] : array( 'platform' => '', 'label' => '', 'url' => $url, 'embed' => '' );
+	$cover   = '';
+	$tt_cover = '';
+	foreach ( $sources as $s ) {
+		if ( 'tiktok' === $s['platform'] ) {
+			$tt_cover = ltef_tiktok_id( $s['url'] );
+		}
+	}
 	$cover_rel = 'assets/photos/videos/' . $tt_cover . '.webp';
 	if ( $tt_cover && file_exists( get_theme_file_path( $cover_rel ) ) ) {
 		$cover = '<img class="tt-cover" src="' . esc_url( get_theme_file_uri( $cover_rel ) ) . '" alt="" width="540" height="960" loading="lazy">';
@@ -170,20 +176,36 @@ function ltef_video_html( $post_id ) {
 	$still = $cover ? $cover : '<span class="tt-plate" aria-hidden="true"></span><img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ) . '" alt="" width="148" height="148">';
 	$quote = (string) ltef_meta( $post_id, 'tina_quote' );
 	$cap   = mb_strlen( $quote ) > 72 ? rtrim( mb_substr( $quote, 0, 70 ) ) . '…' : $quote;
-	$play  = ( $tt || $yt ) ? '<button class="tt-play" type="button" aria-label="' . esc_attr( 'Play ' . $title ) . '">' . ltef_icon( 'play' ) . '</button>' : '';
+	$play  = $main['embed'] ? '<button class="tt-play" type="button" aria-label="' . esc_attr( 'Play ' . $title ) . '">' . ltef_icon( 'play' ) . '</button>' : '';
+
+	$players = array(
+		'youtube'   => 'Plays in YouTube’s privacy-enhanced player.',
+		'instagram' => 'Plays in Instagram’s player.',
+		'facebook'  => 'Plays in Facebook’s player.',
+		'tiktok'    => 'Plays in TikTok’s player.',
+	);
+	$note = '';
+	if ( $main['embed'] ) {
+		$note = $players[ $main['platform'] ] . ' No account needed, and nothing loads until you press play.';
+		$alts = array();
+		foreach ( $sources as $s ) {
+			$alts[] = '<a href="' . esc_url( $s['url'] ) . '" target="_blank" rel="noopener">' . esc_html( $s['label'] ) . '<span class="vh"> (opens a new tab)</span></a>';
+		}
+		$note .= ' Not playing? Watch it on ' . implode( ' · ', $alts ) . '.';
+		$note  = '<p class="meta tt-note">' . $note . '</p>';
+	}
 	return sprintf(
-		'<div class="take-video" id="video"><div class="tt%1$s" data-tt="%2$s"%11$s data-title="%3$s" style="background: var(--%4$s);">%5$s<a class="tt-out" href="%6$s" target="_blank" rel="noopener">Watch the video</a>%7$s<span class="tt-cap" aria-hidden="true"><b>@livetoeatfoodie · %8$s</b><span>%9$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>%10$s</div>',
+		'<div class="take-video" id="video"><div class="tt%1$s" data-embed="%2$s" data-title="%3$s" style="background: var(--%4$s);">%5$s<a class="tt-out" href="%6$s" target="_blank" rel="noopener">Watch the video</a>%7$s<span class="tt-cap" aria-hidden="true"><b>@livetoeatfoodie · %8$s</b><span>%9$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>%10$s</div>',
 		$cover ? ' tt--cover' : '',
-		esc_attr( $tt ),
+		esc_url( $main['embed'] ),
 		esc_attr( $title ),
 		esc_attr( ltef_place_field( $post_id ) ),
 		$still,
-		esc_url( $out ),
+		esc_url( $main['url'] ),
 		$play,
 		esc_html( ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ) ),
 		esc_html( $cap ),
-		$yt ? '<p class="meta">Plays in YouTube’s privacy-enhanced player. Nothing loads until you press play.</p>' : ( $tt ? '<p class="meta">Plays in TikTok’s player. Nothing loads until you press play.</p>' : '' ),
-		$yt ? ' data-yt="' . esc_attr( $yt ) . '"' : ''
+		$note
 	);
 }
 
