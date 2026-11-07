@@ -33,7 +33,7 @@ function ltef_block_defs() {
 
 add_action( 'init', 'ltef_register_blocks' );
 function ltef_register_blocks() {
-	wp_register_script( 'ltef-editor', LTEF_URL . 'assets/js/editor.js', array( 'wp-blocks', 'wp-element', 'wp-server-side-render', 'wp-block-editor', 'wp-components', 'wp-i18n' ), LTEF_VERSION, true );
+	wp_register_script( 'ltef-editor', LTEF_URL . 'assets/js/editor.js', array( 'wp-blocks', 'wp-element', 'wp-server-side-render', 'wp-block-editor', 'wp-components', 'wp-i18n' ), LTEF_VERSION . '.' . filemtime( LTEF_DIR . 'assets/js/editor.js' ), true );
 	$defs = array();
 	foreach ( ltef_block_defs() as $slug => $d ) {
 		list( $title, $desc, $icon, $attrs, $cb, $uses_post ) = $d;
@@ -69,7 +69,7 @@ add_filter(
 add_action(
 	'wp_enqueue_scripts',
 	function () {
-		wp_enqueue_script( 'ltef', LTEF_URL . 'assets/js/ltef.js', array(), LTEF_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+		wp_enqueue_script( 'ltef', LTEF_URL . 'assets/js/ltef.js', array(), LTEF_VERSION . '.' . filemtime( LTEF_DIR . 'assets/js/ltef.js' ), array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	}
 );
 
