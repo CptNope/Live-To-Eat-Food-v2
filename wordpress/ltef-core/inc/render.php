@@ -72,7 +72,7 @@ function ltef_place_meta_line( $post_id, $with_address = true ) {
 		array(
 			ltef_meta( $post_id, 'cuisine' ),
 			$with_address ? ltef_meta( $post_id, 'address' ) : '',
-			ltef_place_area_name( $post_id ),
+			ltef_meta( $post_id, 'town' ) ? ltef_meta( $post_id, 'town' ) : ltef_place_area_name( $post_id ), // a town outside Worcester says more than its region
 			ltef_meta( $post_id, 'price' ),
 		)
 	);
