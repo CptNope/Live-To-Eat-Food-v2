@@ -33,9 +33,16 @@ Requires WordPress 6.6 or newer (tested on 6.8) and PHP 7.4 or newer.
 
 **Privacy:** contact details, the raw form fields, the don't-work-with flag and decline reasons are protected meta. They never reach the REST API or the site. The don't-work-with list lives only in Settings. Don't type names from it into pages, posts or this repo.
 
-### YouTube copies of Tina's videos
+### Where Tina's videos play from
 
-Each place has an optional **YouTube copy of the video** field. When it's filled in (a Shorts, youtu.be or watch link), the site plays that video in YouTube's privacy-enhanced player instead of TikTok's, and "Watch the video" links to YouTube. That way it also plays where TikTok is blocked. The TikTok link stays as the record of when Tina ate there.
+Each place has Tina's video link (where she first posted it) and three optional copies: **YouTube**, **Instagram** and **Facebook**. The site plays the first one it has, in this order:
+
+1. **YouTube**, in its privacy-enhanced player: blocked least by schools, offices and privacy tools.
+2. **Instagram**
+3. **Facebook** (the video has to be Public, and the link has to be the video's own: `facebook.com/reel/…` or `…/videos/…`; share links only get linked to)
+4. **TikTok**: blocked most often.
+
+None of them needs the visitor to have an account for a public video (checked signed out in November 2026). Under the player, "Not playing? Watch it on …" links to every copy. Nothing loads from any platform until someone presses play. To change the order, filter `ltef_video_priority`.
 
 ## Money (private)
 

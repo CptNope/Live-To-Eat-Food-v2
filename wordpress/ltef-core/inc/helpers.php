@@ -89,6 +89,70 @@ function ltef_youtube_id( $url ) {
 	return preg_match( '#(?:youtu\.be/|youtube(?:-nocookie)?\.com/(?:watch\?(?:.*&)?v=|shorts/|embed/|live/))([A-Za-z0-9_-]{11})#', (string) $url, $m ) ? $m[1] : '';
 }
 
+/** The code from an Instagram post or reel link, with its kind: array( 'reel'|'p', code ). */
+function ltef_instagram_ref( $url ) {
+	if ( ! preg_match( '#instagram\.com/(?:[A-Za-z0-9_.]+/)?(p|reels?|tv)/([A-Za-z0-9_-]+)#', (string) $url, $m ) ) {
+		return array();
+	}
+	return array( 'p' === $m[1] || 'tv' === $m[1] ? 'p' : 'reel', $m[2] );
+}
+
+/** Whether a Facebook link points at one video (reel, /videos/, watch or video.php), the kind its embed player accepts. */
+function ltef_facebook_video( $url ) {
+	return (bool) preg_match( '#^https?://(?:www\.|m\.|web\.)?facebook\.com/(?:reel/\d+|[^?\#]+/videos/(?:[^/?\#]+/)?\d+|watch/?\?(?:.*&)?v=\d+|video\.php\?(?:.*&)?v=\d+)#', (string) $url );
+}
+
+/** Which platform a video link is on: youtube, instagram, facebook, tiktok or ''. */
+function ltef_video_platform( $url ) {
+	$host = strtolower( (string) wp_parse_url( (string) $url, PHP_URL_HOST ) );
+	$host = preg_replace( '/^(www|m|web|vm)\./', '', $host );
+	$map  = array( 'youtube.com' => 'youtube', 'youtu.be' => 'youtube', 'youtube-nocookie.com' => 'youtube', 'instagram.com' => 'instagram', 'facebook.com' => 'facebook', 'fb.watch' => 'facebook', 'tiktok.com' => 'tiktok' );
+	return $map[ $host ] ?? '';
+}
+
+/**
+ * Every copy of Tina's video for a place, best first. YouTube's privacy-enhanced player comes first: it is
+ * the one schools, offices and privacy tools block least. TikTok comes last: it is the one most often blocked.
+ * None of the four needs the visitor to have an account for a public video.
+ * Each item: array( 'platform', 'label', 'url', 'embed' ) where embed is '' when the link can't be played on the site.
+ */
+function ltef_video_sources( $post_id ) {
+	$labels = array( 'youtube' => 'YouTube', 'instagram' => 'Instagram', 'facebook' => 'Facebook', 'tiktok' => 'TikTok' );
+	$order  = apply_filters( 'ltef_video_priority', array_keys( $labels ) );
+	$found  = array();
+	foreach ( array( 'youtube', 'instagram', 'facebook', 'tina_video' ) as $key ) {
+		$url = trim( (string) ltef_meta( $post_id, $key ) );
+		$pf  = ltef_video_platform( $url );
+		if ( ! $url || ! $pf || isset( $found[ $pf ] ) ) {
+			continue;
+		}
+		$embed = '';
+		if ( 'youtube' === $pf && ltef_youtube_id( $url ) ) {
+			$embed = 'https://www.youtube-nocookie.com/embed/' . ltef_youtube_id( $url ) . '?autoplay=1&rel=0&playsinline=1';
+		} elseif ( 'instagram' === $pf && ltef_instagram_ref( $url ) ) {
+			list( $kind, $code ) = ltef_instagram_ref( $url );
+			$embed = 'https://www.instagram.com/' . $kind . '/' . $code . '/embed/';
+		} elseif ( 'facebook' === $pf && ltef_facebook_video( $url ) ) {
+			$embed = 'https://www.facebook.com/plugins/video.php?href=' . rawurlencode( $url ) . '&show_text=false&autoplay=true';
+		} elseif ( 'tiktok' === $pf && ltef_tiktok_id( $url ) ) {
+			$embed = 'https://www.tiktok.com/player/v1/' . ltef_tiktok_id( $url ) . '?music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=1&autoplay=1';
+		}
+		$found[ $pf ] = array( 'platform' => $pf, 'label' => $labels[ $pf ], 'url' => $url, 'embed' => $embed );
+	}
+	$play = array();
+	$link = array(); // link-only copies go after every playable one
+	foreach ( $order as $pf ) {
+		if ( isset( $found[ $pf ] ) ) {
+			if ( $found[ $pf ]['embed'] ) {
+				$play[] = $found[ $pf ];
+			} else {
+				$link[] = $found[ $pf ];
+			}
+		}
+	}
+	return array_merge( $play, $link );
+}
+
 /** Price shown as money, no cents when whole. */
 function ltef_money( $n ) {
 	$n = (float) $n;

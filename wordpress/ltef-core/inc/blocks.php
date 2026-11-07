@@ -290,7 +290,7 @@ function ltef_block_roulette() {
 			'month'    => ltef_month_label( ltef_meta( $p->ID, 'tina_date' ) ),
 			'quote'    => (string) ltef_meta( $p->ID, 'tina_quote' ),
 			'dish'     => (string) ltef_meta( $p->ID, 'dish' ),
-			'url'      => (string) ltef_meta( $p->ID, 'tina_video' ),
+			'url'      => ( $vs = ltef_video_sources( $p->ID ) ) ? $vs[0]['url'] : (string) ltef_meta( $p->ID, 'tina_video' ),
 			'href'     => get_permalink( $p->ID ),
 			'maps'     => ltef_maps_url( $p->post_title, (string) ltef_meta( $p->ID, 'address' ) ),
 			'img'      => ltef_sticker_url( ltef_place_sticker( $p->ID ) ),
