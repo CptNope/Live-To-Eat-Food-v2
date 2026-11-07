@@ -102,13 +102,13 @@
 	if ( R ) {
 		var data = [];
 		try { data = JSON.parse( R.querySelector( '[data-roulette-places]' ).textContent ); } catch ( e ) {}
-		var st = { where: 'tina', mood: '', with: '', turn: 0, pick: null, spinning: false };
+		var st = { where: 'tina', mood: '', with: '', town: '', turn: 0, pick: null, spinning: false };
 		var wheel = R.querySelector( '[data-wheel]' ), btn = R.querySelector( '[data-spin]' ), label = R.querySelector( '[data-spin-label]' );
 		var states = {}; $$( '[data-state]', R ).forEach( function ( s ) { states[ s.getAttribute( 'data-state' ) ] = s; } );
 		var show = function ( name ) { Object.keys( states ).forEach( function ( k ) { states[ k ].hidden = k !== name; } ); };
 		var pool = function () {
 			return data.filter( function ( p ) {
-				return ( st.where === 'all' || p.tina ) && ( ! st.mood || p.cravings.indexOf( st.mood ) > -1 ) && ( ! st.with || p.with.indexOf( st.with ) > -1 );
+				return ( st.where === 'all' || p.tina ) && ( ! st.town || p.town === st.town ) && ( ! st.mood || p.cravings.indexOf( st.mood ) > -1 ) && ( ! st.with || p.with.indexOf( st.with ) > -1 );
 			} );
 		};
 		var fill = function ( f, v ) { $$( '[data-f="' + f + '"]', R ).forEach( function ( el ) { el.textContent = v || ''; } ); };
@@ -121,6 +121,11 @@
 					if ( states.nomatch && ! states.nomatch.hidden ) show( '' );
 				} );
 			} );
+		} );
+		var townSel = R.querySelector( '[data-roul-town]' );
+		if ( townSel ) townSel.addEventListener( 'change', function () {
+			st.town = townSel.value;
+			if ( states.nomatch && ! states.nomatch.hidden ) show( '' );
 		} );
 		btn.addEventListener( 'click', function () {
 			if ( st.spinning ) return;
