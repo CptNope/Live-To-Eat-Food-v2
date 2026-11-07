@@ -23,6 +23,9 @@ function ltef_place_sticker( $post_id ) {
 	if ( $own ) {
 		return $own;
 	}
+	if ( 'eat' !== ltef_place_kind( $post_id ) ) {
+		return 'lemon';
+	}
 	$dish = strtolower( (string) ltef_meta( $post_id, 'dish' ) );
 	$cui  = strtolower( (string) ltef_meta( $post_id, 'cuisine' ) );
 	$by_dish = array( 'burger' => 'burger', 'beer' => 'beer', 'pasta' => 'pasta', 'carrot' => 'carrot', 'curr' => 'curry', 'haddock' => 'fish', 'oyster' => 'oyster', 'lobster' => 'oyster', 'taco' => 'taco', 'soup dumpling' => 'dumpling', 'wings' => 'drumstick', 'matcha' => 'matcha', 'acai' => 'acai', 'crêpe' => 'croissant', 'croffle' => 'croissant', 'pastr' => 'croissant', 'bagel' => 'bagel', 'banh mi' => 'banhmi', 'hot dog' => 'hotdog', 'sushi' => 'sushi', 'nigiri' => 'sushi', 'salmon' => 'sushi', 'poké' => 'sushi', 'pizza' => 'pizza', 'flatbread' => 'pizza-pie', 'ramen' => 'ramen', 'pho' => 'noodles', 'udon' => 'noodles', 'noodle' => 'noodles', 'stir-fry' => 'noodles', 'grill' => 'skewer', 'meats' => 'skewer', 'buffet' => 'dumpling' );
@@ -79,7 +82,7 @@ function ltef_place_meta_line( $post_id, $with_address = true ) {
 /** "Tina ate here · Aug 2026" or "Tina hasn't been yet", plus Hosted / Enhanced when true. */
 function ltef_place_labels( $post_id, $small = false ) {
 	$out = ltef_tina_ate( $post_id )
-		? ltef_label( 'tina', trim( 'Tina ate here · ' . ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ), ' ·' ), $small )
+		? ltef_label( 'tina', trim( ltef_tina_label( $post_id ) . ' · ' . ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ), ' ·' ), $small )
 		: '<span class="ltef-lbl ltef-lbl--notyet' . ( $small ? ' ltef-lbl--sm' : '' ) . '">Tina hasn’t been yet</span>';
 	if ( ltef_meta( $post_id, 'hosted' ) ) {
 		$out .= ltef_label( 'hosted', 'Hosted', $small );
@@ -113,7 +116,7 @@ function ltef_place_card( $post_id ) {
 		'<article class="ltef-card"><a href="%1$s" class="ltef-card__link"><div class="ltef-card__ph" style="background: var(--%2$s);">%3$s%4$s</div><div class="ltef-card__row"><h3 class="ltef-card__name">%5$s</h3></div><p class="ltef-card__meta">%6$s</p>%7$s%8$s</a></article>',
 		esc_url( get_permalink( $post_id ) ),
 		esc_attr( $field ),
-		ltef_tina_ate( $post_id ) ? ltef_label( 'tina', 'Tina ate here · ' . ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ), false ) : '',
+		ltef_tina_ate( $post_id ) ? ltef_label( 'tina', trim( ltef_tina_label( $post_id ) . ' · ' . ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ), ' ·' ), false ) : '',
 		$img,
 		esc_html( get_the_title( $post_id ) ),
 		esc_html( ltef_place_meta_line( $post_id, false ) ),
@@ -131,7 +134,7 @@ function ltef_place_row( $post_id ) {
 	$dish = ltef_meta( $post_id, 'dish' );
 	$name = get_the_title( $post_id );
 	return sprintf(
-		'<article class="panel place-row" data-name="%1$s" data-area="%2$s" data-cravings="%3$s" data-with="%4$s" data-tina="%5$d"><div class="place-row__ph" style="background: var(--%6$s);"><img src="%7$s" alt="" width="148" height="148"></div><div class="place-row__txt"><a href="%8$s" class="h-s tap">%9$s</a><span class="meta">%10$s</span>%11$s<span class="place-row__labels">%12$s%13$s</span></div></article>',
+		'<article class="panel place-row" data-name="%1$s" data-area="%2$s" data-cravings="%3$s" data-with="%4$s" data-tina="%5$d" data-kind="%14$s"><div class="place-row__ph" style="background: var(--%6$s);"><img src="%7$s" alt="" width="148" height="148"></div><div class="place-row__txt"><a href="%8$s" class="h-s tap">%9$s</a><span class="meta">%10$s</span>%11$s<span class="place-row__labels">%12$s%13$s</span></div></article>',
 		esc_attr( strtolower( $name . ' ' . ltef_meta( $post_id, 'cuisine' ) . ' ' . $dish ) ),
 		esc_attr( $terms( 'ltef_area' ) ),
 		esc_attr( $terms( 'ltef_craving' ) ),
@@ -144,78 +147,124 @@ function ltef_place_row( $post_id ) {
 		esc_html( ltef_place_meta_line( $post_id ) ),
 		$dish ? '<span class="row-order"><span class="row-order__k">Tina ordered</span> ' . esc_html( ltef_in_sentence( $dish ) ) . '</span>' : '',
 		ltef_place_labels( $post_id, true ),
-		ltef_verdict_html( ltef_meta( $post_id, 'verdict' ) )
+		ltef_verdict_html( ltef_meta( $post_id, 'verdict' ) ),
+		esc_attr( ltef_place_kind( $post_id ) )
 	);
 }
 
 /**
- * Tina's video as a paused still. Nothing loads from any platform until someone presses play.
- * It plays the best copy there is (see ltef_video_sources) and links to the others underneath.
+ * One of Tina's videos as a paused still. Nothing loads from any platform until someone presses play.
+ * It plays the best copy there is (see ltef_sources_from_urls) and, for the big player, links to the others underneath.
+ *
+ * $o: title, month (YYYY-MM), caption, field (pastel), cover (img HTML or ''), sticker (URL), small (bool), id (attribute).
  */
-function ltef_video_html( $post_id ) {
-	$url = ltef_meta( $post_id, 'tina_video' );
-	if ( ! $url ) {
+function ltef_video_box( $sources, $o ) {
+	if ( ! $sources ) {
 		return '';
 	}
-	$title   = 'Tina’s video at ' . get_the_title( $post_id );
-	$sources = ltef_video_sources( $post_id );
-	$main    = $sources ? $sources[0] : array( 'platform' => '', 'label' => '', 'url' => $url, 'embed' => '' );
-	$cover   = '';
-	$tt_cover = '';
-	foreach ( $sources as $s ) {
-		if ( 'tiktok' === $s['platform'] ) {
-			$tt_cover = ltef_tiktok_id( $s['url'] );
-		}
-	}
-	$cover_rel = 'assets/photos/videos/' . $tt_cover . '.webp';
-	if ( $tt_cover && file_exists( get_theme_file_path( $cover_rel ) ) ) {
-		$cover = '<img class="tt-cover" src="' . esc_url( get_theme_file_uri( $cover_rel ) ) . '" alt="" width="540" height="960" loading="lazy">';
-	} elseif ( has_post_thumbnail( $post_id ) ) {
-		$cover = get_the_post_thumbnail( $post_id, 'large', array( 'class' => 'tt-cover', 'alt' => '' ) );
-	}
-	$still = $cover ? $cover : '<span class="tt-plate" aria-hidden="true"></span><img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ) . '" alt="" width="148" height="148">';
-	$quote = (string) ltef_meta( $post_id, 'tina_quote' );
-	$cap   = mb_strlen( $quote ) > 72 ? rtrim( mb_substr( $quote, 0, 70 ) ) . '…' : $quote;
-	$play  = $main['embed'] ? '<button class="tt-play" type="button" aria-label="' . esc_attr( 'Play ' . $title ) . '">' . ltef_icon( 'play' ) . '</button>' : '';
-
-	$players = array(
-		'youtube'   => 'Plays in YouTube’s privacy-enhanced player.',
-		'instagram' => 'Plays in Instagram’s player.',
-		'facebook'  => 'Plays in Facebook’s player.',
-		'tiktok'    => 'Plays in TikTok’s player.',
+	$o     = wp_parse_args( $o, array( 'title' => 'Tina’s video', 'month' => '', 'caption' => '', 'field' => 'pistachio', 'cover' => '', 'sticker' => '', 'small' => false, 'id' => '' ) );
+	$main  = $sources[0];
+	$still = $o['cover'] ? $o['cover'] : '<span class="tt-plate" aria-hidden="true"></span><img src="' . esc_url( $o['sticker'] ? $o['sticker'] : ltef_sticker_url( 'lemon' ) ) . '" alt="" width="148" height="148">';
+	$cap   = mb_strlen( $o['caption'] ) > 72 ? rtrim( mb_substr( $o['caption'], 0, 70 ) ) . '…' : $o['caption'];
+	$play  = $main['embed'] ? '<button class="tt-play" type="button" aria-label="' . esc_attr( 'Play ' . $o['title'] ) . '">' . ltef_icon( 'play' ) . '</button>' : '';
+	$month = ltef_month_label( $o['month'] );
+	$box   = sprintf(
+		'<div class="tt%1$s%2$s" data-embed="%3$s" data-title="%4$s" style="background: var(--%5$s);">%6$s<a class="tt-out" href="%7$s" target="_blank" rel="noopener">%8$s<span class="vh"> (opens %9$s)</span></a>%10$s<span class="tt-cap" aria-hidden="true"><b>@livetoeatfoodie%11$s</b><span>%12$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>',
+		$o['cover'] ? ' tt--cover' : '',
+		$o['small'] ? ' tt--sm' : '',
+		esc_url( $main['embed'] ),
+		esc_attr( $o['title'] ),
+		esc_attr( $o['field'] ),
+		$still,
+		esc_url( $main['url'] ),
+		$o['small'] ? esc_html( $main['label'] ) : 'Watch the video',
+		esc_html( $main['label'] ),
+		$play,
+		$month ? ' · ' . esc_html( $month ) : '',
+		esc_html( $cap )
 	);
+	if ( $o['small'] ) {
+		return $box;
+	}
 	$note = '';
 	if ( $main['embed'] ) {
-		$note = $players[ $main['platform'] ] . ' No account needed, and nothing loads until you press play.';
+		$players = array(
+			'youtube'   => 'Plays in YouTube’s privacy-enhanced player.',
+			'instagram' => 'Plays in Instagram’s player.',
+			'facebook'  => 'Plays in Facebook’s player.',
+			'tiktok'    => 'Plays in TikTok’s player.',
+		);
 		$alts = array();
 		foreach ( $sources as $s ) {
 			$alts[] = '<a href="' . esc_url( $s['url'] ) . '" target="_blank" rel="noopener">' . esc_html( $s['label'] ) . '<span class="vh"> (opens a new tab)</span></a>';
 		}
-		$note .= ' Not playing? Watch it on ' . implode( ' · ', $alts ) . '.';
-		$note  = '<p class="meta tt-note">' . $note . '</p>';
+		$note = '<p class="meta tt-note">' . $players[ $main['platform'] ] . ' No account needed, and nothing loads until you press play. Not playing? Watch it on ' . implode( ' · ', $alts ) . '.</p>';
 	}
-	return sprintf(
-		'<div class="take-video" id="video"><div class="tt%1$s" data-embed="%2$s" data-title="%3$s" style="background: var(--%4$s);">%5$s<a class="tt-out" href="%6$s" target="_blank" rel="noopener">Watch the video</a>%7$s<span class="tt-cap" aria-hidden="true"><b>@livetoeatfoodie · %8$s</b><span>%9$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>%10$s</div>',
-		$cover ? ' tt--cover' : '',
-		esc_url( $main['embed'] ),
-		esc_attr( $title ),
-		esc_attr( ltef_place_field( $post_id ) ),
-		$still,
-		esc_url( $main['url'] ),
-		$play,
-		esc_html( ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ) ),
-		esc_html( $cap ),
-		$note
+	return '<div class="take-video"' . ( $o['id'] ? ' id="' . esc_attr( $o['id'] ) . '"' : '' ) . '>' . $box . $note . '</div>';
+}
+
+/** The cover for a place's video: a saved TikTok still, then the featured image, else none. */
+function ltef_place_cover( $post_id, $sources ) {
+	foreach ( $sources as $s ) {
+		if ( 'tiktok' === $s['platform'] ) {
+			$rel = 'assets/photos/videos/' . ltef_tiktok_id( $s['url'] ) . '.webp';
+			if ( file_exists( get_theme_file_path( $rel ) ) ) {
+				return '<img class="tt-cover" src="' . esc_url( get_theme_file_uri( $rel ) ) . '" alt="" width="540" height="960" loading="lazy">';
+			}
+		}
+	}
+	return has_post_thumbnail( $post_id ) ? get_the_post_thumbnail( $post_id, 'large', array( 'class' => 'tt-cover', 'alt' => '' ) ) : '';
+}
+
+/** Tina's main video for a place. */
+function ltef_video_html( $post_id ) {
+	if ( ! ltef_meta( $post_id, 'tina_video' ) ) {
+		return '';
+	}
+	$sources = ltef_video_sources( $post_id );
+	return ltef_video_box(
+		$sources,
+		array(
+			'title'   => 'Tina’s video at ' . get_the_title( $post_id ),
+			'month'   => ltef_meta( $post_id, 'tina_date' ),
+			'caption' => (string) ltef_meta( $post_id, 'tina_quote' ),
+			'field'   => ltef_place_field( $post_id ),
+			'cover'   => ltef_place_cover( $post_id, $sources ),
+			'sticker' => ltef_sticker_url( ltef_place_sticker( $post_id ) ),
+			'id'      => 'video',
+		)
 	);
+}
+
+/** "More from Tina": her other videos from the same place, small, newest first. */
+function ltef_more_videos_html( $post_id ) {
+	$items = '';
+	foreach ( ltef_more_videos( $post_id ) as $i => $v ) {
+		$sources = ltef_sources_from_urls( $v['urls'] );
+		if ( ! $sources ) {
+			continue;
+		}
+		$month  = ltef_month_label( $v['month'] );
+		$title  = 'Tina’s video at ' . get_the_title( $post_id ) . ( $month ? ', ' . $month : '' );
+		$items .= '<li class="more-vid">' . ltef_video_box( $sources, array( 'title' => $title, 'month' => $v['month'], 'caption' => $v['caption'], 'field' => array( 'peach', 'lemon', 'butter', 'pistachio' )[ $i % 4 ], 'sticker' => ltef_sticker_url( ltef_place_sticker( $post_id ) ), 'small' => true ) )
+			. ( $v['caption'] ? '<p class="more-vid__cap">“' . esc_html( $v['caption'] ) . '”</p>' : '' )
+			. ( $month ? '<p class="meta more-vid__when">' . esc_html( $month ) . '</p>' : '' ) . '</li>';
+	}
+	if ( ! $items ) {
+		return '';
+	}
+	return '<section class="more-vids" aria-labelledby="more-vids-h"><h2 class="h-m" id="more-vids-h">More from Tina here</h2><p class="meta">Her other videos from ' . esc_html( get_the_title( $post_id ) ) . '. No account needed, and nothing loads until you press play.</p><ul class="more-vids__list">' . $items . '</ul></section>';
 }
 
 /** Before you go: facts from the listing, then what's worth knowing. */
 function ltef_place_facts( $post_id ) {
 	$rows = array();
 	$addr = ltef_meta( $post_id, 'address' );
-	$town = ltef_meta( $post_id, 'town' ) ? ltef_meta( $post_id, 'town' ) : 'Worcester';
+	$town = ltef_town_state( ltef_meta( $post_id, 'town' ) );
 	if ( $addr ) {
 		$rows[] = array( 'Address', $addr . ', ' . $town );
+	} elseif ( ltef_meta( $post_id, 'town' ) ) {
+		$rows[] = array( 'Town', $town );
 	}
 	$hours = ltef_meta( $post_id, 'hours' );
 	$rows[] = array( 'Hours', $hours ? $hours . ( ltef_meta( $post_id, 'hours_checked' ) ? ' (checked ' . date_i18n( 'M j', strtotime( ltef_meta( $post_id, 'hours_checked' ) ) ) . ')' : '' ) : 'Not checked yet. Call ahead.' );
@@ -234,7 +283,7 @@ function ltef_place_facts( $post_id ) {
 	$web   = ltef_meta( $post_id, 'website' ) ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_meta( $post_id, 'website' ) ) . '" target="_blank" rel="noopener">Website<span class="vh"> (opens a new tab)</span></a>' : '';
 	return '<div class="panel facts-panel"><div style="display: grid; gap: 4px;"><h2 class="h-m" style="font-size: 30px;">Before you go</h2><p class="meta" style="margin: 0;">From public listings and Tina’s posts.</p></div>'
 		. '<div class="facts-cols"><dl class="facts-dl">' . $dl . '</dl>' . $worth . '</div>'
-		. '<div class="ltef-actions"><a class="ltef-btn ltef-btn--sm" href="' . esc_url( ltef_maps_url( get_the_title( $post_id ), $addr, $town . ', MA' ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' . $web . '</div></div>';
+		. '<div class="ltef-actions"><a class="ltef-btn ltef-btn--sm" href="' . esc_url( ltef_maps_url( get_the_title( $post_id ), $addr, $town ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' . $web . '</div></div>';
 }
 
 /* ------------------------------------------------------------------ Woo-pons */

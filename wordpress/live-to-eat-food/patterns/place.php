@@ -24,6 +24,7 @@ $u = function ( $p ) {
 <!-- /wp:group -->
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"butter","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section class="wp-block-group is-style-sheet has-butter-background-color has-background">
+<!-- wp:ltef/place-more /-->
 <!-- wp:ltef/place-facts /-->
 <!-- wp:post-content {"className":"ltef-prose","layout":{"type":"default"}} /-->
 </section>
