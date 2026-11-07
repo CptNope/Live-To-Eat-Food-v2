@@ -140,6 +140,7 @@ function ltef_import_places() {
 		return implode( "\n", array_map( function ( $v ) { return $v['month'] . ' | ' . $v['url'] . ' | ' . $v['caption']; }, $p['more'] ?? array() ) );
 	};
 	$m = 0;
+	$t = 0;
 	$skipped = 0;
 	// Never add a business that's on Tina's private don't-work-with list. The names stay on the server.
 	$norm  = function ( $t ) { return preg_replace( '/[^a-z0-9]/', '', strtolower( remove_accents( (string) $t ) ) ); };
@@ -157,6 +158,17 @@ function ltef_import_places() {
 		}
 		if ( $existing ) {
 			$ids[ $p['id'] ] = $existing->ID;
+			// A "not yet" place she has since been to: add her video and line, unless something was typed in by hand.
+			if ( ! empty( $p['tina'] ) && '' === (string) get_post_meta( $existing->ID, 'ltef_tina_video', true ) && '' === (string) get_post_meta( $existing->ID, 'ltef_tina_quote', true ) ) {
+				$sort = (string) ( $p['tina']['sort'] ?? '' );
+				update_post_meta( $existing->ID, 'ltef_tina_quote', $p['tina']['quote'] ?? '' );
+				update_post_meta( $existing->ID, 'ltef_tina_video', $p['tina']['url'] ?? '' );
+				update_post_meta( $existing->ID, 'ltef_tina_date', strlen( $sort ) >= 6 ? substr( $sort, 0, 4 ) . '-' . substr( $sort, 4, 2 ) : '' );
+				if ( '' === (string) get_post_meta( $existing->ID, 'ltef_dish', true ) && ! empty( $p['dish'] ) ) {
+					update_post_meta( $existing->ID, 'ltef_dish', $p['dish'] );
+				}
+				++$t;
+			}
 			// Her other videos: add the ones the place doesn't have yet (matched by link), keep anything typed in by hand.
 			$have = (string) get_post_meta( $existing->ID, 'ltef_more_videos', true );
 			$add  = array_filter( $p['more'] ?? array(), function ( $v ) use ( $have ) { return false === strpos( $have, $v['url'] ); } );
@@ -235,14 +247,23 @@ function ltef_import_places() {
 	$r   = 0;
 	$out = term_exists( 'out-and-about', 'category' );
 	$out = $out ? (int) $out['term_id'] : (int) wp_insert_term( 'Out & about', 'category', array( 'slug' => 'out-and-about' ) )['term_id'];
+	$video_block = function ( $v ) {
+		return '<!-- wp:ltef/video ' . wp_json_encode( array( 'url' => $v['url'], 'month' => $v['month'], 'caption' => $v['caption'] ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP ) . ' /-->';
+	};
 	foreach ( $data['roundups'] ?? array() as $ru ) {
-		if ( get_page_by_path( $ru['id'], OBJECT, 'post' ) ) {
+		$post = get_page_by_path( $ru['id'], OBJECT, 'post' );
+		if ( $post ) {
+			// Add any of her videos the round-up doesn't have yet. If it's still only her videos, keep them in date order.
+			$missing = array_filter( $ru['videos'], function ( $v ) use ( $post ) { return false === strpos( $post->post_content, $v['url'] ); } );
+			if ( $missing ) {
+				$only_videos = '' === trim( preg_replace( '#<!-- wp:ltef/video .*? /-->#s', '', $post->post_content ) );
+				$content     = $only_videos ? implode( '', array_map( $video_block, $ru['videos'] ) ) : $post->post_content . implode( '', array_map( $video_block, $missing ) );
+				wp_update_post( array( 'ID' => $post->ID, 'post_content' => wp_slash( $content ) ) );
+				$m += count( $missing );
+			}
 			continue;
 		}
-		$blocks = '';
-		foreach ( $ru['videos'] as $v ) {
-			$blocks .= '<!-- wp:ltef/video ' . wp_json_encode( array( 'url' => $v['url'], 'month' => $v['month'], 'caption' => $v['caption'] ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP ) . ' /-->';
-		}
+		$blocks = implode( '', array_map( $video_block, $ru['videos'] ) );
 		wp_insert_post(
 			array(
 				'post_type'     => 'post',
@@ -257,7 +278,7 @@ function ltef_import_places() {
 		);
 		++$r;
 	}
-	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added to places.', $n, $g, $r, $m ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
+	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
 }
 
 function ltef_add_samples() {
