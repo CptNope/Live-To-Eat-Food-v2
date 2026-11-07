@@ -134,7 +134,7 @@ function ltef_place_row( $post_id ) {
 	$dish = ltef_meta( $post_id, 'dish' );
 	$name = get_the_title( $post_id );
 	return sprintf(
-		'<article class="panel place-row" data-name="%1$s" data-area="%2$s" data-cravings="%3$s" data-with="%4$s" data-tina="%5$d" data-kind="%14$s"><div class="place-row__ph" style="background: var(--%6$s);"><img src="%7$s" alt="" width="148" height="148"></div><div class="place-row__txt"><a href="%8$s" class="h-s tap">%9$s</a><span class="meta">%10$s</span>%11$s<span class="place-row__labels">%12$s%13$s</span></div></article>',
+		'<article class="panel place-row" data-name="%1$s" data-area="%2$s" data-cravings="%3$s" data-with="%4$s" data-tina="%5$d" data-kind="%14$s"><div class="place-row__ph" style="background: var(--%6$s);"><img src="%7$s" alt="" width="148" height="148" loading="lazy" decoding="async"></div><div class="place-row__txt"><a href="%8$s" class="h-s tap">%9$s</a><span class="meta">%10$s</span>%11$s<span class="place-row__labels">%12$s%13$s</span></div></article>',
 		esc_attr( strtolower( $name . ' ' . ltef_meta( $post_id, 'cuisine' ) . ' ' . $dish ) ),
 		esc_attr( $terms( 'ltef_area' ) ),
 		esc_attr( $terms( 'ltef_craving' ) ),

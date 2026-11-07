@@ -11,7 +11,7 @@ Requires WordPress 6.6 or newer (tested on 6.8) and PHP 7.4 or newer.
 3. **Appearance → Themes → Add New → Upload Theme** → `live-to-eat-food.zip` → Activate.
 4. **Tools → Live to Eat Food setup**, then press the three buttons in order:
    - **Create the pages:** Home, Guides, Restaurant Roulette, Food help, Send something in, Work with Tina, For restaurants, How it works, Editorial policy, Monthly Crumbs, Tina, Daily deals and Your bites. It also sets Home as the front page, Guides as the posts page and permalinks to `/%postname%/`.
-   - **Import Tina's places and videos:** every place from her posts (184 as of November 2026: food, plus the shops, wellness spots and things to do she has featured), with her caption as her line, plus 244 restaurants she hasn't been to yet across Worcester County and MetroWest (address, phone and website from current public listings; hours left for someone to check), the 5 guides, 15 round-ups of her event and trip videos, and her other videos from each place. It skips anything already on the site, and any business whose name matches the private don't-work-with list, so press it again after each update to bring in what's new.
+   - **Import Tina's places and videos:** every place from her posts (184 as of November 2026: food, plus the shops, wellness spots and things to do she has featured), with her caption as her line, plus 321 restaurants she hasn't been to yet across Worcester County, MetroWest and the Lowell area (address, phone and website from current public listings; hours left for someone to check), the 5 guides, 15 round-ups of her event and trip videos, and her other videos from each place. It skips anything already on the site, and any business whose name matches the private don't-work-with list, so press it again after each update to bring in what's new.
    - **Add samples:** labeled `[Sample]` Woo-pons, events and jobs, so the pages aren't empty while you look around. Delete them before launch. (The Lensmart partner code is real.)
 5. **Review queue → Settings:** where new submissions are emailed, the prices, and the private don't-work-with list.
 
@@ -35,7 +35,7 @@ Requires WordPress 6.6 or newer (tested on 6.8) and PHP 7.4 or newer.
 
 ### More from Tina, and what kind of place
 
-- **What kind of place:** Food & drink (the default), Shop, Wellness & beauty, Services, Things to do or Community. Only food & drink places go on Restaurant Roulette and Tina's latest picks; Explore has a "What" filter for the rest, and their label reads "Tina went here".
+- **What kind of place:** Food & drink (the default), Shop, Wellness & beauty, Services, Things to do or Community. Only food & drink places go on Restaurant Roulette and Tina's latest picks; Explore has a "What" filter for the rest and shows 24 at a time with a Show more button (the filters search the whole list; without JavaScript every place shows), and their label reads "Tina went here".
 - **More videos from here:** her other videos from the same place, one per line as `month | link | her caption`. They show small under "More from Tina here", newest first, each with her caption.
 - **Tina's video (any link)** is a block for posts: a link (or several copies, separated by spaces), the month and her caption. The round-ups under *Out & about* use it.
 - Captions are Tina's own words from the post, with emoji and @ signs taken out. Where a caption had a promo code or a date that has passed, only the first sentence is used.

@@ -48,23 +48,42 @@
 		var q = ex.querySelector( '[data-explore-q]' ), cr = ex.querySelector( '[data-explore-craving]' ), ar = ex.querySelector( '[data-explore-area]' ), kd = ex.querySelector( '[data-explore-kind]' ), tb = ex.querySelector( '[data-explore-tina]' );
 		var rows = $$( '.place-row' ), feed = document.querySelector( '.ltef-explore .ltef-slot--feed' );
 		var countEl = document.querySelector( '[data-explore-count]' ), empty = document.querySelector( '[data-explore-empty]' );
-		var apply = function () {
-			var t = ( q.value || '' ).trim().toLowerCase(), k = kd ? kd.value : '', c = cr.value, a = ar.value, only = tb.getAttribute( 'aria-pressed' ) === 'true', shown = [];
+		var PAGE = 24, limit = PAGE, more = document.querySelector( '[data-explore-more]' );
+		var apply = function ( keep ) {
+			var t = ( q.value || '' ).trim().toLowerCase(), k = kd ? kd.value : '', c = cr.value, a = ar.value, only = tb.getAttribute( 'aria-pressed' ) === 'true', matched = [];
+			if ( ! keep ) limit = PAGE;
 			rows.forEach( function ( r ) {
 				var ok = ( ! t || r.getAttribute( 'data-name' ).indexOf( t ) > -1 ) &&
 					( ! k || r.getAttribute( 'data-kind' ) === k ) &&
 					( ! c || ( ' ' + r.getAttribute( 'data-cravings' ) + ' ' ).indexOf( ' ' + c + ' ' ) > -1 ) &&
 					( ! a || ( ' ' + r.getAttribute( 'data-area' ) + ' ' ).indexOf( ' ' + a + ' ' ) > -1 ) &&
 					( ! only || r.getAttribute( 'data-tina' ) === '1' );
-				r.hidden = ! ok; if ( ok ) shown.push( r );
+				if ( ok ) matched.push( r );
 			} );
+			var shown = matched.slice( 0, limit );
+			rows.forEach( function ( r ) { r.hidden = shown.indexOf( r ) < 0; } );
 			if ( feed ) { feed.hidden = shown.length < 4; if ( shown[ 3 ] ) shown[ 3 ].after( feed ); }
-			if ( countEl ) countEl.textContent = shown.length === rows.length ? rows.length + ' places' : 'Showing ' + shown.length + ' of ' + rows.length;
-			if ( empty ) empty.hidden = shown.length !== 0;
+			if ( countEl ) countEl.textContent = matched.length === rows.length ? rows.length + ' places' : matched.length + ' of ' + rows.length + ' places match';
+			if ( more ) {
+				var left = matched.length - shown.length;
+				more.hidden = left <= 0;
+				more.textContent = 'Show ' + Math.min( PAGE, left ) + ' more (' + left + ' left)';
+			}
+			if ( empty ) empty.hidden = matched.length !== 0;
+			return shown;
 		};
+		if ( more ) {
+			more.addEventListener( 'click', function () {
+				var before = limit;
+				limit += PAGE;
+				var shown = apply( true ), first = shown[ before ];
+				if ( first ) { var link = first.querySelector( 'a' ); if ( link ) link.focus(); }
+			} );
+		}
+		apply();
 		var timer;
-		q.addEventListener( 'input', function () { clearTimeout( timer ); timer = setTimeout( apply, 150 ); } );
-		cr.addEventListener( 'change', apply ); ar.addEventListener( 'change', apply ); if ( kd ) kd.addEventListener( 'change', apply );
+		q.addEventListener( 'input', function () { clearTimeout( timer ); timer = setTimeout( function () { apply(); }, 150 ); } );
+		[ cr, ar, kd ].forEach( function ( el ) { if ( el ) el.addEventListener( 'change', function () { apply(); } ); } );
 		tb.addEventListener( 'click', function () { tb.setAttribute( 'aria-pressed', tb.getAttribute( 'aria-pressed' ) === 'true' ? 'false' : 'true' ); apply(); } );
 		ex.addEventListener( 'submit', function ( e ) { e.preventDefault(); } );
 	}
