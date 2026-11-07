@@ -38,6 +38,10 @@
 					if ( a.type === 'boolean' ) {
 						return el( C.ToggleControl, { key: key, label: 'Show the ad spot', checked: !! props.attributes[ key ], onChange: function ( v ) { var o = {}; o[ key ] = v; props.setAttributes( o ); } } );
 					}
+					if ( a.type === 'string' ) {
+						var labels = { url: 'Video link (more than one: separate with spaces)', month: 'Month (YYYY-MM)', caption: 'Tina’s caption, word for word' };
+						return el( key === 'caption' ? C.TextareaControl : C.TextControl, { key: key, label: labels[ key ] || key, value: props.attributes[ key ], onChange: function ( v ) { var o = {}; o[ key ] = v; props.setAttributes( o ); }, __nextHasNoMarginBottom: true } );
+					}
 					return null;
 				} );
 				return el( 'div', be.useBlockProps(),

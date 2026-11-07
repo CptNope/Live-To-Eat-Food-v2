@@ -110,18 +110,23 @@ function ltef_video_platform( $url ) {
 	return $map[ $host ] ?? '';
 }
 
+/** Labels for the video platforms, in the order the site prefers to play them. */
+function ltef_video_labels() {
+	return array( 'youtube' => 'YouTube', 'instagram' => 'Instagram', 'facebook' => 'Facebook', 'tiktok' => 'TikTok' );
+}
+
 /**
- * Every copy of Tina's video for a place, best first. YouTube's privacy-enhanced player comes first: it is
- * the one schools, offices and privacy tools block least. TikTok comes last: it is the one most often blocked.
+ * Copies of one video, best first. YouTube's privacy-enhanced player comes first: it is the one schools,
+ * offices and privacy tools block least. TikTok comes last: it is the one most often blocked.
  * None of the four needs the visitor to have an account for a public video.
  * Each item: array( 'platform', 'label', 'url', 'embed' ) where embed is '' when the link can't be played on the site.
  */
-function ltef_video_sources( $post_id ) {
-	$labels = array( 'youtube' => 'YouTube', 'instagram' => 'Instagram', 'facebook' => 'Facebook', 'tiktok' => 'TikTok' );
+function ltef_sources_from_urls( $urls ) {
+	$labels = ltef_video_labels();
 	$order  = apply_filters( 'ltef_video_priority', array_keys( $labels ) );
 	$found  = array();
-	foreach ( array( 'youtube', 'instagram', 'facebook', 'tina_video' ) as $key ) {
-		$url = trim( (string) ltef_meta( $post_id, $key ) );
+	foreach ( (array) $urls as $url ) {
+		$url = trim( (string) $url );
 		$pf  = ltef_video_platform( $url );
 		if ( ! $url || ! $pf || isset( $found[ $pf ] ) ) {
 			continue;
@@ -151,6 +156,61 @@ function ltef_video_sources( $post_id ) {
 		}
 	}
 	return array_merge( $play, $link );
+}
+
+/** Every copy of Tina's main video for a place, best first. */
+function ltef_video_sources( $post_id ) {
+	$urls = array();
+	foreach ( array( 'youtube', 'instagram', 'facebook', 'tina_video' ) as $key ) {
+		$urls[] = ltef_meta( $post_id, $key );
+	}
+	return ltef_sources_from_urls( $urls );
+}
+
+/**
+ * Tina's other videos from a place, newest first. One per line in the "More videos" field:
+ * "2026-08 | link | her caption". Several links for the same video go in one line, separated by spaces.
+ */
+function ltef_more_videos( $post_id ) {
+	$out = array();
+	foreach ( preg_split( '/\r\n|\r|\n/', (string) ltef_meta( $post_id, 'more_videos' ) ) as $line ) {
+		$parts = array_map( 'trim', explode( '|', $line, 3 ) );
+		if ( count( $parts ) < 2 ) {
+			$parts = array( '', $parts[0] ?? '' );
+		}
+		$urls = preg_split( '/\s+/', $parts[1] );
+		if ( ! array_filter( $urls ) ) {
+			continue;
+		}
+		$out[] = array(
+			'month'   => preg_match( '/^\d{4}-\d{2}/', $parts[0] ) ? substr( $parts[0], 0, 7 ) : '',
+			'urls'    => $urls,
+			'caption' => $parts[2] ?? '',
+		);
+	}
+	usort( $out, function ( $a, $b ) { return strcmp( $b['month'], $a['month'] ); } );
+	return $out;
+}
+
+/** What kind of place: eat (the default), shop, wellness, services, fun or community. */
+function ltef_place_kinds() {
+	return array( 'eat' => 'Food & drink', 'shop' => 'Shops', 'wellness' => 'Wellness & beauty', 'services' => 'Services', 'fun' => 'Things to do', 'community' => 'Community' );
+}
+
+function ltef_place_kind( $post_id ) {
+	$k = (string) ltef_meta( $post_id, 'kind' );
+	return isset( ltef_place_kinds()[ $k ] ) ? $k : 'eat';
+}
+
+/** "Tina ate here" for food, "Tina went here" for everything else. */
+function ltef_tina_label( $post_id ) {
+	return 'eat' === ltef_place_kind( $post_id ) ? 'Tina ate here' : 'Tina went here';
+}
+
+/** A town for maps and addresses: "Worcester, MA", or the town as given when it already names its state. */
+function ltef_town_state( $town ) {
+	$town = $town ? $town : 'Worcester';
+	return false !== strpos( $town, ',' ) ? $town : $town . ', MA';
 }
 
 /** Price shown as money, no cents when whole. */

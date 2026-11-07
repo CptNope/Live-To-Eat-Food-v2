@@ -45,13 +45,14 @@
 	// Explore: search what Tina ordered, cravings, neighborhoods, only her places.
 	var ex = document.querySelector( '[data-explore-form]' );
 	if ( ex ) {
-		var q = ex.querySelector( '[data-explore-q]' ), cr = ex.querySelector( '[data-explore-craving]' ), ar = ex.querySelector( '[data-explore-area]' ), tb = ex.querySelector( '[data-explore-tina]' );
+		var q = ex.querySelector( '[data-explore-q]' ), cr = ex.querySelector( '[data-explore-craving]' ), ar = ex.querySelector( '[data-explore-area]' ), kd = ex.querySelector( '[data-explore-kind]' ), tb = ex.querySelector( '[data-explore-tina]' );
 		var rows = $$( '.place-row' ), feed = document.querySelector( '.ltef-explore .ltef-slot--feed' );
 		var countEl = document.querySelector( '[data-explore-count]' ), empty = document.querySelector( '[data-explore-empty]' );
 		var apply = function () {
-			var t = ( q.value || '' ).trim().toLowerCase(), c = cr.value, a = ar.value, only = tb.getAttribute( 'aria-pressed' ) === 'true', shown = [];
+			var t = ( q.value || '' ).trim().toLowerCase(), k = kd ? kd.value : '', c = cr.value, a = ar.value, only = tb.getAttribute( 'aria-pressed' ) === 'true', shown = [];
 			rows.forEach( function ( r ) {
 				var ok = ( ! t || r.getAttribute( 'data-name' ).indexOf( t ) > -1 ) &&
+					( ! k || r.getAttribute( 'data-kind' ) === k ) &&
 					( ! c || ( ' ' + r.getAttribute( 'data-cravings' ) + ' ' ).indexOf( ' ' + c + ' ' ) > -1 ) &&
 					( ! a || ( ' ' + r.getAttribute( 'data-area' ) + ' ' ).indexOf( ' ' + a + ' ' ) > -1 ) &&
 					( ! only || r.getAttribute( 'data-tina' ) === '1' );
@@ -63,7 +64,7 @@
 		};
 		var timer;
 		q.addEventListener( 'input', function () { clearTimeout( timer ); timer = setTimeout( apply, 150 ); } );
-		cr.addEventListener( 'change', apply ); ar.addEventListener( 'change', apply );
+		cr.addEventListener( 'change', apply ); ar.addEventListener( 'change', apply ); if ( kd ) kd.addEventListener( 'change', apply );
 		tb.addEventListener( 'click', function () { tb.setAttribute( 'aria-pressed', tb.getAttribute( 'aria-pressed' ) === 'true' ? 'false' : 'true' ); apply(); } );
 		ex.addEventListener( 'submit', function ( e ) { e.preventDefault(); } );
 	}

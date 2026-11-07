@@ -862,3 +862,20 @@ body { background: var(--lemon); }
 .has-basil-background-color a:not([class]), .has-basil-background-color .is-style-lede a { color: var(--lemon); }
 .ltef-guide-card h2.wp-block-post-title { font: 700 24px/1.15 var(--font-display); margin: 0 0 8px; }
 .ltef-guide-card h2.wp-block-post-title a { color: var(--basil); text-decoration: none; }
+
+/* More from Tina: her other videos from a place, and single videos in round-up posts. */
+.more-vids { display: grid; gap: 8px; margin-bottom: clamp(28px, 4vw, 44px); }
+.more-vids > .meta { margin: 0 0 8px; }
+.more-vids__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 168px), 1fr)); gap: 28px 22px; }
+.more-vid { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.tt--sm { border-radius: 14px; box-shadow: 0 0 0 5px var(--vinyl), 0 0 0 6.5px rgba(30,59,42,.12), var(--lift); }
+.tt--sm .tt-cap, .tt--sm .tt-bar { display: none; }
+.tt--sm::after { height: 26%; }
+.tt--sm .tt-play { top: 60%; width: 48px; height: 48px; }
+.tt--sm .tt-play svg { width: 22px; height: 22px; }
+.tt--sm .tt-out { left: 8px; top: 8px; min-height: 30px; padding: 0 10px; font-size: 12px; }
+.more-vid__cap { margin: 4px 2px 0; font: 650 18px/1.25 var(--font-hand); color: var(--tomato); overflow-wrap: anywhere; }
+.more-vid__when { margin: 0 2px; }
+.ltef-video { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 16px clamp(24px, 4vw, 48px); align-items: center; max-width: 920px; margin-block: 32px 44px; }
+.ltef-video .video-cap { font-size: clamp(20px, 2.2vw, 26px); overflow-wrap: anywhere; }
+@media (max-width: 700px) { .ltef-video { grid-template-columns: minmax(0, 300px); } }

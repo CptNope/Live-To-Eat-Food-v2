@@ -14,6 +14,8 @@ function ltef_block_defs() {
 	return array(
 		'place-take'     => array( 'Place: Tina’s take', 'Labels, verdict, what Tina ordered and her line, with the hosted-visit note when it applies.', 'format-quote', array(), 'ltef_block_place_take', true ),
 		'place-video'    => array( 'Place: Tina’s video', 'Her post as a paused still; it loads only when pressed.', 'video-alt3', array(), 'ltef_block_place_video', true ),
+		'place-more'     => array( 'Place: More from Tina', 'Her other videos from this place, small, newest first. Shows nothing when there are none.', 'playlist-video', array(), 'ltef_block_place_more', true ),
+		'video'          => array( 'Tina’s video (any link)', 'One of her videos from a link: TikTok, Instagram, Facebook or YouTube. Add more links, separated by spaces, and the site plays the best one.', 'video-alt3', array( 'url' => array( 'type' => 'string', 'default' => '' ), 'month' => array( 'type' => 'string', 'default' => '' ), 'caption' => array( 'type' => 'string', 'default' => '' ) ), 'ltef_block_video', false ),
 		'place-facts'    => array( 'Place: Before you go', 'Address, hours, phone and what’s worth knowing, with the place-page ad spot beside it.', 'info-outline', array( 'showAd' => array( 'type' => 'boolean', 'default' => true ) ), 'ltef_block_place_facts', true ),
 		'place-card'     => array( 'Place card', 'One place as a card. Use inside a Query Loop of places.', 'id', array(), 'ltef_block_place_card', true ),
 		'latest-places'  => array( 'Tina’s latest picks', 'Her newest places as cards.', 'location', array( 'count' => array( 'type' => 'number', 'default' => 4 ) ), 'ltef_block_latest_places', false ),
@@ -113,6 +115,24 @@ function ltef_block_place_video( $attrs, $content, $block ) {
 	return $id ? ltef_wrap( ltef_video_html( $id ), 'place-video' ) : '';
 }
 
+function ltef_block_place_more( $attrs, $content, $block ) {
+	$id   = ltef_ctx_post( $block );
+	$html = $id && 'ltef_place' === get_post_type( $id ) ? ltef_more_videos_html( $id ) : '';
+	return $html ? ltef_wrap( $html, 'place-more' ) : '';
+}
+
+/** A standalone video in a post: the caption is Tina's own, shown under it. */
+function ltef_block_video( $attrs ) {
+	$sources = ltef_sources_from_urls( preg_split( '/\s+/', trim( (string) ( $attrs['url'] ?? '' ) ) ) );
+	if ( ! $sources ) {
+		return '';
+	}
+	$cap   = (string) ( $attrs['caption'] ?? '' );
+	$month = (string) ( $attrs['month'] ?? '' );
+	$html  = ltef_video_box( $sources, array( 'title' => 'Tina’s video' . ( $month ? ', ' . ltef_month_label( $month ) : '' ), 'month' => $month, 'caption' => $cap, 'field' => 'lemon' ) );
+	return ltef_wrap( $html . ( $cap ? '<p class="ltef-note video-cap">“' . esc_html( $cap ) . '”</p>' : '' ), 'ltef-video' );
+}
+
 function ltef_block_place_facts( $attrs, $content, $block ) {
 	$id = ltef_ctx_post( $block );
 	if ( ! $id || 'ltef_place' !== get_post_type( $id ) ) {
@@ -131,22 +151,24 @@ function ltef_block_place_card( $attrs, $content, $block ) {
 	return $id ? ltef_wrap( ltef_place_card( $id ) ) : '';
 }
 
-/** Places Tina ate at, newest post first. */
-function ltef_tina_places( $count = -1 ) {
-	return get_posts(
-		array(
-			'post_type'   => 'ltef_place',
-			'post_status' => 'publish',
-			'numberposts' => $count,
-			'meta_key'    => 'ltef_tina_date', // phpcs:ignore WordPress.DB.SlowDBQuery
-			'orderby'     => array( 'meta_value' => 'DESC', 'date' => 'DESC' ),
-			'meta_query'  => array( array( 'key' => 'ltef_tina_date', 'value' => '', 'compare' => '!=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
-		)
+/** Places Tina ate at, newest post first. $food_only leaves out shops, wellness and the rest. */
+function ltef_tina_places( $count = -1, $food_only = false ) {
+	$q = array(
+		'post_type'   => 'ltef_place',
+		'post_status' => 'publish',
+		'numberposts' => $count,
+		'meta_key'    => 'ltef_tina_date', // phpcs:ignore WordPress.DB.SlowDBQuery
+		'orderby'     => array( 'meta_value' => 'DESC', 'date' => 'DESC' ),
+		'meta_query'  => array( array( 'key' => 'ltef_tina_date', 'value' => '', 'compare' => '!=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
 	);
+	if ( $food_only ) {
+		$q['meta_query'][] = array( 'relation' => 'OR', array( 'key' => 'ltef_kind', 'compare' => 'NOT EXISTS' ), array( 'key' => 'ltef_kind', 'value' => array( '', 'eat' ), 'compare' => 'IN' ) );
+	}
+	return get_posts( $q );
 }
 
 function ltef_block_latest_places( $attrs ) {
-	$posts = ltef_tina_places( max( 1, (int) ( $attrs['count'] ?? 4 ) ) );
+	$posts = ltef_tina_places( max( 1, (int) ( $attrs['count'] ?? 4 ) ), true );
 	if ( ! $posts ) {
 		return ltef_wrap( '<p class="meta">Tina’s places show up here once they’re added under Places.</p>' );
 	}
@@ -178,8 +200,16 @@ function ltef_block_explore() {
 		}
 		return $o;
 	};
+	$kinds = '<option value="">Everything</option>';
+	$have  = array_unique( array_map( function ( $p ) { return ltef_place_kind( $p->ID ); }, $all ) );
+	foreach ( ltef_place_kinds() as $k => $label ) {
+		if ( in_array( $k, $have, true ) ) {
+			$kinds .= '<option value="' . esc_attr( $k ) . '">' . esc_html( $label ) . '</option>';
+		}
+	}
 	$form = '<form class="explore-find panel" role="search" data-explore-form>'
 		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-q">Looking for a dish or a place?</label><input class="ltef-input" id="ex-q" type="search" placeholder="A dish or a place, like crudo or fufu" data-explore-q></div>'
+		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-kind">What</label><select class="ltef-input" id="ex-kind" data-explore-kind>' . $kinds . '</select></div>'
 		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-craving">Craving</label><select class="ltef-input" id="ex-craving" data-explore-craving>' . $opts( 'ltef_craving', 'Anything' ) . '</select></div>'
 		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-area">Neighborhood</label><select class="ltef-input" id="ex-area" data-explore-area>' . $opts( 'ltef_area', 'Everywhere' ) . '</select></div>'
 		. '<button class="ltef-chip" type="button" aria-pressed="false" data-explore-tina>Only places Tina’s been</button></form>';
@@ -280,8 +310,12 @@ function ltef_block_roulette() {
 	$places = get_posts( array( 'post_type' => 'ltef_place', 'post_status' => 'publish', 'numberposts' => -1 ) );
 	$data   = array();
 	foreach ( $places as $p ) {
-		$cr = get_the_terms( $p->ID, 'ltef_craving' );
-		$wi = get_the_terms( $p->ID, 'ltef_with' );
+		if ( 'eat' !== ltef_place_kind( $p->ID ) ) {
+			continue; // the wheel is for where to eat
+		}
+		$cr     = get_the_terms( $p->ID, 'ltef_craving' );
+		$wi     = get_the_terms( $p->ID, 'ltef_with' );
+		$vs     = ltef_video_sources( $p->ID );
 		$data[] = array(
 			'id'       => $p->ID,
 			'name'     => $p->post_title,
@@ -290,7 +324,7 @@ function ltef_block_roulette() {
 			'month'    => ltef_month_label( ltef_meta( $p->ID, 'tina_date' ) ),
 			'quote'    => (string) ltef_meta( $p->ID, 'tina_quote' ),
 			'dish'     => (string) ltef_meta( $p->ID, 'dish' ),
-			'url'      => ( $vs = ltef_video_sources( $p->ID ) ) ? $vs[0]['url'] : (string) ltef_meta( $p->ID, 'tina_video' ),
+			'url'      => $vs ? $vs[0]['url'] : (string) ltef_meta( $p->ID, 'tina_video' ),
 			'href'     => get_permalink( $p->ID ),
 			'maps'     => ltef_maps_url( $p->post_title, (string) ltef_meta( $p->ID, 'address' ) ),
 			'img'      => ltef_sticker_url( ltef_place_sticker( $p->ID ) ),

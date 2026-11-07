@@ -43,7 +43,8 @@ function ltef_setup_page() {
 		printf( '<form method="post" action="%s" style="margin:18px 0"><input type="hidden" name="action" value="ltef_setup"><input type="hidden" name="do" value="%s">%s<button class="button button-primary">%s</button> <span class="description">%s</span></form>', esc_url( admin_url( 'admin-post.php' ) ), esc_attr( $do ), wp_nonce_field( 'ltef_setup', '_wpnonce', true, false ), esc_html( $label ), esc_html( $help ) );
 	};
 	$btn( 'pages', 'Create the pages', 'Home, Guides, Roulette, Food help, Send something in, Work with Tina and the rest, filled from the theme’s patterns. Pages that already exist are left alone.' );
-	$btn( 'places', 'Import Tina’s places and guides', '52 places and 5 guides from her public posts (the first concept’s data). Re-check hours and details before launch.' );
+	$data = json_decode( (string) file_get_contents( LTEF_DIR . 'data/places.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	$btn( 'places', 'Import Tina’s places and videos', sprintf( '%d places, %d guides and %d round-ups from her public posts, plus her other videos from places already here. Anything already on the site is left as it is, so it’s safe to press again after an update.', count( $data['places'] ?? array() ), count( $data['guides'] ?? array() ), count( $data['roundups'] ?? array() ) ) );
 	$btn( 'samples', 'Add labeled samples', 'A few sample Woo-pons, events and jobs so the pages aren’t empty while you build. Delete them before launch.' );
 	$btn( 'refresh', 'Refresh the built-in pages', 'Replaces Food help, Send something in, Work with Tina and the other built-in pages with the theme’s latest version (live prices included). Edits you made to those pages are replaced; the old versions stay under each page’s Revisions.' );
 	echo '</div>';
@@ -135,10 +136,21 @@ function ltef_import_places() {
 	$with  = array_column( $data['withs'], 'label', 'id' );
 	$ids   = array();
 	$n     = 0;
+	$more = function ( $p ) {
+		return implode( "\n", array_map( function ( $v ) { return $v['month'] . ' | ' . $v['url'] . ' | ' . $v['caption']; }, $p['more'] ?? array() ) );
+	};
+	$m = 0;
 	foreach ( $data['places'] as $p ) {
 		$existing = get_page_by_path( $p['id'], OBJECT, 'ltef_place' );
 		if ( $existing ) {
 			$ids[ $p['id'] ] = $existing->ID;
+			// Her other videos: add the ones the place doesn't have yet (matched by link), keep anything typed in by hand.
+			$have = (string) get_post_meta( $existing->ID, 'ltef_more_videos', true );
+			$add  = array_filter( $p['more'] ?? array(), function ( $v ) use ( $have ) { return false === strpos( $have, $v['url'] ); } );
+			if ( $add ) {
+				update_post_meta( $existing->ID, 'ltef_more_videos', trim( $have . "\n" . $more( array( 'more' => $add ) ) ) );
+				$m += count( $add );
+			}
 			continue;
 		}
 		$id = wp_insert_post( array( 'post_type' => 'ltef_place', 'post_status' => 'publish', 'post_title' => $p['name'], 'post_name' => $p['id'] ) );
@@ -147,9 +159,11 @@ function ltef_import_places() {
 		}
 		$ids[ $p['id'] ] = $id;
 		$area            = $data['areas'][ $p['area'] ] ?? array( 'name' => $p['area'], 'town' => 'Worcester' );
+		$town            = $p['town'] ?? ( $area['town'] ?? 'Worcester' );
 		$meta            = array(
+			'kind'    => $p['kind'] ?? 'eat',
 			'address' => trim( ( $p['num'] ?? '' ) . ' ' . ( $p['street'] ?? '' ) ),
-			'town'    => 'Worcester' === ( $area['town'] ?? 'Worcester' ) ? '' : $area['town'],
+			'town'    => 'Worcester' === $town ? '' : $town,
 			'cuisine' => $p['cuisine'] ?? '',
 			'price'   => $p['price'] ?? '',
 			'facts'   => implode( "\n", $p['facts'] ?? array() ),
@@ -160,6 +174,8 @@ function ltef_import_places() {
 			$meta['tina_quote']   = $p['tina']['quote'] ?? '';
 			$meta['tina_video']   = $p['tina']['url'] ?? '';
 			$meta['tina_date']    = strlen( $sort ) >= 6 ? substr( $sort, 0, 4 ) . '-' . substr( $sort, 4, 2 ) : '';
+			$meta['more_videos']  = $more( $p );
+			$m                   += count( $p['more'] ?? array() );
 		}
 		foreach ( $meta as $k => $v ) {
 			update_post_meta( $id, 'ltef_' . $k, $v );
@@ -200,7 +216,33 @@ function ltef_import_places() {
 		wp_insert_post( array( 'post_type' => 'post', 'post_status' => 'publish', 'post_title' => $guide['title'], 'post_name' => $guide['id'], 'post_excerpt' => $guide['short'] ?? '', 'post_content' => $blocks, 'post_category' => array( $cat ) ) );
 		++$g;
 	}
-	return $n . ' places and ' . $g . ' guides imported.';
+	// Round-ups: her event, trip and market videos, as posts under Out & about.
+	$r   = 0;
+	$out = term_exists( 'out-and-about', 'category' );
+	$out = $out ? (int) $out['term_id'] : (int) wp_insert_term( 'Out & about', 'category', array( 'slug' => 'out-and-about' ) )['term_id'];
+	foreach ( $data['roundups'] ?? array() as $ru ) {
+		if ( get_page_by_path( $ru['id'], OBJECT, 'post' ) ) {
+			continue;
+		}
+		$blocks = '';
+		foreach ( $ru['videos'] as $v ) {
+			$blocks .= '<!-- wp:ltef/video ' . wp_json_encode( array( 'url' => $v['url'], 'month' => $v['month'], 'caption' => $v['caption'] ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP ) . ' /-->';
+		}
+		wp_insert_post(
+			array(
+				'post_type'     => 'post',
+				'post_status'   => 'publish',
+				'post_title'    => $ru['title'],
+				'post_name'     => $ru['id'],
+				'post_date'     => $ru['date'] . ' 12:00:00',
+				'post_excerpt'  => $ru['excerpt'] ?? '',
+				'post_content'  => wp_slash( $blocks ),
+				'post_category' => array( $out ),
+			)
+		);
+		++$r;
+	}
+	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added to places.', $n, $g, $r, $m );
 }
 
 function ltef_add_samples() {
