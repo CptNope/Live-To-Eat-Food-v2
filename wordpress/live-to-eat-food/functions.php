@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'LTEF_THEME_VERSION', '1.0.0' );
+define( 'LTEF_THEME_VERSION', wp_get_theme( 'live-to-eat-food' )->get( 'Version' ) ); // from style.css, so a new version gets past browser and Cloudflare caches
 
 add_action(
 	'after_setup_theme',
@@ -22,7 +22,7 @@ add_action(
 add_action(
 	'wp_enqueue_scripts',
 	function () {
-		wp_enqueue_style( 'live-to-eat-food', get_theme_file_uri( 'assets/css/ltef.css' ), array(), LTEF_THEME_VERSION );
+		wp_enqueue_style( 'live-to-eat-food', get_theme_file_uri( 'assets/css/ltef.css' ), array(), LTEF_THEME_VERSION . '.' . filemtime( get_theme_file_path( 'assets/css/ltef.css' ) ) );
 	}
 );
 
