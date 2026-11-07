@@ -168,8 +168,11 @@ function ltef_video_box( $sources, $o ) {
 	$cap   = mb_strlen( $o['caption'] ) > 72 ? rtrim( mb_substr( $o['caption'], 0, 70 ) ) . '…' : $o['caption'];
 	$play  = $main['embed'] ? '<button class="tt-play" type="button" aria-label="' . esc_attr( 'Play ' . $o['title'] ) . '">' . ltef_icon( 'play' ) . '</button>' : '';
 	$month = ltef_month_label( $o['month'] );
+	// Instagram photo posts (/p/ links) show the post rather than a video.
+	$photo  = 'instagram' === $main['platform'] && false !== strpos( $main['url'], '/p/' );
+	$handle = 'instagram' === $main['platform'] ? '@livetoeatfood' : '@livetoeatfoodie';
 	$box   = sprintf(
-		'<div class="tt%1$s%2$s" data-embed="%3$s" data-title="%4$s" style="background: var(--%5$s);">%6$s<a class="tt-out" href="%7$s" target="_blank" rel="noopener">%8$s<span class="vh"> (opens %9$s)</span></a>%10$s<span class="tt-cap" aria-hidden="true"><b>@livetoeatfoodie%11$s</b><span>%12$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>',
+		'<div class="tt%1$s%2$s" data-embed="%3$s" data-title="%4$s" style="background: var(--%5$s);">%6$s<a class="tt-out" href="%7$s" target="_blank" rel="noopener">%8$s<span class="vh"> (opens %9$s)</span></a>%10$s<span class="tt-cap" aria-hidden="true"><b>%13$s%11$s</b><span>%12$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>',
 		$o['cover'] ? ' tt--cover' : '',
 		$o['small'] ? ' tt--sm' : '',
 		esc_url( $main['embed'] ),
@@ -177,11 +180,12 @@ function ltef_video_box( $sources, $o ) {
 		esc_attr( $o['field'] ),
 		$still,
 		esc_url( $main['url'] ),
-		$o['small'] ? esc_html( $main['label'] ) : 'Watch the video',
+		$o['small'] ? esc_html( $main['label'] ) : ( $photo ? 'See the post' : 'Watch the video' ),
 		esc_html( $main['label'] ),
 		$play,
 		$month ? ' · ' . esc_html( $month ) : '',
-		esc_html( $cap )
+		esc_html( $cap ),
+		esc_html( $handle )
 	);
 	if ( $o['small'] ) {
 		return $box;
@@ -198,7 +202,9 @@ function ltef_video_box( $sources, $o ) {
 		foreach ( $sources as $s ) {
 			$alts[] = '<a href="' . esc_url( $s['url'] ) . '" target="_blank" rel="noopener">' . esc_html( $s['label'] ) . '<span class="vh"> (opens a new tab)</span></a>';
 		}
-		$note = '<p class="meta tt-note">' . $players[ $main['platform'] ] . ' No account needed, and nothing loads until you press play. Not playing? Watch it on ' . implode( ' · ', $alts ) . '.</p>';
+		$note = $photo
+			? '<p class="meta tt-note">A photo post from her Instagram. It opens in Instagram’s viewer: no account needed, and nothing loads until you press play. Not showing? See it on ' . implode( ' · ', $alts ) . '.</p>'
+			: '<p class="meta tt-note">' . $players[ $main['platform'] ] . ' No account needed, and nothing loads until you press play. Not playing? Watch it on ' . implode( ' · ', $alts ) . '.</p>';
 	}
 	return '<div class="take-video"' . ( $o['id'] ? ' id="' . esc_attr( $o['id'] ) . '"' : '' ) . '>' . $box . $note . '</div>';
 }

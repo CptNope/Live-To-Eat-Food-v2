@@ -250,20 +250,23 @@ function ltef_import_places() {
 	$video_block = function ( $v ) {
 		return '<!-- wp:ltef/video ' . wp_json_encode( array( 'url' => $v['url'], 'month' => $v['month'], 'caption' => $v['caption'] ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP ) . ' /-->';
 	};
+	$intro = function ( $ru ) {
+		return empty( $ru['intro'] ) ? '' : '<!-- wp:paragraph {"className":"is-style-lede"} --><p class="is-style-lede">' . esc_html( $ru['intro'] ) . '</p><!-- /wp:paragraph -->';
+	};
 	foreach ( $data['roundups'] ?? array() as $ru ) {
 		$post = get_page_by_path( $ru['id'], OBJECT, 'post' );
 		if ( $post ) {
 			// Add any of her videos the round-up doesn't have yet. If it's still only her videos, keep them in date order.
 			$missing = array_filter( $ru['videos'], function ( $v ) use ( $post ) { return false === strpos( $post->post_content, $v['url'] ); } );
 			if ( $missing ) {
-				$only_videos = '' === trim( preg_replace( '#<!-- wp:ltef/video .*? /-->#s', '', $post->post_content ) );
-				$content     = $only_videos ? implode( '', array_map( $video_block, $ru['videos'] ) ) : $post->post_content . implode( '', array_map( $video_block, $missing ) );
+				$only_videos = '' === trim( preg_replace( array( '#<!-- wp:ltef/video .*? /-->#s', '#<!-- wp:paragraph \{"className":"is-style-lede"\} -->.*?<!-- /wp:paragraph -->#s' ), '', $post->post_content ) );
+				$content     = $only_videos ? $intro( $ru ) . implode( '', array_map( $video_block, $ru['videos'] ) ) : $post->post_content . implode( '', array_map( $video_block, $missing ) );
 				wp_update_post( array( 'ID' => $post->ID, 'post_content' => wp_slash( $content ) ) );
 				$m += count( $missing );
 			}
 			continue;
 		}
-		$blocks = implode( '', array_map( $video_block, $ru['videos'] ) );
+		$blocks = $intro( $ru ) . implode( '', array_map( $video_block, $ru['videos'] ) );
 		wp_insert_post(
 			array(
 				'post_type'     => 'post',
