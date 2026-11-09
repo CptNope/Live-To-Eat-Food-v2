@@ -557,3 +557,124 @@ function ltef_job_row( $post_id ) {
 		ltef_label( 'sponsored', 'Job post' )
 	);
 }
+
+/* ------------------------------------------------------------------ Site navigation */
+
+/**
+ * Every page in the header, grouped. Each item: label, path, key used to mark the current page.
+ * The first group's first five items are the top bar on wide screens.
+ */
+function ltef_nav_groups() {
+	return array(
+		'Find food'        => array(
+			array( 'Explore', '/explore/', 'explore', 'Explore every place' ),
+			array( 'Guides', '/guides/', 'guides' ),
+			array( 'Woo-pons', '/woo-pons/', 'woo-pons' ),
+			array( 'Roulette', '/roulette/', 'roulette', 'Restaurant Roulette' ),
+			array( 'Daily deals', '/daily-deals/', 'daily-deals' ),
+		),
+		'Around town'      => array(
+			array( 'Events', '/events/', 'events' ),
+			array( 'Out & about', '/category/out-and-about/', 'out-and-about' ),
+			array( 'Your bites', '/your-bites/', 'your-bites' ),
+			array( 'Food help', '/food-help/', 'food-help' ),
+		),
+		'For restaurants'  => array(
+			array( 'For restaurants', '/for-restaurants/', 'for-restaurants' ),
+			array( 'Restaurant jobs', '/restaurant-jobs/', 'restaurant-jobs' ),
+			array( 'Work with Tina', '/work-with-tina/', 'work-with-tina' ),
+			array( 'Send something in', '/submit/', 'submit' ),
+		),
+		'Live to Eat Food' => array(
+			array( 'About Tina', '/tina/', 'tina' ),
+			array( 'How it works', '/how-it-works/', 'how-it-works' ),
+			array( 'Editorial policy', '/editorial-policy/', 'editorial-policy' ),
+		),
+	);
+}
+
+/** Which nav item the current request belongs to. */
+function ltef_nav_current() {
+	if ( is_singular( 'ltef_place' ) || is_post_type_archive( 'ltef_place' ) || is_tax( array( 'ltef_area', 'ltef_craving', 'ltef_with' ) ) ) {
+		return 'explore';
+	}
+	if ( is_singular( 'ltef_woopon' ) || is_post_type_archive( 'ltef_woopon' ) ) {
+		return 'woo-pons';
+	}
+	if ( is_singular( 'ltef_event' ) || is_post_type_archive( 'ltef_event' ) ) {
+		return 'events';
+	}
+	if ( is_singular( 'ltef_job' ) || is_post_type_archive( 'ltef_job' ) ) {
+		return 'restaurant-jobs';
+	}
+	if ( is_category( 'out-and-about' ) || ( is_singular( 'post' ) && in_category( 'out-and-about' ) ) ) {
+		return 'out-and-about';
+	}
+	if ( is_home() || is_singular( 'post' ) || is_category() ) {
+		return 'guides';
+	}
+	if ( is_page() ) {
+		return get_post_field( 'post_name', get_queried_object_id() );
+	}
+	return '';
+}
+
+/** One nav link, marked when it's the current page. */
+function ltef_nav_link( $item, $current, $long = false, $class = '' ) {
+	$label = $long && ! empty( $item[3] ) ? $item[3] : $item[0];
+	return '<li' . ( $class ? ' class="' . esc_attr( $class ) . '"' : '' ) . '><a href="' . esc_url( home_url( $item[1] ) ) . '"' . ( $current === $item[2] ? ' aria-current="page"' : '' ) . '>' . esc_html( $label ) . '</a></li>';
+}
+
+/** The header navigation: the top bar and a grouped More panel on wide screens, a grouped Menu on phones. */
+function ltef_site_nav_html() {
+	$groups  = ltef_nav_groups();
+	$current = ltef_nav_current();
+	$top     = array_merge( array_slice( $groups['Find food'], 0, 4 ), array( $groups['Around town'][0] ) );
+	$top_keys = wp_list_pluck( $top, 2 );
+	$main    = implode( '', array_map( function ( $i ) use ( $current ) { return ltef_nav_link( $i, $current ); }, $top ) );
+
+	// More: everything not in the top bar, in its groups. Events moves in here when the top bar narrows.
+	$more        = '';
+	$more_active = false;
+	foreach ( $groups as $name => $items ) {
+		$links = '';
+		if ( 'Find food' === $name ) {
+			$name = 'More food';
+		}
+		foreach ( $items as $i ) {
+			if ( in_array( $i[2], $top_keys, true ) ) {
+				if ( 'events' === $i[2] ) {
+					$links .= ltef_nav_link( $i, $current, false, 'nav-overflow' );
+				}
+				continue;
+			}
+			$more_active = $more_active || $current === $i[2];
+			$links      .= ltef_nav_link( $i, $current );
+		}
+		if ( 'Around town' === $name ) {
+			$more_links_food = $links;
+			continue;
+		}
+		if ( 'More food' === $name ) {
+			$food = $links;
+			continue;
+		}
+		$more .= '<div class="site-more__group"><p class="drawer-h">' . esc_html( $name ) . '</p><ul>' . $links . '</ul></div>';
+	}
+	$more = '<div class="site-more__group"><p class="drawer-h">Food and around town</p><ul>' . $food . $more_links_food . '</ul></div>' . $more;
+	$chev = '<svg viewBox="0 0 24 24" aria-hidden="true" class="chev"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+	$events_current = 'events' === $current ? ' is-current-narrow' : '';
+
+	// Menu on phones: every page, in its groups, with the newsletter last.
+	$drawer = '';
+	foreach ( $groups as $name => $items ) {
+		$drawer .= '<div class="drawer-group"><p class="drawer-h">' . esc_html( $name ) . '</p><ul>' . implode( '', array_map( function ( $i ) use ( $current ) { return ltef_nav_link( $i, $current, true ); }, $items ) ) . '</ul></div>';
+	}
+	$crumbs = esc_url( home_url( '/crumbs/' ) );
+
+	return '<nav class="site-nav" aria-label="Main"><ul class="site-nav__main">' . $main . '</ul>'
+		. '<details class="site-more' . ( $more_active ? ' is-current' : '' ) . $events_current . '" data-ltef-menu><summary>More' . $chev . '</summary><div class="site-more__panel">' . $more . '</div></details></nav>'
+		. '<a class="ltef-btn ltef-btn--sm site-cta" href="' . $crumbs . '">Get Monthly Crumbs</a>'
+		. '<details class="site-drawer" data-ltef-menu><summary><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>Menu</summary>'
+		. '<nav class="drawer-panel" aria-label="All pages">' . $drawer . '<a class="ltef-btn site-drawer-cta" href="' . $crumbs . '">Get Monthly Crumbs</a></nav></details>';
+}
