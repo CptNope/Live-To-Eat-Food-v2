@@ -75,6 +75,21 @@ function ltef_fields( $type ) {
 			'contact_phone' => array( 'Contact phone', 'tel', 'Private.', null, true ),
 			'contact_email' => array( 'Contact email', 'email', 'Private.', null, true ),
 		),
+		'ltef_special' => array(
+			'place'       => array( 'Place on the site', 'place', 'The place running the special.' ),
+			'deal'        => array( 'The deal, in a few words', 'text', 'Like: Buy one, get one pizza. Shown big on the card.' ),
+			'details'     => array( 'Details', 'text', 'Optional. Price, hours, what’s included. Like: $17.95: unlimited salad, pasta, roasted chicken and fries.' ),
+			'day_mon'     => array( 'Mondays', 'checkbox', '' ),
+			'day_tue'     => array( 'Tuesdays', 'checkbox', '' ),
+			'day_wed'     => array( 'Wednesdays', 'checkbox', '' ),
+			'day_thu'     => array( 'Thursdays', 'checkbox', '' ),
+			'day_fri'     => array( 'Fridays', 'checkbox', '' ),
+			'day_sat'     => array( 'Saturdays', 'checkbox', '' ),
+			'day_sun'     => array( 'Sundays', 'checkbox', '' ),
+			'source'      => array( 'Where it comes from', 'select', 'Shown under the deal.', array( 'tina' => 'Tina’s post', 'owner' => 'The place told us', 'reader' => 'A reader, checked with the place' ) ),
+			'source_url'  => array( 'Tina’s video', 'url', 'The post where she mentions the deal.' ),
+			'checked'     => array( 'Last confirmed', 'month', 'The month Tina posted it or the place confirmed it. Shown as “per Tina, Aug 2026”.' ),
+		),
 		'ltef_ad'      => array(
 			'spot'        => array( 'Spot', 'select', '', array( 'home' => 'Home page, under Tina’s latest picks', 'rail' => 'Place pages, beside the facts', 'feed' => 'A card in Explore', 'guide' => 'Between stops on a guide' ) ),
 			'line'        => array( 'One line, in the advertiser’s words', 'text', '' ),
@@ -89,7 +104,7 @@ function ltef_fields( $type ) {
 
 add_action( 'init', 'ltef_register_meta', 20 );
 function ltef_register_meta() {
-	foreach ( array( 'ltef_place', 'ltef_woopon', 'ltef_event', 'ltef_job', 'ltef_ad' ) as $type ) {
+	foreach ( array( 'ltef_place', 'ltef_woopon', 'ltef_event', 'ltef_job', 'ltef_ad', 'ltef_special' ) as $type ) {
 		foreach ( ltef_fields( $type ) as $key => $def ) {
 			$private = ! empty( $def[4] );
 			$kind    = $def[1];
@@ -120,7 +135,7 @@ function ltef_sanitize_attachment( $v ) { return absint( $v ); }
 
 add_action( 'add_meta_boxes', 'ltef_meta_boxes' );
 function ltef_meta_boxes() {
-	$titles = array( 'ltef_place' => 'Place details', 'ltef_woopon' => 'The deal', 'ltef_event' => 'Event details', 'ltef_job' => 'Job details', 'ltef_ad' => 'The ad' );
+	$titles = array( 'ltef_place' => 'Place details', 'ltef_woopon' => 'The deal', 'ltef_event' => 'Event details', 'ltef_job' => 'Job details', 'ltef_ad' => 'The ad', 'ltef_special' => 'The weekly deal' );
 	foreach ( $titles as $type => $title ) {
 		add_meta_box( 'ltef-fields', $title, 'ltef_render_meta_box', $type, 'normal', 'high' );
 	}
