@@ -19,7 +19,8 @@ function ltef_block_defs() {
 		'place-facts'    => array( 'Place: Before you go', 'Address, hours, phone and what’s worth knowing, with the place-page ad spot beside it.', 'info-outline', array( 'showAd' => array( 'type' => 'boolean', 'default' => true ) ), 'ltef_block_place_facts', true ),
 		'place-card'     => array( 'Place card', 'One place as a card. Use inside a Query Loop of places.', 'id', array(), 'ltef_block_place_card', true ),
 		'latest-places'  => array( 'Tina’s latest picks', 'Her newest places as cards.', 'location', array( 'count' => array( 'type' => 'number', 'default' => 4 ) ), 'ltef_block_latest_places', false ),
-		'explore'        => array( 'Explore every place', 'Every place with search and filters, and the Explore ad spot after the fourth.', 'search', array(), 'ltef_block_explore', false ),
+		'explore'        => array( 'Explore every place', 'Every place to eat with search and filters, and the Explore ad spot after the fourth.', 'search', array(), 'ltef_block_explore', false ),
+		'beyond-food'    => array( 'Beyond food', 'Tina’s shops, salons, classes and days out, grouped by kind.', 'store', array(), 'ltef_block_beyond_food', false ),
 		'woopons'        => array( 'Woo-pons', 'The live Woo-pons with filter chips, or only the online partner codes.', 'tickets-alt', array( 'show' => array( 'type' => 'string', 'default' => 'local' ) ), 'ltef_block_woopons', false ),
 		'woopon-ticket'  => array( 'Woo-pon ticket', 'The current Woo-pon as a ticket.', 'tickets-alt', array(), 'ltef_block_woopon_ticket', true ),
 		'ad-spot'        => array( 'Ad spot', 'The sold ad for this spot, or “Ad space open” with a way to advertise.', 'megaphone', array( 'spot' => array( 'type' => 'string', 'default' => 'home' ) ), 'ltef_block_ad_spot', false ),
@@ -185,16 +186,22 @@ function ltef_block_latest_places( $attrs ) {
 	return ltef_wrap( '<div class="cards">' . implode( '', array_map( function ( $p ) { return ltef_place_card( $p->ID ); }, $posts ) ) . '</div>' );
 }
 
+/** Explore is for eating: shops, salons, outings and the rest live on Beyond food. */
 function ltef_block_explore() {
-	$tina  = ltef_tina_places();
-	$rest  = get_posts(
-		array(
-			'post_type'   => 'ltef_place',
-			'post_status' => 'publish',
-			'numberposts' => -1,
-			'orderby'     => 'title',
-			'order'       => 'ASC',
-			'meta_query'  => array( 'relation' => 'OR', array( 'key' => 'ltef_tina_date', 'compare' => 'NOT EXISTS' ), array( 'key' => 'ltef_tina_date', 'value' => '' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+	$tina  = ltef_tina_places( -1, true );
+	$rest  = array_values(
+		array_filter(
+			get_posts(
+				array(
+					'post_type'   => 'ltef_place',
+					'post_status' => 'publish',
+					'numberposts' => -1,
+					'orderby'     => 'title',
+					'order'       => 'ASC',
+					'meta_query'  => array( 'relation' => 'OR', array( 'key' => 'ltef_tina_date', 'compare' => 'NOT EXISTS' ), array( 'key' => 'ltef_tina_date', 'value' => '' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+				)
+			),
+			function ( $p ) { return 'eat' === ltef_place_kind( $p->ID ); }
 		)
 	);
 	$all   = array_merge( $tina, $rest );
@@ -210,23 +217,72 @@ function ltef_block_explore() {
 		}
 		return $o;
 	};
-	$kinds = '<option value="">Everything</option>';
-	$have  = array_unique( array_map( function ( $p ) { return ltef_place_kind( $p->ID ); }, $all ) );
-	foreach ( ltef_place_kinds() as $k => $label ) {
-		if ( in_array( $k, $have, true ) ) {
-			$kinds .= '<option value="' . esc_attr( $k ) . '">' . esc_html( $label ) . '</option>';
-		}
-	}
 	$form = '<form class="explore-find panel" role="search" data-explore-form>'
 		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-q">Looking for a dish or a place?</label><input class="ltef-input" id="ex-q" type="search" placeholder="A dish or a place, like crudo or fufu" data-explore-q></div>'
-		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-kind">What</label><select class="ltef-input" id="ex-kind" data-explore-kind>' . $kinds . '</select></div>'
 		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-craving">Craving</label><select class="ltef-input" id="ex-craving" data-explore-craving>' . $opts( 'ltef_craving', 'Anything' ) . '</select></div>'
 		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-area">Neighborhood</label><select class="ltef-input" id="ex-area" data-explore-area>' . $opts( 'ltef_area', 'Everywhere' ) . '</select></div>'
 		. '<button class="ltef-chip" type="button" aria-pressed="false" data-explore-tina>Only places Tina’s been</button></form>';
-	$out  = $form . '<p class="meta" aria-live="polite" data-explore-count>' . count( $all ) . ' places</p><div class="explore-list">' . implode( '', $rows ) . '</div>'
+	$beyond = ltef_beyond_food_places();
+	$aside  = $beyond ? '<p class="meta explore-beyond">Looking for Tina’s shops, salons and days out? They’re on <a href="' . esc_url( home_url( '/beyond-food/' ) ) . '">Beyond food</a>.</p>' : '';
+	$out  = $form . $aside . '<p class="meta" aria-live="polite" data-explore-count>' . count( $all ) . ' places</p><div class="explore-list">' . implode( '', $rows ) . '</div>'
 		. '<p class="explore-more-wrap"><button class="ltef-btn ltef-btn--alt" type="button" data-explore-more hidden>Show more</button></p>'
 		. '<p class="meta explore-empty" data-explore-empty hidden>Nothing matches. Try another craving or neighborhood, or <a href="' . esc_url( home_url( '/how-it-works/#suggest' ) ) . '">tell Tina where to go</a>.</p>';
 	return ltef_wrap( $out, 'ltef-explore' );
+}
+
+/** Places Tina went that aren't for eating, grouped by kind, her newest visit first in each group. */
+function ltef_beyond_food_places() {
+	static $by_kind = null;
+	if ( null !== $by_kind ) {
+		return $by_kind;
+	}
+	$by_kind = array();
+	$posts   = get_posts(
+		array(
+			'post_type'   => 'ltef_place',
+			'post_status' => 'publish',
+			'numberposts' => -1,
+			'orderby'     => 'title',
+			'order'       => 'ASC',
+			'meta_query'  => array( array( 'key' => 'ltef_kind', 'value' => array_diff( array_keys( ltef_place_kinds() ), array( 'eat' ) ), 'compare' => 'IN' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+		)
+	);
+	usort(
+		$posts,
+		function ( $a, $b ) {
+			return strcmp( (string) ltef_meta( $b->ID, 'tina_date' ), (string) ltef_meta( $a->ID, 'tina_date' ) );
+		}
+	);
+	foreach ( ltef_place_kinds() as $k => $label ) {
+		$in = array_values( array_filter( $posts, function ( $p ) use ( $k ) { return ltef_place_kind( $p->ID ) === $k; } ) );
+		if ( 'eat' !== $k && $in ) {
+			$by_kind[ $k ] = $in;
+		}
+	}
+	return $by_kind;
+}
+
+function ltef_block_beyond_food() {
+	$by_kind = ltef_beyond_food_places();
+	if ( ! $by_kind ) {
+		return ltef_wrap( '<p class="meta">Shops, salons and days out show up here once a place’s Kind is set to something other than Food &amp; drink.</p>' );
+	}
+	$about = array(
+		'shop'      => 'Thrift shops, antiques, markets and more.',
+		'wellness'  => 'Nails, hair, lashes, skin, yoga, fitness and recovery.',
+		'services'  => 'Photographers and other local services.',
+		'fun'       => 'Shows, classes, games, museums and days out.',
+		'community' => 'Rescues and nonprofits.',
+	);
+	$kinds = ltef_place_kinds();
+	$jump  = '';
+	$out   = '';
+	foreach ( $by_kind as $k => $posts ) {
+		$jump .= '<a class="ltef-chip" href="#' . esc_attr( $k ) . '">' . esc_html( $kinds[ $k ] ) . ' <span class="beyond-n">' . count( $posts ) . '</span></a>';
+		$out  .= '<section class="beyond-group" id="' . esc_attr( $k ) . '" aria-labelledby="bf-' . esc_attr( $k ) . '"><div class="beyond-group__h"><h2 id="bf-' . esc_attr( $k ) . '" class="h-m">' . esc_html( $kinds[ $k ] ) . '</h2><p class="meta">' . esc_html( $about[ $k ] ?? '' ) . ' ' . sprintf( esc_html( _n( '%d place', '%d places', count( $posts ) ) ), count( $posts ) ) . '</p></div>'
+			. '<div class="explore-list beyond-list">' . implode( '', array_map( function ( $p ) { return ltef_place_row( $p->ID ); }, $posts ) ) . '</div></section>';
+	}
+	return ltef_wrap( '<nav class="ltef-chips day-jump" aria-label="Jump to a kind of place">' . $jump . '</nav>' . $out, 'ltef-beyond' );
 }
 
 function ltef_live_woopons( $online ) {

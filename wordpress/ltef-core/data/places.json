@@ -18166,5 +18166,30 @@
    "url": "https://viaitaliantable.com/1999-entrees/",
    "checked": "2026-11"
   }
+ ],
+ "partners": [
+  {
+   "id": "lensmart-ltef",
+   "off": "15% off",
+   "business": "Lensmart",
+   "area_text": "online",
+   "earns": "commission",
+   "code": "LTEF",
+   "where": "At checkout on lensmartonline.com",
+   "fine": "Glasses and sunglasses",
+   "shop_url": "https://www.lensmartonline.com/?lenid=fx_wh_LTEF"
+  },
+  {
+   "id": "jeremy-anderson-tech-ltef20",
+   "off": "20% off",
+   "business": "Jeremy Anderson Tech",
+   "area_text": "website maintenance and hosting",
+   "earns": "referral",
+   "code": "LTEF20",
+   "where": "When you sign up at jeremyanderson.tech",
+   "fine": "Maintenance and hosting plans · For restaurants and local businesses",
+   "shop_url": "https://jeremyanderson.tech/services",
+   "shop_label": "See website packages"
+  }
  ]
 }

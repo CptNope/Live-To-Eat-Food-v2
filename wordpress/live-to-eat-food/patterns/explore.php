@@ -15,7 +15,7 @@ $u = function ( $p ) {
 <h1 class="wp-block-heading">Explore</h1>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"className":"is-style-lede"} -->
-<p class="is-style-lede">Every place on the site: the ones Tina ate at, newest first, then the ones she hasn’t been to yet. Search what she ordered, pick a craving or a neighborhood.</p>
+<p class="is-style-lede">Every place to eat on the site: the ones Tina ate at, newest first, then the ones she hasn’t been to yet. Search what she ordered, pick a craving or a neighborhood.</p>
 <!-- /wp:paragraph -->
 </section>
 <!-- /wp:group -->
