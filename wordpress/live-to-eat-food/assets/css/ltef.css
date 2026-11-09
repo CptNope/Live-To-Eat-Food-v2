@@ -883,3 +883,13 @@ body { background: var(--lemon); }
 /* The section's heading colour (butter on basil) was winning over the card's own: keep the picked name readable on the cream card. */
 .ltef-roulette .roul-card .roul-card__name { color: var(--basil); }
 .roul-town { max-width: 360px; }
+
+/* Daily deals */
+.day-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+.special-card { display: grid; gap: 8px; }
+.special-card > .ltef-lbl { align-self: flex-start; justify-self: start; }
+.special-card__name { color: var(--basil); text-decoration: none; }
+.special-card__deal { margin: 0; font: 700 18px/1.3 var(--font-interface); }
+.special-card__details { margin: 0; }
+.special-card__when { margin: 0; }
+.special-empty { margin: 0; border: 2.5px dashed var(--olive); box-shadow: none; background: transparent; }

@@ -18044,5 +18044,92 @@
     }
    ]
   }
+ ],
+ "specials": [
+  {
+   "id": "volturno-bogo-pizza",
+   "place": "volturno",
+   "days": [
+    "mon",
+    "tue"
+   ],
+   "deal": "Buy one, get one pizza",
+   "details": "",
+   "source": "tina",
+   "url": "https://www.tiktok.com/@livetoeatfoodie/video/7669833089807355150",
+   "checked": "2026-08"
+  },
+  {
+   "id": "antonios-monday-wings-pizza",
+   "place": "antonios-pizza",
+   "days": [
+    "mon"
+   ],
+   "deal": "Buy one, get one 50% off wings, and buy one, get one free medium pizzas",
+   "details": "",
+   "source": "tina",
+   "url": "https://www.tiktok.com/@livetoeatfoodie/video/7675077829238836493",
+   "checked": "2026-08"
+  },
+  {
+   "id": "antonios-pasta-madness",
+   "place": "antonios-pizza",
+   "days": [
+    "tue"
+   ],
+   "deal": "Pasta Madness: all-you-can-eat pasta",
+   "details": "",
+   "source": "tina",
+   "url": "https://www.tiktok.com/@livetoeatfoodie/video/7675077829238836493",
+   "checked": "2026-08"
+  },
+  {
+   "id": "olo-pizza-tuesday",
+   "place": "olo-pizza",
+   "days": [
+    "tue"
+   ],
+   "deal": "Half-price wings and pizza by the slice",
+   "details": "Slices are only on Tuesdays. Her New York slice was $5.",
+   "source": "tina",
+   "url": "https://www.tiktok.com/@livetoeatfoodie/video/7653508777206893838",
+   "checked": "2026-06"
+  },
+  {
+   "id": "la-scala-chicken-night",
+   "place": "la-scala",
+   "days": [
+    "wed"
+   ],
+   "deal": "Chicken night: $17.95",
+   "details": "All-you-can-eat house salad, unlimited pasta, and unlimited roasted chicken and fries.",
+   "source": "tina",
+   "url": "https://www.tiktok.com/@livetoeatfoodie/video/7647273376985156878",
+   "checked": "2026-06"
+  },
+  {
+   "id": "chashu-wednesday-three-course",
+   "place": "chashu",
+   "days": [
+    "wed"
+   ],
+   "deal": "Three-course meal",
+   "details": "Under $30 when she went in April.",
+   "source": "tina",
+   "url": "https://www.tiktok.com/@livetoeatfoodie/video/7696611482108218637",
+   "checked": "2026-10"
+  },
+  {
+   "id": "the-fix-wagyu-hot-dogs",
+   "place": "the-fix",
+   "days": [
+    "thu"
+   ],
+   "deal": "Wagyu hot dog day",
+   "details": "",
+   "source": "tina",
+   "url": "https://www.tiktok.com/@livetoeatfoodie/video/7691739538464460045",
+   "checked": "2026-10"
+  }
  ]
 }

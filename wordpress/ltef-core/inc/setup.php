@@ -44,7 +44,7 @@ function ltef_setup_page() {
 	};
 	$btn( 'pages', 'Create the pages', 'Home, Guides, Roulette, Food help, Send something in, Work with Tina and the rest, filled from the theme’s patterns. Pages that already exist are left alone.' );
 	$data = json_decode( (string) file_get_contents( LTEF_DIR . 'data/places.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-	$btn( 'places', 'Import Tina’s places and videos', sprintf( '%d places, %d guides and %d round-ups from her public posts, plus her other videos from places already here. Anything already on the site is left as it is, so it’s safe to press again after an update.', count( $data['places'] ?? array() ), count( $data['guides'] ?? array() ), count( $data['roundups'] ?? array() ) ) );
+	$btn( 'places', 'Import Tina’s places and videos', sprintf( '%d places, %d guides and %d round-ups from her public posts, plus her other videos from places already here. Anything already on the site is left as it is, so it’s safe to press again after an update.', count( $data['places'] ?? array() ), count( $data['guides'] ?? array() ), count( $data['roundups'] ?? array() ) ) . ( ! empty( $data['specials'] ) ? sprintf( ' Also %d weekly deals for Daily deals.', count( $data['specials'] ) ) : '' ) );
 	$btn( 'samples', 'Add labeled samples', 'A few sample Woo-pons, events and jobs so the pages aren’t empty while you build. Delete them before launch.' );
 	$btn( 'refresh', 'Refresh the built-in pages', 'Replaces Food help, Send something in, Work with Tina and the other built-in pages with the theme’s latest version (live prices included). Edits you made to those pages are replaced; the old versions stay under each page’s Revisions.' );
 	echo '</div>';
@@ -281,7 +281,38 @@ function ltef_import_places() {
 		);
 		++$r;
 	}
-	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
+	// Weekly deals from her posts. A deal already here (by its id) is left as it is.
+	$sp = 0;
+	foreach ( $data['specials'] ?? array() as $d ) {
+		$place = isset( $ids[ $d['place'] ] ) ? $ids[ $d['place'] ] : ( get_page_by_path( $d['place'], OBJECT, 'ltef_place' ) ? get_page_by_path( $d['place'], OBJECT, 'ltef_place' )->ID : 0 );
+		if ( ! $place || get_page_by_path( $d['id'], OBJECT, 'ltef_special' ) ) {
+			continue;
+		}
+		$sid = wp_insert_post( array( 'post_type' => 'ltef_special', 'post_status' => 'publish', 'post_title' => get_the_title( $place ) . ': ' . $d['deal'], 'post_name' => $d['id'] ) );
+		if ( ! $sid || is_wp_error( $sid ) ) {
+			continue;
+		}
+		update_post_meta( $sid, 'ltef_place', $place );
+		update_post_meta( $sid, 'ltef_deal', $d['deal'] );
+		update_post_meta( $sid, 'ltef_details', $d['details'] ?? '' );
+		foreach ( $d['days'] as $day ) {
+			update_post_meta( $sid, 'ltef_day_' . $day, true );
+		}
+		update_post_meta( $sid, 'ltef_source', $d['source'] ?? 'tina' );
+		update_post_meta( $sid, 'ltef_source_url', $d['url'] ?? '' );
+		update_post_meta( $sid, 'ltef_checked', $d['checked'] ?? '' );
+		++$sp;
+	}
+	// The Daily deals page gets the week list if it doesn't have it yet.
+	$deals_page = get_page_by_path( 'daily-deals' );
+	if ( $deals_page && false === strpos( $deals_page->post_content, 'wp:ltef/daily-deals' ) ) {
+		$week    = '<!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"vinyl","layout":{"type":"constrained","contentSize":"1240px"}} --><section class="wp-block-group is-style-sheet has-vinyl-background-color has-background"><!-- wp:ltef/daily-deals /--></section><!-- /wp:group -->';
+		$content = $deals_page->post_content;
+		$at      = strpos( $content, '<!-- /wp:group -->' );
+		$content = false === $at ? $week . $content : substr( $content, 0, $at + 18 ) . "\n\n" . $week . substr( $content, $at + 18 );
+		wp_update_post( array( 'ID' => $deals_page->ID, 'post_content' => wp_slash( $content ) ) );
+	}
+	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly deals added.', $sp ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
 }
 
 function ltef_add_samples() {

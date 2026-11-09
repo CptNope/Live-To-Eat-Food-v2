@@ -19,6 +19,10 @@
 </section>
 <!-- /wp:group -->
 
+<!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"vinyl","layout":{"type":"constrained","contentSize":"1240px"}} -->
+<section class="wp-block-group is-style-sheet has-vinyl-background-color has-background"><!-- wp:ltef/daily-deals /--></section>
+<!-- /wp:group -->
+
 <!-- wp:group {"tagName":"section","anchor":"tell","className":"is-style-sheet","backgroundColor":"pistachio","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section id="tell" class="wp-block-group is-style-sheet has-pistachio-background-color has-background"><!-- wp:group {"className":"two"} -->
 <div class="wp-block-group two"><!-- wp:heading {"anchor":"h-tell"} -->

@@ -81,6 +81,18 @@ function ltef_register_post_types() {
 		)
 	);
 	register_post_type(
+		'ltef_special',
+		array(
+			'labels'        => array_merge( ltef_labels( 'Daily deal', 'Daily deals' ), array( 'all_items' => 'Daily deals' ) ),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_menu'  => 'edit.php?post_type=ltef_place',
+			'show_in_rest'  => true,
+			'supports'      => array( 'title', 'custom-fields', 'revisions' ),
+			'description'   => 'Specials that come back every week, shown by day on the Daily deals page and on the place’s page.',
+		)
+	);
+	register_post_type(
 		'ltef_submission',
 		array(
 			'labels'        => array_merge( ltef_labels( 'Message', 'Messages' ), array( 'all_items' => 'Messages and signups' ) ),

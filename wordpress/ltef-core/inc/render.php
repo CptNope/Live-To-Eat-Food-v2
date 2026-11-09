@@ -280,6 +280,7 @@ function ltef_place_facts( $post_id ) {
 	if ( ltef_meta( $post_id, 'price' ) ) {
 		$rows[] = array( 'Price', ltef_meta( $post_id, 'price' ) );
 	}
+	$rows = array_merge( $rows, ltef_place_specials_rows( $post_id ) );
 	$dl = '';
 	foreach ( $rows as $r ) {
 		$dl .= '<div><dt>' . esc_html( $r[0] ) . '</dt><dd>' . esc_html( $r[1] ) . '</dd></div>';
@@ -290,6 +291,97 @@ function ltef_place_facts( $post_id ) {
 	return '<div class="panel facts-panel"><div style="display: grid; gap: 4px;"><h2 class="h-m" style="font-size: 30px;">Before you go</h2><p class="meta" style="margin: 0;">From public listings and Tina’s posts.</p></div>'
 		. '<div class="facts-cols"><dl class="facts-dl">' . $dl . '</dl>' . $worth . '</div>'
 		. '<div class="ltef-actions"><a class="ltef-btn ltef-btn--sm" href="' . esc_url( ltef_maps_url( get_the_title( $post_id ), $addr, $town ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' . $web . '</div></div>';
+}
+
+/* ------------------------------------------------------------------ Daily deals */
+
+/** Weekday keys, Monday first, with their names. */
+function ltef_weekdays() {
+	return array( 'mon' => 'Monday', 'tue' => 'Tuesday', 'wed' => 'Wednesday', 'thu' => 'Thursday', 'fri' => 'Friday', 'sat' => 'Saturday', 'sun' => 'Sunday' );
+}
+
+/** The days a weekly deal runs, as weekday keys. */
+function ltef_special_days( $post_id ) {
+	return array_values( array_filter( array_keys( ltef_weekdays() ), function ( $d ) use ( $post_id ) { return (bool) ltef_meta( $post_id, 'day_' . $d ); } ) );
+}
+
+/** "Mondays and Tuesdays", "Weekdays", "Every day". */
+function ltef_days_label( $days ) {
+	$all = array_keys( ltef_weekdays() );
+	if ( count( $days ) === 7 ) {
+		return 'Every day';
+	}
+	if ( array_slice( $all, 0, 5 ) === $days ) {
+		return 'Weekdays';
+	}
+	$names = array_map( function ( $d ) { return ltef_weekdays()[ $d ] . 's'; }, $days );
+	return count( $names ) > 1 ? implode( ', ', array_slice( $names, 0, -1 ) ) . ' and ' . end( $names ) : (string) reset( $names );
+}
+
+/** Published weekly deals, optionally for one place. */
+function ltef_specials( $place_id = 0 ) {
+	$q = array( 'post_type' => 'ltef_special', 'post_status' => 'publish', 'numberposts' => -1, 'orderby' => 'title', 'order' => 'ASC' );
+	if ( $place_id ) {
+		$q['meta_query'] = array( array( 'key' => 'ltef_place', 'value' => (int) $place_id ) ); // phpcs:ignore WordPress.DB.SlowDBQuery
+	}
+	return get_posts( $q );
+}
+
+/** Where a deal comes from: "per Tina, Aug 2026". */
+function ltef_special_source( $post_id ) {
+	$who   = array( 'tina' => 'per Tina', 'owner' => 'per the place', 'reader' => 'from a reader, checked with the place' );
+	$src   = ltef_meta( $post_id, 'source' ) ? ltef_meta( $post_id, 'source' ) : 'tina';
+	$month = ltef_month_label( ltef_meta( $post_id, 'checked' ) );
+	return ( $who[ $src ] ?? 'per Tina' ) . ( $month ? ', ' . $month : '' );
+}
+
+/** One deal as a card on the Daily deals page. */
+function ltef_special_card( $post_id ) {
+	$place = (int) ltef_meta( $post_id, 'place' );
+	$name  = $place ? get_the_title( $place ) : get_the_title( $post_id );
+	$label = '';
+	$maps  = '';
+	$head  = '<span class="h-s">' . esc_html( $name ) . '</span>';
+	if ( $place ) {
+		if ( ltef_meta( $place, 'tina_video' ) || ltef_meta( $place, 'tina_quote' ) ) {
+			$month = ltef_month_label( ltef_meta( $place, 'tina_date' ) );
+			$label = ltef_label( 'tina', ltef_tina_label( $place ) . ( $month ? ' · ' . $month : '' ) );
+		}
+		$head = '<a href="' . esc_url( get_permalink( $place ) ) . '" class="h-s tap special-card__name">' . esc_html( $name ) . '</a>';
+		$maps = '<div><a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_maps_url( $name, ltef_meta( $place, 'address' ), ltef_town_state( ltef_meta( $place, 'town' ) ) ) ) . '" target="_blank" rel="noopener">Get directions<span class="vh"> to ' . esc_html( $name ) . ' (opens Google Maps)</span></a></div>';
+	}
+	$video = ltef_meta( $post_id, 'source_url' ) ? ' · <a href="' . esc_url( ltef_meta( $post_id, 'source_url' ) ) . '" target="_blank" rel="noopener">her video<span class="vh"> (opens a new tab)</span></a>' : '';
+	$details = ltef_meta( $post_id, 'details' ) ? '<p class="special-card__details">' . esc_html( ltef_meta( $post_id, 'details' ) ) . '</p>' : '';
+	return '<article class="panel special-card">' . $label . $head
+		. '<p class="special-card__deal">' . esc_html( ltef_meta( $post_id, 'deal' ) ? ltef_meta( $post_id, 'deal' ) : get_the_title( $post_id ) ) . '</p>' . $details
+		. '<p class="meta special-card__when">' . esc_html( ltef_days_label( ltef_special_days( $post_id ) ) ) . ' · ' . esc_html( ltef_special_source( $post_id ) ) . $video . '</p>'
+		. $maps . '</article>';
+}
+
+/** The week: one column per day, Monday first. Today's column is marked by the script. */
+function ltef_daily_deals_html() {
+	$by_day = array_fill_keys( array_keys( ltef_weekdays() ), array() );
+	foreach ( ltef_specials() as $p ) {
+		foreach ( ltef_special_days( $p->ID ) as $d ) {
+			$by_day[ $d ][] = $p->ID;
+		}
+	}
+	$num  = array( 'mon' => 1, 'tue' => 2, 'wed' => 3, 'thu' => 4, 'fri' => 5, 'sat' => 6, 'sun' => 0 );
+	$jump = '';
+	$cols = '';
+	foreach ( ltef_weekdays() as $d => $day ) {
+		$jump .= '<a class="ltef-chip" href="#' . esc_attr( $d ) . '">' . esc_html( substr( $day, 0, 3 ) ) . '</a>';
+		$cards = $by_day[ $d ]
+			? implode( '', array_map( 'ltef_special_card', $by_day[ $d ] ) )
+			: '<p class="panel special-empty">Nothing on ' . esc_html( $day ) . 's yet. <a href="#tell">Know one?</a></p>';
+		$cols .= '<section class="day-col" data-day="' . (int) $num[ $d ] . '" id="' . esc_attr( $d ) . '" aria-labelledby="d-' . esc_attr( $d ) . '"><h2 id="d-' . esc_attr( $d ) . '" class="h-m day-col__h">' . esc_html( $day ) . '</h2>' . $cards . '</section>';
+	}
+	return '<nav class="ltef-chips day-jump" aria-label="Jump to a day">' . $jump . '</nav><div class="day-grid" data-ltef-days>' . $cols . '</div>';
+}
+
+/** Weekly deals for one place, for the place page's facts. */
+function ltef_place_specials_rows( $place_id ) {
+	return array_map( function ( $p ) { return array( 'Weekly deal', ltef_days_label( ltef_special_days( $p->ID ) ) . ': ' . ( ltef_meta( $p->ID, 'deal' ) ? ltef_meta( $p->ID, 'deal' ) : get_the_title( $p->ID ) ) . ( ltef_meta( $p->ID, 'details' ) ? ' (' . ltef_meta( $p->ID, 'details' ) . ')' : '' ) . ' · ' . ltef_special_source( $p->ID ) ); }, ltef_specials( $place_id ) );
 }
 
 /* ------------------------------------------------------------------ Woo-pons */

@@ -153,4 +153,8 @@
 			}, reduce ? 0 : 3200 );
 		} );
 	}
+
+	/* Daily deals: mark today's column. */
+	var todayCol = document.querySelector( '[data-ltef-days] .day-col[data-day="' + new Date().getDay() + '"]' );
+	if ( todayCol ) todayCol.classList.add( 'is-today' );
 } )();
