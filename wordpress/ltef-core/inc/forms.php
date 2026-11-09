@@ -371,6 +371,9 @@ function ltef_handle_submit() {
 		}
 	}
 
+	/** Lets other parts of the plugin act on a new submission (Monthly Crumbs signups go to Brevo). */
+	do_action( 'ltef_submitted', $key, $post_id, $v );
+
 	$to = ltef_setting( 'notify_email' );
 	if ( $to && 'signup' !== $key ) {
 		$lines = array();

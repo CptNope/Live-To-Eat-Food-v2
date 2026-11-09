@@ -81,10 +81,9 @@ Tina's videos show a drawn still until someone presses play; nothing loads from 
 
 ## Still to do before launch
 
-- **An email service for Monthly Crumbs.** Signups are saved under *Messages and signups*. Connecting the service (and the welcome email) is still open on the launch questions page.
+- **The Monthly Crumbs welcome email.** Set it up as an automation in Brevo on the Monthly Crumbs list.
 - **Real content.** Delete the `[Sample]` posts, add the real ads as they're sold, and check every place's hours.
 - **A privacy page and a terms page.** The forms collect emails, phone numbers and photos.
-- **Email delivery.** WordPress's mail needs an SMTP plugin on most hosts, or the review queue notifications won't arrive.
 
 ## Checked
 
@@ -97,3 +96,13 @@ Weekly specials live under **Places → Daily deals**: pick the place, tick the 
 ## Partner codes and referral links
 
 The online section of Woo-pons shows Tina's partner codes (Woo-pons with How it runs set to *Partner code*) and her referral shops (Amazon storefront, LCI Paper). Each says how she earns: pick *A commission* or *A referral fee* on the code. *Where to use it* and *Shop button text* are optional. Every partner link opens in a new tab with `rel="sponsored"`, and none of them appear on Roulette, guides or her picks.
+
+## Email (Brevo)
+
+**Review queue → Email** connects the site to Brevo with an API key (Brevo: SMTP & API → API keys). Once it's saved:
+
+- **Monthly Crumbs list:** every signup goes straight onto the list you pick. Signups are still saved on the site too, so if Brevo is ever down nothing is lost: the page shows how many haven't reached Brevo and a button sends them.
+- **The site's own emails:** with *Send them through Brevo* ticked, new-submission notifications and WordPress's emails (password resets and the rest) go out through Brevo from the address set there (tina@livetoeatfoodie.com). If Brevo refuses one, WordPress's own mail is tried and the reason shows on the page.
+- **Send me a test email** checks it end to end.
+
+livetoeatfoodie.com is authenticated in Brevo (DKIM, DMARC and the branded `em.` subdomain are in Cloudflare DNS). Mailboxes stay on Rackspace.
