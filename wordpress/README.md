@@ -103,6 +103,6 @@ The online section of Woo-pons shows Tina's partner codes (Woo-pons with How it 
 
 - **Monthly Crumbs list:** every signup goes straight onto the list you pick. Signups are still saved on the site too, so if Brevo is ever down nothing is lost: the page shows how many haven't reached Brevo and a button sends them.
 - **The site's own emails:** with *Send them through Brevo* ticked, new-submission notifications and WordPress's emails (password resets and the rest) go out through Brevo from the address set there (tina@livetoeatfoodie.com). If Brevo refuses one, WordPress's own mail is tried and the reason shows on the page.
-- **Send me a test email** checks it end to end.
+- **Send test** emails any address (tina@livetoeatfoodie.com by default), which checks Brevo sending and the Rackspace inbox in one go.
 
 livetoeatfoodie.com is authenticated in Brevo (DKIM, DMARC and the branded `em.` subdomain are in Cloudflare DNS). Mailboxes stay on Rackspace.

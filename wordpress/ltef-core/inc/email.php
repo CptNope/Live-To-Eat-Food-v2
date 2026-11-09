@@ -267,10 +267,12 @@ add_action(
 			}
 			$msg = sprintf( '%d %s sent to Brevo.', $ok, 1 === $ok ? 'signup' : 'signups' ) . ( $fail ? ' Some didn’t go: ' . $fail : '' );
 		} elseif ( 'test' === $do ) {
-			$user = wp_get_current_user();
-			$sent = wp_mail( $user->user_email, 'Test from Live to Eat Food', "This is a test email from the Live to Eat Food site.\n\nIf it arrived, the site's emails are working." );
+			$to   = isset( $_POST['to'] ) ? sanitize_email( wp_unslash( $_POST['to'] ) ) : '';
+			$to   = is_email( $to ) ? $to : wp_get_current_user()->user_email;
+			delete_option( 'ltef_brevo_mail_error' );
+			$sent = wp_mail( $to, 'Test from Live to Eat Food', "This is a test email from the Live to Eat Food site.\n\nIf it arrived, the site's emails are working." );
 			$err  = get_option( 'ltef_brevo_mail_error' );
-			$msg  = $sent ? sprintf( 'Test email sent to %s%s.', $user->user_email, $b['send_mail'] && ! $err ? ' through Brevo' : '' ) : 'The test email didn’t send.';
+			$msg  = $sent ? sprintf( 'Test email sent to %s%s.', $to, $b['send_mail'] && ! $err ? ' through Brevo' : '' ) : 'The test email didn’t send.';
 			if ( $err ) {
 				$msg .= ' Brevo: ' . $err;
 			}
@@ -339,6 +341,6 @@ function ltef_email_page() {
 	if ( $err ) {
 		echo '<p><strong>Last Brevo problem:</strong> ' . esc_html( $err ) . '</p>';
 	}
-	$form( 'test', '', 'Send me a test email', false );
+	$form( 'test', '<label for="ltef-tt">Send a test email to</label> <input type="email" id="ltef-tt" name="to" value="' . esc_attr( $b['from_email'] ? $b['from_email'] : wp_get_current_user()->user_email ) . '" class="regular-text"> ', 'Send test', false );
 	echo '</div>';
 }
