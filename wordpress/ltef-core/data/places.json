@@ -18148,6 +18148,23 @@
    "source": "owner",
    "url": "https://www.facebook.com/OshareSushiBar/posts/pfbid02DQaZLL7XGVnFuozcGT47VeZCpUwaR2oaCD8wiTMfjh2Si2A39xkQkVBH4JZpB5j7l",
    "checked": "2026-10"
+  },
+  {
+   "id": "via-1999-entrees",
+   "place": "via",
+   "days": [
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri",
+    "sat"
+   ],
+   "deal": "$19.99 entrées",
+   "details": "Mushroom fiori, pork Milanese, or gnocchi and sausage arrabbiata. Dine-in only: no first course, no substitutions or splitting.",
+   "source": "owner",
+   "url": "https://viaitaliantable.com/1999-entrees/",
+   "checked": "2026-11"
   }
  ]
 }
