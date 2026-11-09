@@ -267,8 +267,8 @@ add_action(
 			}
 			$msg = sprintf( '%d %s sent to Brevo.', $ok, 1 === $ok ? 'signup' : 'signups' ) . ( $fail ? ' Some didn’t go: ' . $fail : '' );
 		} elseif ( 'test' === $do ) {
-			$to   = isset( $_POST['to'] ) ? sanitize_email( wp_unslash( $_POST['to'] ) ) : '';
-			$to   = is_email( $to ) ? $to : wp_get_current_user()->user_email;
+			$to   = isset( $_POST['to'] ) ? ltef_email_list( wp_unslash( $_POST['to'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$to   = '' !== $to ? $to : wp_get_current_user()->user_email;
 			delete_option( 'ltef_brevo_mail_error' );
 			$sent = wp_mail( $to, 'Test from Live to Eat Food', "This is a test email from the Live to Eat Food site.\n\nIf it arrived, the site's emails are working." );
 			$err  = get_option( 'ltef_brevo_mail_error' );
@@ -341,6 +341,6 @@ function ltef_email_page() {
 	if ( $err ) {
 		echo '<p><strong>Last Brevo problem:</strong> ' . esc_html( $err ) . '</p>';
 	}
-	$form( 'test', '<label for="ltef-tt">Send a test email to</label> <input type="email" id="ltef-tt" name="to" value="' . esc_attr( $b['from_email'] ? $b['from_email'] : wp_get_current_user()->user_email ) . '" class="regular-text"> ', 'Send test', false );
+	$form( 'test', '<label for="ltef-tt">Send a test email to (commas for several)</label> <input type="text" id="ltef-tt" name="to" value="' . esc_attr( ltef_setting( 'notify_email' ) ? ltef_setting( 'notify_email' ) : $b['from_email'] ) . '" class="large-text" style="max-width:32em"> ', 'Send test', false );
 	echo '</div>';
 }
