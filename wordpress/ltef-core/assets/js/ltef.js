@@ -157,4 +157,19 @@
 	/* Daily deals: mark today's column. */
 	var todayCol = document.querySelector( '[data-ltef-days] .day-col[data-day="' + new Date().getDay() + '"]' );
 	if ( todayCol ) todayCol.classList.add( 'is-today' );
+
+	/* Header menus: one open at a time; close on Escape or a click outside. */
+	var menus = Array.prototype.slice.call( document.querySelectorAll( 'details[data-ltef-menu]' ) );
+	menus.forEach( function ( d ) {
+		d.addEventListener( 'toggle', function () {
+			if ( d.open ) menus.forEach( function ( o ) { if ( o !== d ) o.open = false; } );
+		} );
+	} );
+	document.addEventListener( 'click', function ( e ) {
+		menus.forEach( function ( d ) { if ( d.open && ! d.contains( e.target ) ) d.open = false; } );
+	} );
+	document.addEventListener( 'keydown', function ( e ) {
+		if ( 'Escape' !== e.key ) return;
+		menus.forEach( function ( d ) { if ( d.open ) { d.open = false; d.querySelector( 'summary' ).focus(); } } );
+	} );
 } )();

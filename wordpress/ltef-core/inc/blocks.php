@@ -27,6 +27,7 @@ function ltef_block_defs() {
 		'events'         => array( 'Upcoming events', 'Events from today on, premium listings first in their week.', 'calendar-alt', array( 'count' => array( 'type' => 'number', 'default' => 12 ) ), 'ltef_block_events', false ),
 		'jobs'           => array( 'Restaurant jobs', 'Open job posts with filter chips.', 'businessperson', array(), 'ltef_block_jobs', false ),
 		'roulette'       => array( 'Restaurant Roulette', 'The wheel: Tina’s places or every restaurant.', 'image-rotate', array(), 'ltef_block_roulette', false ),
+		'site-nav'       => array( 'Site navigation', 'The header menu: top links and a grouped More panel on wide screens, a grouped Menu on phones, and the Monthly Crumbs button.', 'menu', array(), 'ltef_block_site_nav', false ),
 		'daily-deals'    => array( 'Daily deals by day', 'Every weekly special, Monday to Sunday, with today marked. Add deals under Places → Daily deals.', 'calendar', array(), 'ltef_block_daily_deals', false ),
 		'verdicts'       => array( 'Tina’s two verdicts', 'Favorite and Don’t miss, explained.', 'star-filled', array(), 'ltef_block_verdicts', false ),
 	);
@@ -79,6 +80,10 @@ function ltef_ctx_post( $block ) {
 		return (int) $block->context['postId'];
 	}
 	return (int) get_the_ID();
+}
+
+function ltef_block_site_nav() {
+	return ltef_wrap( ltef_site_nav_html(), 'ltef-site-nav' );
 }
 
 function ltef_block_daily_deals() {
