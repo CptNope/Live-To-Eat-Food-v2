@@ -312,7 +312,7 @@ function ltef_import_places() {
 		$content = false === $at ? $week . $content : substr( $content, 0, $at + 18 ) . "\n\n" . $week . substr( $content, $at + 18 );
 		wp_update_post( array( 'ID' => $deals_page->ID, 'post_content' => wp_slash( $content ) ) );
 	}
-	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly deals added.', $sp ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
+	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly %s added.', $sp, 1 === $sp ? 'deal' : 'deals' ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
 }
 
 function ltef_add_samples() {
