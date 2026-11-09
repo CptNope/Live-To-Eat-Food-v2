@@ -18130,6 +18130,24 @@
    "source": "tina",
    "url": "https://www.tiktok.com/@livetoeatfoodie/video/7691739538464460045",
    "checked": "2026-10"
+  },
+  {
+   "id": "oshare-all-you-can-eat-sushi",
+   "place": "oshare-sushi-bar",
+   "days": [
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri",
+    "sat",
+    "sun"
+   ],
+   "deal": "All-you-can-eat sushi: lunch $24.95, dinner $35.99",
+   "details": "Kids 3–6: $9.95 lunch, $14.99 dinner. Kids 7–12: $14.95 lunch, $24.99 dinner. 2-hour dining limit, and other dining policies apply. Started October 11.",
+   "source": "owner",
+   "url": "https://www.facebook.com/OshareSushiBar/posts/pfbid02DQaZLL7XGVnFuozcGT47VeZCpUwaR2oaCD8wiTMfjh2Si2A39xkQkVBH4JZpB5j7l",
+   "checked": "2026-10"
   }
  ]
 }

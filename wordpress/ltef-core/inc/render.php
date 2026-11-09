@@ -350,7 +350,8 @@ function ltef_special_card( $post_id ) {
 		$head = '<a href="' . esc_url( get_permalink( $place ) ) . '" class="h-s tap special-card__name">' . esc_html( $name ) . '</a>';
 		$maps = '<div><a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_maps_url( $name, ltef_meta( $place, 'address' ), ltef_town_state( ltef_meta( $place, 'town' ) ) ) ) . '" target="_blank" rel="noopener">Get directions<span class="vh"> to ' . esc_html( $name ) . ' (opens Google Maps)</span></a></div>';
 	}
-	$video = ltef_meta( $post_id, 'source_url' ) ? ' · <a href="' . esc_url( ltef_meta( $post_id, 'source_url' ) ) . '" target="_blank" rel="noopener">her video<span class="vh"> (opens a new tab)</span></a>' : '';
+	$link  = 'tina' === ( ltef_meta( $post_id, 'source' ) ? ltef_meta( $post_id, 'source' ) : 'tina' ) ? 'her video' : 'their post';
+	$video = ltef_meta( $post_id, 'source_url' ) ? ' · <a href="' . esc_url( ltef_meta( $post_id, 'source_url' ) ) . '" target="_blank" rel="noopener">' . $link . '<span class="vh"> (opens a new tab)</span></a>' : '';
 	$details = ltef_meta( $post_id, 'details' ) ? '<p class="special-card__details">' . esc_html( ltef_meta( $post_id, 'details' ) ) . '</p>' : '';
 	return '<article class="panel special-card">' . $label . $head
 		. '<p class="special-card__deal">' . esc_html( ltef_meta( $post_id, 'deal' ) ? ltef_meta( $post_id, 'deal' ) : get_the_title( $post_id ) ) . '</p>' . $details

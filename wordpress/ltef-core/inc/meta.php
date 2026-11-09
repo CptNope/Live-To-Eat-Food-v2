@@ -87,7 +87,7 @@ function ltef_fields( $type ) {
 			'day_sat'     => array( 'Saturdays', 'checkbox', '' ),
 			'day_sun'     => array( 'Sundays', 'checkbox', '' ),
 			'source'      => array( 'Where it comes from', 'select', 'Shown under the deal.', array( 'tina' => 'Tina’s post', 'owner' => 'The place told us', 'reader' => 'A reader, checked with the place' ) ),
-			'source_url'  => array( 'Tina’s video', 'url', 'The post where she mentions the deal.' ),
+			'source_url'  => array( 'Link to the post', 'url', 'Tina’s video that mentions the deal, or the place’s own post or menu.' ),
 			'checked'     => array( 'Last confirmed', 'month', 'The month Tina posted it or the place confirmed it. Shown as “per Tina, Aug 2026”.' ),
 		),
 		'ltef_ad'      => array(
