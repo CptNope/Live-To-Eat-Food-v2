@@ -314,6 +314,10 @@ function ltef_days_label( $days ) {
 	if ( array_slice( $all, 0, 5 ) === $days ) {
 		return 'Weekdays';
 	}
+	$idx = array_map( function ( $d ) use ( $all ) { return array_search( $d, $all, true ); }, $days );
+	if ( count( $days ) >= 3 && end( $idx ) - reset( $idx ) === count( $days ) - 1 ) {
+		return ltef_weekdays()[ reset( $days ) ] . ' to ' . ltef_weekdays()[ end( $days ) ];
+	}
 	$names = array_map( function ( $d ) { return ltef_weekdays()[ $d ] . 's'; }, $days );
 	return count( $names ) > 1 ? implode( ', ', array_slice( $names, 0, -1 ) ) . ' and ' . end( $names ) : (string) reset( $names );
 }
@@ -350,7 +354,7 @@ function ltef_special_card( $post_id ) {
 		$head = '<a href="' . esc_url( get_permalink( $place ) ) . '" class="h-s tap special-card__name">' . esc_html( $name ) . '</a>';
 		$maps = '<div><a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_maps_url( $name, ltef_meta( $place, 'address' ), ltef_town_state( ltef_meta( $place, 'town' ) ) ) ) . '" target="_blank" rel="noopener">Get directions<span class="vh"> to ' . esc_html( $name ) . ' (opens Google Maps)</span></a></div>';
 	}
-	$link  = 'tina' === ( ltef_meta( $post_id, 'source' ) ? ltef_meta( $post_id, 'source' ) : 'tina' ) ? 'her video' : 'their post';
+	$link  = 'tina' === ( ltef_meta( $post_id, 'source' ) ? ltef_meta( $post_id, 'source' ) : 'tina' ) ? 'her video' : ( preg_match( '#facebook\.com|instagram\.com|tiktok\.com#', (string) ltef_meta( $post_id, 'source_url' ) ) ? 'their post' : 'their website' );
 	$video = ltef_meta( $post_id, 'source_url' ) ? ' · <a href="' . esc_url( ltef_meta( $post_id, 'source_url' ) ) . '" target="_blank" rel="noopener">' . $link . '<span class="vh"> (opens a new tab)</span></a>' : '';
 	$details = ltef_meta( $post_id, 'details' ) ? '<p class="special-card__details">' . esc_html( ltef_meta( $post_id, 'details' ) ) . '</p>' : '';
 	return '<article class="panel special-card">' . $label . $head
