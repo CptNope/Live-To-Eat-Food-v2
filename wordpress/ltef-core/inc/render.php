@@ -23,8 +23,9 @@ function ltef_place_sticker( $post_id ) {
 	if ( $own ) {
 		return $own;
 	}
+	$by_place_kind = array( 'shop' => 'bag', 'wellness' => 'flower', 'services' => 'camera', 'fun' => 'ticket', 'community' => 'heart' );
 	if ( 'eat' !== ltef_place_kind( $post_id ) ) {
-		return 'lemon';
+		return $by_place_kind[ ltef_place_kind( $post_id ) ] ?? 'lemon';
 	}
 	$dish = strtolower( (string) ltef_meta( $post_id, 'dish' ) );
 	$cui  = strtolower( (string) ltef_meta( $post_id, 'cuisine' ) );
@@ -411,7 +412,7 @@ function ltef_woopon_ticket( $post_id ) {
 	$tier  = ltef_meta( $post_id, 'tier' );
 	$tina  = '';
 	if ( 'partner' === $tier ) {
-		$tina = ltef_label( 'partner', 'Partner: Tina earns a commission' );
+		$tina = ltef_label( 'partner', 'referral' === ltef_meta( $post_id, 'earns' ) ? 'Partner: Tina earns a referral fee' : 'Partner: Tina earns a commission' );
 	} elseif ( $place && ltef_tina_ate( $place ) ) {
 		$tina = ltef_label( 'tina', 'Tina ate here · ' . ltef_month_label( ltef_meta( $place, 'tina_date' ) ) );
 	} else {
@@ -421,13 +422,16 @@ function ltef_woopon_ticket( $post_id ) {
 	$end    = ltef_meta( $post_id, 'end' );
 	$runs   = $end ? 'Through ' . date_i18n( 'M j', strtotime( $end ) ) : 'Ongoing';
 	$terms  = '<dt>Runs</dt><dd>' . esc_html( $runs ) . '</dd>';
+	if ( ltef_meta( $post_id, 'where' ) ) {
+		$terms .= '<dt>Where</dt><dd>' . esc_html( ltef_meta( $post_id, 'where' ) ) . '</dd>';
+	}
 	if ( ltef_meta( $post_id, 'exclusions' ) ) {
 		$terms .= '<dt>Excludes</dt><dd>' . esc_html( ltef_meta( $post_id, 'exclusions' ) ) . '</dd>';
 	}
 	$code   = ltef_meta( $post_id, 'code' );
 	$fine   = ltef_meta( $post_id, 'fine' );
 	$action = 'online' === $kind && ltef_meta( $post_id, 'shop_url' )
-		? '<a class="ltef-btn ltef-btn--sm" href="' . esc_url( ltef_meta( $post_id, 'shop_url' ) ) . '" target="_blank" rel="sponsored noopener">Shop ' . esc_html( $biz ) . '<span class="vh"> (opens a new tab)</span></a>'
+		? '<a class="ltef-btn ltef-btn--sm" href="' . esc_url( ltef_meta( $post_id, 'shop_url' ) ) . '" target="_blank" rel="sponsored noopener">' . esc_html( ltef_meta( $post_id, 'shop_label' ) ? ltef_meta( $post_id, 'shop_label' ) : 'Shop ' . $biz ) . '<span class="vh"> (opens ' . esc_html( $biz ) . ' in a new tab, a partner link)</span></a>'
 		: '';
 	$tags = array( $kind );
 	if ( $end && strtotime( $end ) < strtotime( '+30 days' ) ) {
@@ -575,6 +579,7 @@ function ltef_nav_groups() {
 		),
 		'Around town'      => array(
 			array( 'Events', '/events/', 'events' ),
+			array( 'Beyond food', '/beyond-food/', 'beyond-food', 'Beyond food: shops, salons, days out' ),
 			array( 'Out & about', '/category/out-and-about/', 'out-and-about' ),
 			array( 'Your bites', '/your-bites/', 'your-bites' ),
 			array( 'Food help', '/food-help/', 'food-help' ),
@@ -595,6 +600,9 @@ function ltef_nav_groups() {
 
 /** Which nav item the current request belongs to. */
 function ltef_nav_current() {
+	if ( is_singular( 'ltef_place' ) && 'eat' !== ltef_place_kind( get_queried_object_id() ) ) {
+		return 'beyond-food';
+	}
 	if ( is_singular( 'ltef_place' ) || is_post_type_archive( 'ltef_place' ) || is_tax( array( 'ltef_area', 'ltef_craving', 'ltef_with' ) ) ) {
 		return 'explore';
 	}

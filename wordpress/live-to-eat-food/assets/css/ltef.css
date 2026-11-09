@@ -878,6 +878,16 @@ body { background: var(--lemon); }
 .special-card__when { margin: 0; }
 .special-empty { margin: 0; border: 2.5px dashed var(--olive); box-shadow: none; background: transparent; }
 
+/* Beyond food: Tina's shops, salons and days out, grouped by kind */
+.beyond-group { display: grid; gap: 14px; scroll-margin-top: 24px; }
+.beyond-group + .beyond-group { margin-top: 40px; }
+.beyond-group__h { display: grid; gap: 4px; }
+.beyond-group__h .meta { margin: 0; }
+.beyond-list { grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
+.beyond-n { margin-left: 6px; font-weight: 400; opacity: .75; }
+.explore-beyond { margin: -6px 0 14px; }
+.explore-beyond a { color: var(--basil); }
+
 /* Header navigation: top links, a grouped More panel, and a grouped Menu on phones */
 .ltef-site-nav { display: flex; align-items: center; gap: 10px 18px; }
 .site-nav a:focus-visible, .site-more summary:focus-visible, .site-drawer summary:focus-visible, .drawer-group a:focus-visible { outline: 3px solid var(--basil); outline-offset: 2px; }

@@ -22,6 +22,7 @@ function ltef_pages() {
 		'crumbs'           => array( 'Monthly Crumbs', 'live-to-eat-food/page-crumbs' ),
 		'tina'             => array( 'Tina', 'live-to-eat-food/page-tina' ),
 		'daily-deals'      => array( 'Daily deals', 'live-to-eat-food/page-daily-deals' ),
+		'beyond-food'      => array( 'Beyond food', 'live-to-eat-food/page-beyond-food' ),
 		'your-bites'       => array( 'Your bites', 'live-to-eat-food/page-your-bites' ),
 	);
 }
@@ -44,7 +45,7 @@ function ltef_setup_page() {
 	};
 	$btn( 'pages', 'Create the pages', 'Home, Guides, Roulette, Food help, Send something in, Work with Tina and the rest, filled from the theme’s patterns. Pages that already exist are left alone.' );
 	$data = json_decode( (string) file_get_contents( LTEF_DIR . 'data/places.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-	$btn( 'places', 'Import Tina’s places and videos', sprintf( '%d places, %d guides and %d round-ups from her public posts, plus her other videos from places already here. Anything already on the site is left as it is, so it’s safe to press again after an update.', count( $data['places'] ?? array() ), count( $data['guides'] ?? array() ), count( $data['roundups'] ?? array() ) ) . ( ! empty( $data['specials'] ) ? sprintf( ' Also %d weekly deals for Daily deals.', count( $data['specials'] ) ) : '' ) );
+	$btn( 'places', 'Import Tina’s places and videos', sprintf( '%d places, %d guides and %d round-ups from her public posts, plus her other videos from places already here. Anything already on the site is left as it is, so it’s safe to press again after an update.', count( $data['places'] ?? array() ), count( $data['guides'] ?? array() ), count( $data['roundups'] ?? array() ) ) . ( ! empty( $data['specials'] ) ? sprintf( ' Also %d weekly deals for Daily deals.', count( $data['specials'] ) ) : '' ) . ( ! empty( $data['partners'] ) ? sprintf( ' And Tina’s %d partner codes for Woo-pons.', count( $data['partners'] ) ) : '' ) );
 	$btn( 'samples', 'Add labeled samples', 'A few sample Woo-pons, events and jobs so the pages aren’t empty while you build. Delete them before launch.' );
 	$btn( 'refresh', 'Refresh the built-in pages', 'Replaces Food help, Send something in, Work with Tina and the other built-in pages with the theme’s latest version (live prices included). Edits you made to those pages are replaced; the old versions stay under each page’s Revisions.' );
 	echo '</div>';
@@ -303,6 +304,22 @@ function ltef_import_places() {
 		update_post_meta( $sid, 'ltef_checked', $d['checked'] ?? '' );
 		++$sp;
 	}
+	// Tina's partner codes (Lensmart and the rest): added once, then left alone so edits and deletions stick.
+	$pc = 0;
+	foreach ( $data['partners'] ?? array() as $w ) {
+		if ( get_page_by_path( $w['id'], OBJECT, 'ltef_woopon' ) ) {
+			continue;
+		}
+		$wid = wp_insert_post( array( 'post_type' => 'ltef_woopon', 'post_status' => 'publish', 'post_title' => $w['off'], 'post_name' => $w['id'] ) );
+		if ( is_wp_error( $wid ) || ! $wid ) {
+			continue;
+		}
+		$meta = array( 'kind' => 'online', 'tier' => 'partner', 'start' => '', 'end' => '' ) + array_diff_key( $w, array_flip( array( 'id', 'off' ) ) );
+		foreach ( $meta as $k => $v ) {
+			update_post_meta( $wid, 'ltef_' . $k, $v );
+		}
+		++$pc;
+	}
 	// The Daily deals page gets the week list if it doesn't have it yet.
 	$deals_page = get_page_by_path( 'daily-deals' );
 	if ( $deals_page && false === strpos( $deals_page->post_content, 'wp:ltef/daily-deals' ) ) {
@@ -312,7 +329,7 @@ function ltef_import_places() {
 		$content = false === $at ? $week . $content : substr( $content, 0, $at + 18 ) . "\n\n" . $week . substr( $content, $at + 18 );
 		wp_update_post( array( 'ID' => $deals_page->ID, 'post_content' => wp_slash( $content ) ) );
 	}
-	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly %s added.', $sp, 1 === $sp ? 'deal' : 'deals' ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
+	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly %s added.', $sp, 1 === $sp ? 'deal' : 'deals' ) : '' ) . ( $pc ? sprintf( ' %d partner %s added to Woo-pons.', $pc, 1 === $pc ? 'code' : 'codes' ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
 }
 
 function ltef_add_samples() {
@@ -324,7 +341,6 @@ function ltef_add_samples() {
 		array( '$5 off', array( 'business' => '[Sample] Pizza place', 'kind' => 'food', 'tier' => 'vip', 'area_text' => 'Canal District', 'code' => 'WOO-1042', 'start' => $today, 'end' => $plus( 28 ), 'exclusions' => 'Delivery apps, other offers', 'fine' => 'Two large pies or more · Show the code before you pay' ) ),
 		array( 'Free boba', array( 'business' => '[Sample] Tea shop', 'kind' => 'food', 'tier' => 'weekly', 'area_text' => 'Main South', 'code' => 'WOO-2290', 'start' => $today, 'end' => $plus( 42 ), 'exclusions' => 'Seasonal drinks', 'fine' => 'With any entrée · Weekdays' ) ),
 		array( '$5 off a cut', array( 'business' => '[Sample] Barbershop', 'kind' => 'service', 'tier' => 'free', 'area_text' => 'Main South', 'code' => 'WOO-6104', 'start' => $today, 'end' => $plus( 14 ), 'exclusions' => 'Kids’ cuts, beard trims', 'fine' => 'First visit only' ) ),
-		array( '15% off', array( 'business' => 'Lensmart', 'kind' => 'online', 'tier' => 'partner', 'code' => 'LTEF', 'start' => $today, 'end' => '', 'exclusions' => '', 'fine' => 'Glasses and sunglasses, at checkout on lensmartonline.com', 'shop_url' => 'https://www.lensmartonline.com/?lenid=fx_wh_LTEF' ) ),
 	);
 	foreach ( $woopons as $w ) {
 		$id = wp_insert_post( array( 'post_type' => 'ltef_woopon', 'post_status' => 'publish', 'post_title' => $w[0] ) );
@@ -353,5 +369,5 @@ function ltef_add_samples() {
 			update_post_meta( $id, 'ltef_' . $k, $v );
 		}
 	}
-	return 'Samples added: 4 Woo-pons, 3 events, 2 jobs. Each is marked [Sample]; delete them before launch.';
+	return 'Samples added: 3 Woo-pons, 3 events, 2 jobs. Each is marked [Sample]; delete them before launch.';
 }
