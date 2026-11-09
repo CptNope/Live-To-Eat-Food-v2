@@ -28,6 +28,18 @@ function ltef_settings() {
 	return wp_parse_args( is_array( $saved ) ? $saved : array(), $defaults );
 }
 
+/** A comma-separated list of email addresses, cleaned: "a@b.c, d@e.f". Invalid ones are dropped. */
+function ltef_email_list( $raw ) {
+	$out = array();
+	foreach ( preg_split( '/[\s,;]+/', (string) $raw ) as $e ) {
+		$e = sanitize_email( $e );
+		if ( is_email( $e ) && ! in_array( strtolower( $e ), array_map( 'strtolower', $out ), true ) ) {
+			$out[] = $e;
+		}
+	}
+	return implode( ', ', $out );
+}
+
 function ltef_setting( $key ) {
 	$s = ltef_settings();
 	return isset( $s[ $key ] ) ? $s[ $key ] : null;

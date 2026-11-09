@@ -139,7 +139,7 @@ function ltef_register_settings() {
 						$out[ $k ] = max( 0, (float) $in[ $k ] );
 					}
 				}
-				$out['notify_email']   = sanitize_email( $in['notify_email'] ?? '' );
+				$out['notify_email']   = ltef_email_list( $in['notify_email'] ?? '' );
 				$out['dont_work_with'] = sanitize_textarea_field( $in['dont_work_with'] ?? '' );
 				return $out;
 			},
@@ -155,7 +155,7 @@ function ltef_settings_page() {
 	$num = function ( $k, $label, $help ) use ( $s ) {
 		printf( '<tr><th scope="row"><label for="ltef-%1$s">%2$s</label></th><td><input type="number" step="1" min="0" id="ltef-%1$s" name="ltef_settings[%1$s]" value="%3$s" class="small-text"> <span class="description">%4$s</span></td></tr>', esc_attr( $k ), esc_html( $label ), esc_attr( $s[ $k ] ), esc_html( $help ) );
 	};
-	printf( '<tr><th scope="row"><label for="ltef-notify">Send new submissions to</label></th><td><input type="email" id="ltef-notify" name="ltef_settings[notify_email]" value="%s" class="regular-text"></td></tr>', esc_attr( $s['notify_email'] ) );
+	printf( '<tr><th scope="row"><label for="ltef-notify">Send new submissions to</label></th><td><input type="text" id="ltef-notify" name="ltef_settings[notify_email]" value="%s" class="large-text" autocomplete="off"><p class="description">One or more addresses, separated by commas. Everyone here gets each new submission.</p></td></tr>', esc_attr( $s['notify_email'] ) );
 	$num( 'reply_days', 'Reply within (days)', 'The site promises this.' );
 	echo '<tr><th scope="row">Prices</th><td><a href="' . esc_url( admin_url( 'admin.php?page=ltef-money&tab=settings' ) ) . '">Edit prices under Money</a></td></tr>';
 	printf( '<tr><th scope="row"><label for="ltef-dww">Don’t-work-with list</label></th><td><textarea id="ltef-dww" name="ltef_settings[dont_work_with]" rows="6" class="large-text">%s</textarea><p class="description"><strong>Private.</strong> One business per line. Never shown on the site; submissions that match are flagged in the review queue.</p></td></tr>', esc_textarea( $s['dont_work_with'] ) );
