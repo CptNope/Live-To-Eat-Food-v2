@@ -91,7 +91,9 @@ On WordPress 6.8.3 (SQLite), from the zips, on a fresh install: every page retur
 
 ## Daily deals
 
-Weekly specials live under **Places → Daily deals**: pick the place, tick the days, write the deal in a few words, and say where it comes from (Tina's post, the place, or a reader checked with the place). The Daily deals page lists them Monday to Sunday with today marked, and each place's "Before you go" box shows its weekly deals. The import adds the ones Tina mentions in her videos.
+Weekly specials live under **Places → Daily deals**: pick the place, tick the days, write the deal in a few words, and say where it comes from (Tina's post, the place, or a reader checked with the place). The Daily deals page lists them Monday to Sunday with today marked, and each place's "Before you go" box shows its weekly deals. The import adds the ones Tina mentions in her videos and the ones places post themselves, and pressing it again brings deals it added up to date with the data. A deal someone has edited by hand under Places → Daily deals is left alone.
+
+Last fact-checked November 9, 2026 against Tina's videos and each place's own website, Facebook or Instagram: Antonio's Monday deals (online ordering menu), Volturno's Monday/Tuesday BOGO and The Fix's Wagyu Hot Dog Thursdays (their Facebook), 'Olo's Tuesday wings and slices (their Facebook, June), Oshare's all-you-can-eat prices (their Facebook) and VIA's $19.99 entrées (their website). Antonio's Tuesday Pasta Madness, La Scala's Wednesday chicken night and Chashu's Wednesday three courses rest on Tina's videos (June to October 2026).
 
 ## Partner codes and referral links
 

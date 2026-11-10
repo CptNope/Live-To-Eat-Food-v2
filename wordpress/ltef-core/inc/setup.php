@@ -282,27 +282,54 @@ function ltef_import_places() {
 		);
 		++$r;
 	}
-	// Weekly deals from her posts. A deal already here (by its id) is left as it is.
+	// Weekly deals from her posts and from the places themselves. A deal the importer added is kept in step
+	// with the data; once someone edits it by hand in the admin, it's left as they made it.
 	$sp = 0;
+	$su = 0;
 	foreach ( $data['specials'] ?? array() as $d ) {
 		$place = isset( $ids[ $d['place'] ] ) ? $ids[ $d['place'] ] : ( get_page_by_path( $d['place'], OBJECT, 'ltef_place' ) ? get_page_by_path( $d['place'], OBJECT, 'ltef_place' )->ID : 0 );
-		if ( ! $place || get_page_by_path( $d['id'], OBJECT, 'ltef_special' ) ) {
+		if ( ! $place ) {
 			continue;
 		}
-		$sid = wp_insert_post( array( 'post_type' => 'ltef_special', 'post_status' => 'publish', 'post_title' => get_the_title( $place ) . ': ' . $d['deal'], 'post_name' => $d['id'] ) );
-		if ( ! $sid || is_wp_error( $sid ) ) {
-			continue;
+		$want = array(
+			'deal'       => $d['deal'],
+			'details'    => $d['details'] ?? '',
+			'days'       => array_values( $d['days'] ),
+			'source'     => $d['source'] ?? 'tina',
+			'source_url' => $d['url'] ?? '',
+			'checked'    => $d['checked'] ?? '',
+		);
+		$old = get_page_by_path( $d['id'], OBJECT, 'ltef_special' );
+		if ( $old ) {
+			$stored = get_post_meta( $old->ID, 'ltef_import_hash', true );
+			$now    = md5( wp_json_encode( ltef_special_import_fields( $old->ID ) ) );
+			if ( ( $stored && $stored !== $now ) || md5( wp_json_encode( $want ) ) === $now ) {
+				continue; // edited by hand, or already up to date
+			}
+			$sid = $old->ID;
+			wp_update_post( array( 'ID' => $sid, 'post_title' => get_the_title( $place ) . ': ' . $d['deal'] ) );
+			++$su;
+		} else {
+			$sid = wp_insert_post( array( 'post_type' => 'ltef_special', 'post_status' => 'publish', 'post_title' => get_the_title( $place ) . ': ' . $d['deal'], 'post_name' => $d['id'] ) );
+			if ( ! $sid || is_wp_error( $sid ) ) {
+				continue;
+			}
+			++$sp;
 		}
 		update_post_meta( $sid, 'ltef_place', $place );
-		update_post_meta( $sid, 'ltef_deal', $d['deal'] );
-		update_post_meta( $sid, 'ltef_details', $d['details'] ?? '' );
-		foreach ( $d['days'] as $day ) {
-			update_post_meta( $sid, 'ltef_day_' . $day, true );
+		update_post_meta( $sid, 'ltef_deal', $want['deal'] );
+		update_post_meta( $sid, 'ltef_details', $want['details'] );
+		foreach ( ltef_weekdays() as $day => $label ) {
+			if ( in_array( $day, $want['days'], true ) ) {
+				update_post_meta( $sid, 'ltef_day_' . $day, true );
+			} else {
+				delete_post_meta( $sid, 'ltef_day_' . $day );
+			}
 		}
-		update_post_meta( $sid, 'ltef_source', $d['source'] ?? 'tina' );
-		update_post_meta( $sid, 'ltef_source_url', $d['url'] ?? '' );
-		update_post_meta( $sid, 'ltef_checked', $d['checked'] ?? '' );
-		++$sp;
+		update_post_meta( $sid, 'ltef_source', $want['source'] );
+		update_post_meta( $sid, 'ltef_source_url', $want['source_url'] );
+		update_post_meta( $sid, 'ltef_checked', $want['checked'] );
+		update_post_meta( $sid, 'ltef_import_hash', md5( wp_json_encode( ltef_special_import_fields( $sid ) ) ) );
 	}
 	// Tina's partner codes (Lensmart and the rest): added once, then left alone so edits and deletions stick.
 	$pc = 0;
@@ -329,7 +356,7 @@ function ltef_import_places() {
 		$content = false === $at ? $week . $content : substr( $content, 0, $at + 18 ) . "\n\n" . $week . substr( $content, $at + 18 );
 		wp_update_post( array( 'ID' => $deals_page->ID, 'post_content' => wp_slash( $content ) ) );
 	}
-	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly %s added.', $sp, 1 === $sp ? 'deal' : 'deals' ) : '' ) . ( $pc ? sprintf( ' %d partner %s added to Woo-pons.', $pc, 1 === $pc ? 'code' : 'codes' ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
+	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly %s added.', $sp, 1 === $sp ? 'deal' : 'deals' ) : '' ) . ( $su ? sprintf( ' %d weekly %s updated.', $su, 1 === $su ? 'deal' : 'deals' ) : '' ) . ( $pc ? sprintf( ' %d partner %s added to Woo-pons.', $pc, 1 === $pc ? 'code' : 'codes' ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
 }
 
 function ltef_add_samples() {
@@ -370,4 +397,22 @@ function ltef_add_samples() {
 		}
 	}
 	return 'Samples added: 3 Woo-pons, 3 events, 2 jobs. Each is marked [Sample]; delete them before launch.';
+}
+
+/** A weekly deal's imported fields as they stand, to tell an untouched deal from one edited by hand. */
+function ltef_special_import_fields( $sid ) {
+	$days = array();
+	foreach ( array_keys( ltef_weekdays() ) as $day ) {
+		if ( get_post_meta( $sid, 'ltef_day_' . $day, true ) ) {
+			$days[] = $day;
+		}
+	}
+	return array(
+		'deal'       => (string) get_post_meta( $sid, 'ltef_deal', true ),
+		'details'    => (string) get_post_meta( $sid, 'ltef_details', true ),
+		'days'       => $days,
+		'source'     => (string) get_post_meta( $sid, 'ltef_source', true ),
+		'source_url' => (string) get_post_meta( $sid, 'ltef_source_url', true ),
+		'checked'    => (string) get_post_meta( $sid, 'ltef_checked', true ),
+	);
 }
