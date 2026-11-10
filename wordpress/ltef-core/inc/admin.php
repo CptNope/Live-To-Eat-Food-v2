@@ -37,7 +37,9 @@ function ltef_review_page() {
 	echo '<div class="wrap ltef-review"><h1>Waiting for Tina</h1>';
 	echo '<p>Everything people send in waits here. Nothing goes on the site until it’s approved. Aim to reply within ' . (int) ltef_setting( 'reply_days' ) . ' days: the site promises that.</p>';
 	if ( $done ) {
-		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( 'approved' === $done ? 'Approved. It’s live now (messages are marked done).' : 'Declined and moved to the trash. It can be restored from there.' ) . '</p></div>';
+		$note = isset( $_GET['ltef_note'] ) ? sanitize_text_field( rawurldecode( wp_unslash( $_GET['ltef_note'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$text = array( 'approved' => 'Approved. It’s live now (messages are marked done).', 'waiting' => 'Not live yet.' )[ $done ] ?? 'Declined and moved to the trash. It can be restored from there. Any card hold was released.';
+		echo '<div class="notice notice-' . ( 'waiting' === $done ? 'warning' : 'success' ) . ' is-dismissible"><p>' . esc_html( trim( $text . ' ' . $note ) ) . '</p></div>';
 	}
 	if ( ! $items ) {
 		echo '<p><strong>All caught up.</strong></p></div>';
@@ -63,6 +65,10 @@ function ltef_review_page() {
 		}
 		if ( 'ltef_job' === $p->post_type ) {
 			$flags[] = 'Job post: ' . esc_html( ltef_money( ltef_setting( 'job_post' ) ) ) . ' a month';
+		}
+		$payflag = function_exists( 'ltef_pay_flag' ) ? ltef_pay_flag( $p->ID ) : '';
+		if ( $payflag ) {
+			$flags[] = $payflag; // built from fixed strings and an amount
 		}
 		$photo = (int) get_post_meta( $p->ID, 'ltef_photo', true );
 		if ( $photo ) {
@@ -105,9 +111,18 @@ function ltef_handle_review() {
 		wp_die( 'Not allowed.' );
 	}
 	$do = isset( $_REQUEST['do'] ) ? sanitize_key( wp_unslash( $_REQUEST['do'] ) ) : '';
+	$note = '';
 	if ( 'approve' === $do ) {
-		wp_update_post( array( 'ID' => $id, 'post_status' => 'publish' ) );
+		list( $publish, $note ) = function_exists( 'ltef_stripe_on_approve' ) ? ltef_stripe_on_approve( $id ) : array( true, '' );
+		if ( $publish ) {
+			wp_update_post( array( 'ID' => $id, 'post_status' => 'publish' ) );
+		} else {
+			$do = 'waiting';
+		}
 	} elseif ( 'decline' === $do ) {
+		if ( function_exists( 'ltef_stripe_on_decline' ) ) {
+			ltef_stripe_on_decline( $id );
+		}
 		$why = isset( $_POST['why'] ) ? sanitize_text_field( wp_unslash( $_POST['why'] ) ) : '';
 		update_post_meta( $id, 'ltef_declined_why', $why );
 		if ( ! empty( $_POST['block'] ) ) {
@@ -121,7 +136,7 @@ function ltef_handle_review() {
 		}
 		wp_trash_post( $id );
 	}
-	wp_safe_redirect( admin_url( 'admin.php?page=ltef-review&ltef_done=' . ( 'approve' === $do ? 'approved' : 'declined' ) ) );
+	wp_safe_redirect( add_query_arg( array( 'ltef_done' => array( 'approve' => 'approved', 'waiting' => 'waiting' )[ $do ] ?? 'declined', 'ltef_note' => rawurlencode( $note ) ), admin_url( 'admin.php?page=ltef-review' ) ) );
 	exit;
 }
 

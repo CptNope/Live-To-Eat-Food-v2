@@ -14,6 +14,7 @@ function ltef_forms() {
 	$s     = ltef_settings();
 	$weekly = ltef_money( $s['woopon_weekly'] );
 	$vip   = ltef_money( $s['woopon_vip'] );
+	$cards = function_exists( 'ltef_stripe_on' ) && ltef_stripe_on();
 	$contact_opts = array(
 		''         => 'Pick one',
 		'home'     => 'Ad spot: home page',
@@ -36,7 +37,7 @@ function ltef_forms() {
 			'title'  => 'Send a Woo-pon',
 			'intro'  => 'Every field shows on the ticket except your phone, email and flyer.',
 			'button' => 'Send the Woo-pon',
-			'note'   => 'Sent to Tina for review. Nothing goes live until she approves it.',
+			'note'   => $cards ? 'Sent to Tina for review. For a weekly or VIP Woo-pon, Stripe asks for a card next and holds the amount: you’re only charged if Tina approves it. The free trial needs no card.' : 'Sent to Tina for review. Nothing goes live until she approves it.',
 			'fields' => array(
 				array( 'business', 'Business name', 'text', true, '' ),
 				array( 'deal', 'The deal', 'text', true, 'For example: $5 off two large pies, or a free side with any bowl.' ),
@@ -64,14 +65,14 @@ function ltef_forms() {
 				array( 'price', 'Price', 'text', false, 'Free, $35, pay your own way…' ),
 				array( 'about', 'What it is', 'textarea', false, 'Two lines is plenty.' ),
 				array( 'link', 'Link for details or tickets', 'url', false, '' ),
-				array( 'tier', 'Listing', 'select', true, 'We confirm the price by email before anything is charged.', array( 'free' => 'Free listing', 'premium' => 'Premium listing: ' . ltef_money( $s['event_premium'] ) . ' a month' ) ),
+				array( 'tier', 'Listing', 'select', true, $cards ? 'Premium: Stripe asks for a card next and only charges it if Tina approves the listing.' : 'We confirm the price by email before anything is charged.', array( 'free' => 'Free listing', 'premium' => 'Premium listing: ' . ltef_money( $s['event_premium'] ) . ' a month' ) ),
 				array( 'phone', 'Phone to contact', 'tel', false, 'Only if we need to check a detail. Never shown.' ),
 				array( 'email', 'Your email', 'email', true, 'Only to ask about the event. Never shown.' ),
 			),
 		),
 		'job'     => array(
 			'title'  => 'Post a job',
-			'intro'  => 'Restaurants and food businesses around Worcester and Central Mass. ' . ltef_money( $s['job_post'] ) . ' a month; we confirm by email before anything is charged.',
+			'intro'  => 'Restaurants and food businesses around Worcester and Central Mass. ' . ltef_money( $s['job_post'] ) . ' a month. ' . ( $cards ? 'Stripe asks for a card next and only charges it if Tina approves the post.' : 'We confirm by email before anything is charged.' ),
 			'button' => 'Post the job',
 			'fields' => array(
 				array( 'business', 'Business', 'text', true, '' ),
@@ -80,6 +81,7 @@ function ltef_forms() {
 				array( 'hours_type', 'Hours', 'select', true, '', array( '' => 'Pick one', 'ft' => 'Full-time', 'pt' => 'Part-time', 'seasonal' => 'Seasonal' ) ),
 				array( 'pay', 'Pay', 'text', false, 'A range helps people apply.' ),
 				array( 'how', 'How to apply', 'text', true, 'An email, a link or “walk in Tuesday 2–4pm”.' ),
+				array( 'months', 'How long', 'select', true, '', array( '1' => '1 month: ' . ltef_money( $s['job_post'] ), '2' => '2 months: ' . ltef_money( 2 * $s['job_post'] ), '3' => '3 months: ' . ltef_money( 3 * $s['job_post'] ) ) ),
 				array( 'phone', 'Phone to contact', 'tel', true, 'Only to check the post. Never shown.' ),
 				array( 'email', 'Email', 'email', true, 'Never shown.' ),
 			),
@@ -169,6 +171,13 @@ function ltef_block_submit_form( $attrs ) {
 		$days = (int) ltef_setting( 'reply_days' );
 		if ( 'signup' === $key ) {
 			return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">You’re on the list for Monthly Crumbs.</p><p>The next one lands on the first Sunday of the month.</p></div>' );
+		}
+		$card = isset( $_GET['ltef_card'] ) ? sanitize_key( wp_unslash( $_GET['ltef_card'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( '1' === $card ) {
+			return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Sent, and your card is on hold.</p><p>You’re only charged if Tina approves it, usually within ' . esc_html( $days ) . ' days. If she doesn’t, the hold is released and nothing is charged.</p></div>' );
+		}
+		if ( '0' === $card ) {
+			return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Sent, without a card.</p><p>That’s fine. Tina reads everything, usually within ' . esc_html( $days ) . ' days, and if she approves it we’ll email you a link to pay. It goes up once it’s paid.</p></div>' );
 		}
 		return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Sent. Thank you.</p><p>Tina reads everything, usually within ' . esc_html( $days ) . ' days. Nothing goes up until she approves it.</p></div>' );
 	}
@@ -322,7 +331,7 @@ function ltef_handle_submit() {
 		case 'job':
 			$type  = 'ltef_job';
 			$title = $v['role'];
-			$meta  = array( 'business' => $v['business'], 'job_kind' => $v['job_kind'], 'hours_type' => $v['hours_type'], 'pay' => $v['pay'], 'how_to_apply' => $v['how'], 'until' => wp_date( 'Y-m-d', strtotime( '+1 month' ) ), 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
+			$meta  = array( 'business' => $v['business'], 'job_kind' => $v['job_kind'], 'hours_type' => $v['hours_type'], 'pay' => $v['pay'], 'how_to_apply' => $v['how'], 'until' => wp_date( 'Y-m-d', strtotime( '+' . max( 1, min( 3, (int) ( $v['months'] ?? 1 ) ) ) . ' month' ) ), 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
 			break;
 		default:
 			$type   = 'ltef_submission';
@@ -381,6 +390,12 @@ function ltef_handle_submit() {
 			$lines[] = ucfirst( str_replace( '_', ' ', $k ) ) . ': ' . ( is_bool( $val ) ? ( $val ? 'yes' : 'no' ) : $val );
 		}
 		wp_mail( $to, 'New for review: ' . wp_strip_all_tags( $title ), implode( "\n", $lines ) . "\n\nReview it: " . admin_url( 'admin.php?page=ltef-review' ) );
+	}
+	// Paid forms: on to Stripe for the card hold (nothing is charged until Tina approves).
+	$pay_url = function_exists( 'ltef_stripe_hold_url' ) ? ltef_stripe_hold_url( $key, $post_id, $v, $back ) : '';
+	if ( $pay_url ) {
+		wp_redirect( $pay_url ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Stripe's checkout page
+		exit;
 	}
 	wp_safe_redirect( add_query_arg( 'ltef_sent', $key, $back ) . '#ltef-' . $key );
 	exit;
