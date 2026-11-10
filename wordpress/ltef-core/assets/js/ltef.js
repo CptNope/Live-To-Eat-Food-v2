@@ -5,21 +5,60 @@
 	function $$( sel, root ) { return Array.prototype.slice.call( ( root || document ).querySelectorAll( sel ) ); }
 
 	// Tina's video: a still until pressed, then the best copy's own player in place (the server picks it).
+	// TikTok's player says when it's ready; if it doesn't (TikTok busy, blocked on the network, or the
+	// video gone), switch to another copy when there is one, or offer the video on TikTok and a retry.
 	var hosts = /^https:\/\/www\.(youtube-nocookie\.com|instagram\.com|facebook\.com|tiktok\.com)\//;
 	$$( '.tt' ).forEach( function ( box ) {
 		var btn = box.querySelector( '.tt-play' ), src = box.getAttribute( 'data-embed' );
 		if ( ! btn || ! src || ! hosts.test( src ) ) return;
-		btn.addEventListener( 'click', function () {
+		var alt = box.getAttribute( 'data-alt' ) || '', url = box.getAttribute( 'data-url' ) || '', label = box.getAttribute( 'data-label' ) || 'TikTok';
+		function frame( s ) {
 			var f = document.createElement( 'iframe' );
-			f.src = src;
+			f.src = s;
 			f.title = box.getAttribute( 'data-title' ) || 'Tina’s video';
 			f.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
 			f.setAttribute( 'allowfullscreen', '' );
 			f.className = 'tt-frame';
 			box.innerHTML = '';
 			box.appendChild( f );
-			f.focus();
-		} );
+			if ( /^https:\/\/www\.tiktok\.com\//.test( s ) ) watch( f );
+			return f;
+		}
+		function failed() {
+			if ( alt && hosts.test( alt ) ) { var a = alt; alt = ''; frame( a ); return; }
+			var panel = document.createElement( 'div' );
+			panel.className = 'tt-fail';
+			panel.setAttribute( 'role', 'status' );
+			panel.innerHTML = '<p><b>' + label + ' didn’t load the video here.</b> It happens when ' + label + ' is busy or blocked on your network.</p>';
+			if ( url ) {
+				var go = document.createElement( 'a' );
+				go.className = 'ltef-btn ltef-btn--sm'; go.href = url; go.target = '_blank'; go.rel = 'noopener';
+				go.textContent = 'Watch it on ' + label;
+				panel.appendChild( go );
+			}
+			var again = document.createElement( 'button' );
+			again.type = 'button'; again.className = 'tt-again'; again.textContent = 'Try again';
+			again.addEventListener( 'click', function () { frame( src ).focus(); } );
+			panel.appendChild( again );
+			box.appendChild( panel );
+		}
+		function watch( f ) {
+			var done = false;
+			var timer = setTimeout( function () { if ( ! done ) { done = true; window.removeEventListener( 'message', hear ); failed(); } }, 9000 );
+			function hear( e ) {
+				if ( e.origin !== 'https://www.tiktok.com' || e.source !== f.contentWindow ) return;
+				var d = e.data;
+				if ( typeof d === 'string' ) { try { d = JSON.parse( d ); } catch ( x ) { return; } }
+				if ( ! d || ! d[ 'x-tiktok-player' ] ) return;
+				if ( d.type === 'onPlayerReady' || ( d.type === 'onStateChange' && d.value === 1 ) ) {
+					done = true; clearTimeout( timer ); window.removeEventListener( 'message', hear );
+				} else if ( d.type === 'onPlayerError' && d.value && [ 1001, 2001, 3001 ].indexOf( Number( d.value.errorCode ) ) > -1 ) {
+					done = true; clearTimeout( timer ); window.removeEventListener( 'message', hear ); failed();
+				}
+			}
+			window.addEventListener( 'message', hear );
+		}
+		btn.addEventListener( 'click', function () { frame( src ).focus(); } );
 	} );
 
 	// Chip groups that filter a list by data attributes (Woo-pons, jobs).

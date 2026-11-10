@@ -173,7 +173,7 @@ function ltef_video_box( $sources, $o ) {
 	$photo  = 'instagram' === $main['platform'] && false !== strpos( $main['url'], '/p/' );
 	$handle = 'instagram' === $main['platform'] ? '@livetoeatfood' : '@livetoeatfoodie';
 	$box   = sprintf(
-		'<div class="tt%1$s%2$s" data-embed="%3$s" data-title="%4$s" style="background: var(--%5$s);">%6$s<a class="tt-out" href="%7$s" target="_blank" rel="noopener">%8$s<span class="vh"> (opens %9$s)</span></a>%10$s<span class="tt-cap" aria-hidden="true"><b>%13$s%11$s</b><span>%12$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>',
+		'<div class="tt%1$s%2$s" data-embed="%3$s" data-title="%4$s" data-platform="%14$s" data-url="%7$s" data-label="%9$s" data-alt="%15$s" style="background: var(--%5$s);">%6$s<a class="tt-out" href="%7$s" target="_blank" rel="noopener">%8$s<span class="vh"> (opens %9$s)</span></a>%10$s<span class="tt-cap" aria-hidden="true"><b>%13$s%11$s</b><span>%12$s</span></span><span class="tt-bar" aria-hidden="true"></span></div>',
 		$o['cover'] ? ' tt--cover' : '',
 		$o['small'] ? ' tt--sm' : '',
 		esc_url( $main['embed'] ),
@@ -186,7 +186,9 @@ function ltef_video_box( $sources, $o ) {
 		$play,
 		$month ? ' · ' . esc_html( $month ) : '',
 		esc_html( $cap ),
-		esc_html( $handle )
+		esc_html( $handle ),
+		esc_attr( $main['platform'] ),
+		esc_url( isset( $sources[1] ) && $sources[1]['embed'] ? $sources[1]['embed'] : '' )
 	);
 	if ( $o['small'] ) {
 		return $box;
