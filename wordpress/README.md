@@ -108,3 +108,13 @@ The online section of Woo-pons shows Tina's partner codes (Woo-pons with How it 
 - **Send test** emails any address (tina@livetoeatfoodie.com by default), which checks Brevo sending and the Rackspace inbox in one go.
 
 livetoeatfoodie.com is authenticated in Brevo (DKIM, DMARC and the branded `em.` subdomain are in Cloudflare DNS). Mailboxes stay on Rackspace.
+
+## Payments (Stripe)
+
+**Review queue → Payments** connects Stripe with one secret key (Stripe: Developers → API keys). Saving it also creates the webhook in Stripe that reports payments back to the site (`/wp-json/ltef/v1/stripe`, signed and checked). Start with the test key (`sk_test_…`) and Stripe's test cards, then paste the live key.
+
+- **Paid forms** (weekly and VIP Woo-pons, premium events, job posts of 1–3 months): after the form, Stripe's checkout page takes a card and **holds** the amount. Card numbers never touch the site. The review queue shows "Card held". **Approve** charges it and puts it up; **Decline** releases the hold. The free Woo-pon trial needs no card.
+- **No card, or the hold ran out** (Stripe holds last 7 days): Approve emails a one-time Stripe pay link instead, and the listing goes up when it's paid.
+- **Custom deals** (ad spots, Monthly Crumbs ads, sponsorships, paid visits): *Send a pay link* on the Payments page with who, what and the amount.
+- **Money**: every payment is logged as income (method Stripe) with Stripe's fee as an expense. Refunds made in Stripe come in as negative income.
+- Prices come from Money → Settings. With no key saved or the switch off, the paid forms work as before (payment collected by hand).
