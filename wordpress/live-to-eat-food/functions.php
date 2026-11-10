@@ -37,6 +37,46 @@ add_action(
 	1
 );
 
+/**
+ * The sushi-roll avatar as the site icon: browser tabs, bookmarks, phone home screens.
+ * A Site Icon chosen in Settings → General takes over, as WordPress expects.
+ */
+function ltef_theme_icons() {
+	if ( has_site_icon() ) {
+		return;
+	}
+	$u = function ( $f ) {
+		return esc_url( get_theme_file_uri( 'assets/img/icons/' . $f ) . '?v=' . LTEF_THEME_VERSION );
+	};
+	echo '<link rel="icon" href="' . $u( 'favicon.ico' ) . '" sizes="48x48">' . "\n";
+	echo '<link rel="icon" href="' . $u( 'favicon.svg' ) . '" type="image/svg+xml">' . "\n";
+	echo '<link rel="icon" href="' . $u( 'favicon-32.png' ) . '" type="image/png" sizes="32x32">' . "\n";
+	echo '<link rel="apple-touch-icon" href="' . $u( 'apple-touch-icon.png' ) . '">' . "\n";
+	echo '<link rel="manifest" href="' . $u( 'site.webmanifest' ) . '">' . "\n";
+	echo '<meta name="theme-color" content="#FFE586">' . "\n";
+}
+add_action( 'wp_head', 'ltef_theme_icons', 2 );
+add_action( 'admin_head', 'ltef_theme_icons' );
+add_action( 'login_head', 'ltef_theme_icons' );
+
+/** Browsers still ask for /favicon.ico on their own; answer with the avatar instead of the WordPress logo. */
+add_action(
+	'do_faviconico',
+	function () {
+		if ( has_site_icon() ) {
+			return;
+		}
+		$file = get_theme_file_path( 'assets/img/icons/favicon.ico' );
+		if ( is_readable( $file ) ) {
+			header( 'Content-Type: image/x-icon' );
+			header( 'Cache-Control: public, max-age=604800' );
+			header( 'Content-Length: ' . filesize( $file ) );
+			readfile( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
+			exit;
+		}
+	}
+);
+
 /** Block styles that carry the brand: sheets, the alt button, panels, the lede. */
 add_action(
 	'init',
