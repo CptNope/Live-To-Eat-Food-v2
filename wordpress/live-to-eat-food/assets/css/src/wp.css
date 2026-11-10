@@ -65,6 +65,12 @@ body { background: var(--lemon); }
 .facts-panel { display: grid; gap: 20px; }
 .go-rail__h { margin: 0; font: 800 20px/1.2 var(--font-interface); color: var(--basil); }
 .tt-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+/* When a video's own player doesn't load: say so, link out, offer a retry */
+.tt-fail { position: absolute; inset: 0; z-index: 4; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 20px; text-align: center; background: var(--vinyl); color: var(--basil); font: 400 15px/1.45 var(--font-interface); }
+.tt-fail p { margin: 0; max-width: 26ch; }
+.tt-again { min-height: 44px; padding: 0 14px; border: 0; background: none; color: var(--basil); font: 700 14px var(--font-interface); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.tt-again:focus-visible { outline: 3px solid var(--basil); outline-offset: 2px; border-radius: 8px; }
+.tt--sm .tt-fail { padding: 12px; gap: 8px; font-size: 13px; }
 
 /* Woo-pons, events, jobs */
 .woopon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 30px; margin-top: 18px; }
