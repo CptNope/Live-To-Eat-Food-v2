@@ -52,6 +52,7 @@ function ltef_fields( $type ) {
 			'shop_label'  => array( 'Shop button text', 'text', 'Optional. Like “See website packages”. Blank shows “Shop” and the business name.' ),
 			'where'       => array( 'Where to use it', 'text', 'Optional. Like “At checkout on lensmartonline.com”.' ),
 			'earns'       => array( 'How Tina earns (partner codes)', 'select', 'Shown on the ticket so readers know.', array( 'commission' => 'A commission', 'referral' => 'A referral fee' ) ),
+			'connection'  => array( 'Connection to Live to Eat Food', 'text', 'Optional. One line on the ticket when the business has a tie to the site beyond the code, like “Jeremy Anderson Tech built and runs this site for Live to Eat Food.” Advertising rules ask for ties like this to be shown.' ),
 			'flyer'       => array( 'Flyer for the video', 'attachment', 'Required for VIP Woo-pons.' ),
 			'contact_phone' => array( 'Contact phone', 'tel', 'Private.', null, true ),
 			'contact_email' => array( 'Contact email', 'email', 'Private.', null, true ),
