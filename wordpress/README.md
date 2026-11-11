@@ -107,6 +107,17 @@ Last fact-checked November 9, 2026 against Tina's videos and each place's own we
 
 The online section of Woo-pons shows Tina's partner codes (Woo-pons with How it runs set to *Partner code*) and her referral shops (Amazon storefront, LCI Paper). Each says how she earns: pick *A commission* or *A referral fee* on the code. *Where to use it* and *Shop button text* are optional. Every partner link opens in a new tab with `rel="sponsored"`, and none of them appear on Roulette, guides or her picks.
 
+## Spam check (Cloudflare Turnstile)
+
+Every form on the site already has a hidden trap field, a three-second minimum and a limit of 12 sends an hour from one connection. Cloudflare Turnstile adds a check that a person is sending, usually without asking them anything (it asks for a click only when something looks off).
+
+1. In Cloudflare, open **Turnstile → Add widget**: hostname livetoeatfoodie.com, mode Managed.
+2. Paste the **site key** and **secret key** under **Review queue → Settings → Spam check** and save.
+3. When "Check it works" shows a tick, press **Save settings** again. Cloudflare confirms the keys belong together, and only then do the forms start being checked, so a wrong key can't break them.
+4. Optional: tick **Check the sign-in and lost-password pages too**. It also waits for that confirmation, so it can't lock you out.
+
+If the server can't reach Cloudflare, the forms let the message through rather than lose it, and the last error is kept in the `ltef_turnstile_last_error` option.
+
 ## Email (Brevo)
 
 **Review queue → Email** connects the site to Brevo with an API key (Brevo: SMTP & API → API keys). Once it's saved:

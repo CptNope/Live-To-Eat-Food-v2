@@ -227,6 +227,7 @@ function ltef_block_submit_form( $attrs ) {
 	$out .= '<input type="hidden" name="ltef_t" value="' . esc_attr( time() . '.' . wp_hash( time() . $key ) ) . '">';
 	$out .= '<p class="ltef-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="ltef_website" tabindex="-1" autocomplete="off"></label></p>';
 	$out .= wp_nonce_field( 'ltef_submit_' . $key, '_ltef_nonce', true, false );
+	$out .= function_exists( 'ltef_turnstile_ready' ) && ltef_turnstile_ready() ? ltef_turnstile_widget( 'form-' . $key ) : '';
 	$out .= '<button class="ltef-btn" type="submit">' . esc_html( $f['button'] ) . '</button>';
 	if ( ! empty( $f['note'] ) ) {
 		$out .= '<p class="meta" style="margin: 0; font-size: 13px;">' . esc_html( $f['note'] ) . '</p>';
@@ -259,6 +260,12 @@ function ltef_handle_submit() {
 	if ( ! empty( $_POST['ltef_website'] ) || count( $t ) !== 2 || ! hash_equals( wp_hash( $t[0] . $key ), $t[1] ) || time() - (int) $t[0] < 3 ) {
 		wp_safe_redirect( add_query_arg( 'ltef_sent', $key, $back ) . '#ltef-' . $key );
 		exit;
+	}
+	if ( function_exists( 'ltef_turnstile_ready' ) && ltef_turnstile_ready() ) {
+		$ok = ltef_turnstile_verify();
+		if ( is_wp_error( $ok ) ) {
+			$fail( $ok->get_error_message() );
+		}
 	}
 	$ip    = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 	$rkey  = 'ltef_rate_' . md5( $ip );
