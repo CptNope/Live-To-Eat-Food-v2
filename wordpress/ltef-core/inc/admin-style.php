@@ -24,23 +24,27 @@ function ltef_register_admin_scheme() {
 		array( 'base' => '#CFE3BC', 'focus' => '#FFE586', 'current' => '#1E3B2A' )
 	);
 	// Once: everyone on WordPress's default scheme moves to the site's. A choice made later in Profile sticks.
-	if ( get_option( 'ltef_admin_scheme_set' ) ) {
+	if ( get_option( 'ltef_admin_scheme_set' ) >= 2 ) {
 		return;
 	}
 	foreach ( get_users( array( 'fields' => 'ID' ) ) as $uid ) {
-		$c = get_user_meta( $uid, 'admin_color', true );
-		if ( '' === $c || 'fresh' === $c ) {
+		if ( in_array( get_user_meta( $uid, 'admin_color', true ), ltef_default_admin_schemes(), true ) ) {
 			update_user_meta( $uid, 'admin_color', 'ltef' );
 		}
 	}
-	update_option( 'ltef_admin_scheme_set', 1, false );
+	update_option( 'ltef_admin_scheme_set', 2, false );
+}
+
+/** WordPress's default scheme: "fresh" through 6.8, "modern" (labeled Default) after. */
+function ltef_default_admin_schemes() {
+	return array( '', 'fresh', 'modern' );
 }
 
 /** New accounts start on the site's scheme too. */
 add_action(
 	'user_register',
 	function ( $uid ) {
-		if ( in_array( get_user_meta( $uid, 'admin_color', true ), array( '', 'fresh' ), true ) ) {
+		if ( in_array( get_user_meta( $uid, 'admin_color', true ), ltef_default_admin_schemes(), true ) ) {
 			update_user_meta( $uid, 'admin_color', 'ltef' );
 		}
 	}

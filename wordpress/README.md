@@ -83,7 +83,7 @@ Tina's videos show a drawn still until someone presses play; nothing loads from 
 
 ## The admin
 
-The admin wears the site's colors. The plugin adds a **Live to Eat Food** color scheme (basil menu, lemon for where you are, the site's fonts) and moves everyone on WordPress's default scheme to it once; anyone can pick another under **Users → Profile → Admin Color Scheme**, and that choice sticks. The plugin's own screens (Review queue, Settings, Email, Payments, Money, Live to Eat Food setup) are laid out as white sticker panels and work on a phone: the review queue is a card per submission with Approve, Edit first and a folded Decline. The sign-in page is the lemon sheet with the wordmark. The fonts and wordmark come from the theme's folder.
+The admin wears the site's colors. The plugin adds a **Live to Eat Food** color scheme (basil menu, lemon for where you are, the site's fonts) and moves everyone on WordPress’s default scheme (Fresh, or Modern on newer WordPress, where it’s labeled Default) to it once; anyone can pick another under **Users → Profile → Admin Color Scheme**, and that choice sticks. The plugin's own screens (Review queue, Settings, Email, Payments, Money, Live to Eat Food setup) are laid out as white sticker panels and work on a phone: the review queue is a card per submission with Approve, Edit first and a folded Decline. The sign-in page is the lemon sheet with the wordmark. The fonts and wordmark come from the theme's folder.
 
 The scheme is built from WordPress's own scheme template: edit `ltef-core/assets/css/src/admin-colors.scss`, then run `ltef-core/assets/css/build-admin.sh` (needs Dart Sass and a WordPress install at `WP_CORE`, default `/tmp/wp`).
 
