@@ -291,9 +291,16 @@ function ltef_place_facts( $post_id ) {
 	$facts = array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) ltef_meta( $post_id, 'facts' ) ) ) );
 	$worth = $facts ? '<div class="facts-worth"><h3 class="h-s">Worth knowing</h3><ul class="facts-list">' . implode( '', array_map( function ( $f ) { return '<li>' . esc_html( $f ) . '</li>'; }, $facts ) ) . '</ul></div>' : '';
 	$web   = ltef_meta( $post_id, 'website' ) ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_meta( $post_id, 'website' ) ) . '" target="_blank" rel="noopener">Website<span class="vh"> (opens a new tab)</span></a>' : '';
-	return '<div class="panel facts-panel"><div style="display: grid; gap: 4px;"><h2 class="h-m" style="font-size: 30px;">Before you go</h2><p class="meta" style="margin: 0;">From public listings and Tina’s posts.</p></div>'
-		. '<div class="facts-cols"><dl class="facts-dl">' . $dl . '</dl>' . $worth . '</div>'
-		. '<div class="ltef-actions"><a class="ltef-btn ltef-btn--sm" href="' . esc_url( ltef_maps_url( get_the_title( $post_id ), $addr, $town ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' . $web . '</div></div>';
+	$menu  = ltef_meta( $post_id, 'menu' ) ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_meta( $post_id, 'menu' ) ) . '" target="_blank" rel="noopener">Menu<span class="vh"> (opens a new tab)</span></a>' : '';
+	$owned = function_exists( 'ltef_owner_emails' ) && ltef_owner_emails( $post_id );
+	$note  = $owned ? (string) ltef_meta( $post_id, 'owner_note' ) : '';
+	$from  = '' !== $note ? '<figure class="facts-owner"><figcaption class="facts-owner__by">' . ltef_icon( 'store' ) . 'From the owner</figcaption><blockquote><p>' . esc_html( $note ) . '</p></blockquote></figure>' : '';
+	$claim = $owned
+		? '<p class="meta facts-claim">The owner keeps the hours and links up to date. Something still wrong? <a href="' . esc_url( home_url( '/for-restaurants/' ) ) . '#listing">Tell us</a>.</p>'
+		: ( ltef_tina_owns( $post_id ) ? '' : '<p class="meta facts-claim">Is this your business? <a href="' . esc_url( add_query_arg( 'claim', $post_id, home_url( '/for-restaurants/' ) ) ) . '#claim">Claim this listing</a> to keep its hours, links and menu up to date. Free.</p>' );
+	return '<div class="panel facts-panel"><div style="display: grid; gap: 4px;"><h2 class="h-m" style="font-size: 30px;">Before you go</h2><p class="meta" style="margin: 0;">' . ( $owned ? 'From the owner, public listings and Tina’s posts.' : 'From public listings and Tina’s posts.' ) . '</p></div>'
+		. '<div class="facts-cols"><dl class="facts-dl">' . $dl . '</dl>' . $worth . '</div>' . $from
+		. '<div class="ltef-actions"><a class="ltef-btn ltef-btn--sm" href="' . esc_url( ltef_maps_url( get_the_title( $post_id ), $addr, $town ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' . $web . $menu . '</div>' . $claim . '</div>';
 }
 
 /* ------------------------------------------------------------------ Daily deals */

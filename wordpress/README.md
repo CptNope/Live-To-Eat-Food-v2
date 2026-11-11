@@ -87,6 +87,14 @@ The admin wears the site's colors. The plugin adds a **Live to Eat Food** color 
 
 The scheme is built from WordPress's own scheme template: edit `ltef-core/assets/css/src/admin-colors.scss`, then run `ltef-core/assets/css/build-admin.sh` (needs Dart Sass and a WordPress install at `WP_CORE`, default `/tmp/wp`).
 
+## Owners update their own listing
+
+Any place can be claimed from its page (“Is this your business? Claim this listing”) or from **For restaurants → Claim your listing**. The claim lands in the review queue with the place it names and the listing’s phone number: Tina calls that number, then approves. Approving adds the owner’s email to the place and emails them a sign-in link.
+
+- **Signing in:** no password, account or cookie. On For restaurants → Update your listing, an approved owner enters their email and gets a link that works for two hours. The page always answers the same way, so it can’t be used to find out who owns what. Links are rate-limited per email and per connection, and the page they open is never cached, indexed or sent as a referrer.
+- **What owners can change:** phone, website, menu link, hours (saving marks them checked today) and a note of up to 280 characters shown as “From the owner.” Never Tina’s line, verdict, videos or labels.
+- **Changes go live right away.** Tina gets an email listing each change, and the place’s **Owners** box (on its edit screen) keeps a log with **Undo** for the newest change to each field. The same box adds or removes owner emails, for example when someone claims a place by phone.
+
 ## Tina's own business
 
 Tick **Tina’s own business** on a place she owns (Tinaesthetics by Dr. Vo is the first). It's in the import data too. The place then shows a hatched "Tina’s own business" label everywhere it appears, its page says so in words and links the Editorial policy, and it never shows a verdict. FTC advertising rules ask creators to disclose a business they own; the same goes in her videos about it (said and on screen), which the site can't do for her.

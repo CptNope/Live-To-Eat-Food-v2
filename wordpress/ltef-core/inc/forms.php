@@ -107,6 +107,19 @@ function ltef_forms() {
 				array( 'email', 'Email', 'email', true, '' ),
 			),
 		),
+		'claim'   => array(
+			'title'  => 'Tell us it’s yours',
+			'intro'  => 'Keep your phone, website, menu link and hours up to date yourself, and add a short note from you. Free, like every listing.',
+			'button' => 'Send my claim',
+			'note'   => 'Tina confirms it’s yours by calling the number on your listing, usually within ' . (int) $s['reply_days'] . ' days. Then we email you a sign-in link. No password, no account.',
+			'fields' => array(
+				array( 'place', 'Your business', 'text', true, 'Start typing and pick it from the list. Not on the site yet? Use “Fix my listing” below.' ),
+				array( 'name', 'Your name', 'text', true, '' ),
+				array( 'role', 'Your role', 'text', false, 'Owner, manager, chef…' ),
+				array( 'phone', 'Your phone', 'tel', true, 'In case Tina needs to reach you. Never shown.' ),
+				array( 'email', 'Email', 'email', true, 'Your sign-in links go here. Never shown.' ),
+			),
+		),
 		'special' => array(
 			'title'  => 'Send a special',
 			'intro'  => 'A weekly special or a new dish: tell us the place, the day and the deal. Owners add their own, free.',
@@ -182,6 +195,8 @@ function ltef_block_submit_form( $attrs ) {
 		return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Sent. Thank you.</p><p>Tina reads everything, usually within ' . esc_html( $days ) . ' days. Nothing goes up until she approves it.</p></div>' );
 	}
 	$about = isset( $_GET['about'] ) ? sanitize_key( wp_unslash( $_GET['about'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	// A claim started from a place page arrives with that place filled in.
+	$claim_id = 'claim' === $key && isset( $_GET['claim'] ) && function_exists( 'ltef_owner_match_place' ) ? ltef_owner_match_place( '', absint( $_GET['claim'] ) ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$has_file = false;
 	$fields = '';
 	foreach ( $f['fields'] as $fd ) {
@@ -211,7 +226,9 @@ function ltef_block_submit_form( $attrs ) {
 			$has_file = true;
 			$ctl      = '<input class="ltef-input" type="file" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" accept="image/jpeg,image/png' . ( 'flyer' === $name ? ',application/pdf' : '' ) . '"' . $r . $desc . '>';
 		} else {
-			$ctl = '<input class="ltef-input" type="' . esc_attr( $type ) . '" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . $r . $desc . $ac . '>';
+			$pick = 'claim' === $key && 'place' === $name;
+			$val  = $pick && $claim_id ? ' value="' . esc_attr( ltef_owner_place_label( $claim_id ) ) . '"' : '';
+			$ctl  = '<input class="ltef-input" type="' . esc_attr( $type ) . '" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . $r . $desc . $ac . $val . ( $pick ? ' list="' . esc_attr( $id ) . '-list" autocomplete="off"' : '' ) . '>' . ( $pick && function_exists( 'ltef_owner_datalist' ) ? ltef_owner_datalist( $id . '-list' ) : '' );
 		}
 		$vip_only = 'vip' === $req ? ' data-vip-only' : '';
 		$fields  .= '<div class="ltef-field"' . $vip_only . '><label class="ltef-field__label" for="' . esc_attr( $id ) . '">' . esc_html( $label ) . $opt . '</label>' . $h . $ctl . '</div>';
@@ -223,6 +240,7 @@ function ltef_block_submit_form( $attrs ) {
 	}
 	$out .= '<div class="form-grid">' . $fields . '</div>';
 	$out .= '<input type="hidden" name="action" value="ltef_submit"><input type="hidden" name="ltef_form" value="' . esc_attr( $key ) . '">';
+	$out .= $claim_id ? '<input type="hidden" name="ltef_place_id" value="' . (int) $claim_id . '">' : '';
 	$out .= '<input type="hidden" name="ltef_back" value="' . esc_attr( remove_query_arg( array( 'ltef_sent', 'ltef_error', 'ltef_form' ) ) ) . '">';
 	$out .= '<input type="hidden" name="ltef_t" value="' . esc_attr( time() . '.' . wp_hash( time() . $key ) ) . '">';
 	$out .= '<p class="ltef-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="ltef_website" tabindex="-1" autocomplete="off"></label></p>';
@@ -345,7 +363,7 @@ function ltef_handle_submit() {
 			break;
 		default:
 			$type   = 'ltef_submission';
-			$labels = array( 'signup' => 'Monthly Crumbs signup', 'suggest' => 'Suggested spot', 'listing' => 'Listing fix', 'special' => 'Special or new dish', 'photo' => 'Photo', 'contact' => 'Work with Tina' );
+			$labels = array( 'signup' => 'Monthly Crumbs signup', 'suggest' => 'Suggested spot', 'listing' => 'Listing fix', 'claim' => 'Listing claim', 'special' => 'Special or new dish', 'photo' => 'Photo', 'contact' => 'Work with Tina' );
 			$title  = $labels[ $key ] . ': ' . ( $v['place'] ?? $v['business'] ?? $v['handle'] ?? $v['name'] ?? $v['email'] ?? '' );
 	}
 	$post_id = wp_insert_post(
@@ -367,6 +385,9 @@ function ltef_handle_submit() {
 	update_post_meta( $post_id, 'ltef_form', $key );
 	update_post_meta( $post_id, 'ltef_fields', $v );
 	update_post_meta( $post_id, 'ltef_sent_at', current_time( 'mysql' ) );
+	if ( 'claim' === $key && function_exists( 'ltef_owner_match_place' ) ) {
+		update_post_meta( $post_id, 'ltef_claim_place', ltef_owner_match_place( $v['place'], isset( $_POST['ltef_place_id'] ) ? absint( $_POST['ltef_place_id'] ) : 0 ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- checked above
+	}
 	$who = $v['business'] ?? ( $v['place'] ?? '' );
 	if ( ltef_on_blocklist( $who ) ) {
 		update_post_meta( $post_id, 'ltef_flag_blocklist', 1 );

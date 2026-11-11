@@ -33,9 +33,11 @@ function ltef_fields( $type ) {
 			'enhanced'    => array( 'Enhanced listing', 'checkbox', 'The owner pays for extra modules. Never changes Tina’s take or any ranking.' ),
 			'phone'       => array( 'Phone', 'tel', '' ),
 			'website'     => array( 'Website', 'url', '' ),
+			'menu'        => array( 'Menu link', 'url', 'Optional. Owners can set this themselves once their claim is approved.' ),
 			'hours'       => array( 'Hours', 'text', 'Leave blank until someone checks them.' ),
 			'hours_checked' => array( 'Hours checked on', 'date', '' ),
 			'facts'       => array( 'Worth knowing', 'textarea', 'One fact per line.' ),
+			'owner_note'  => array( 'From the owner', 'textarea', 'The owner’s own short note, shown labeled as theirs. Owners edit it themselves; clear it if it isn’t accurate.' ),
 		),
 		'ltef_woopon'  => array(
 			'business'    => array( 'Business name', 'text', '' ),

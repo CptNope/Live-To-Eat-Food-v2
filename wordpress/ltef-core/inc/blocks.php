@@ -24,6 +24,7 @@ function ltef_block_defs() {
 		'woopons'        => array( 'Woo-pons', 'The live Woo-pons with filter chips, or only the online partner codes.', 'tickets-alt', array( 'show' => array( 'type' => 'string', 'default' => 'local' ) ), 'ltef_block_woopons', false ),
 		'woopon-ticket'  => array( 'Woo-pon ticket', 'The current Woo-pon as a ticket.', 'tickets-alt', array(), 'ltef_block_woopon_ticket', true ),
 		'ad-spot'        => array( 'Ad spot', 'The sold ad for this spot, or “Ad space open” with a way to advertise.', 'megaphone', array( 'spot' => array( 'type' => 'string', 'default' => 'home' ) ), 'ltef_block_ad_spot', false ),
+		'owner-area'     => array( 'Owners: manage a listing', 'Approved owners ask for a sign-in link here, then update their phone, website, menu link, hours and note.', 'admin-users', array(), 'ltef_block_owner_area', false ),
 		'submit-form'    => array( 'Submission form', 'A form that sends to Tina’s review queue.', 'feedback', array( 'form' => array( 'type' => 'string', 'default' => 'woopon' ) ), 'ltef_block_submit_form', false ),
 		'events'         => array( 'Upcoming events', 'Events from today on, premium listings first in their week.', 'calendar-alt', array( 'count' => array( 'type' => 'number', 'default' => 12 ) ), 'ltef_block_events', false ),
 		'jobs'           => array( 'Restaurant jobs', 'Open job posts with filter chips.', 'businessperson', array(), 'ltef_block_jobs', false ),
@@ -120,7 +121,7 @@ function ltef_block_place_take( $attrs, $content, $block ) {
 		}
 		$out .= $own ? '' : ( $v ? '<div class="ltef-verdicts">' . $v . '</div>' : '<p class="verdict-line"><span class="verdict-line__k">No verdict yet</span> Tina marks a place Favorite or Don’t miss when it really gets her. <a href="' . esc_url( home_url( '/how-it-works/#verdicts' ) ) . '">How verdicts work</a></p>' );
 	} else {
-		$out .= '<p class="verdict-line"><span class="verdict-line__k">Not yet</span> Tina hasn’t posted from here. <a href="' . esc_url( home_url( '/how-it-works/#suggest' ) ) . '">Think she should go?</a></p>';
+		$out .= '<p class="verdict-line"><span class="verdict-line__k">Not yet</span> Tina hasn’t posted from here. <a href="' . esc_url( home_url( '/how-it-works/#ltef-suggest' ) ) . '">Think she should go?</a></p>';
 	}
 	return ltef_wrap( $out, 'place-take' );
 }
@@ -230,7 +231,7 @@ function ltef_block_explore() {
 	$aside  = $beyond ? '<p class="meta explore-beyond">Looking for Tina’s shops, salons and days out? They’re on <a href="' . esc_url( home_url( '/beyond-food/' ) ) . '">Beyond food</a>.</p>' : '';
 	$out  = $form . $aside . '<p class="meta" aria-live="polite" data-explore-count>' . count( $all ) . ' places</p><div class="explore-list">' . implode( '', $rows ) . '</div>'
 		. '<p class="explore-more-wrap"><button class="ltef-btn ltef-btn--alt" type="button" data-explore-more hidden>Show more</button></p>'
-		. '<p class="meta explore-empty" data-explore-empty hidden>Nothing matches. Try another craving or neighborhood, or <a href="' . esc_url( home_url( '/how-it-works/#suggest' ) ) . '">tell Tina where to go</a>.</p>';
+		. '<p class="meta explore-empty" data-explore-empty hidden>Nothing matches. Try another craving or neighborhood, or <a href="' . esc_url( home_url( '/how-it-works/#ltef-suggest' ) ) . '">tell Tina where to go</a>.</p>';
 	return ltef_wrap( $out, 'ltef-explore' );
 }
 
@@ -311,7 +312,7 @@ function ltef_block_woopons( $attrs ) {
 	$online = 'online' === ( $attrs['show'] ?? 'local' );
 	$live   = ltef_live_woopons( $online );
 	if ( ! $live ) {
-		return ltef_wrap( '<p class="meta">No Woo-pons live right now. <a href="#submit">Run one</a>: the first two weeks are free.</p>' );
+		return ltef_wrap( '<p class="meta">No Woo-pons live right now. <a href="' . esc_url( home_url( '/woo-pons/' ) ) . '#submit">Run one</a>: the first two weeks are free.</p>' );
 	}
 	$tickets = implode( '', array_map( function ( $p ) { return ltef_woopon_ticket( $p->ID ); }, $live ) );
 	$chips   = '';
@@ -344,7 +345,7 @@ function ltef_block_events( $attrs ) {
 		)
 	);
 	if ( ! $posts ) {
-		return ltef_wrap( '<p class="meta">Nothing listed yet. <a href="#submit">Add your event</a>: listing is free.</p>' );
+		return ltef_wrap( '<p class="meta">Nothing listed yet. <a href="' . esc_url( home_url( '/events/' ) ) . '#submit">Add your event</a>: listing is free.</p>' );
 	}
 	// premium listings first within their week
 	usort(
