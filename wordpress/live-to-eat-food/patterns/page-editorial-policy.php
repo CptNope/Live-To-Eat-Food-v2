@@ -14,7 +14,7 @@
 <h1 id="h-pol" class="wp-block-heading">Editorial and disclosure policy</h1>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"className":"is-style-lede"} -->
-<p class="is-style-lede">How Live to Eat Food keeps what Tina chose apart from what someone paid for. If you can’t tell which one you’re looking at in two seconds, we got it wrong: <a href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>#f-co">tell us</a>.</p>
+<p class="is-style-lede">How Live to Eat Food keeps what Tina chose apart from what someone paid for. If you can’t tell which one you’re looking at in two seconds, we got it wrong: <a href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>#ltef-listing">tell us</a>.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"is-style-meta"} -->
 <p class="is-style-meta">Last updated November 11, 2026</p>
@@ -147,7 +147,7 @@
 <h2 id="h-two-doors" class="wp-block-heading">Two doors</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Suggestions for Tina go through <a href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>#suggest">Suggest a spot</a>, even from owners, and nothing about them is for sale. Anything commercial goes through <a href="<?php echo esc_url( home_url( '/work-with-tina/' ) ); ?>">Work with Tina</a>. The two never share a form or an inbox.</p>
+<p>Suggestions for Tina go through <a href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>#ltef-suggest">Suggest a spot</a>, even from owners, and nothing about them is for sale. Anything commercial goes through <a href="<?php echo esc_url( home_url( '/work-with-tina/' ) ); ?>">Work with Tina</a>. The two never share a form or an inbox.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:group {"anchor":"review"} -->

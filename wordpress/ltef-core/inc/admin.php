@@ -76,6 +76,9 @@ function ltef_review_page() {
 		if ( $payflag ) {
 			$flags[] = array( 'pay', $payflag ); // built from fixed strings and an amount
 		}
+		if ( 'claim' === get_post_meta( $p->ID, 'ltef_form', true ) && function_exists( 'ltef_owner_claim_flags' ) ) {
+			$flags = array_merge( $flags, ltef_owner_claim_flags( $p->ID ) ); // escaped there
+		}
 		$photo = (int) get_post_meta( $p->ID, 'ltef_photo', true );
 		if ( $photo ) {
 			$flags[] = array( '', '<a href="' . esc_url( wp_get_attachment_url( $photo ) ) . '" target="_blank" rel="noopener">See the photo</a>' );
@@ -123,7 +126,11 @@ function ltef_handle_review() {
 	$do = isset( $_REQUEST['do'] ) ? sanitize_key( wp_unslash( $_REQUEST['do'] ) ) : '';
 	$note = '';
 	if ( 'approve' === $do ) {
-		list( $publish, $note ) = function_exists( 'ltef_stripe_on_approve' ) ? ltef_stripe_on_approve( $id ) : array( true, '' );
+		if ( 'claim' === get_post_meta( $id, 'ltef_form', true ) && function_exists( 'ltef_owner_on_approve' ) ) {
+			list( $publish, $note ) = ltef_owner_on_approve( $id );
+		} else {
+			list( $publish, $note ) = function_exists( 'ltef_stripe_on_approve' ) ? ltef_stripe_on_approve( $id ) : array( true, '' );
+		}
 		if ( $publish ) {
 			wp_update_post( array( 'ID' => $id, 'post_status' => 'publish' ) );
 		} else {

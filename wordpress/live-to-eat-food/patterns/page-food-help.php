@@ -415,6 +415,6 @@
 <p>Listed from public sources: the Worcester County Food Bank, Project Bread, the Salvation Army, the Catholic Worker directory, the Abby’s House and St. John’s parish sites, Mass.gov (DTA), the Regional Environmental Council and Woo Fridge, who checked the fridge list with us. Phone numbers and hours checked November 2, 2026. Hours change, so always call ahead.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
-<p>Know a pantry or meal we missed, or one that’s changed? <a href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>#f-co">Tell us</a> and we’ll fix it.</p>
+<p>Know a pantry or meal we missed, or one that’s changed? <a href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>#ltef-listing">Tell us</a> and we’ll fix it.</p>
 <!-- /wp:paragraph --></section>
 <!-- /wp:group -->
