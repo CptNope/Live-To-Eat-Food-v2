@@ -450,7 +450,7 @@ function ltef_woopon_ticket( $post_id ) {
 		}
 	}
 	return sprintf(
-		'<div class="ltef-coupon ltef-coupon--%1$s" data-tags="%2$s"><span class="ltef-coupon__kind ltef-coupon__kind--%1$s">%3$s</span>%4$s<span class="ltef-coupon__off">%5$s</span><span class="ltef-coupon__where">%6$s</span>%7$s%8$s<dl class="ltef-coupon__terms">%9$s</dl>%10$s%11$s</div>',
+		'<div class="ltef-coupon ltef-coupon--%1$s" data-tags="%2$s"><span class="ltef-coupon__kind ltef-coupon__kind--%1$s">%3$s</span>%4$s<span class="ltef-coupon__off">%5$s</span><span class="ltef-coupon__where">%6$s</span>%7$s%12$s%8$s<dl class="ltef-coupon__terms">%9$s</dl>%10$s%11$s</div>',
 		esc_attr( $kind ),
 		esc_attr( implode( ' ', $tags ) ),
 		esc_html( $names[ $kind ] ?? $names['food'] ),
@@ -461,7 +461,8 @@ function ltef_woopon_ticket( $post_id ) {
 		$code ? '<span class="ltef-coupon__code"><span>Code</span><b>' . esc_html( $code ) . '</b></span>' : '',
 		$terms,
 		$fine ? '<span class="ltef-coupon__fine">' . esc_html( $fine ) . '</span>' : '',
-		$action ? '<div class="ltef-coupon__act">' . $action . '</div>' : ''
+		$action ? '<div class="ltef-coupon__act">' . $action . '</div>' : '',
+		ltef_meta( $post_id, 'connection' ) ? '<span class="ltef-coupon__connect">' . esc_html( ltef_meta( $post_id, 'connection' ) ) . '</span>' : ''
 	);
 }
 
