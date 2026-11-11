@@ -23,6 +23,10 @@ function ltef_settings() {
 		'enhanced_high'   => 59,
 		'dont_work_with'  => '',
 		'reply_days'      => 2,
+		'turnstile_site'   => '',
+		'turnstile_secret' => '',
+		'turnstile_login'  => 0,
+		'turnstile_ok'     => 0,
 	);
 	$saved = get_option( 'ltef_settings', array() );
 	return wp_parse_args( is_array( $saved ) ? $saved : array(), $defaults );

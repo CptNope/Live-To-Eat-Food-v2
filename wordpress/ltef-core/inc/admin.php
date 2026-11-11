@@ -166,6 +166,25 @@ function ltef_register_settings() {
 				}
 				$out['notify_email']   = ltef_email_list( $in['notify_email'] ?? '' );
 				$out['dont_work_with'] = sanitize_textarea_field( $in['dont_work_with'] ?? '' );
+				if ( array_key_exists( 'turnstile_site', $in ) ) {
+					$was                    = array( $out['turnstile_site'], $out['turnstile_secret'] );
+					$out['turnstile_site']  = sanitize_text_field( $in['turnstile_site'] );
+					$new_secret             = sanitize_text_field( $in['turnstile_secret'] ?? '' );
+					$out['turnstile_secret'] = ! empty( $in['turnstile_forget'] ) ? '' : ( '' !== $new_secret ? $new_secret : $out['turnstile_secret'] );
+					if ( ! empty( $in['turnstile_forget'] ) ) {
+						$out['turnstile_site'] = '';
+					}
+					$out['turnstile_login'] = empty( $in['turnstile_login'] ) ? 0 : 1;
+					if ( array( $out['turnstile_site'], $out['turnstile_secret'] ) !== $was ) {
+						$out['turnstile_ok'] = 0;
+					}
+					$token = isset( $_POST['cf-turnstile-response'] ) ? sanitize_text_field( wp_unslash( $_POST['cf-turnstile-response'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- options.php checked the nonce
+					if ( '' !== $out['turnstile_site'] && '' !== $out['turnstile_secret'] && '' !== $token ) {
+						$ok                  = ltef_turnstile_verify( $token, $out['turnstile_secret'] );
+						$out['turnstile_ok'] = is_wp_error( $ok ) ? 0 : 1;
+						add_settings_error( 'ltef_settings', 'ltef_turnstile', is_wp_error( $ok ) ? 'Cloudflare turned the spam check down (' . implode( ', ', (array) $ok->get_error_data() ) . '). Check both keys are from the same Turnstile widget.' : 'Spam check works: Cloudflare accepted it.', is_wp_error( $ok ) ? 'error' : 'success' );
+					}
+				}
 				return $out;
 			},
 		)
@@ -174,7 +193,9 @@ function ltef_register_settings() {
 
 function ltef_settings_page() {
 	$s = ltef_settings();
-	echo '<div class="wrap"><h1>Live to Eat Food settings</h1><p class="ltef-lede">Where submissions go, how fast you reply, and the private don’t-work-with list.</p><form method="post" action="options.php">';
+	echo '<div class="wrap"><h1>Live to Eat Food settings</h1><p class="ltef-lede">Where submissions go, how fast you reply, the private don’t-work-with list, and the spam check.</p>';
+	settings_errors();
+	echo '<form method="post" action="options.php">';
 	settings_fields( 'ltef_settings' );
 	echo '<table class="form-table" role="presentation">';
 	$num = function ( $k, $label, $help ) use ( $s ) {
@@ -185,8 +206,30 @@ function ltef_settings_page() {
 	echo '<tr><th scope="row">Prices</th><td><a href="' . esc_url( admin_url( 'admin.php?page=ltef-money&tab=settings' ) ) . '">Edit prices under Money</a></td></tr>';
 	printf( '<tr><th scope="row"><label for="ltef-dww">Don’t-work-with list</label></th><td><textarea id="ltef-dww" name="ltef_settings[dont_work_with]" rows="6" class="large-text">%s</textarea><p class="description"><strong>Private.</strong> One business per line. Never shown on the site; submissions that match are flagged in the review queue.</p></td></tr>', esc_textarea( $s['dont_work_with'] ) );
 	echo '</table>';
+	ltef_turnstile_settings_rows( $s );
 	submit_button( 'Save settings' );
 	echo '</form></div>';
+}
+
+/** The spam check (Cloudflare Turnstile) part of Settings. */
+function ltef_turnstile_settings_rows( $s ) {
+	$on = ltef_turnstile_on();
+	echo '<h2 id="spam-check">Spam check</h2>';
+	if ( ! $on ) {
+		echo '<p class="ltef-lede">Off. Cloudflare Turnstile checks that a person is sending each form, usually without asking them anything. In Cloudflare, open <strong>Turnstile → Add widget</strong> for livetoeatfoodie.com, then paste both keys here.</p>';
+	} elseif ( $s['turnstile_ok'] ) {
+		echo '<p class="ltef-lede"><span class="ltef-chip ltef-chip--pay">On</span> Every form on the site is checked' . ( ltef_turnstile_login_on() ? ', and so is the sign-in page.' : '.' ) . '</p>';
+	} else {
+		echo '<p class="ltef-lede"><span class="ltef-chip ltef-chip--test">Not checking yet</span> Keys saved. Once the check below shows a tick, press <strong>Save settings</strong>: when Cloudflare accepts it, every form starts being checked.</p>';
+	}
+	echo '<table class="form-table" role="presentation">';
+	printf( '<tr><th scope="row"><label for="ltef-ts-site">Site key</label></th><td><input type="text" id="ltef-ts-site" name="ltef_settings[turnstile_site]" value="%s" class="regular-text" autocomplete="off" spellcheck="false"><p class="description">Public: it’s in every form’s page.</p></td></tr>', esc_attr( $s['turnstile_site'] ) );
+	printf( '<tr><th scope="row"><label for="ltef-ts-secret">Secret key</label></th><td><input type="password" id="ltef-ts-secret" name="ltef_settings[turnstile_secret]" value="" class="regular-text" autocomplete="new-password" placeholder="%s"><p class="description">%s</p>%s</td></tr>', esc_attr( $s['turnstile_secret'] ? 'Saved' : '' ), $s['turnstile_secret'] ? 'Saved on the server and never shown again. Paste a new one to replace it.' : 'Kept on the server and never shown again.', $s['turnstile_secret'] ? '<p><label><input type="checkbox" name="ltef_settings[turnstile_forget]" value="1"> Remove both keys and turn the check off</label></p>' : '' );
+	if ( $on ) {
+		echo '<tr><th scope="row">Check it works</th><td>' . ltef_turnstile_widget( 'settings', 'always' ) . '<p class="description">When this shows a tick, press Save settings. Cloudflare confirms the keys belong together.</p></td></tr>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built with esc_attr
+	}
+	printf( '<tr><th scope="row">Sign-in page</th><td><label><input type="checkbox" name="ltef_settings[turnstile_login]" value="1"%s> Check the sign-in and lost-password pages too</label><p class="description">Starts only after a check passes here, so a wrong key can’t lock you out.</p></td></tr>', checked( ! empty( $s['turnstile_login'] ), true, false ) );
+	echo '</table>';
 }
 
 /** Private contact details stay out of the public REST API and search. */
