@@ -27,7 +27,7 @@
 <h2 id="h-who" class="wp-block-heading">Who we are</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>livetoeatfoodie.com is Tina Vo’s food guide to Worcester and Central Massachusetts. Jeremy Anderson Tech LLC runs the site for Live to Eat Food and is responsible for this policy. Questions about your information: <a href="mailto:tina@livetoeatfoodie.com">tina@livetoeatfoodie.com</a> or <a href="mailto:info@jeremyanderson.tech">info@jeremyanderson.tech</a>.</p>
+<p>livetoeatfoodie.com is Tina Vo’s food guide to Worcester and Central Massachusetts. Tina runs Live to Eat Food and is responsible for this policy. Jeremy Anderson Tech LLC builds and manages the site for her. Questions about your information: <a href="mailto:tina@livetoeatfoodie.com">tina@livetoeatfoodie.com</a> or <a href="mailto:info@jeremyanderson.tech">info@jeremyanderson.tech</a>.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:group {"anchor":"collect"} -->
