@@ -87,6 +87,10 @@ The admin wears the site's colors. The plugin adds a **Live to Eat Food** color 
 
 The scheme is built from WordPress's own scheme template: edit `ltef-core/assets/css/src/admin-colors.scss`, then run `ltef-core/assets/css/build-admin.sh` (needs Dart Sass and a WordPress install at `WP_CORE`, default `/tmp/wp`).
 
+## Tina's own business
+
+Tick **Tina’s own business** on a place she owns (Tinaesthetics by Dr. Vo is the first). It's in the import data too. The place then shows a hatched "Tina’s own business" label everywhere it appears, its page says so in words and links the Editorial policy, and it never shows a verdict. FTC advertising rules ask creators to disclose a business they own; the same goes in her videos about it (said and on screen), which the site can't do for her.
+
 ## Accessibility, privacy and terms
 
 The footer links to **Accessibility**, **Privacy policy** and **Terms of use** (built-in pages, so **Create the pages** adds them; it fills WordPress's own draft Privacy Policy page instead of making a second one, and sets it as the site's privacy page). They describe what the site actually does as of November 11, 2026: Jeremy Anderson Tech LLC runs the site for Live to Eat Food; no analytics or ad trackers; data goes to Cloudways, Cloudflare (Turnstile), Brevo, Stripe and Rackspace; forms are for 13 and up; Massachusetts law. If any of that changes (an analytics tool, a new service, a new form), update the pages and their date.

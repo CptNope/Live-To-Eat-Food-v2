@@ -55,6 +55,17 @@
 <p>When a brand pays Tina to make a post or video, it’s an ad in her voice. It’s labeled with the brand’s name here and on the platform it runs on, has no verdict, and never enters rankings, guides, Roulette or the Monthly Crumbs picks.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
+<!-- wp:group {"anchor":"own"} -->
+<div id="own" class="wp-block-group"><!-- wp:heading {"anchor":"h-own"} -->
+<h2 id="h-own" class="wp-block-heading">Tina’s own business</h2>
+<!-- /wp:heading -->
+<!-- wp:html -->
+<span class="ltef-lbl ltef-lbl--own ltef-lbl--sm" style="align-self: flex-start; justify-self: start;"><svg aria-hidden="true" viewbox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 9.5 6 4.5h12l1.5 5"/><path d="M4.5 9.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5"/><path d="M6 12.5v7h12v-7M10 19.5v-4.5h4v4.5"/></g></svg>Tina’s own business</span>
+<!-- /wp:html -->
+<!-- wp:paragraph -->
+<p>Tina is also Dr. Vo, a licensed provider, and Tinaesthetics by Dr. Vo is her own practice. Anything Tina owns carries this label wherever it appears on the site, and its page says so in words. It never gets a verdict, and it isn’t one of her picks.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 <!-- wp:group {"anchor":"paid-ads"} -->
 <div id="paid-ads" class="wp-block-group"><!-- wp:heading {"anchor":"h-paid-ads"} -->
 <h2 id="h-paid-ads" class="wp-block-heading">Paid ads</h2>

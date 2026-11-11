@@ -6484,6 +6484,7 @@
    "id": "tinaesthetics",
    "name": "Tinaesthetics by Dr. Vo",
    "kind": "wellness",
+   "own": true,
    "num": "1086",
    "street": "Pleasant St",
    "town": "Worcester",
@@ -6522,7 +6523,10 @@
      "youtube": "https://www.youtube.com/shorts/kpmk0s0JrMo"
     }
    ],
-   "facts": []
+   "facts": [
+    "Tina is Dr. Vo, a licensed provider, and this is her own practice",
+    "Results vary from person to person; a consultation decides whether a treatment is right for you"
+   ]
   },
   {
    "id": "andrezas-aesthetic",

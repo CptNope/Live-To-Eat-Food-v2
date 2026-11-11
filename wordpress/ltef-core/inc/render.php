@@ -82,8 +82,8 @@ function ltef_place_meta_line( $post_id, $with_address = true ) {
 
 /** "Tina ate here · Aug 2026" or "Tina hasn't been yet", plus Hosted / Enhanced when true. */
 function ltef_place_labels( $post_id, $small = false ) {
-	$out = ltef_tina_ate( $post_id )
-		? ltef_label( 'tina', trim( ltef_tina_label( $post_id ) . ' · ' . ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ), ' ·' ), $small )
+	$out = ltef_tina_ate( $post_id ) || ltef_tina_owns( $post_id )
+		? ltef_place_trust_label( $post_id, $small )
 		: '<span class="ltef-lbl ltef-lbl--notyet' . ( $small ? ' ltef-lbl--sm' : '' ) . '">Tina hasn’t been yet</span>';
 	if ( ltef_meta( $post_id, 'hosted' ) ) {
 		$out .= ltef_label( 'hosted', 'Hosted', $small );
@@ -112,12 +112,12 @@ function ltef_place_card( $post_id ) {
 		? get_the_post_thumbnail( $post_id, 'medium_large', array( 'alt' => '', 'class' => 'ltef-card__photo' ) )
 		: '<img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ) . '" alt="" width="148" height="148">';
 	$quote = ltef_meta( $post_id, 'tina_quote' );
-	$v     = ltef_verdict_html( ltef_meta( $post_id, 'verdict' ) );
+	$v     = ltef_tina_owns( $post_id ) ? '' : ltef_verdict_html( ltef_meta( $post_id, 'verdict' ) );
 	return sprintf(
 		'<article class="ltef-card"><a href="%1$s" class="ltef-card__link"><div class="ltef-card__ph" style="background: var(--%2$s);">%3$s%4$s</div><div class="ltef-card__row"><h3 class="ltef-card__name">%5$s</h3></div><p class="ltef-card__meta">%6$s</p>%7$s%8$s</a></article>',
 		esc_url( get_permalink( $post_id ) ),
 		esc_attr( $field ),
-		ltef_tina_ate( $post_id ) ? ltef_label( 'tina', trim( ltef_tina_label( $post_id ) . ' · ' . ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ), ' ·' ), false ) : '',
+		ltef_place_trust_label( $post_id, false ),
 		$img,
 		esc_html( get_the_title( $post_id ) ),
 		esc_html( ltef_place_meta_line( $post_id, false ) ),
@@ -350,7 +350,9 @@ function ltef_special_card( $post_id ) {
 	$maps  = '';
 	$head  = '<span class="h-s">' . esc_html( $name ) . '</span>';
 	if ( $place ) {
-		if ( ltef_meta( $place, 'tina_video' ) || ltef_meta( $place, 'tina_quote' ) ) {
+		if ( ltef_tina_owns( $place ) ) {
+			$label = ltef_place_trust_label( $place );
+		} elseif ( ltef_meta( $place, 'tina_video' ) || ltef_meta( $place, 'tina_quote' ) ) {
 			$month = ltef_month_label( ltef_meta( $place, 'tina_date' ) );
 			$label = ltef_label( 'tina', ltef_tina_label( $place ) . ( $month ? ' · ' . $month : '' ) );
 		}
@@ -415,6 +417,8 @@ function ltef_woopon_ticket( $post_id ) {
 	$tina  = '';
 	if ( 'partner' === $tier ) {
 		$tina = ltef_label( 'partner', 'referral' === ltef_meta( $post_id, 'earns' ) ? 'Partner: Tina earns a referral fee' : 'Partner: Tina earns a commission' );
+	} elseif ( $place && ltef_tina_owns( $place ) ) {
+		$tina = ltef_place_trust_label( $place );
 	} elseif ( $place && ltef_tina_ate( $place ) ) {
 		$tina = ltef_label( 'tina', 'Tina ate here · ' . ltef_month_label( ltef_meta( $place, 'tina_date' ) ) );
 	} else {
