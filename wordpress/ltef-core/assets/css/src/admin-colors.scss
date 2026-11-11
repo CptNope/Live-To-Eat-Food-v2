@@ -1,0 +1,133 @@
+// The "Live to Eat Food" admin color scheme: WordPress's own scheme template
+// (wp-admin/css/colors/_admin.scss) with the brand's colors, then a few brand
+// touches on top. Build with assets/css/build-admin.sh; it writes admin-colors.css.
+@use "../_admin.scss" with (
+	$scheme-name: "ltef",
+	$base-color: #1E3B2A,
+	$text-color: #FFFFFF,
+	$icon-color: #CFE3BC,
+	$highlight-color: #2B6436,
+	$notification-color: #FFC53D,
+	$body-background: #FBF7EA,
+	$link: #2B6436,
+	$link-focus: #1E3B2A,
+	$button-color: #1E3B2A,
+	$form-checked: #2B6436,
+	$menu-highlight-background: #FFE586,
+	$menu-highlight-text: #1E3B2A,
+	$menu-highlight-icon: #1E3B2A,
+	$menu-submenu-background: #16301F,
+	$menu-submenu-text: #DDE9D3,
+	$menu-submenu-focus-text: #FFE586,
+	$menu-bubble-text: #1E3B2A,
+	$dashboard-accent-1: #2B6436,
+	$dashboard-accent-2: #1E3B2A,
+	$low-contrast-theme: "false"
+);
+
+// The block editor and other React screens read these.
+body.admin-color-ltef {
+	--wp-admin-theme-color: #2B6436;
+	--wp-admin-theme-color--rgb: 43, 100, 54;
+	--wp-admin-theme-color-darker-10: #24542D;
+	--wp-admin-theme-color-darker-10--rgb: 36, 84, 45;
+	--wp-admin-theme-color-darker-20: #1E3B2A;
+	--wp-admin-theme-color-darker-20--rgb: 30, 59, 42;
+	--wp-admin-border-width-focus: 2px;
+}
+
+// Brand touches that hold on every screen.
+body.admin-color-ltef,
+body.admin-color-ltef #wpadminbar * {
+	font-family: Figtree, "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+body.admin-color-ltef #wpadminbar .ab-icon,
+body.admin-color-ltef #wpadminbar .ab-icon:before,
+body.admin-color-ltef #wpadminbar .ab-item:before,
+body.admin-color-ltef .dashicons,
+body.admin-color-ltef .dashicons-before:before,
+body.admin-color-ltef #adminmenu div.wp-menu-image:before {
+	font-family: dashicons;
+}
+body.admin-color-ltef {
+	color: #1E3B2A;
+}
+body.admin-color-ltef ::selection {
+	background: #FFC53D;
+	color: #1E3B2A;
+}
+body.admin-color-ltef .wrap > h1,
+body.admin-color-ltef .wrap h1.wp-heading-inline {
+	font-family: Outfit, "Helvetica Neue", Arial, system-ui, sans-serif;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: #1E3B2A;
+}
+body.admin-color-ltef #adminmenu .wp-menu-name {
+	font-weight: 500;
+}
+body.admin-color-ltef #adminmenu li.current a.menu-top,
+body.admin-color-ltef #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu {
+	font-weight: 700;
+}
+// Lemon is the "you are here" color, so the little arrow into the page goes.
+body.admin-color-ltef ul#adminmenu a.wp-has-current-submenu:after,
+body.admin-color-ltef ul#adminmenu > li.current > a.current:after {
+	border-right-color: #FBF7EA;
+}
+body.admin-color-ltef.wp-core-ui .button-primary,
+body.admin-color-ltef .wrap .page-title-action,
+body.admin-color-ltef.wp-core-ui .button:not(.button-link):not(.wp-color-result):not(.button-group > .button):not(.show-settings) {
+	border-radius: 999px;
+}
+body.admin-color-ltef.wp-core-ui .button:not(.button-link):not(.button-primary):not(.wp-color-result):not(.show-settings) {
+	background: #fff;
+	color: #1E3B2A;
+	border-color: #1E3B2A;
+}
+body.admin-color-ltef.wp-core-ui .button:not(.button-link):not(.button-primary):not(.wp-color-result):not(.show-settings):hover {
+	background: #FFF6CF;
+	color: #1E3B2A;
+	border-color: #1E3B2A;
+}
+body.admin-color-ltef.wp-core-ui .button-primary:hover,
+body.admin-color-ltef.wp-core-ui .button-primary:focus {
+	background: #2B6436;
+	border-color: #2B6436;
+	color: #fff;
+}
+body.admin-color-ltef input[type="text"],
+body.admin-color-ltef input[type="email"],
+body.admin-color-ltef input[type="url"],
+body.admin-color-ltef input[type="number"],
+body.admin-color-ltef input[type="password"],
+body.admin-color-ltef input[type="search"],
+body.admin-color-ltef input[type="date"],
+body.admin-color-ltef input[type="tel"],
+body.admin-color-ltef select,
+body.admin-color-ltef textarea {
+	border-color: #8C9A84;
+	border-radius: 8px;
+}
+body.admin-color-ltef.wp-core-ui :focus-visible,
+body.admin-color-ltef a:focus {
+	outline-color: #1E3B2A;
+}
+body.admin-color-ltef .notice,
+body.admin-color-ltef div.updated,
+body.admin-color-ltef div.error {
+	border-radius: 10px;
+}
+body.admin-color-ltef .notice-success,
+body.admin-color-ltef div.updated {
+	border-left-color: #2B6436;
+}
+body.admin-color-ltef .notice-info {
+	border-left-color: #1E3B2A;
+}
+body.admin-color-ltef .notice-warning {
+	border-left-color: #FFC53D;
+}
+body.admin-color-ltef #wpfooter {
+	color: #46583E;
+}

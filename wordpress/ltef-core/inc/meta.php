@@ -146,7 +146,7 @@ function ltef_meta_boxes() {
 
 function ltef_render_meta_box( $post ) {
 	wp_nonce_field( 'ltef_save_fields', 'ltef_fields_nonce' );
-	echo '<div class="ltef-fields" style="display:grid;gap:14px;max-width:760px">';
+	echo '<style>.ltef-fields .regular-text,.ltef-fields select,.ltef-fields textarea{max-width:100%;box-sizing:border-box}</style><div class="ltef-fields" style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;max-width:760px">';
 	foreach ( ltef_fields( $post->post_type ) as $key => $def ) {
 		list( $label, $kind ) = $def;
 		$help  = isset( $def[2] ) ? $def[2] : '';
