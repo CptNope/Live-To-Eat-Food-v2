@@ -138,10 +138,11 @@ function ltef_import_places() {
 	$ids   = array();
 	$n     = 0;
 	$more = function ( $p ) {
-		return implode( "\n", array_map( function ( $v ) { return $v['month'] . ' | ' . $v['url'] . ' | ' . $v['caption']; }, $p['more'] ?? array() ) );
+		return implode( "\n", array_map( function ( $v ) { return $v['month'] . ' | ' . $v['url'] . ( empty( $v['youtube'] ) ? '' : ' ' . $v['youtube'] ) . ' | ' . $v['caption']; }, $p['more'] ?? array() ) );
 	};
 	$m = 0;
 	$t = 0;
+	$y = 0;
 	$skipped = 0;
 	// Never add a business that's on Tina's private don't-work-with list. The names stay on the server.
 	$norm  = function ( $t ) { return preg_replace( '/[^a-z0-9]/', '', strtolower( remove_accents( (string) $t ) ) ); };
@@ -170,8 +171,21 @@ function ltef_import_places() {
 				}
 				++$t;
 			}
+			// Her YouTube copy plays first (TikTok's player is often throttled). Only fills an empty field.
+			if ( ! empty( $p['youtube'] ) && '' === (string) get_post_meta( $existing->ID, 'ltef_youtube', true ) ) {
+				update_post_meta( $existing->ID, 'ltef_youtube', $p['youtube'] );
+				++$y;
+			}
 			// Her other videos: add the ones the place doesn't have yet (matched by link), keep anything typed in by hand.
 			$have = (string) get_post_meta( $existing->ID, 'ltef_more_videos', true );
+			// Lines already there get their YouTube copy put after the TikTok link, so YouTube plays first.
+			foreach ( $p['more'] ?? array() as $v ) {
+				if ( ! empty( $v['youtube'] ) && false === strpos( $have, $v['youtube'] ) && preg_match( '/' . preg_quote( $v['url'], '/' ) . '(?=[\s|]|$)/', $have ) ) {
+					$have = preg_replace( '/' . preg_quote( $v['url'], '/' ) . '(?=[\s|]|$)/', $v['url'] . ' ' . $v['youtube'], $have, 1 );
+					update_post_meta( $existing->ID, 'ltef_more_videos', $have );
+					++$y;
+				}
+			}
 			$add  = array_filter( $p['more'] ?? array(), function ( $v ) use ( $have ) { return false === strpos( $have, $v['url'] ); } );
 			if ( $add ) {
 				update_post_meta( $existing->ID, 'ltef_more_videos', trim( $have . "\n" . $more( array( 'more' => $add ) ) ) );
@@ -203,6 +217,8 @@ function ltef_import_places() {
 			$meta['tina_video']   = $p['tina']['url'] ?? '';
 			$meta['tina_date']    = strlen( $sort ) >= 6 ? substr( $sort, 0, 4 ) . '-' . substr( $sort, 4, 2 ) : '';
 			$meta['more_videos']  = $more( $p );
+			$meta['youtube']      = $p['youtube'] ?? '';
+			$y                   += empty( $p['youtube'] ) ? 0 : 1;
 			$m                   += count( $p['more'] ?? array() );
 		}
 		foreach ( $meta as $k => $v ) {
@@ -356,7 +372,7 @@ function ltef_import_places() {
 		$content = false === $at ? $week . $content : substr( $content, 0, $at + 18 ) . "\n\n" . $week . substr( $content, $at + 18 );
 		wp_update_post( array( 'ID' => $deals_page->ID, 'post_content' => wp_slash( $content ) ) );
 	}
-	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly %s added.', $sp, 1 === $sp ? 'deal' : 'deals' ) : '' ) . ( $su ? sprintf( ' %d weekly %s updated.', $su, 1 === $su ? 'deal' : 'deals' ) : '' ) . ( $pc ? sprintf( ' %d partner %s added to Woo-pons.', $pc, 1 === $pc ? 'code' : 'codes' ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
+	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly %s added.', $sp, 1 === $sp ? 'deal' : 'deals' ) : '' ) . ( $su ? sprintf( ' %d weekly %s updated.', $su, 1 === $su ? 'deal' : 'deals' ) : '' ) . ( $pc ? sprintf( ' %d partner %s added to Woo-pons.', $pc, 1 === $pc ? 'code' : 'codes' ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $y ? sprintf( ' %d YouTube %s added, and %s first.', $y, 1 === $y ? 'copy' : 'copies', 1 === $y ? 'it plays' : 'they play' ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
 }
 
 function ltef_add_samples() {
