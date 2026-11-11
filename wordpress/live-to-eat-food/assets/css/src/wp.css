@@ -40,6 +40,13 @@ body { background: var(--lemon); }
 .ltef-footer .wp-block-navigation-item__content { display: inline-flex; align-items: center; min-height: 44px; color: var(--basil); font: 700 15px var(--font-interface); text-decoration: underline; text-underline-offset: .2em; }
 .ltef-footer .ltef-credit { font-size: 14px; color: var(--olive); }
 .ltef-footer .ltef-credit a { color: var(--basil); }
+.ltef-footer .ltef-legal { gap: 0 18px; margin-top: 4px; }
+.ltef-footer .ltef-legal .wp-block-navigation-item__content { min-height: 36px; font: 600 14px var(--font-interface); color: var(--olive); }
+.ltef-policy h2 { font-size: clamp(1.625rem, 3vw, 2.25rem); line-height: 1.08; margin: 52px 0 14px; }
+.ltef-policy > .wp-block-group:first-child h2 { margin-top: 0; }
+.ltef-policy p, .ltef-policy li { font-size: 17px; line-height: 1.6; }
+.ltef-policy p, .ltef-policy li { max-width: 68ch; }
+.ltef-policy ul { padding-left: 1.2em; display: grid; gap: 8px; }
 
 /* Places */
 .place-row { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 18px; align-items: center; padding: 14px 18px; }

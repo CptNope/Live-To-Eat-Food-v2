@@ -24,6 +24,9 @@ function ltef_pages() {
 		'daily-deals'      => array( 'Daily deals', 'live-to-eat-food/page-daily-deals' ),
 		'beyond-food'      => array( 'Beyond food', 'live-to-eat-food/page-beyond-food' ),
 		'your-bites'       => array( 'Your bites', 'live-to-eat-food/page-your-bites' ),
+		'accessibility'    => array( 'Accessibility', 'live-to-eat-food/page-accessibility' ),
+		'privacy-policy'   => array( 'Privacy policy', 'live-to-eat-food/page-privacy-policy' ),
+		'terms'            => array( 'Terms of use', 'live-to-eat-food/page-terms' ),
 	);
 }
 
@@ -44,7 +47,7 @@ function ltef_setup_page() {
 	$btn = function ( $do, $label, $help, $primary = true ) {
 		printf( '<form class="ltef-action" method="post" action="%s"><input type="hidden" name="action" value="ltef_setup"><input type="hidden" name="do" value="%s">%s<p>%s</p><button class="button%s">%s</button></form>', esc_url( admin_url( 'admin-post.php' ) ), esc_attr( $do ), wp_nonce_field( 'ltef_setup', '_wpnonce', true, false ), esc_html( $help ), $primary ? ' button-primary' : '', esc_html( $label ) );
 	};
-	$btn( 'pages', 'Create the pages', 'Home, Guides, Roulette, Food help, Send something in, Work with Tina and the rest, filled from the theme’s patterns. Pages that already exist are left alone.' );
+	$btn( 'pages', 'Create the pages', 'Home, Guides, Roulette, Food help, Send something in, Work with Tina, Accessibility, Privacy policy, Terms of use and the rest, filled from the theme’s patterns. Pages that already exist are left alone.' );
 	$data = json_decode( (string) file_get_contents( LTEF_DIR . 'data/places.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 	$btn( 'places', 'Import Tina’s places and videos', sprintf( '%d places, %d guides and %d round-ups from her public posts, plus her other videos from places already here. Anything already on the site is left as it is, so it’s safe to press again after an update.', count( $data['places'] ?? array() ), count( $data['guides'] ?? array() ), count( $data['roundups'] ?? array() ) ) . ( ! empty( $data['specials'] ) ? sprintf( ' Also %d weekly deals for Daily deals.', count( $data['specials'] ) ) : '' ) . ( ! empty( $data['partners'] ) ? sprintf( ' And Tina’s %d partner codes for Woo-pons.', count( $data['partners'] ) ) : '' ) );
 	$btn( 'samples', 'Add labeled samples', 'A few sample Woo-pons, events and jobs so the pages aren’t empty while you build. Delete them before launch.', false );
@@ -76,7 +79,10 @@ function ltef_handle_setup() {
 function ltef_create_pages() {
 	$made = 0;
 	foreach ( ltef_pages() as $slug => $def ) {
-		if ( get_page_by_path( $slug ) ) {
+		$have = get_page_by_path( $slug );
+		// WordPress starts every site with a draft "Privacy Policy" at /privacy-policy/: fill that one instead of skipping it.
+		$wp_draft = $have && 'publish' !== $have->post_status && (int) $have->ID === (int) get_option( 'wp_page_for_privacy_policy' );
+		if ( $have && ! $wp_draft ) {
 			continue;
 		}
 		$content = $def[1] ? '<!-- wp:pattern {"slug":"' . $def[1] . '"} /-->' : '';
@@ -87,7 +93,10 @@ function ltef_create_pages() {
 				$content = $pat['content'];
 			}
 		}
-		wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => $def[0], 'post_name' => $slug, 'post_content' => $content, 'meta_input' => $def[1] ? array( '_wp_page_template' => 'page-no-title' ) : array() ) );
+		$id = wp_insert_post( array( 'ID' => $wp_draft ? $have->ID : 0, 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => $def[0], 'post_name' => $slug, 'post_content' => $content, 'meta_input' => $def[1] ? array( '_wp_page_template' => 'page-no-title' ) : array() ) );
+		if ( 'privacy-policy' === $slug && $id && ! is_wp_error( $id ) ) {
+			update_option( 'wp_page_for_privacy_policy', $id );
+		}
 		++$made;
 	}
 	$home   = get_page_by_path( 'home' );

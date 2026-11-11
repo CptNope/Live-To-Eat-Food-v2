@@ -18,7 +18,13 @@ $u = function ( $p ) {
 
 <!-- wp:paragraph {"className":"ltef-credit"} -->
 <p class="ltef-credit">Site designed and built by <a href="https://jeremyanderson.tech" target="_blank" rel="noreferrer noopener">Jeremy Anderson Tech</a>, a Live to Eat Food partner.</p>
-<!-- /wp:paragraph --></div>
+<!-- /wp:paragraph -->
+
+<!-- wp:navigation {"ariaLabel":"Policies","overlayMenu":"never","className":"ltef-legal","layout":{"type":"flex","flexWrap":"wrap"}} -->
+<!-- wp:navigation-link {"label":"Accessibility","url":"<?php echo $u( '/accessibility/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Privacy policy","url":"<?php echo $u( '/privacy-policy/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Terms of use","url":"<?php echo $u( '/terms/' ); ?>","kind":"custom"} /-->
+<!-- /wp:navigation --></div>
 <!-- /wp:group -->
 
 <!-- wp:navigation {"ariaLabel":"Footer","overlayMenu":"never","layout":{"type":"flex","flexWrap":"wrap"}} -->
