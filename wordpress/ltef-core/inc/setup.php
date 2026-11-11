@@ -40,15 +40,16 @@ function ltef_setup_page() {
 	if ( $msg ) {
 		echo '<div class="notice notice-success"><p>' . esc_html( $msg ) . '</p></div>';
 	}
-	$btn = function ( $do, $label, $help ) {
-		printf( '<form method="post" action="%s" style="margin:18px 0"><input type="hidden" name="action" value="ltef_setup"><input type="hidden" name="do" value="%s">%s<button class="button button-primary">%s</button> <span class="description">%s</span></form>', esc_url( admin_url( 'admin-post.php' ) ), esc_attr( $do ), wp_nonce_field( 'ltef_setup', '_wpnonce', true, false ), esc_html( $label ), esc_html( $help ) );
+	echo '<p class="ltef-lede">Press Import again after each plugin update to bring in what’s new.</p><div class="ltef-actions">';
+	$btn = function ( $do, $label, $help, $primary = true ) {
+		printf( '<form class="ltef-action" method="post" action="%s"><input type="hidden" name="action" value="ltef_setup"><input type="hidden" name="do" value="%s">%s<p>%s</p><button class="button%s">%s</button></form>', esc_url( admin_url( 'admin-post.php' ) ), esc_attr( $do ), wp_nonce_field( 'ltef_setup', '_wpnonce', true, false ), esc_html( $help ), $primary ? ' button-primary' : '', esc_html( $label ) );
 	};
 	$btn( 'pages', 'Create the pages', 'Home, Guides, Roulette, Food help, Send something in, Work with Tina and the rest, filled from the theme’s patterns. Pages that already exist are left alone.' );
 	$data = json_decode( (string) file_get_contents( LTEF_DIR . 'data/places.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 	$btn( 'places', 'Import Tina’s places and videos', sprintf( '%d places, %d guides and %d round-ups from her public posts, plus her other videos from places already here. Anything already on the site is left as it is, so it’s safe to press again after an update.', count( $data['places'] ?? array() ), count( $data['guides'] ?? array() ), count( $data['roundups'] ?? array() ) ) . ( ! empty( $data['specials'] ) ? sprintf( ' Also %d weekly deals for Daily deals.', count( $data['specials'] ) ) : '' ) . ( ! empty( $data['partners'] ) ? sprintf( ' And Tina’s %d partner codes for Woo-pons.', count( $data['partners'] ) ) : '' ) );
-	$btn( 'samples', 'Add labeled samples', 'A few sample Woo-pons, events and jobs so the pages aren’t empty while you build. Delete them before launch.' );
-	$btn( 'refresh', 'Refresh the built-in pages', 'Replaces Food help, Send something in, Work with Tina and the other built-in pages with the theme’s latest version (live prices included). Edits you made to those pages are replaced; the old versions stay under each page’s Revisions.' );
-	echo '</div>';
+	$btn( 'samples', 'Add labeled samples', 'A few sample Woo-pons, events and jobs so the pages aren’t empty while you build. Delete them before launch.', false );
+	$btn( 'refresh', 'Refresh the built-in pages', 'Replaces Food help, Send something in, Work with Tina and the other built-in pages with the theme’s latest version (live prices included). Edits you made to those pages are replaced; the old versions stay under each page’s Revisions.', false );
+	echo '</div></div>';
 }
 
 add_action( 'admin_post_ltef_setup', 'ltef_handle_setup' );

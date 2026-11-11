@@ -35,44 +35,50 @@ function ltef_review_page() {
 	$items = get_posts( array( 'post_type' => array_keys( ltef_review_types() ), 'post_status' => 'pending', 'numberposts' => 200, 'orderby' => 'date', 'order' => 'ASC' ) );
 	$done  = isset( $_GET['ltef_done'] ) ? sanitize_key( wp_unslash( $_GET['ltef_done'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	echo '<div class="wrap ltef-review"><h1>Waiting for Tina</h1>';
-	echo '<p>Everything people send in waits here. Nothing goes on the site until it’s approved. Aim to reply within ' . (int) ltef_setting( 'reply_days' ) . ' days: the site promises that.</p>';
+	echo '<p class="ltef-lede">Everything people send in waits here. Nothing goes on the site until it’s approved. Aim to reply within ' . (int) ltef_setting( 'reply_days' ) . ' days: the site promises that.</p>';
 	if ( $done ) {
 		$note = isset( $_GET['ltef_note'] ) ? sanitize_text_field( rawurldecode( wp_unslash( $_GET['ltef_note'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$text = array( 'approved' => 'Approved. It’s live now (messages are marked done).', 'waiting' => 'Not live yet.' )[ $done ] ?? 'Declined and moved to the trash. It can be restored from there. Any card hold was released.';
 		echo '<div class="notice notice-' . ( 'waiting' === $done ? 'warning' : 'success' ) . ' is-dismissible"><p>' . esc_html( trim( $text . ' ' . $note ) ) . '</p></div>';
 	}
 	if ( ! $items ) {
-		echo '<p><strong>All caught up.</strong></p></div>';
+		printf(
+			'<div class="ltef-empty"><img src="%s" alt=""><p><strong>All caught up.</strong>New submissions land here, and each one is emailed to you as it comes in.</p></div></div>',
+			esc_url( ltef_brand_asset( 'img/stickers/lemon.svg' ) )
+		);
 		return;
 	}
-	echo '<table class="widefat striped"><thead><tr><th>What</th><th>Details</th><th>Flags</th><th>Decide</th></tr></thead><tbody>';
+	echo '<ol class="ltef-queue">';
 	foreach ( $items as $p ) {
 		$fields = get_post_meta( $p->ID, 'ltef_fields', true );
-		$flags  = array();
+		$flags  = array(); // [ chip modifier, html ]
 		if ( get_post_meta( $p->ID, 'ltef_flag_blocklist', true ) ) {
-			$flags[] = '<span style="background:#ffd8c2;padding:2px 8px;border-radius:99px"><strong>On your don’t-work-with list</strong></span>';
+			$flags[] = array( 'warn', 'On your don’t-work-with list' );
 		}
 		if ( 'ltef_woopon' === $p->post_type ) {
 			$tier = ltef_meta( $p->ID, 'tier' );
-			$flags[] = esc_html( array( 'free' => 'Free trial: check it’s their first', 'weekly' => 'Weekly: ' . ltef_money( ltef_setting( 'woopon_weekly' ) ) . ' a week', 'vip' => 'VIP: ' . ltef_money( ltef_setting( 'woopon_vip' ) ), 'partner' => 'Partner code' )[ $tier ] ?? '' );
+			$t    = array( 'free' => 'Free trial: check it’s their first', 'weekly' => 'Weekly: ' . ltef_money( ltef_setting( 'woopon_weekly' ) ) . ' a week', 'vip' => 'VIP: ' . ltef_money( ltef_setting( 'woopon_vip' ) ), 'partner' => 'Partner code' )[ $tier ] ?? '';
+			if ( $t ) {
+				$flags[] = array( 'partner' === $tier || 'free' === $tier ? '' : 'paid', esc_html( $t ) );
+			}
 			if ( 'vip' === $tier ) {
-				$flyer = (int) ltef_meta( $p->ID, 'flyer' );
-				$flags[] = $flyer ? '<a href="' . esc_url( wp_get_attachment_url( $flyer ) ) . '" target="_blank" rel="noopener">See the flyer</a>' : '<strong>No flyer</strong>';
+				$flyer   = (int) ltef_meta( $p->ID, 'flyer' );
+				$flags[] = $flyer ? array( '', '<a href="' . esc_url( wp_get_attachment_url( $flyer ) ) . '" target="_blank" rel="noopener">See the flyer</a>' ) : array( 'warn', 'No flyer' );
 			}
 		}
 		if ( 'ltef_event' === $p->post_type && ltef_meta( $p->ID, 'premium' ) ) {
-			$flags[] = 'Premium listing: ' . esc_html( ltef_money( ltef_setting( 'event_premium' ) ) ) . ' a month';
+			$flags[] = array( 'paid', 'Premium listing: ' . esc_html( ltef_money( ltef_setting( 'event_premium' ) ) ) . ' a month' );
 		}
 		if ( 'ltef_job' === $p->post_type ) {
-			$flags[] = 'Job post: ' . esc_html( ltef_money( ltef_setting( 'job_post' ) ) ) . ' a month';
+			$flags[] = array( 'paid', 'Job post: ' . esc_html( ltef_money( ltef_setting( 'job_post' ) ) ) . ' a month' );
 		}
 		$payflag = function_exists( 'ltef_pay_flag' ) ? ltef_pay_flag( $p->ID ) : '';
 		if ( $payflag ) {
-			$flags[] = $payflag; // built from fixed strings and an amount
+			$flags[] = array( 'pay', $payflag ); // built from fixed strings and an amount
 		}
 		$photo = (int) get_post_meta( $p->ID, 'ltef_photo', true );
 		if ( $photo ) {
-			$flags[] = '<a href="' . esc_url( wp_get_attachment_url( $photo ) ) . '" target="_blank" rel="noopener">See the photo</a>';
+			$flags[] = array( '', '<a href="' . esc_url( wp_get_attachment_url( $photo ) ) . '" target="_blank" rel="noopener">See the photo</a>' );
 		}
 		$details = '';
 		if ( is_array( $fields ) ) {
@@ -80,19 +86,23 @@ function ltef_review_page() {
 				if ( '' === $val || null === $val ) {
 					continue;
 				}
-				$details .= '<div><strong>' . esc_html( ucfirst( str_replace( '_', ' ', $k ) ) ) . ':</strong> ' . esc_html( is_bool( $val ) ? ( $val ? 'yes' : 'no' ) : $val ) . '</div>';
+				$details .= '<dt>' . esc_html( ucfirst( str_replace( '_', ' ', $k ) ) ) . '</dt><dd>' . esc_html( is_bool( $val ) ? ( $val ? 'yes' : 'no' ) : $val ) . '</dd>';
 			}
+		}
+		$chips = '';
+		foreach ( $flags as $f ) {
+			$chips .= '<li><span class="ltef-chip' . ( $f[0] ? ' ltef-chip--' . $f[0] : '' ) . '">' . $f[1] . '</span></li>'; // already escaped
 		}
 		$url = function ( $act ) use ( $p ) {
 			return wp_nonce_url( admin_url( 'admin-post.php?action=ltef_review&do=' . $act . '&post=' . $p->ID ), 'ltef_review_' . $p->ID );
 		};
 		printf(
-			'<tr><td><strong>%1$s</strong><br>%2$s<br><span class="description">Sent %3$s</span></td><td>%4$s</td><td>%5$s</td><td><a class="button button-primary" href="%6$s">Approve</a> <a class="button" href="%7$s">Edit first</a><form method="post" action="%8$s" style="margin-top:8px"><input type="hidden" name="action" value="ltef_review"><input type="hidden" name="do" value="decline"><input type="hidden" name="post" value="%9$d">%10$s<label class="screen-reader-text" for="why-%9$d">Private reason</label><input id="why-%9$d" type="text" name="why" placeholder="Private reason (optional)" class="regular-text" style="max-width:200px"> <button class="button">Decline</button><br><label><input type="checkbox" name="block" value="1"> Add to the don’t-work-with list</label></form></td></tr>',
+			'<li class="ltef-card" aria-labelledby="ltef-q-%9$d"><header class="ltef-card__head"><span class="ltef-chip ltef-chip--kind">%1$s</span><h2 class="ltef-card__title" id="ltef-q-%9$d">%2$s</h2><span class="ltef-card__when">Sent %3$s</span></header>%5$s<dl class="ltef-card__details">%4$s</dl><div class="ltef-card__actions"><a class="button button-primary" href="%6$s">Approve</a><a class="button" href="%7$s">Edit first</a><details class="ltef-decline"><summary>Decline</summary><form method="post" action="%8$s"><input type="hidden" name="action" value="ltef_review"><input type="hidden" name="do" value="decline"><input type="hidden" name="post" value="%9$d">%10$s<label class="screen-reader-text" for="why-%9$d">Private reason</label><input id="why-%9$d" type="text" name="why" placeholder="Private reason (optional)"><label class="ltef-check"><input type="checkbox" name="block" value="1"> Add to the don’t-work-with list</label><button class="button">Decline and move to trash</button></form></details></div></li>',
 			esc_html( ltef_review_types()[ $p->post_type ] ),
 			esc_html( $p->post_title ),
 			esc_html( human_time_diff( strtotime( $p->post_date ), current_time( 'timestamp' ) ) . ' ago' ), // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
-			$details ? $details : '—', // already escaped
-			$flags ? implode( '<br>', $flags ) : '—', // already escaped
+			$details ? $details : '<dt>Details</dt><dd>None sent</dd>', // already escaped
+			$chips ? '<ul class="ltef-card__flags">' . $chips . '</ul>' : '', // already escaped
 			esc_url( $url( 'approve' ) ),
 			esc_url( get_edit_post_link( $p->ID ) ? get_edit_post_link( $p->ID ) : '#' ),
 			esc_url( admin_url( 'admin-post.php' ) ),
@@ -100,7 +110,7 @@ function ltef_review_page() {
 			wp_nonce_field( 'ltef_review_' . $p->ID, '_wpnonce', true, false )
 		);
 	}
-	echo '</tbody></table></div>';
+	echo '</ol></div>';
 }
 
 add_action( 'admin_post_ltef_review', 'ltef_handle_review' );
@@ -164,7 +174,7 @@ function ltef_register_settings() {
 
 function ltef_settings_page() {
 	$s = ltef_settings();
-	echo '<div class="wrap"><h1>Live to Eat Food settings</h1><form method="post" action="options.php">';
+	echo '<div class="wrap"><h1>Live to Eat Food settings</h1><p class="ltef-lede">Where submissions go, how fast you reply, and the private don’t-work-with list.</p><form method="post" action="options.php">';
 	settings_fields( 'ltef_settings' );
 	echo '<table class="form-table" role="presentation">';
 	$num = function ( $k, $label, $help ) use ( $s ) {

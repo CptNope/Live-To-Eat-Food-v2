@@ -554,7 +554,7 @@ function ltef_payments_page() {
 	}
 	$hooked = ! empty( $s['hooks'][ $mode ]['secret'] );
 	if ( $s['key'] ) {
-		echo '<p><strong>Stripe: ' . ( 'live' === $mode ? '<span style="color:#1e7e34">live mode</span>, real cards' : '<span style="color:#b26200">test mode</span>, Stripe’s test cards only' ) . '.</strong> Key ends in ' . esc_html( substr( $s['key'], -4 ) ) . '. ' . ( $hooked ? 'Stripe reports payments back to the site.' : '<strong>Not connected yet:</strong> press Save to finish.' ) . ' Card payments on the paid forms are <strong>' . ( ltef_stripe_on() ? 'on' : 'off' ) . '</strong>.</p>';
+		echo '<p><strong>Stripe:</strong> ' . ( 'live' === $mode ? '<span class="ltef-chip ltef-chip--live">Live mode</span> Real cards are charged.' : '<span class="ltef-chip ltef-chip--test">Test mode</span> Only Stripe’s test cards work.' ) . ' Key ends in ' . esc_html( substr( $s['key'], -4 ) ) . '. ' . ( $hooked ? 'Stripe reports payments back to the site.' : '<strong>Not connected yet:</strong> press Save to finish.' ) . ' Card payments on the paid forms are <strong>' . ( ltef_stripe_on() ? 'on' : 'off' ) . '</strong>.</p>';
 	} else {
 		echo '<p>Not connected. In Stripe, open <strong>Developers → API keys</strong>, copy the <strong>Secret key</strong> (start with the test one, <code>sk_test_…</code>), and paste it below. The site sets up the rest.</p>';
 	}
