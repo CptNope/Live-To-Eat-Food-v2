@@ -17,7 +17,7 @@
 <p class="is-style-lede">How Live to Eat Food keeps what Tina chose apart from what someone paid for. If you can’t tell which one you’re looking at in two seconds, we got it wrong: <a href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>#f-co">tell us</a>.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"is-style-meta"} -->
-<p class="is-style-meta">Last updated [date] · A proposal for Tina to confirm before launch</p>
+<p class="is-style-meta">Last updated November 11, 2026</p>
 <!-- /wp:paragraph --></section>
 <!-- /wp:group -->
 
