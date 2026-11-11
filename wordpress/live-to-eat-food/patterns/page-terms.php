@@ -27,7 +27,7 @@
 <h2 id="h-who" class="wp-block-heading">Who we are</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>The site is run by Jeremy Anderson Tech LLC for Live to Eat Food, Tina Vo’s food guide to Worcester and Central Massachusetts. “We” and “us” mean the people who run it.</p>
+<p>Live to Eat Food is Tina Vo’s food guide to Worcester and Central Massachusetts. Tina runs it, and Jeremy Anderson Tech LLC builds and manages the site for her. “We” and “us” mean Tina and the people who help her run it.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:group {"anchor":"opinions"} -->
