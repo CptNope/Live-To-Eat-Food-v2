@@ -49,7 +49,9 @@ Each place has Tina's video link (where she first posted it) and three optional 
 3. **Facebook** (the video has to be Public, and the link has to be the video's own: `facebook.com/reel/…` or `…/videos/…`; share links only get linked to)
 4. **TikTok**: blocked most often.
 
-None of them needs the visitor to have an account for a public video (checked signed out in November 2026). Under the player, "Not playing? Watch it on …" links to every copy. Nothing loads from any platform until someone presses play. To change the order, filter `ltef_video_priority`.
+None of them needs the visitor to have an account for a public video (checked signed out in November 2026).
+
+The import fills in the YouTube copy from Tina's channel (@LiveToEatFoodie) for 273 places and 172 of her other videos, matched by place name and posting date (November 2026). It only fills empty fields, so a link typed in by hand stays. TikTok's player turns some networks away (HTTP 429, "Too many requests"), which is why YouTube goes first. For a new video, paste its Shorts link into the place's **YouTube copy** field. Under the player, "Not playing? Watch it on …" links to every copy. Nothing loads from any platform until someone presses play. To change the order, filter `ltef_video_priority`.
 
 ## Money (private)
 
