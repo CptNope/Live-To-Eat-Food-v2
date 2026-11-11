@@ -149,7 +149,7 @@ function ltef_sources_from_urls( $urls ) {
 		}
 		$embed = '';
 		if ( 'youtube' === $pf && ltef_youtube_id( $url ) ) {
-			$embed = 'https://www.youtube-nocookie.com/embed/' . ltef_youtube_id( $url ) . '?autoplay=1&rel=0&playsinline=1';
+			$embed = 'https://www.youtube-nocookie.com/embed/' . ltef_youtube_id( $url ) . '?autoplay=1&rel=0&playsinline=1&cc_load_policy=1';
 		} elseif ( 'instagram' === $pf && ltef_instagram_ref( $url ) ) {
 			list( $kind, $code ) = ltef_instagram_ref( $url );
 			$embed = 'https://www.instagram.com/' . $kind . '/' . $code . '/embed/';

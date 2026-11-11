@@ -419,7 +419,7 @@ input[type="file"].ltef-input::file-selector-button { margin-right: 12px; paddin
 .ltef-field__hint { margin: 0; font: 500 14px/1.4 var(--font-reading); color: var(--olive); }
 .ltef-input { min-height: 48px; padding: 0 16px; border-radius: var(--radius-pill); border: 2px solid var(--basil); background: var(--vinyl); color: var(--basil); font: 500 16px var(--font-reading); width: 100%; box-sizing: border-box; }
 textarea.ltef-input { min-height: 96px; padding: 12px 16px; border-radius: 18px; resize: vertical; }
-.ltef-input:focus-visible { outline: 3px solid var(--basil); outline-offset: 2px; }
+.ltef-input:focus-visible, .ltef-input[type="date"]:focus-within, .ltef-input[type="time"]:focus-within { outline: 3px solid var(--basil); outline-offset: 2px; }
 .ltef-input[aria-invalid="true"] { border-style: dashed; box-shadow: 0 0 0 3px var(--peach); }
 .ltef-field__err { display: flex; gap: 8px; align-items: flex-start; margin: 0; padding: 8px 12px; border-radius: 14px; background: var(--peach); color: var(--basil); font: 600 14px/1.35 var(--font-interface); }
 .ltef-field__err svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
@@ -752,6 +752,13 @@ body { background: var(--lemon); }
 .ltef-footer .wp-block-navigation-item__content { display: inline-flex; align-items: center; min-height: 44px; color: var(--basil); font: 700 15px var(--font-interface); text-decoration: underline; text-underline-offset: .2em; }
 .ltef-footer .ltef-credit { font-size: 14px; color: var(--olive); }
 .ltef-footer .ltef-credit a { color: var(--basil); }
+.ltef-footer .ltef-legal { gap: 0 18px; margin-top: 4px; }
+.ltef-footer .ltef-legal .wp-block-navigation-item__content { min-height: 36px; font: 600 14px var(--font-interface); color: var(--olive); }
+.ltef-policy h2 { font-size: clamp(1.625rem, 3vw, 2.25rem); line-height: 1.08; margin: 52px 0 14px; }
+.ltef-policy > .wp-block-group:first-child h2 { margin-top: 0; }
+.ltef-policy p, .ltef-policy li { font-size: 17px; line-height: 1.6; }
+.ltef-policy p, .ltef-policy li { max-width: 68ch; }
+.ltef-policy ul { padding-left: 1.2em; display: grid; gap: 8px; }
 
 /* Places */
 .place-row { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 18px; align-items: center; padding: 14px 18px; }

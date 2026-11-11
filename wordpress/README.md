@@ -87,6 +87,12 @@ The admin wears the site's colors. The plugin adds a **Live to Eat Food** color 
 
 The scheme is built from WordPress's own scheme template: edit `ltef-core/assets/css/src/admin-colors.scss`, then run `ltef-core/assets/css/build-admin.sh` (needs Dart Sass and a WordPress install at `WP_CORE`, default `/tmp/wp`).
 
+## Accessibility, privacy and terms
+
+The footer links to **Accessibility**, **Privacy policy** and **Terms of use** (built-in pages, so **Create the pages** adds them; it fills WordPress's own draft Privacy Policy page instead of making a second one, and sets it as the site's privacy page). They describe what the site actually does as of November 11, 2026: Jeremy Anderson Tech LLC runs the site for Live to Eat Food; no analytics or ad trackers; data goes to Cloudways, Cloudflare (Turnstile), Brevo, Stripe and Rackspace; forms are for 13 and up; Massachusetts law. If any of that changes (an analytics tool, a new service, a new form), update the pages and their date.
+
+On November 11, 2026, axe-core (WCAG 2.2 A and AA rules) found no failures on 30 page types at 1280px and 390px, including the open menus and the sign-in page. Keyboard focus, 320px reflow and reduced motion were checked too. The one fix was a visible focus ring on date fields, whose focus sits inside the field.
+
 ## Still to do before launch
 
 - **The Monthly Crumbs welcome email.** Set it up as an automation in Brevo on the Monthly Crumbs list.

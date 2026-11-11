@@ -67,7 +67,7 @@
 .ltef-field__hint { margin: 0; font: 500 14px/1.4 var(--font-reading); color: var(--olive); }
 .ltef-input { min-height: 48px; padding: 0 16px; border-radius: var(--radius-pill); border: 2px solid var(--basil); background: var(--vinyl); color: var(--basil); font: 500 16px var(--font-reading); width: 100%; box-sizing: border-box; }
 textarea.ltef-input { min-height: 96px; padding: 12px 16px; border-radius: 18px; resize: vertical; }
-.ltef-input:focus-visible { outline: 3px solid var(--basil); outline-offset: 2px; }
+.ltef-input:focus-visible, .ltef-input[type="date"]:focus-within, .ltef-input[type="time"]:focus-within { outline: 3px solid var(--basil); outline-offset: 2px; }
 .ltef-input[aria-invalid="true"] { border-style: dashed; box-shadow: 0 0 0 3px var(--peach); }
 .ltef-field__err { display: flex; gap: 8px; align-items: flex-start; margin: 0; padding: 8px 12px; border-radius: 14px; background: var(--peach); color: var(--basil); font: 600 14px/1.35 var(--font-interface); }
 .ltef-field__err svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
