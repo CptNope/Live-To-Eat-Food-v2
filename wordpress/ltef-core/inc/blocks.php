@@ -102,7 +102,11 @@ function ltef_block_place_take( $attrs, $content, $block ) {
 	}
 	$out  = '<div class="place-labels">' . ltef_place_labels( $id ) . '</div>';
 	$out .= '<p class="meta place-meta">' . esc_html( ltef_place_meta_line( $id ) ) . '</p>';
-	$v    = ltef_verdict_html( ltef_meta( $id, 'verdict' ) );
+	$own  = ltef_tina_owns( $id );
+	$v    = $own ? '' : ltef_verdict_html( ltef_meta( $id, 'verdict' ) );
+	if ( $own ) {
+		$out .= '<p class="ltef-disclose ltef-disclose--partner">' . ltef_icon( 'store' ) . '<span>Tina owns this business. It’s on the site because it’s hers, not as an independent pick, so it never gets a verdict. <a href="' . esc_url( home_url( '/editorial-policy/#own' ) ) . '">How we handle this</a></span></p>';
+	}
 	if ( ltef_meta( $id, 'hosted' ) ) {
 		$out .= '<p class="ltef-disclose">' . ltef_icon( 'mail' ) . '<span>Hosted visit: ' . esc_html( get_the_title( $id ) ) . ' invited Tina and covered this meal. Nobody paid for this page or saw it before it went up.</span></p>';
 	}
@@ -114,7 +118,7 @@ function ltef_block_place_take( $attrs, $content, $block ) {
 		if ( ltef_meta( $id, 'tina_quote' ) ) {
 			$out .= '<p class="ltef-note place-quote">“' . esc_html( ltef_meta( $id, 'tina_quote' ) ) . '”</p>';
 		}
-		$out .= $v ? '<div class="ltef-verdicts">' . $v . '</div>' : '<p class="verdict-line"><span class="verdict-line__k">No verdict yet</span> Tina marks a place Favorite or Don’t miss when it really gets her. <a href="' . esc_url( home_url( '/how-it-works/#verdicts' ) ) . '">How verdicts work</a></p>';
+		$out .= $own ? '' : ( $v ? '<div class="ltef-verdicts">' . $v . '</div>' : '<p class="verdict-line"><span class="verdict-line__k">No verdict yet</span> Tina marks a place Favorite or Don’t miss when it really gets her. <a href="' . esc_url( home_url( '/how-it-works/#verdicts' ) ) . '">How verdicts work</a></p>' );
 	} else {
 		$out .= '<p class="verdict-line"><span class="verdict-line__k">Not yet</span> Tina hasn’t posted from here. <a href="' . esc_url( home_url( '/how-it-works/#suggest' ) ) . '">Think she should go?</a></p>';
 	}

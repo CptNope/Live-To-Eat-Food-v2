@@ -153,6 +153,7 @@ function ltef_import_places() {
 	$m = 0;
 	$t = 0;
 	$y = 0;
+	$o = 0;
 	$skipped = 0;
 	// Never add a business that's on Tina's private don't-work-with list. The names stay on the server.
 	$norm  = function ( $t ) { return preg_replace( '/[^a-z0-9]/', '', strtolower( remove_accents( (string) $t ) ) ); };
@@ -180,6 +181,14 @@ function ltef_import_places() {
 					update_post_meta( $existing->ID, 'ltef_dish', $p['dish'] );
 				}
 				++$t;
+			}
+			// A business Tina owns: label it, and fill "Worth knowing" if it's empty.
+			if ( ! empty( $p['own'] ) && ! ltef_meta( $existing->ID, 'own' ) ) {
+				update_post_meta( $existing->ID, 'ltef_own', 1 );
+				if ( '' === (string) get_post_meta( $existing->ID, 'ltef_facts', true ) && ! empty( $p['facts'] ) ) {
+					update_post_meta( $existing->ID, 'ltef_facts', implode( "\n", $p['facts'] ) );
+				}
+				++$o;
 			}
 			// Her YouTube copy plays first (TikTok's player is often throttled). Only fills an empty field.
 			if ( ! empty( $p['youtube'] ) && '' === (string) get_post_meta( $existing->ID, 'ltef_youtube', true ) ) {
@@ -219,6 +228,7 @@ function ltef_import_places() {
 			'phone'   => $p['phone'] ?? '',
 			'website' => $p['website'] ?? '',
 			'facts'   => implode( "\n", $p['facts'] ?? array() ),
+			'own'     => empty( $p['own'] ) ? '' : 1,
 		);
 		if ( ! empty( $p['tina'] ) ) {
 			$sort                 = (string) ( $p['tina']['sort'] ?? '' );
@@ -382,7 +392,7 @@ function ltef_import_places() {
 		$content = false === $at ? $week . $content : substr( $content, 0, $at + 18 ) . "\n\n" . $week . substr( $content, $at + 18 );
 		wp_update_post( array( 'ID' => $deals_page->ID, 'post_content' => wp_slash( $content ) ) );
 	}
-	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly %s added.', $sp, 1 === $sp ? 'deal' : 'deals' ) : '' ) . ( $su ? sprintf( ' %d weekly %s updated.', $su, 1 === $su ? 'deal' : 'deals' ) : '' ) . ( $pc ? sprintf( ' %d partner %s added to Woo-pons.', $pc, 1 === $pc ? 'code' : 'codes' ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $y ? sprintf( ' %d YouTube %s added, and %s first.', $y, 1 === $y ? 'copy' : 'copies', 1 === $y ? 'it plays' : 'they play' ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
+	return sprintf( '%d places, %d guides and %d round-ups imported, and %d more videos added.', $n, $g, $r, $m ) . ( $sp ? sprintf( ' %d weekly %s added.', $sp, 1 === $sp ? 'deal' : 'deals' ) : '' ) . ( $su ? sprintf( ' %d weekly %s updated.', $su, 1 === $su ? 'deal' : 'deals' ) : '' ) . ( $pc ? sprintf( ' %d partner %s added to Woo-pons.', $pc, 1 === $pc ? 'code' : 'codes' ) : '' ) . ( $t ? sprintf( ' %d places now show Tina’s visit.', $t ) : '' ) . ( $o ? sprintf( ' %d marked as Tina’s own business.', $o ) : '' ) . ( $y ? sprintf( ' %d YouTube %s added, and %s first.', $y, 1 === $y ? 'copy' : 'copies', 1 === $y ? 'it plays' : 'they play' ) : '' ) . ( $skipped ? sprintf( ' %d skipped because they match your don’t-work-with list.', $skipped ) : '' );
 }
 
 function ltef_add_samples() {

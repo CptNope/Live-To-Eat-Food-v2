@@ -66,6 +66,7 @@ function ltef_icon( $name ) {
 		'target'  => '<g fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="8.6"/><circle cx="12" cy="12" r="4.8"/></g><circle cx="12" cy="12" r="1.9" fill="currentColor"/>',
 		'spin'    => '<g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v8.5l6 6M3.5 12H12"/></g>',
 		'cal'     => '<g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10.5h16M8.5 3.5v4M15.5 3.5v4"/></g>',
+		'store'   => '<g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 9.5 6 4.5h12l1.5 5"/><path d="M4.5 9.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5"/><path d="M6 12.5v7h12v-7M10 19.5v-4.5h4v4.5"/></g>',
 		'arrow'   => '<path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
 	);
 	$class = in_array( $name, array( 'star', 'target' ), true ) ? ' class="ltef-verdict__i"' : '';
@@ -76,7 +77,7 @@ function ltef_icon( $name ) {
  * A trust or paid label. Paid kinds wear the oat hatch (ltef-lbl--sponsored).
  */
 function ltef_label( $kind, $text, $small = true ) {
-	$icons = array( 'tina' => 'pen', 'hosted' => 'mail', 'sponsored' => 'dollar', 'partner' => 'dollar', 'enhanced' => 'plus', 'vip' => 'star', 'open' => 'mega' );
+	$icons = array( 'tina' => 'pen', 'hosted' => 'mail', 'sponsored' => 'dollar', 'partner' => 'dollar', 'enhanced' => 'plus', 'vip' => 'star', 'open' => 'mega', 'own' => 'store' );
 	$class = 'vip' === $kind ? 'sponsored' : $kind;
 	$icon  = isset( $icons[ $kind ] ) ? ltef_icon( $icons[ $kind ] ) : '';
 	return sprintf( '<span class="ltef-lbl ltef-lbl--%s%s">%s%s</span>', esc_attr( $class ), $small ? ' ltef-lbl--sm' : '', $icon, esc_html( $text ) );
@@ -216,6 +217,22 @@ function ltef_place_kinds() {
 function ltef_place_kind( $post_id ) {
 	$k = (string) ltef_meta( $post_id, 'kind' );
 	return isset( ltef_place_kinds()[ $k ] ) ? $k : 'eat';
+}
+
+/** A business Tina owns: the page says so, and it never gets a verdict or a place in her picks. */
+function ltef_tina_owns( $post_id ) {
+	return (bool) ltef_meta( $post_id, 'own' );
+}
+
+/** The trust label for a place: "Tina's own business", "Tina ate here · Aug 2026", or '' when she hasn't been. */
+function ltef_place_trust_label( $post_id, $small = true ) {
+	if ( ltef_tina_owns( $post_id ) ) {
+		return ltef_label( 'own', 'Tina’s own business', $small );
+	}
+	if ( ! ltef_tina_ate( $post_id ) ) {
+		return '';
+	}
+	return ltef_label( 'tina', trim( ltef_tina_label( $post_id ) . ' · ' . ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ), ' ·' ), $small );
 }
 
 /** "Tina ate here" for food, "Tina went here" for everything else. */

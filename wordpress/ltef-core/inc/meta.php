@@ -29,6 +29,7 @@ function ltef_fields( $type ) {
 			'more_videos' => array( 'More videos from here', 'textarea', 'Her other videos from this place, one per line: month | link | her caption. Example: 2026-08 | https://www.tiktok.com/@livetoeatfoodie/video/… | Another bread-cellent meal. Put a YouTube or Instagram copy in the same line after the first link, with a space between.' ),
 			'verdict'     => array( 'Tina’s verdict', 'select', 'Only Tina picks this. Most places get neither.', array( '' => 'No verdict', 'favorite' => 'Favorite (star)', 'dont-miss' => 'Don’t miss (target)' ) ),
 			'hosted'      => array( 'Hosted visit', 'checkbox', 'The place invited Tina and covered the meal. The page says so above her take.' ),
+			'own'         => array( 'Tina’s own business', 'checkbox', 'Tina owns it. The page and every list say so, and it never gets a verdict (federal advertising rules ask creators to disclose this).' ),
 			'enhanced'    => array( 'Enhanced listing', 'checkbox', 'The owner pays for extra modules. Never changes Tina’s take or any ranking.' ),
 			'phone'       => array( 'Phone', 'tel', '' ),
 			'website'     => array( 'Website', 'url', '' ),
