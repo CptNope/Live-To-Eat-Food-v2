@@ -146,6 +146,8 @@ function ltef_stripe_hold_url( $key, $post_id, $v, $back ) {
 		'checkout/sessions',
 		array(
 			'mode'                => 'payment',
+			// Cards (with Apple Pay and Google Pay) and Link can be held until Tina approves; pay-later and bank methods can't.
+			'payment_method_types' => array( 'card', 'link' ),
 			'customer_email'      => $v['email'] ?? '',
 			'client_reference_id' => (string) $post_id,
 			'line_items'          => array( array( 'quantity' => 1, 'price_data' => array( 'currency' => 'usd', 'unit_amount' => $item['cents'], 'product_data' => array( 'name' => mb_substr( $item['label'], 0, 240 ) ) ) ) ),

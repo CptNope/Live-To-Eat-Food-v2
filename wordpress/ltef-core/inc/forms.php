@@ -252,7 +252,10 @@ function ltef_handle_submit() {
 		wp_safe_redirect( home_url( '/' ) );
 		exit;
 	}
-	if ( ! isset( $_POST['_ltef_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_ltef_nonce'] ) ), 'ltef_submit_' . $key ) ) {
+	// The nonce guards signed-in people. A visitor's page may come from the cache and outlive its nonce (12–24 hours),
+	// so when the spam check is on, Turnstile (checked below) stands in for it instead of turning them away.
+	$nonce_ok = isset( $_POST['_ltef_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_ltef_nonce'] ) ), 'ltef_submit_' . $key );
+	if ( ! $nonce_ok && ( is_user_logged_in() || ! ( function_exists( 'ltef_turnstile_ready' ) && ltef_turnstile_ready() ) ) ) {
 		$fail( 'That form timed out. Please send it again.' );
 	}
 	// a bot fills the hidden field or sends in under three seconds
