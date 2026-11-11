@@ -14,7 +14,7 @@
 <h1 id="h-top" class="wp-block-heading">Privacy policy</h1>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"className":"is-style-lede"} -->
-<p class="is-style-lede">What Live to Eat Food collects, why, and who else sees it. The short version: we only collect what you send us, we don’t use analytics or ad trackers, and we never sell your information.</p>
+<p class="is-style-lede">What Live to Eat Food collects, why, and who else sees it. The short version: we only collect what you send us and a cookie-free count of visits, we don’t use ad trackers, and we never sell your information.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"is-style-meta"} -->
 <p class="is-style-meta">Last updated November 11, 2026</p>
@@ -52,7 +52,10 @@
 <p><strong>What any visit sends.</strong> Like every website, our host and Cloudflare see your IP address and browser details when you visit, and use them to deliver the site and keep out abuse. To limit how many forms one connection can send in an hour, the site keeps a scrambled (hashed) copy of the IP address for an hour.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
-<p>We don’t use analytics, ad trackers or tracking pixels.</p>
+<p><strong>Visit counts.</strong> We count visits with Independent Analytics, which runs on our own server and doesn’t use cookies. When a page loads, it records the page, the site that sent you there, your browser and type of device, and your approximate location (country and city, worked out from your IP address). It recognizes a returning visitor by a one-way scrambled code made from the IP address and browser, and the key to that code changes every day, so we can’t follow anyone from one day to the next or tell who they are. Your IP address itself isn’t kept. The counts stay on our server, aren’t shared with anyone, and are deleted after two years.</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>We don’t use ad trackers or tracking pixels.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:group {"anchor":"cookies"} -->
@@ -60,7 +63,7 @@
 <h2 id="h-cookies" class="wp-block-heading">Cookies and your browser</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>The site itself doesn’t set cookies or store anything in your browser while you browse; only people who sign in to run the site get WordPress’s sign-in cookies. Cloudflare, which protects the site and runs the spam check on forms, may set cookies it needs to tell people from bots.</p>
+<p>The site itself doesn’t set cookies or store anything in your browser while you browse; only people who sign in to run the site get WordPress’s sign-in cookies. The visit counts don’t use cookies either. Cloudflare, which protects the site and runs the spam check on forms, may set cookies it needs to tell people from bots.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
 <p>Videos load only when you press play. Then YouTube (in its privacy-enhanced mode), TikTok, Instagram or Facebook loads its own player, which may set its own cookies under its own privacy policy.</p>
@@ -82,6 +85,9 @@
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
 <li>To keep records of payments for accounting and taxes.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>To see which pages people use and where they come from, so we can make the site better.</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
 <li>To keep the site secure and free of spam.</li>
@@ -138,6 +144,9 @@
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
 <li>The Monthly Crumbs list keeps your email until you unsubscribe. Every issue has an unsubscribe link.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Visit counts are deleted automatically after two years.</li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list --></div>
 <!-- /wp:group -->
