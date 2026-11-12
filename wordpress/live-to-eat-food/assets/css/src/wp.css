@@ -336,6 +336,7 @@ body { background: var(--lemon); }
 .ev-k--market  { --k-bg: #ffe586; --k-ac: #c99a00; }
 .ev-k--music   { --k-bg: #e4d8f7; --k-ac: #7656b3; }
 .ev-k--art     { --k-bg: #f9d3e3; --k-ac: #bf4a7e; }
+.ev-k--crafts  { --k-bg: #e9e4b4; --k-ac: #857d14; }
 .ev-k--fitness { --k-bg: #cdeab4; --k-ac: #3d8a37; }
 .ev-k--retail  { --k-bg: #cfe3f6; --k-ac: #3a74b0; }
 .ev-k--family  { --k-bg: #d3efec; --k-ac: #2a8a80; }

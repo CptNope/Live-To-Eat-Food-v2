@@ -68,7 +68,7 @@ function ltef_fields( $type ) {
 			'venue'       => array( 'Where', 'text', 'The place and the neighborhood.' ),
 			'price_text'  => array( 'Price', 'text', 'Free, $35, Pay your own way…' ),
 			'link'        => array( 'Details or tickets link', 'url', '' ),
-			'kind'        => array( 'Kind', 'select', '', array( 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'fitness' => 'Fitness or wellness', 'retail' => 'Retail or shopping', 'family' => 'Family', 'nonprofit' => 'Nonprofit or fundraiser', 'other' => 'Something else' ) ),
+			'kind'        => array( 'Kind', 'select', '', array( 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'crafts' => 'Arts and crafts', 'fitness' => 'Fitness or wellness', 'retail' => 'Retail or shopping', 'family' => 'Family', 'nonprofit' => 'Nonprofit or fundraiser', 'other' => 'Something else' ) ),
 			'premium'     => array( 'Premium listing (' . ltef_money( ltef_setting( 'event_premium' ) ) . ' a month)', 'checkbox', 'Pinned at the top of its week, labeled.' ),
 			'tina'        => array( 'Tina’s own event', 'checkbox', 'Shows her avatar.' ),
 			'submitted_by' => array( 'Listed by', 'text', 'The name of whoever sent it in. Shown on the event page.' ),
