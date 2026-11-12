@@ -154,6 +154,21 @@ function ltef_forms() {
 				array( 'email', 'Email', 'email', true, 'For the receipt. Never shown.' ),
 			),
 		),
+		'testimonial' => array(
+			'title'  => 'How did it go?',
+			'intro'  => 'Worked with Tina on a visit, a Woo-pon, an event or anything else? Tell people how it went, in your own words.',
+			'button' => 'Send it to Tina',
+			'note'   => 'Tina reads every one before it goes up, and she may shorten it. Nothing is ever paid for, and we never write one for you.',
+			'fields' => array(
+				array( 'name', 'Your name', 'text', true, 'Shown with your words.' ),
+				array( 'business', 'Your business', 'text', true, 'Shown with your words.' ),
+				array( 'role', 'Your role', 'text', false, 'Owner, chef, organizer…' ),
+				array( 'worked', 'What you did with Tina', 'select', true, '', array( '' => 'Pick one' ) + ltef_testimonial_kinds() ),
+				array( 'quote', 'How did it go?', 'textarea', true, 'A few sentences is perfect. Up to ' . LTEF_TESTIMONIAL_MAX . ' characters.' ),
+				array( 'email', 'Email', 'email', true, 'Only if Tina has a question. Never shown.' ),
+				array( 'consent', 'Tina can show my name, my business and these words on Live to Eat Food.', 'checkbox', true, '' ),
+			),
+		),
 		'photo'   => array(
 			'title'  => 'Share your bite',
 			'intro'  => 'A photo of what you ate somewhere Tina posted, or a photo you took with Tina. Credited to you, food first.',
@@ -205,6 +220,9 @@ function ltef_block_submit_form( $attrs ) {
 	$error = isset( $_GET['ltef_error'], $_GET['ltef_form'] ) && sanitize_key( wp_unslash( $_GET['ltef_form'] ) ) === $key ? sanitize_text_field( wp_unslash( $_GET['ltef_error'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( $sent ) {
 		$days = (int) ltef_setting( 'reply_days' );
+		if ( 'testimonial' === $key ) {
+			return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Thank you!</p><p>Tina reads every one, usually within ' . esc_html( $days ) . ' days. Once she approves it, it shows on Live to Eat Food with your name and business.</p></div>' );
+		}
 		if ( 'signup' === $key ) {
 			return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">You’re on the list for Monthly Crumbs.</p><p>The next one lands on the first Sunday of the month.</p></div>' );
 		}
@@ -248,7 +266,7 @@ function ltef_block_submit_form( $attrs ) {
 			}
 			$ctl .= '</select>';
 		} elseif ( 'textarea' === $type ) {
-			$max = 'dish' === $key && 'about' === $name ? ' maxlength="' . LTEF_DISH_ABOUT_MAX . '"' : '';
+			$max = 'dish' === $key && 'about' === $name ? ' maxlength="' . LTEF_DISH_ABOUT_MAX . '"' : ( 'testimonial' === $key && 'quote' === $name ? ' maxlength="' . LTEF_TESTIMONIAL_MAX . '" rows="5"' : '' );
 			$ctl = '<textarea class="ltef-input" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" rows="3"' . $r . $desc . $max . '></textarea>';
 		} elseif ( 'file' === $type ) {
 			$has_file = true;
@@ -346,6 +364,9 @@ function ltef_handle_submit() {
 		}
 		$v[ $name ] = $val;
 	}
+	if ( 'testimonial' === $key && mb_strlen( $v['quote'] ) > LTEF_TESTIMONIAL_MAX ) {
+		$fail( 'That’s over ' . LTEF_TESTIMONIAL_MAX . ' characters. A little shorter, please.' );
+	}
 	if ( 'dish' === $key && mb_strlen( $v['about'] ) > LTEF_DISH_ABOUT_MAX ) {
 		$fail( 'About it is over ' . LTEF_DISH_ABOUT_MAX . ' characters.' );
 	}
@@ -398,6 +419,11 @@ function ltef_handle_submit() {
 			$type  = 'ltef_dish';
 			$title = $v['dish'];
 			$meta  = array( 'business' => $v['business'], 'price_text' => $v['price'], 'about' => $v['about'], 'place' => function_exists( 'ltef_owner_match_place' ) ? ltef_owner_match_place( $v['business'] ) : 0, 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
+			break;
+		case 'testimonial':
+			$type  = 'ltef_testimonial';
+			$title = $v['name'] . ', ' . $v['business'];
+			$meta  = array( 'name' => $v['name'], 'business' => $v['business'], 'role' => $v['role'], 'worked' => $v['worked'], 'quote' => $v['quote'], 'contact_email' => $v['email'] );
 			break;
 		case 'job':
 			$type  = 'ltef_job';

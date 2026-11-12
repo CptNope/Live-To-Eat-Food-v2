@@ -33,6 +33,7 @@ function ltef_block_defs() {
 		'events'         => array( 'Upcoming events', 'Events from today on, premium listings first in their week. With Calendar on, a List / Calendar switch and a month view.', 'calendar-alt', array( 'count' => array( 'type' => 'number', 'default' => 12 ), 'calendar' => array( 'type' => 'boolean', 'default' => false ) ), 'ltef_block_events', false ),
 		'new-dishes'     => array( 'New dishes', 'New dishes businesses listed for 4 weeks (paid, labeled), with a link to add one.', 'carrot', array(), 'ltef_block_new_dishes', false ),
 		'verdict-picks'  => array( 'Tina’s verdicts', 'Her Favorites and Must try places, each as a row of cards.', 'star-filled', array(), 'ltef_block_verdict_picks', false ),
+		'testimonials'   => array( 'What businesses say', 'Approved testimonials, newest first, with a link for businesses to send one.', 'format-quote', array(), 'ltef_block_testimonials', false ),
 		'jobs'           => array( 'Restaurant jobs', 'Open job posts with filter chips.', 'businessperson', array(), 'ltef_block_jobs', false ),
 		'roulette'       => array( 'Restaurant Roulette', 'The wheel: Tina’s places or every restaurant.', 'image-rotate', array(), 'ltef_block_roulette', false ),
 		'site-nav'       => array( 'Site navigation', 'The header menu: top links and a grouped More panel on wide screens, a grouped Menu on phones, and the Monthly Crumbs button.', 'menu', array(), 'ltef_block_site_nav', false ),
@@ -201,6 +202,28 @@ function ltef_block_latest_places( $attrs ) {
 		return ltef_wrap( '<p class="meta">Tina’s places show up here once they’re added under Places.</p>' );
 	}
 	return ltef_wrap( '<div class="cards">' . implode( '', array_map( function ( $p ) { return ltef_place_card( $p->ID ); }, $posts ) ) . '</div>' );
+}
+
+/** What a business did with Tina, for testimonials. */
+function ltef_testimonial_kinds() {
+	return array( 'visit' => 'Tina visited', 'hosted' => 'Hosted Tina', 'woopon' => 'Ran a Woo-pon', 'event' => 'Listed an event', 'partner' => 'Paid partnership or ad', 'enhanced' => 'Enhanced listing', 'other' => 'Worked with Tina' );
+}
+
+/** Approved testimonials, newest first, and the link to send one. Nothing but the link until there's one to show. */
+function ltef_block_testimonials() {
+	$posts = get_posts( array( 'post_type' => 'ltef_testimonial', 'post_status' => 'publish', 'numberposts' => 12 ) );
+	$kinds = ltef_testimonial_kinds();
+	$cards = '';
+	foreach ( $posts as $p ) {
+		$quote = (string) ltef_meta( $p->ID, 'quote' );
+		if ( '' === $quote ) {
+			continue;
+		}
+		$who   = implode( ' · ', array_filter( array( implode( ', ', array_filter( array( (string) ltef_meta( $p->ID, 'role' ), (string) ltef_meta( $p->ID, 'business' ) ) ) ), $kinds[ (string) ltef_meta( $p->ID, 'worked' ) ] ?? '' ) ) );
+		$cards .= '<figure class="panel testi"><blockquote class="testi__q"><p>“' . esc_html( $quote ) . '”</p></blockquote><figcaption class="testi__by"><b>' . esc_html( (string) ltef_meta( $p->ID, 'name' ) ) . '</b><span>' . esc_html( $who ) . '</span></figcaption></figure>';
+	}
+	$ask = '<p class="testi-ask">' . ( $cards ? 'Worked with Tina too?' : 'Worked with Tina? Tell people how it went.' ) . ' <a href="' . esc_url( home_url( '/testimonial/' ) ) . '">Share your experience</a>. She reads each one before it goes up, and a quote is never paid for.</p>';
+	return ltef_wrap( ( $cards ? '<div class="testi-grid">' . $cards . '</div>' : '' ) . $ask, 'testimonials' );
 }
 
 /** Places with one of Tina's verdicts, her newest visit first. Her own businesses never get one. */
