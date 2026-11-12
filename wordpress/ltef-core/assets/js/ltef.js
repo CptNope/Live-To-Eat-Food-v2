@@ -253,6 +253,59 @@
 		} );
 	}
 
+	/* Events: a List / Calendar switch, and the calendar a month at a time. #calendar in the link opens on it. */
+	var evBox = document.querySelector( '[data-ltef-events]' );
+	var evCal = evBox && evBox.querySelector( '[data-ltef-cal]' );
+	if ( evBox && evCal ) {
+		var evSwitch = evBox.querySelector( '.ev-switch' );
+		var evList   = evBox.querySelector( '.ev-listview' );
+		var evBtns   = Array.prototype.slice.call( evSwitch.querySelectorAll( '[data-ev-view]' ) );
+		var calMonths = Array.prototype.slice.call( evCal.querySelectorAll( '.cal-month' ) );
+		var calTitle  = evCal.querySelector( '.cal-title' );
+		var calSteps  = Array.prototype.slice.call( evCal.querySelectorAll( '[data-cal-step]' ) );
+		var calAt = 0;
+		var pad2 = function ( n ) { return ( n < 10 ? '0' : '' ) + n; };
+		var now = new Date();
+		var isoToday = now.getFullYear() + '-' + pad2( now.getMonth() + 1 ) + '-' + pad2( now.getDate() );
+		Array.prototype.forEach.call( evCal.querySelectorAll( '[data-date]' ), function ( el ) {
+			var d = el.getAttribute( 'data-date' );
+			if ( d === isoToday ) {
+				el.classList.add( 'is-today' );
+				var n = el.querySelector( '.cal-num, .cal-agenda__d' );
+				if ( n ) n.insertAdjacentHTML( 'beforeend', '<span class="cal-today"> Today</span>' );
+			} else if ( d < isoToday ) {
+				el.classList.add( 'is-past' );
+			}
+		} );
+		var showMonth = function ( i ) {
+			calAt = Math.max( 0, Math.min( calMonths.length - 1, i ) );
+			calMonths.forEach( function ( m, j ) { m.hidden = j !== calAt; } );
+			calTitle.textContent = calMonths[ calAt ].getAttribute( 'data-label' );
+			calSteps[0].disabled = 0 === calAt;
+			calSteps[1].disabled = calMonths.length - 1 === calAt;
+		};
+		var setView = function ( v ) {
+			var cal = 'calendar' === v;
+			evCal.hidden  = ! cal;
+			evList.hidden = cal;
+			evBtns.forEach( function ( b ) { b.setAttribute( 'aria-pressed', b.getAttribute( 'data-ev-view' ) === v ? 'true' : 'false' ); } );
+		};
+		calSteps.forEach( function ( b ) {
+			b.addEventListener( 'click', function () { showMonth( calAt + parseInt( b.getAttribute( 'data-cal-step' ), 10 ) ); } );
+		} );
+		evBtns.forEach( function ( b ) {
+			b.addEventListener( 'click', function () {
+				var v = b.getAttribute( 'data-ev-view' );
+				setView( v );
+				if ( history.replaceState ) history.replaceState( null, '', 'calendar' === v ? '#calendar' : location.pathname + location.search );
+			} );
+		} );
+		window.addEventListener( 'hashchange', function () { if ( '#calendar' === location.hash ) setView( 'calendar' ); } );
+		evSwitch.hidden = false;
+		showMonth( 0 );
+		setView( '#calendar' === location.hash ? 'calendar' : 'list' );
+	}
+
 	/* Header menus: one open at a time; close on Escape or a click outside. */
 	var menus = Array.prototype.slice.call( document.querySelectorAll( 'details[data-ltef-menu]' ) );
 	menus.forEach( function ( d ) {

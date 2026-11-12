@@ -24,7 +24,7 @@ $u = function ( $p ) {
 <!-- wp:heading {"level":2,"anchor":"h-wk"} -->
 <h2 id="h-wk" class="wp-block-heading">Coming up</h2>
 <!-- /wp:heading -->
-<!-- wp:ltef/events {"count":24} /-->
+<!-- wp:ltef/events {"count":24,"calendar":true} /-->
 </section>
 <!-- /wp:group -->
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"pistachio","anchor":"submit","layout":{"type":"constrained","contentSize":"1240px"}} -->

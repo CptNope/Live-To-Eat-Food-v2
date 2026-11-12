@@ -27,7 +27,7 @@ function ltef_block_defs() {
 		'ad-spot'        => array( 'Ad spot', 'The sold ad for this spot, or “Ad space open” with a way to advertise.', 'megaphone', array( 'spot' => array( 'type' => 'string', 'default' => 'home' ) ), 'ltef_block_ad_spot', false ),
 		'owner-area'     => array( 'Owners: manage a listing', 'Approved owners ask for a sign-in link here, then update their phone, website, menu link, hours and note.', 'admin-users', array(), 'ltef_block_owner_area', false ),
 		'submit-form'    => array( 'Submission form', 'A form that sends to Tina’s review queue.', 'feedback', array( 'form' => array( 'type' => 'string', 'default' => 'woopon' ) ), 'ltef_block_submit_form', false ),
-		'events'         => array( 'Upcoming events', 'Events from today on, premium listings first in their week.', 'calendar-alt', array( 'count' => array( 'type' => 'number', 'default' => 12 ) ), 'ltef_block_events', false ),
+		'events'         => array( 'Upcoming events', 'Events from today on, premium listings first in their week. With Calendar on, a List / Calendar switch and a month view.', 'calendar-alt', array( 'count' => array( 'type' => 'number', 'default' => 12 ), 'calendar' => array( 'type' => 'boolean', 'default' => false ) ), 'ltef_block_events', false ),
 		'jobs'           => array( 'Restaurant jobs', 'Open job posts with filter chips.', 'businessperson', array(), 'ltef_block_jobs', false ),
 		'roulette'       => array( 'Restaurant Roulette', 'The wheel: Tina’s places or every restaurant.', 'image-rotate', array(), 'ltef_block_roulette', false ),
 		'site-nav'       => array( 'Site navigation', 'The header menu: top links and a grouped More panel on wide screens, a grouped Menu on phones, and the Monthly Crumbs button.', 'menu', array(), 'ltef_block_site_nav', false ),
@@ -345,8 +345,10 @@ function ltef_block_events( $attrs ) {
 			'meta_query'  => array( array( 'key' => 'ltef_date', 'value' => ltef_today(), 'compare' => '>=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
 		)
 	);
+	$cal = ! empty( $attrs['calendar'] );
 	if ( ! $posts ) {
-		return ltef_wrap( '<p class="meta">Nothing listed yet. <a href="' . esc_url( home_url( '/events/' ) ) . '#submit">Add your event</a>: listing is free.</p>' );
+		$empty = '<p class="meta">Nothing listed yet. <a href="' . esc_url( home_url( '/events/' ) ) . '#submit">Add your event</a>: listing is free.</p>';
+		return ltef_wrap( $cal ? ltef_events_views( $empty ) : $empty );
 	}
 	// premium listings first within their week
 	usort(
@@ -362,7 +364,97 @@ function ltef_block_events( $attrs ) {
 			return $pb <=> $pa ?: strcmp( ltef_meta( $a->ID, 'date' ), ltef_meta( $b->ID, 'date' ) );
 		}
 	);
-	return ltef_wrap( '<div class="ev-list">' . implode( '', array_map( function ( $p ) { return ltef_event_row( $p->ID ); }, $posts ) ) . '</div>' );
+	$list = '<div class="ev-list">' . implode( '', array_map( function ( $p ) { return ltef_event_row( $p->ID ); }, $posts ) ) . '</div>';
+	return ltef_wrap( $cal ? ltef_events_views( $list ) : $list );
+}
+
+/** The List / Calendar switch around the list. The switch and calendar stay hidden until the script runs, so without it the list is all there is. */
+function ltef_events_views( $list ) {
+	return '<div class="ev-views" data-ltef-events><div class="ev-switch" role="group" aria-label="Show events as" hidden><button type="button" class="ltef-chip" data-ev-view="list" aria-pressed="true">List</button><button type="button" class="ltef-chip" data-ev-view="calendar" aria-pressed="false">Calendar</button></div>'
+		. '<div class="ev-listview">' . $list . '</div>' . ltef_events_calendar() . '</div>';
+}
+
+/**
+ * Month view: this month through the month of the last listed event (a year at most). A table of weeks on wide
+ * screens, the same month as a list by date on phones. Today and past days are marked by the script, in the
+ * visitor's own day, since the page may come from the cache.
+ */
+function ltef_events_calendar() {
+	$first  = new DateTimeImmutable( wp_date( 'Y-m-01' ), wp_timezone() );
+	$events = get_posts(
+		array(
+			'post_type'   => 'ltef_event',
+			'post_status' => 'publish',
+			'numberposts' => 300,
+			'meta_key'    => 'ltef_date', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'orderby'     => 'meta_value',
+			'order'       => 'ASC',
+			'meta_query'  => array( array( 'key' => 'ltef_date', 'value' => $first->format( 'Y-m-d' ), 'compare' => '>=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+		)
+	);
+	$by   = array();
+	$last = $first;
+	foreach ( $events as $e ) {
+		$d = (string) ltef_meta( $e->ID, 'date' );
+		if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $d ) ) {
+			continue;
+		}
+		$by[ $d ][] = $e->ID;
+		$m          = new DateTimeImmutable( substr( $d, 0, 7 ) . '-01', wp_timezone() );
+		$last       = $m > $last ? $m : $last;
+	}
+	foreach ( $by as $d => $ids ) { // premium first within a day
+		usort( $ids, function ( $a, $b ) { return (int) ltef_meta( $b, 'premium' ) <=> (int) ltef_meta( $a, 'premium' ); } );
+		$by[ $d ] = $ids;
+	}
+	$count = min( 12, ( (int) $last->format( 'Y' ) - (int) $first->format( 'Y' ) ) * 12 + (int) $last->format( 'n' ) - (int) $first->format( 'n' ) + 1 );
+	$heads = '';
+	foreach ( array( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ) as $wd ) {
+		$heads .= '<th scope="col" abbr="' . esc_attr( $wd ) . '">' . esc_html( substr( $wd, 0, 3 ) ) . '</th>';
+	}
+	$link = function ( $id, $long ) {
+		$prem = (int) ltef_meta( $id, 'premium' );
+		$time = (string) ltef_meta( $id, 'time' );
+		$more = $long ? implode( ' · ', array_filter( array( (string) ltef_meta( $id, 'venue' ), (string) ltef_meta( $id, 'price_text' ) ) ) ) : '';
+		return '<li class="cal-ev' . ( $prem ? ' is-prem' : '' ) . '"><a href="' . esc_url( get_permalink( $id ) ) . '">' . ( '' !== $time ? '<span class="cal-ev__t">' . esc_html( $time ) . '</span> ' : '' ) . '<span class="cal-ev__n">' . esc_html( get_the_title( $id ) ) . '</span>' . ( $prem ? '<span class="vh"> (premium listing)</span>' : '' ) . ( '' !== $more ? '<span class="cal-ev__m">' . esc_html( $more ) . '</span>' : '' ) . '</a></li>';
+	};
+	$months = '';
+	for ( $i = 0; $i < $count; $i++ ) {
+		$m     = $first->modify( '+' . $i . ' month' );
+		$label = wp_date( 'F Y', $m->getTimestamp() );
+		$days  = (int) $m->format( 't' );
+		$lead  = (int) $m->format( 'w' );
+		$cells = str_repeat( '<td class="cal-pad"></td>', $lead );
+		$rows  = '';
+		$agenda = '';
+		for ( $day = 1; $day <= $days; $day++ ) {
+			$iso  = $m->format( 'Y-m-' ) . str_pad( (string) $day, 2, '0', STR_PAD_LEFT );
+			$ids  = $by[ $iso ] ?? array();
+			$ts   = strtotime( $iso . ' 12:00' );
+			$num  = '<span class="cal-num"><span class="vh">' . esc_html( wp_date( 'l, F', $ts ) ) . ' </span>' . $day . '</span>';
+			$cells .= '<td class="cal-day' . ( $ids ? ' has-ev' : '' ) . '" data-date="' . esc_attr( $iso ) . '">' . $num . ( $ids ? '<ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link ) { return $link( $id, false ); }, $ids ) ) . '</ul>' : '' ) . '</td>';
+			if ( $ids ) {
+				$agenda .= '<li class="cal-agenda__day" data-date="' . esc_attr( $iso ) . '"><h4 class="cal-agenda__d">' . esc_html( wp_date( 'D, M j', $ts ) ) . '</h4><ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link ) { return $link( $id, true ); }, $ids ) ) . '</ul></li>';
+			}
+			if ( 0 === ( $lead + $day ) % 7 ) {
+				$rows .= '<tr>' . $cells . '</tr>';
+				$cells = '';
+			}
+		}
+		if ( '' !== $cells ) {
+			$rows .= '<tr>' . $cells . str_repeat( '<td class="cal-pad"></td>', 7 - ( $lead + $days ) % 7 ) . '</tr>';
+		}
+		$months .= '<section class="cal-month" data-month="' . esc_attr( $m->format( 'Y-m' ) ) . '" data-label="' . esc_attr( $label ) . '" aria-label="' . esc_attr( $label ) . '"' . ( $i ? ' hidden' : '' ) . '>'
+			. '<table class="cal-grid"><caption class="vh">Events in ' . esc_html( $label ) . '</caption><thead><tr>' . $heads . '</tr></thead><tbody>' . $rows . '</tbody></table>'
+			. ( '' !== $agenda ? '<ol class="cal-agenda">' . $agenda . '</ol>' : '<p class="meta cal-none">Nothing listed in ' . esc_html( wp_date( 'F', $m->getTimestamp() ) ) . ' yet. <a href="#submit">Add your event</a>: listing is free.</p>' )
+			. '</section>';
+	}
+	$arrow = function ( $d ) {
+		return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' . ( 'prev' === $d ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7' ) . '" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+	};
+	return '<div class="cal" data-ltef-cal hidden><div class="cal-bar"><button type="button" class="cal-step" data-cal-step="-1" aria-label="Previous month">' . $arrow( 'prev' ) . '</button>'
+		. '<h3 class="h-m cal-title" aria-live="polite">' . esc_html( wp_date( 'F Y', $first->getTimestamp() ) ) . '</h3>'
+		. '<button type="button" class="cal-step" data-cal-step="1" aria-label="Next month">' . $arrow( 'next' ) . '</button></div>' . $months . '</div>';
 }
 
 function ltef_block_jobs() {
