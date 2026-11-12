@@ -16,7 +16,7 @@ function ltef_admin_menu() {
 }
 
 function ltef_review_types() {
-	return array( 'ltef_woopon' => 'Woo-pon', 'ltef_event' => 'Event', 'ltef_job' => 'Job post', 'ltef_dish' => 'New dish', 'ltef_place' => 'Place', 'ltef_submission' => 'Message' );
+	return array( 'ltef_woopon' => 'Woo-pon', 'ltef_event' => 'Event', 'ltef_job' => 'Job post', 'ltef_dish' => 'New dish', 'ltef_testimonial' => 'Testimonial', 'ltef_place' => 'Place', 'ltef_submission' => 'Message' );
 }
 
 function ltef_pending_count() {

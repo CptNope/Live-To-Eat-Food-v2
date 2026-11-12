@@ -105,6 +105,18 @@ function ltef_register_post_types() {
 		)
 	);
 	register_post_type(
+		'ltef_testimonial',
+		array(
+			'labels'        => array_merge( ltef_labels( 'Testimonial', 'Testimonials' ), array( 'all_items' => 'Testimonials' ) ),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_menu'  => 'edit.php?post_type=ltef_place',
+			'show_in_rest'  => true,
+			'supports'      => array( 'title', 'custom-fields', 'revisions' ),
+			'description'   => 'What businesses say about working with Tina, in their own words. Sent in from the testimonial form; shown once Tina approves.',
+		)
+	);
+	register_post_type(
 		'ltef_submission',
 		array(
 			'labels'        => array_merge( ltef_labels( 'Message', 'Messages' ), array( 'all_items' => 'Messages and signups' ) ),

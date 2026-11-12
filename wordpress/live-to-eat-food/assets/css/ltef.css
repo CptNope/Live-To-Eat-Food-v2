@@ -1072,3 +1072,10 @@ body { background: var(--lemon); }
 .verdict-group__more { margin: 0; }
 .verdict-picks__how { margin: 0; }
 .roul-card__labels [hidden] { display: none; }
+
+/* What businesses say: real quotes, in their words */
+.wp-block-ltef-testimonials { display: grid; gap: 22px; }
+.wp-block-ltef-testimonials .testi { border: 0; background: var(--vinyl); box-shadow: var(--kiss-cut), var(--lift); }
+.wp-block-ltef-testimonials .testi__q { color: var(--basil); }
+.wp-block-ltef-testimonials .testi__q p { margin: 0; }
+.testi-ask { margin: 0; font: 600 16px/1.45 var(--font-interface); color: var(--olive); }

@@ -16,7 +16,7 @@
 <p class="lede" style="max-width: 50ch;">Take an ad spot on the site or in Monthly Crumbs, run a Woo-pon, feature an event, post a job, upgrade your listing, or book Tina for a paid visit. Everything paid is labeled, every time.</p>
 <p style="margin: 0; max-width: 56ch;"><strong>Who’s reading:</strong> people around Worcester and Central Mass deciding where to eat this week. We’ll publish follower and subscriber counts once they’re measured, not before.</p>
 <p class="ltef-sticker" style="--tilt: -1deg; margin: 0; align-self: flex-start; max-width: 38ch; font: 400 clamp(24px, 2.6vw, 32px)/1.15 var(--font-display);">“You’re paying for content and reach, not for Tina’s opinion.”</p>
-<nav aria-label="On this page" style="display: flex; flex-wrap: wrap; gap: 10px;"><a class="ltef-chip" href="#buy" style="text-decoration: none;">What’s on offer</a><a class="ltef-chip" href="#enhanced" style="text-decoration: none;">Enhanced listings</a><a class="ltef-chip" href="#contact" style="text-decoration: none;">Get in touch</a></nav>
+<nav aria-label="On this page" style="display: flex; flex-wrap: wrap; gap: 10px;"><a class="ltef-chip" href="#buy" style="text-decoration: none;">What’s on offer</a><a class="ltef-chip" href="#enhanced" style="text-decoration: none;">Enhanced listings</a><a class="ltef-chip" href="#said" style="text-decoration: none;">What businesses say</a><a class="ltef-chip" href="#contact" style="text-decoration: none;">Get in touch</a></nav>
 </div>
 <!-- /wp:html --></section>
 <!-- /wp:group -->
@@ -65,6 +65,13 @@
 <div class="ltef-actions"><a class="ltef-btn" href="<?php echo esc_url( home_url( '/for-restaurants/' ) ); ?>#claim">Claim your listing to upgrade</a></div>
 </div>
 <!-- /wp:html --></section>
+<!-- /wp:group -->
+
+<!-- wp:group {"tagName":"section","anchor":"said","className":"is-style-sheet","backgroundColor":"butter","layout":{"type":"constrained","contentSize":"1240px"}} -->
+<section id="said" class="wp-block-group is-style-sheet has-butter-background-color has-background"><!-- wp:heading {"anchor":"h-said"} -->
+<h2 id="h-said" class="wp-block-heading">What businesses say</h2>
+<!-- /wp:heading -->
+<!-- wp:ltef/testimonials /--></section>
 <!-- /wp:group -->
 
 <!-- wp:group {"tagName":"section","anchor":"contact","className":"is-style-sheet","backgroundColor":"pistachio","layout":{"type":"constrained","contentSize":"1240px"}} -->
