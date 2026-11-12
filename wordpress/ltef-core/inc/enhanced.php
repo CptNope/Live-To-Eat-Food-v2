@@ -166,13 +166,17 @@ function ltef_enhanced_owner_panel( $place ) {
 	if ( ! empty( $sub['id'] ) && 'canceled' !== ( $sub['status'] ?? '' ) ) {
 		$end  = ! empty( $sub['period_end'] ) ? wp_date( 'F j', (int) $sub['period_end'] ) : '';
 		$amt  = ! empty( $sub['cents'] ) ? ltef_money( $sub['cents'] / 100 ) : $price;
-		$late = 'past_due' === ( $sub['status'] ?? '' ) ? ' <strong>Stripe couldn’t take this month’s payment.</strong> Check the email Stripe sent you to update your card.' : '';
+		$late = 'past_due' === ( $sub['status'] ?? '' ) ? ' <strong>Stripe couldn’t take this month’s payment.</strong> Update your card below and Stripe tries again.' : '';
 		if ( ! empty( $sub['cancel_at_period_end'] ) ) {
 			$plan = '<p>Enhanced ends' . ( $end ? ' on <strong>' . esc_html( $end ) . '</strong>' : ' at the end of this month' ) . '. Changed your mind?</p><input type="hidden" name="do" value="resume"><p class="submit"><button class="button">Keep Enhanced</button></p>';
 		} else {
 			$plan = '<p>Enhanced listing, ' . esc_html( $amt ) . ' a month' . ( $end ? ', renews ' . esc_html( $end ) : '' ) . '.' . $late . '</p><input type="hidden" name="do" value="cancel"><p class="submit"><button class="button ltef-danger">Cancel Enhanced</button></p><p class="description">Cancelling keeps Enhanced until the end of the month you’ve paid for, then your page goes back to the free listing. Your photos and story are kept in case you come back.</p>';
 		}
 		$plan = '<form class="ltef-enh-plan" method="post" action="' . $post . '"><input type="hidden" name="action" value="ltef_enhanced_plan"><input type="hidden" name="place" value="' . (int) $place . '">' . wp_nonce_field( 'ltef_enh_' . $place, '_wpnonce', true, false ) . $plan . '</form>';
+		if ( ltef_enhanced_card_ok( $place ) ) {
+			$plan .= '<form class="ltef-enh-plan" method="post" action="' . $post . '"><input type="hidden" name="action" value="ltef_enhanced_card"><input type="hidden" name="place" value="' . (int) $place . '">' . wp_nonce_field( 'ltef_enh_' . $place, '_wpnonce', true, false )
+				. '<p class="submit"><button class="button' . ( $late ? ' button-primary' : '' ) . '">Update card</button></p><p class="description">Opens Stripe’s secure page to change the card for this listing and see your past invoices.</p></form>';
+		}
 	} else {
 		$plan = '<p class="description">Enhanced listing, arranged with Tina.</p>';
 	}
@@ -311,6 +315,75 @@ add_action(
 			wp_mail( $to, ( 'cancel' === $do ? 'Enhanced canceled: ' : 'Enhanced kept: ' ) . get_the_title( $place ), get_the_title( $place ) . ( 'cancel' === $do ? ' canceled their Enhanced listing. It stays on until ' . ( ! empty( ltef_enhanced_sub( $place )['period_end'] ) ? wp_date( 'F j', (int) ltef_enhanced_sub( $place )['period_end'] ) : 'the end of the paid month' ) . '.' : ' changed their mind and kept Enhanced.' ) . "\n\n" . get_permalink( $place ) );
 		}
 		ltef_enhanced_back( array( 'ltef_enh_msg' => 'cancel' === $do ? 'canceled' : 'kept' ), $place );
+	}
+);
+
+/** The Stripe customer behind this place's subscription can be sent to the card page (same mode, same owner). */
+function ltef_enhanced_card_ok( $place ) {
+	$sub = ltef_enhanced_sub( $place );
+	return ! empty( $sub['customer'] ) && ! empty( $sub['id'] ) && function_exists( 'ltef_stripe_on' ) && ltef_stripe_on()
+		&& ( $sub['mode'] ?? ltef_stripe_mode() ) === ltef_stripe_mode()
+		&& ( empty( $sub['user'] ) || (int) $sub['user'] === get_current_user_id() );
+}
+
+/**
+ * Stripe's customer portal, set up for this site: change the card and see invoices, nothing else
+ * (cancelling happens on Your listing so the site always knows). Made once per mode and remembered.
+ */
+function ltef_enhanced_portal_config() {
+	$saved = (array) get_option( 'ltef_stripe_portal', array() );
+	$mode  = ltef_stripe_mode();
+	if ( ! empty( $saved[ $mode ] ) ) {
+		return $saved[ $mode ];
+	}
+	$c = ltef_stripe_api(
+		'POST',
+		'billing_portal/configurations',
+		array(
+			'business_profile' => array(
+				'headline'             => 'Live to Eat Food: the card for your Enhanced listing',
+				'privacy_policy_url'   => home_url( '/privacy-policy/' ),
+				'terms_of_service_url' => home_url( '/terms/' ),
+			),
+			'features'         => array(
+				'payment_method_update' => array( 'enabled' => true ),
+				'invoice_history'       => array( 'enabled' => true ),
+				'customer_update'       => array( 'enabled' => false ),
+				'subscription_cancel'   => array( 'enabled' => false ),
+			),
+			'default_return_url' => ltef_owner_admin_url(),
+		)
+	);
+	if ( is_wp_error( $c ) || empty( $c['id'] ) ) {
+		return is_wp_error( $c ) ? $c : new WP_Error( 'portal', 'No portal configuration.' );
+	}
+	$saved[ $mode ] = $c['id'];
+	update_option( 'ltef_stripe_portal', $saved, false );
+	return $c['id'];
+}
+
+/** Update card: off to Stripe's portal for this listing's customer, and back to Your listing after. */
+add_action(
+	'admin_post_ltef_enhanced_card',
+	function () {
+		list( $place ) = ltef_enhanced_owner_place();
+		if ( ! ltef_enhanced_card_ok( $place ) ) {
+			ltef_enhanced_back( array( 'ltef_owner_error' => rawurlencode( 'There’s no card on file for this listing to change. Email tina@livetoeatfoodie.com.' ) ), $place );
+		}
+		$config = ltef_enhanced_portal_config();
+		$args   = array( 'customer' => ltef_enhanced_sub( $place )['customer'], 'return_url' => ltef_owner_admin_url() . '#ltef-own-' . $place );
+		if ( ! is_wp_error( $config ) ) {
+			$args['configuration'] = $config;
+		}
+		$portal = ltef_stripe_api( 'POST', 'billing_portal/sessions', $args );
+		if ( is_wp_error( $portal ) && ! is_wp_error( $config ) && false !== stripos( $portal->get_error_message(), 'configuration' ) ) {
+			delete_option( 'ltef_stripe_portal' ); // a configuration removed in Stripe: make a new one next time
+		}
+		if ( is_wp_error( $portal ) || empty( $portal['url'] ) ) {
+			ltef_enhanced_back( array( 'ltef_owner_error' => rawurlencode( 'Stripe couldn’t open the card page. Please try again in a minute.' ) ), $place );
+		}
+		wp_redirect( $portal['url'] ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Stripe's own page
+		exit;
 	}
 );
 
