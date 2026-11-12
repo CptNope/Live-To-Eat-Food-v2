@@ -23,7 +23,7 @@ function ltef_place_sticker( $post_id ) {
 	if ( $own ) {
 		return $own;
 	}
-	$by_place_kind = array( 'shop' => 'bag', 'wellness' => 'flower', 'services' => 'camera', 'fun' => 'ticket', 'community' => 'heart' );
+	$by_place_kind = array( 'shop' => 'bag', 'wellness' => 'leaf', 'beauty' => 'flower', 'services' => 'camera', 'fun' => 'ticket', 'community' => 'heart' );
 	if ( 'eat' !== ltef_place_kind( $post_id ) ) {
 		return $by_place_kind[ ltef_place_kind( $post_id ) ] ?? 'lemon';
 	}

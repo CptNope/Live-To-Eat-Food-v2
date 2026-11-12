@@ -285,10 +285,11 @@ function ltef_block_beyond_food() {
 	}
 	$about = array(
 		'shop'      => 'Thrift shops, antiques, markets and more.',
-		'wellness'  => 'Nails, hair, lashes, skin, yoga, fitness and recovery.',
+		'wellness'  => 'Yoga, fitness, massage, chiropractic and recovery.',
+		'beauty'    => 'Nails, hair, lashes, skin and aesthetics.',
 		'services'  => 'Photographers and other local services.',
 		'fun'       => 'Shows, classes, games, museums and days out.',
-		'community' => 'Rescues and nonprofits.',
+		'community' => 'Rescues, nonprofits and community groups.',
 	);
 	$kinds = ltef_place_kinds();
 	$jump  = '';
