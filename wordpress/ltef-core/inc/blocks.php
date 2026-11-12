@@ -17,6 +17,7 @@ function ltef_block_defs() {
 		'place-more'     => array( 'Place: More from Tina', 'Her other videos from this place, small, newest first. Shows nothing when there are none.', 'playlist-video', array(), 'ltef_block_place_more', true ),
 		'video'          => array( 'Tina’s video (any link)', 'One of her videos from a link: TikTok, Instagram, Facebook or YouTube. Add more links, separated by spaces, and the site plays the best one.', 'video-alt3', array( 'url' => array( 'type' => 'string', 'default' => '' ), 'month' => array( 'type' => 'string', 'default' => '' ), 'caption' => array( 'type' => 'string', 'default' => '' ) ), 'ltef_block_video', false ),
 		'place-enhanced' => array( 'Place: From the owner (Enhanced)', 'The owner’s photos, story, menu highlights and links, when the place has an Enhanced listing. Shows nothing otherwise.', 'store', array(), 'ltef_block_place_enhanced', true ),
+		'place-announcement' => array( 'Place: Owner announcement', 'The owner’s dated news, near the top of the page. Shows nothing when there isn’t one.', 'megaphone', array(), 'ltef_block_place_announcement', true ),
 		'place-facts'    => array( 'Place: Before you go', 'Address, hours, phone and what’s worth knowing, with the place-page ad spot beside it.', 'info-outline', array( 'showAd' => array( 'type' => 'boolean', 'default' => true ) ), 'ltef_block_place_facts', true ),
 		'place-card'     => array( 'Place card', 'One place as a card. Use inside a Query Loop of places.', 'id', array(), 'ltef_block_place_card', true ),
 		'latest-places'  => array( 'Tina’s latest picks', 'Her newest places as cards.', 'location', array( 'count' => array( 'type' => 'number', 'default' => 4 ) ), 'ltef_block_latest_places', false ),
@@ -25,7 +26,7 @@ function ltef_block_defs() {
 		'woopons'        => array( 'Woo-pons', 'The live Woo-pons with filter chips, or only the online partner codes.', 'tickets-alt', array( 'show' => array( 'type' => 'string', 'default' => 'local' ) ), 'ltef_block_woopons', false ),
 		'woopon-ticket'  => array( 'Woo-pon ticket', 'The current Woo-pon as a ticket.', 'tickets-alt', array(), 'ltef_block_woopon_ticket', true ),
 		'ad-spot'        => array( 'Ad spot', 'The sold ad for this spot, or “Ad space open” with a way to advertise.', 'megaphone', array( 'spot' => array( 'type' => 'string', 'default' => 'home' ) ), 'ltef_block_ad_spot', false ),
-		'owner-area'     => array( 'Owners: manage a listing', 'Approved owners ask for a sign-in link here, then update their phone, website, menu link, hours and note.', 'admin-users', array(), 'ltef_block_owner_area', false ),
+		'owner-area'     => array( 'Owners: manage a listing', 'Approved owners ask for a sign-in link here, then update their phone, website, menu link, hours, note and announcement.', 'admin-users', array(), 'ltef_block_owner_area', false ),
 		'submit-form'    => array( 'Submission form', 'A form that sends to Tina’s review queue.', 'feedback', array( 'form' => array( 'type' => 'string', 'default' => 'woopon' ) ), 'ltef_block_submit_form', false ),
 		'event-facts'    => array( 'Event: the details', 'When, where, price and kind, with the tickets and directions buttons.', 'calendar-alt', array(), 'ltef_block_event_facts', true ),
 		'job-facts'      => array( 'Job post: the details', 'Business, hours, pay and how to apply.', 'businessperson', array(), 'ltef_block_job_facts', true ),
@@ -150,6 +151,12 @@ function ltef_block_video( $attrs ) {
 	$month = (string) ( $attrs['month'] ?? '' );
 	$html  = ltef_video_box( $sources, array( 'title' => 'Tina’s video' . ( $month ? ', ' . ltef_month_label( $month ) : '' ), 'month' => $month, 'caption' => $cap, 'field' => 'lemon' ) );
 	return ltef_wrap( $html . ( $cap ? '<p class="ltef-note video-cap">“' . esc_html( $cap ) . '”</p>' : '' ), 'ltef-video' );
+}
+
+function ltef_block_place_announcement( $attrs, $content, $block ) {
+	$id   = ltef_ctx_post( $block );
+	$html = $id && 'ltef_place' === get_post_type( $id ) ? ltef_place_announcement( $id ) : '';
+	return $html ? ltef_wrap( $html, 'place-announcement' ) : '';
 }
 
 function ltef_block_place_facts( $attrs, $content, $block ) {

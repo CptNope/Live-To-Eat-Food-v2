@@ -5,7 +5,7 @@
  * A business claims its place (the "claim" form). Tina approves the claim after calling the number on the
  * listing, and the owner's email goes on the place. From then on the owner asks for a sign-in link by email,
  * no password, no account and no cookie, and edits the facts of the listing: phone, website, menu link, hours
- * and a short note labeled as theirs. Their changes go live at once; Tina is emailed each one and can undo it
+ * a short note labeled as theirs, and a dated announcement that comes down on its end date. Their changes go live at once; Tina is emailed each one and can undo it
  * from the place's edit screen. Tina's take, verdict, videos and labels are never editable by owners.
  *
  * @package LTEF
@@ -19,6 +19,11 @@ const LTEF_OWNER_LINK_TTL = 2 * HOUR_IN_SECONDS;
 /** The longest owner note. */
 const LTEF_OWNER_NOTE_MAX = 280;
 
+/** Announcements: the longest one, how long one shows when no end date is given, and the furthest end date. */
+const LTEF_OWNER_ANNOUNCE_MAX  = 200;
+const LTEF_OWNER_ANNOUNCE_DAYS = 30;
+const LTEF_OWNER_ANNOUNCE_CAP  = 60;
+
 /** What an owner can change: field => [ label, type, hint ]. */
 function ltef_owner_fields() {
 	return array(
@@ -26,8 +31,45 @@ function ltef_owner_fields() {
 		'website'    => array( 'Website', 'url', 'Like yourplace.com' ),
 		'menu'       => array( 'Menu link', 'url', 'A page or PDF with your current menu.' ),
 		'hours'      => array( 'Hours', 'text', 'Like: Tue–Sun 11–9, closed Mon. Saving marks them checked today.' ),
-		'owner_note' => array( 'A note from you', 'textarea', 'Shown on your page as “From the owner”: a new chef, the patio is open, cash only. Up to ' . LTEF_OWNER_NOTE_MAX . ' characters.', LTEF_OWNER_NOTE_MAX ),
+		'owner_note' => array( 'A note from you', 'textarea', 'Shown on your page as “From the owner”: something that stays true, like cash only, parking out back or BYOB. Up to ' . LTEF_OWNER_NOTE_MAX . ' characters.', LTEF_OWNER_NOTE_MAX ),
+		'announce'       => array( 'Announcement', 'textarea', 'News for now: a holiday menu, a pop-up, closed for a week. Shown near the top of your page with the day you post it. Up to ' . LTEF_OWNER_ANNOUNCE_MAX . ' characters. Clear it to take it down.', LTEF_OWNER_ANNOUNCE_MAX ),
+		'announce_link'  => array( 'Announcement link', 'url', 'Where to read more, book or order.' ),
+		'announce_until' => array( 'Show the announcement until', 'date', 'Leave blank for ' . LTEF_OWNER_ANNOUNCE_DAYS . ' days. Up to ' . LTEF_OWNER_ANNOUNCE_CAP . ' days from today.' ),
 	);
+}
+
+/** The announcement on a place while it's showing: [ text, link, posted Y-m-d, until Y-m-d ], or null. Only listings with an owner show one. */
+function ltef_owner_announcement( $place ) {
+	$text  = (string) ltef_meta( $place, 'announce' );
+	$until = (string) ltef_meta( $place, 'announce_until' );
+	if ( '' === $text || ( $until && $until < ltef_today() ) || ! ltef_owner_emails( $place ) ) {
+		return null;
+	}
+	return array( $text, (string) ltef_meta( $place, 'announce_link' ), (string) ltef_meta( $place, 'announce_posted' ), $until );
+}
+
+/** A field's value for the owner's form: an announcement that has ended comes back empty, so saving other fields doesn't bring it back. */
+function ltef_owner_form_value( $place, $key ) {
+	if ( 0 === strpos( $key, 'announce' ) && ! ltef_owner_announcement( $place ) ) {
+		return '';
+	}
+	return (string) ltef_meta( $place, $key );
+}
+
+/** Extra attributes for an owner field: date limits for the announcement's end date. */
+function ltef_owner_field_attrs( $key, $type ) {
+	if ( 'date' === $type ) {
+		return ' min="' . esc_attr( ltef_today() ) . '" max="' . esc_attr( wp_date( 'Y-m-d', strtotime( '+' . LTEF_OWNER_ANNOUNCE_CAP . ' days' ) ) ) . '"';
+	}
+	return '';
+}
+
+/** A place's page changed outside a normal save: clear WordPress's copy and the page caches (Breeze and Varnish), so visitors see it now. */
+function ltef_place_refresh( $place ) {
+	clean_post_cache( $place );
+	if ( function_exists( 'ltef_money_clear_page_cache' ) ) {
+		ltef_money_clear_page_cache();
+	}
 }
 
 /** What an Enhanced listing adds, edited the same way (photos are handled on their own). */
@@ -41,7 +83,7 @@ function ltef_owner_enhanced_fields() {
 
 /** Every owner-editable field's label, for logs and emails. */
 function ltef_owner_labels() {
-	return array_merge( wp_list_pluck( ltef_owner_fields(), 0 ), wp_list_pluck( ltef_owner_enhanced_fields(), 0 ), array( 'owner_note' => 'From the owner', 'gallery' => 'Photos' ) );
+	return array_merge( wp_list_pluck( ltef_owner_fields(), 0 ), wp_list_pluck( ltef_owner_enhanced_fields(), 0 ), array( 'owner_note' => 'From the owner', 'announce_until' => 'Announcement ends', 'gallery' => 'Photos' ) );
 }
 
 /** A web address as typed ("mysite.com" too) made whole, or WP_Error. */
@@ -153,7 +195,7 @@ function ltef_owner_send_link( $email, $first = false ) {
 	$names = implode( ', ', wp_list_pluck( $places, 'post_title' ) );
 	$hours = (int) ( LTEF_OWNER_LINK_TTL / HOUR_IN_SECONDS );
 	$lines = $first
-		? array( 'Tina approved your claim. You can now keep ' . $names . ' up to date on Live to Eat Food: phone, website, menu link, hours and a short note from you.', '' )
+		? array( 'Tina approved your claim. You can now keep ' . $names . ' up to date on Live to Eat Food: phone, website, menu link, hours, a short note from you and announcements.', '' )
 		: array( 'Here’s your sign-in link for ' . $names . ' on Live to Eat Food.', '' );
 	$lines[] = 'Sign in (the link works for ' . $hours . ' hours):';
 	$lines[] = ltef_owner_link( $email );
@@ -353,14 +395,14 @@ function ltef_owner_editor( $place_id, $token ) {
 	foreach ( ltef_owner_fields() as $key => $def ) {
 		list( $label, $type, $hint ) = $def;
 		$id    = $uid . '-' . $key;
-		$val   = (string) ltef_meta( $place_id, $key );
+		$val   = ltef_owner_form_value( $place_id, $key );
 		$desc  = $hint ? ' aria-describedby="' . esc_attr( $id ) . '-h"' : '';
 		$h     = $hint ? '<p class="ltef-field__hint" id="' . esc_attr( $id ) . '-h">' . esc_html( $hint ) . '</p>' : '';
 		$ac    = array( 'phone' => ' autocomplete="tel"', 'website' => ' autocomplete="url"' )[ $key ] ?? '';
 		$ctl   = 'textarea' === $type
-			? '<textarea class="ltef-input" id="' . esc_attr( $id ) . '" name="' . esc_attr( $key ) . '" rows="3" maxlength="' . LTEF_OWNER_NOTE_MAX . '"' . $desc . '>' . esc_textarea( $val ) . '</textarea>'
+			? '<textarea class="ltef-input" id="' . esc_attr( $id ) . '" name="' . esc_attr( $key ) . '" rows="3" maxlength="' . (int) ( $def[3] ?? LTEF_OWNER_NOTE_MAX ) . '"' . $desc . '>' . esc_textarea( $val ) . '</textarea>'
 			// Web addresses are plain text so “mysite.com” isn't refused by the browser; the server adds https://.
-			: '<input class="ltef-input" type="' . ( 'url' === $type ? 'text" inputmode="url' : esc_attr( $type ) ) . '" id="' . esc_attr( $id ) . '" name="' . esc_attr( $key ) . '" value="' . esc_attr( $val ) . '"' . $desc . $ac . ( 'url' === $type ? ' spellcheck="false" autocapitalize="off"' : '' ) . '>';
+			: '<input class="ltef-input" type="' . ( 'url' === $type ? 'text" inputmode="url' : esc_attr( $type ) ) . '" id="' . esc_attr( $id ) . '" name="' . esc_attr( $key ) . '" value="' . esc_attr( $val ) . '"' . $desc . $ac . ltef_owner_field_attrs( $key, $type ) . ( 'url' === $type ? ' spellcheck="false" autocapitalize="off"' : '' ) . '>';
 		$fields .= '<div class="ltef-field' . ( 'textarea' === $type ? ' ltef-field--wide' : '' ) . '"><label class="ltef-field__label" for="' . esc_attr( $id ) . '">' . esc_html( $label ) . ' <span class="ltef-field__opt">(optional)</span></label>' . $h . $ctl . '</div>';
 	}
 	$checked = ltef_meta( $place_id, 'hours_checked' );
@@ -470,6 +512,20 @@ function ltef_owner_clean( $input, $fields ) {
 			if ( mb_strlen( $val ) > $max ) {
 				return new WP_Error( 'long', $def[0] . ' is over ' . $max . ' characters.' );
 			}
+		} elseif ( 'date' === $type ) {
+			$val = trim( sanitize_text_field( $raw ) );
+			if ( '' !== $val ) {
+				$d = DateTime::createFromFormat( '!Y-m-d', $val );
+				if ( ! $d || $d->format( 'Y-m-d' ) !== $val ) {
+					return new WP_Error( 'date', $def[0] . ': pick a date.' );
+				}
+				if ( $val < ltef_today() ) {
+					return new WP_Error( 'date', $def[0] . ' can’t be in the past.' );
+				}
+				if ( $val > wp_date( 'Y-m-d', strtotime( '+' . LTEF_OWNER_ANNOUNCE_CAP . ' days' ) ) ) {
+					return new WP_Error( 'date', $def[0] . ' can be up to ' . LTEF_OWNER_ANNOUNCE_CAP . ' days from today.' );
+				}
+			}
 		} elseif ( 'lines' === $type || 'links' === $type ) {
 			$rows = array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', sanitize_textarea_field( $raw ) ) ) ) );
 			if ( count( $rows ) > (int) $def[3] ) {
@@ -508,6 +564,14 @@ function ltef_owner_apply( $place, $email, $input, $fields = null ) {
 	if ( is_wp_error( $new ) ) {
 		return $new;
 	}
+	if ( array_key_exists( 'announce', $new ) ) {
+		if ( '' === $new['announce'] ) {
+			$new['announce_link']  = ''; // taking it down takes its link and end date with it
+			$new['announce_until'] = '';
+		} elseif ( '' === ( $new['announce_until'] ?? '' ) ) {
+			$new['announce_until'] = wp_date( 'Y-m-d', strtotime( '+' . LTEF_OWNER_ANNOUNCE_DAYS . ' days' ) );
+		}
+	}
 
 	$log     = get_post_meta( $place, 'ltef_owner_log', true );
 	$log     = is_array( $log ) ? $log : array();
@@ -521,13 +585,16 @@ function ltef_owner_apply( $place, $email, $input, $fields = null ) {
 		$changes[] = array( 'key' => $key, 'old' => $old, 'new' => $val );
 		$log[]     = array( 't' => time(), 'email' => $email, 'key' => $key, 'old' => $old, 'new' => $val, 'undone' => false );
 	}
+	if ( '' !== ( $new['announce'] ?? '' ) && in_array( 'announce', wp_list_pluck( $changes, 'key' ), true ) ) {
+		update_post_meta( $place, 'ltef_announce_posted', wp_date( 'Y-m-d' ) ); // new words, new date
+	}
 	if ( '' !== ( $new['hours'] ?? '' ) ) {
 		update_post_meta( $place, 'ltef_hours_checked', wp_date( 'Y-m-d' ) ); // they looked at the hours and saved them
 	}
 	if ( $changes ) {
 		update_post_meta( $place, 'ltef_owner_log', array_slice( $log, -60 ) );
 		update_post_meta( $place, 'ltef_owner_updated', wp_date( 'Y-m-d' ) );
-		clean_post_cache( $place );
+		ltef_place_refresh( $place );
 		do_action( 'ltef_owner_saved', $place, $changes, $email );
 		$to = ltef_setting( 'notify_email' );
 		if ( $to ) {
@@ -557,7 +624,7 @@ add_action(
 function ltef_owner_meta_box( $post ) {
 	wp_nonce_field( 'ltef_owners_' . $post->ID, 'ltef_owners_nonce' );
 	$owners = ltef_owner_emails( $post->ID );
-	echo '<p class="description">People who can update the phone, website, menu link, hours and their note, with their own login or an email link. Approve a claim in the review queue, or add an email here once you’ve confirmed it’s theirs.</p>';
+	echo '<p class="description">People who can update the phone, website, menu link, hours, their note and an announcement, with their own login or an email link. Approve a claim in the review queue, or add an email here once you’ve confirmed it’s theirs.</p>';
 	if ( $owners ) {
 		echo '<ul>';
 		foreach ( $owners as $i => $e ) {
@@ -655,8 +722,45 @@ function ltef_owner_handle_undo() {
 		update_post_meta( $id, 'ltef_' . $log[ $i ]['key'], $log[ $i ]['old'] );
 		$log[ $i ]['undone'] = true;
 		update_post_meta( $id, 'ltef_owner_log', $log );
-		clean_post_cache( $id );
 	}
+	ltef_place_refresh( $id );
 	wp_safe_redirect( admin_url( 'post.php?post=' . $id . '&action=edit' ) . '#ltef-owners' );
 	exit;
 }
+
+/* ------------------------------------------------------------------ Announcements that have ended */
+
+/** Once a day, just after midnight, take down announcements past their end date, so cached pages stop showing them. */
+add_action(
+	'init',
+	function () {
+		if ( ! wp_next_scheduled( 'ltef_owner_daily' ) ) {
+			$midnight = ( new DateTime( 'tomorrow', wp_timezone() ) )->getTimestamp();
+			wp_schedule_event( $midnight + 5 * MINUTE_IN_SECONDS, 'daily', 'ltef_owner_daily' );
+		}
+	}
+);
+add_action(
+	'ltef_owner_daily',
+	function () {
+		$ended = get_posts(
+			array(
+				'post_type'   => 'ltef_place',
+				'post_status' => 'any',
+				'numberposts' => 200,
+				'fields'      => 'ids',
+				'meta_query'  => array( array( 'key' => 'ltef_announce_until', 'value' => array( '0000-00-01', ltef_today() ), 'compare' => 'BETWEEN' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+			)
+		);
+		$ended = array_filter( $ended, function ( $id ) { return (string) ltef_meta( $id, 'announce_until' ) < ltef_today(); } );
+		foreach ( $ended as $id ) {
+			foreach ( array( 'announce', 'announce_link', 'announce_until', 'announce_posted' ) as $k ) {
+				delete_post_meta( $id, 'ltef_' . $k );
+			}
+			clean_post_cache( $id );
+		}
+		if ( $ended && function_exists( 'ltef_money_clear_page_cache' ) ) {
+			ltef_money_clear_page_cache();
+		}
+	}
+);

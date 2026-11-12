@@ -45,7 +45,7 @@ function ltef_owner_gallery( $place ) {
 function ltef_owner_gallery_remove( $place, $att ) {
 	update_post_meta( $place, 'ltef_gallery', array_values( array_diff( ltef_owner_gallery( $place ), array( (int) $att ) ) ) );
 	wp_delete_attachment( (int) $att, true );
-	clean_post_cache( $place );
+	ltef_place_refresh( $place );
 }
 
 /** Saves an uploaded photo from $_FILES[ $field ] to a place. The attachment id, or WP_Error. */
@@ -476,7 +476,7 @@ function ltef_enhanced_sync( $place, $s ) {
 	} elseif ( $grace || in_array( $status, array( 'canceled', 'unpaid', 'incomplete_expired', 'paused' ), true ) ) {
 		update_post_meta( $place, 'ltef_enhanced', false );
 	}
-	clean_post_cache( $place );
+	ltef_place_refresh( $place );
 }
 
 /** A subscription that is (or may yet be) charging, in the current Stripe mode. */
@@ -520,7 +520,7 @@ function ltef_enhanced_attach( $place, $sub_id, $user = 0 ) {
 	if ( is_wp_error( $s ) ) {
 		ltef_enhanced_sub_set( $place, array( 'status' => 'active' ) ); // checkout completed; the next event corrects anything
 		update_post_meta( $place, 'ltef_enhanced', true );
-		clean_post_cache( $place );
+		ltef_place_refresh( $place );
 	} else {
 		ltef_enhanced_sync( $place, $s );
 	}

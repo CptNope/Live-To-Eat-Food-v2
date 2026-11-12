@@ -51,7 +51,7 @@
 <h2 id="h-sending" class="wp-block-heading">Sending things in</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>When you send a Woo-pon, event, job post, suggestion, photo or message:</p>
+<p>When you send a Woo-pon, event, job post, suggestion, photo or message, or post to your own listing:</p>
 <!-- /wp:paragraph -->
 <!-- wp:list -->
 <ul class="wp-block-list"><!-- wp:list-item -->

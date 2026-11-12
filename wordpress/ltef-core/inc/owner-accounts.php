@@ -83,7 +83,7 @@ function ltef_owner_welcome( $user_id, $is_new ) {
 	}
 	$names  = implode( ', ', wp_list_pluck( $places, 'post_title' ) );
 	$signin = wp_login_url( ltef_owner_admin_url() );
-	$lines  = array( 'Tina approved your claim. You can now keep ' . $names . ' up to date on Live to Eat Food: phone, website, menu link, hours and a short note from you.', '' );
+	$lines  = array( 'Tina approved your claim. You can now keep ' . $names . ' up to date on Live to Eat Food: phone, website, menu link, hours, a short note from you and announcements.', '' );
 	if ( $is_new ) {
 		$key = get_password_reset_key( $user );
 		if ( is_wp_error( $key ) ) {
@@ -229,11 +229,11 @@ function ltef_owner_admin_page() {
 		foreach ( ltef_owner_fields() as $key => $def ) {
 			list( $label, $type, $hint ) = $def;
 			$id   = $uid . '-' . $key;
-			$val  = (string) ltef_meta( $p->ID, $key );
+			$val  = ltef_owner_form_value( $p->ID, $key );
 			$desc = $hint ? ' aria-describedby="' . esc_attr( $id ) . '-h"' : '';
 			$ctl  = 'textarea' === $type
-				? '<textarea class="large-text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $key ) . '" rows="3" maxlength="' . LTEF_OWNER_NOTE_MAX . '"' . $desc . '>' . esc_textarea( $val ) . '</textarea>'
-				: '<input class="regular-text" type="' . ( 'url' === $type ? 'text" inputmode="url" spellcheck="false" autocapitalize="off' : esc_attr( $type ) ) . '" id="' . esc_attr( $id ) . '" name="' . esc_attr( $key ) . '" value="' . esc_attr( $val ) . '"' . $desc . '>';
+				? '<textarea class="large-text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $key ) . '" rows="3" maxlength="' . (int) ( $def[3] ?? LTEF_OWNER_NOTE_MAX ) . '"' . $desc . '>' . esc_textarea( $val ) . '</textarea>'
+				: '<input class="regular-text" type="' . ( 'url' === $type ? 'text" inputmode="url" spellcheck="false" autocapitalize="off' : esc_attr( $type ) ) . '" id="' . esc_attr( $id ) . '" name="' . esc_attr( $key ) . '" value="' . esc_attr( $val ) . '"' . $desc . ltef_owner_field_attrs( $key, $type ) . '>';
 			$rows .= '<tr><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html( $label ) . '</label></th><td>' . $ctl . ( $hint ? '<p class="description" id="' . esc_attr( $id ) . '-h">' . esc_html( $hint ) . '</p>' : '' ) . '</td></tr>';
 		}
 		$checked = ltef_meta( $p->ID, 'hours_checked' );
