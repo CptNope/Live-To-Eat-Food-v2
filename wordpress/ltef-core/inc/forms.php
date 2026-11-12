@@ -61,7 +61,7 @@ function ltef_forms() {
 				array( 'date', 'Date', 'date', true, '' ),
 				array( 'time', 'Time', 'text', true, 'For example: 2–5pm.' ),
 				array( 'venue', 'Where', 'text', true, 'The place and the neighborhood.' ),
-				array( 'kind', 'What kind of event', 'select', true, '', array( '' => 'Pick one', 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'fitness' => 'Fitness or wellness', 'retail' => 'Retail or shopping', 'family' => 'Family', 'other' => 'Something else' ) ),
+				array( 'kind', 'What kind of event', 'select', true, '', array( '' => 'Pick one', 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'fitness' => 'Fitness or wellness', 'retail' => 'Retail or shopping', 'family' => 'Family', 'nonprofit' => 'Nonprofit or fundraiser', 'other' => 'Something else' ) ),
 				array( 'price', 'Price', 'text', false, 'Free, $35, pay your own way…' ),
 				array( 'about', 'What it is', 'textarea', false, 'Two lines is plenty.' ),
 				array( 'link', 'Link for details or tickets', 'url', false, '' ),
