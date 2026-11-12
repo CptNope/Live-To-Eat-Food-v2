@@ -15,6 +15,7 @@ $u = function ( $p ) {
 <p class="is-style-meta"><a href="<?php echo $u( '/restaurant-jobs/' ); ?>">All jobs</a></p>
 <!-- /wp:paragraph -->
 <!-- wp:post-title {"level":1} /-->
+<!-- wp:ltef/job-facts /-->
 <!-- wp:post-content {"className":"ltef-prose","layout":{"type":"default"}} /-->
 </section>
 <!-- /wp:group -->
