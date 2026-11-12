@@ -339,6 +339,7 @@ body { background: var(--lemon); }
 .ev-k--fitness { --k-bg: #cdeab4; --k-ac: #3d8a37; }
 .ev-k--retail  { --k-bg: #cfe3f6; --k-ac: #3a74b0; }
 .ev-k--family  { --k-bg: #d3efec; --k-ac: #2a8a80; }
+.ev-k--nonprofit { --k-bg: #f6cfcb; --k-ac: #b8322b; }
 .ev-k--other   { --k-bg: #efeadb; --k-ac: #8a8170; }
 .ev-kind { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 8px; border-radius: var(--radius-pill); background: var(--k-bg); color: var(--basil); font: 700 13px/1.3 var(--font-interface); white-space: nowrap; }
 .ev-kind::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--k-ac); flex: none; }
