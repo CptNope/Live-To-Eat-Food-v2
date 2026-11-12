@@ -14,7 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump to redraw every card after a design change. */
-const LTEF_CARD_V = 2;
+const LTEF_CARD_V = 3;
 
 /* ------------------------------------------------------------------ What each page says */
 
@@ -355,7 +355,7 @@ function ltef_card_draw( $card, $path ) {
 	$rest      = ( $sub_lines[1] ? 40 + count( $sub_lines[1] ) * (int) round( $sub_lines[0] * 1.35 ) : 0 ) + ( $kick ? 140 : 0 );
 	foreach ( array( 150, 136, 122, 108, 96, 86 ) as $try ) { // the biggest title that leaves room above the address line
 		list( $ts, $tl ) = ltef_card_wrap( $title, $fb, array( $try, 86 ), $width, 3 );
-		$lh              = (int) round( $ts * 1.08 );
+		$lh              = (int) round( $ts * 1.15 );
 		$block           = count( $tl ) * $lh + $rest;
 		if ( $block <= 640 ) {
 			break;
