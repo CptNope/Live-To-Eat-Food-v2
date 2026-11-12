@@ -185,7 +185,9 @@
 .site-drawer-cta { justify-content: center; }
 .tabbar { display: none; }
 .nav-overflow { display: none; }
-@media (max-width: 1080px) { .site-nav__main li:nth-child(5) { display: none; } .nav-overflow { display: block; } .site-more.is-current-narrow summary { background: var(--vinyl); box-shadow: var(--lift); } }
+/* Six top links fit from 1160px; below that Events, then Roulette, fold into More (and More lights up when you're on one). */
+@media (max-width: 1159px) { .site-nav__main li:nth-child(6) { display: none; } .site-more .nav-overflow-6 { display: block; } .site-more.is-current-n6 summary { background: var(--vinyl); box-shadow: var(--lift); } }
+@media (max-width: 1069px) { .site-nav__main li:nth-child(5) { display: none; } .site-more .nav-overflow-5 { display: block; } .site-more.is-current-n5 summary { background: var(--vinyl); box-shadow: var(--lift); } }
 @media (max-width: 960px) {
   .site-nav, .site-cta { display: none; }
   .site-drawer { display: block; }
