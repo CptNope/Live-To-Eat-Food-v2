@@ -111,7 +111,7 @@ function ltef_forms() {
 			'title'  => 'Tell us it’s yours',
 			'intro'  => 'Keep your phone, website, menu link and hours up to date yourself, and add a short note from you. Free, like every listing.',
 			'button' => 'Send my claim',
-			'note'   => 'Tina confirms it’s yours by calling the number on your listing, usually within ' . (int) $s['reply_days'] . ' days. Then we email you a sign-in link. No password, no account.',
+			'note'   => 'Tina confirms it’s yours by calling the number on your listing, usually within ' . (int) $s['reply_days'] . ' days. Then we email you a link to set up your login.',
 			'fields' => array(
 				array( 'place', 'Your business', 'text', true, 'Start typing and pick it from the list. Not on the site yet? Use “Fix my listing” below.' ),
 				array( 'name', 'Your name', 'text', true, '' ),

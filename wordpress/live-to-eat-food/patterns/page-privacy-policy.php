@@ -48,7 +48,7 @@
 <li>Paid listings: Stripe takes your card on its own page. We see the amount, whether it was paid and the email address you gave, never your card number.</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Listing owners: if you claim your business’s listing, we keep your name, role, phone and email so Tina can confirm it’s yours and we can send you sign-in links. A sign-in link works for two hours and sets no cookie. Each change you make is kept with your email so Tina can see who changed what.</li>
+<li>Listing owners: if you claim your business’s listing, we keep your name, role, phone and email so Tina can confirm it’s yours. Approving the claim creates a login that opens only your listing; you sign in with a password or with an emailed link that works for two hours. Each change you make is kept with your email so Tina can see who changed what.</li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 <!-- wp:paragraph -->
@@ -66,7 +66,7 @@
 <h2 id="h-cookies" class="wp-block-heading">Cookies and your browser</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>The site itself doesn’t set cookies or store anything in your browser while you browse; only people who sign in to run the site get WordPress’s sign-in cookies. The visit counts don’t use cookies either. Cloudflare, which protects the site and runs the spam check on forms, may set cookies it needs to tell people from bots.</p>
+<p>The site itself doesn’t set cookies or store anything in your browser while you browse; only people who sign in (the people who run the site, and business owners updating their listing) get WordPress’s sign-in cookies. The visit counts don’t use cookies either. Cloudflare, which protects the site and runs the spam check on forms, may set cookies it needs to tell people from bots.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
 <p>Videos load only when you press play. Then YouTube (in its privacy-enhanced mode), TikTok, Instagram or Facebook loads its own player, which may set its own cookies under its own privacy policy.</p>
@@ -146,7 +146,7 @@
 <li>Payment records are kept as long as accounting and tax rules need.</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>An owner’s email stays on a listing while they manage it. Ask and we’ll take it off; the record of past changes stays with the listing.</li>
+<li>An owner’s email and login stay while they manage the listing. Ask and we’ll remove them; the record of past changes stays with the listing.</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
 <li>The Monthly Crumbs list keeps your email until you unsubscribe. Every issue has an unsubscribe link.</li>

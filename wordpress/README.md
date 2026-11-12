@@ -89,11 +89,12 @@ The scheme is built from WordPress's own scheme template: edit `ltef-core/assets
 
 ## Owners update their own listing
 
-Any place can be claimed from its page (“Is this your business? Claim this listing”) or from **For restaurants → Claim your listing**. The claim lands in the review queue with the place it names and the listing’s phone number: Tina calls that number, then approves. Approving adds the owner’s email to the place and emails them a sign-in link.
+Any place can be claimed from its page (“Is this your business? Claim this listing”) or from **For restaurants → Claim your listing**. The claim lands in the review queue with the place it names and the listing’s phone number: Tina calls that number, then approves. Approving adds the owner’s email to the place and emails them how to sign in.
 
-- **Signing in:** no password, account or cookie. On For restaurants → Update your listing, an approved owner enters their email and gets a link that works for two hours. The page always answers the same way, so it can’t be used to find out who owns what. Links are rate-limited per email and per connection, and the page they open is never cached, indexed or sent as a referrer.
+- **Their login:** approving a claim makes a WordPress account with the **Business owner** role and emails a link to set a password (if the email already has an account, it keeps its role; one without editing rights also becomes a Business owner). Signing in lands on **Your listing**, the only screen the role has besides Profile: no dashboard, posts, pages, media, comments, other places or settings, no front-end admin bar and no application passwords. Which places a login can edit follows the owner emails on each place, so removing an email in the Owners box removes that access; if an owner changes their email on Profile, their listings follow it.
+- **Or an email link:** For restaurants → Update your listing also offers a one-time link that works for two hours, for owners who’d rather not use a password. The page always answers the same way, so it can’t be used to find out who owns what. Links are rate-limited per email and per connection, and the page they open is never cached, indexed or sent as a referrer.
 - **What owners can change:** phone, website, menu link, hours (saving marks them checked today) and a note of up to 280 characters shown as “From the owner.” Never Tina’s line, verdict, videos or labels.
-- **Changes go live right away.** Tina gets an email listing each change, and the place’s **Owners** box (on its edit screen) keeps a log with **Undo** for the newest change to each field. The same box adds or removes owner emails, for example when someone claims a place by phone.
+- **Changes go live right away.** Tina gets an email listing each change, and the place’s **Owners** box (on its edit screen) keeps a log with **Undo** for the newest change to each field. The same box adds or removes owner emails (adding one can make their login and email them), for example when someone claims a place by phone.
 
 ## Tina's own business
 

@@ -37,7 +37,7 @@
 <p>Tina’s take, her videos and her verdict stay hers. Claiming is free and never buys a visit, a verdict or a better spot in a list.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"is-style-meta"} -->
-<p class="is-style-meta">To confirm it’s you, Tina calls the number on your listing. Then we email you a sign-in link: no password, no account.</p>
+<p class="is-style-meta">To confirm it’s you, Tina calls the number on your listing. Then we email you a link to set up your login, which opens only your own listing.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:ltef/submit-form {"form":"claim"} /--></div>
@@ -51,7 +51,7 @@
 <h2 id="h-manage" class="wp-block-heading">Update your listing</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Already approved? We email you a link that signs you in for two hours. Ask for a new one any time.</p>
+<p>Already approved? Sign in with the password you set, or get a one-time link by email.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:ltef/owner-area /--></div>

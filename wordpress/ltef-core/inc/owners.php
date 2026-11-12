@@ -198,9 +198,7 @@ function ltef_owner_on_approve( $post_id ) {
 	if ( ! $place || ! is_email( $email ) ) {
 		return array( false, 'Pick the place first: no listing matched this claim. Add their email under Owners on the place instead.' );
 	}
-	ltef_owner_add( $place, $email );
-	$sent = ltef_owner_send_link( $email, true );
-	return array( true, $sent ? 'They can edit ' . get_the_title( $place ) . ' now; a sign-in link went to ' . $email . '.' : 'They’re an owner of ' . get_the_title( $place ) . ', but the email didn’t send. They can ask for a link on For restaurants.' );
+	return array( true, ltef_owner_grant( $place, $email, $fields['name'] ?? '' ) );
 }
 
 /* ------------------------------------------------------------------ The owner area (For restaurants) */
@@ -240,8 +238,11 @@ function ltef_block_owner_area() {
 		return ltef_wrap( $out . '</div>' );
 	}
 	$out = '';
+	if ( function_exists( 'ltef_owner_is_limited' ) && ltef_owner_is_limited() ) {
+		return ltef_wrap( '<div class="panel ltef-sent" id="ltef-owner"><p class="h-m">You’re signed in.</p><p><a class="ltef-btn" href="' . esc_url( ltef_owner_admin_url() ) . '">Go to your listing</a></p></div>' );
+	}
 	if ( $token ) {
-		$out .= '<p class="ltef-form__error" role="alert">That sign-in link has run out or was already replaced. Enter your email for a new one.</p>';
+		$out .= '<p class="ltef-form__error" role="alert">That sign-in link has run out or was already replaced. Sign in with your password, or enter your email for a new link.</p>';
 	}
 	$sent = isset( $_GET['ltef_link'] ) && 'sent' === sanitize_key( wp_unslash( $_GET['ltef_link'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( $sent ) {
@@ -250,15 +251,16 @@ function ltef_block_owner_area() {
 	if ( $err ) {
 		$out .= '<p class="ltef-form__error" role="alert">' . esc_html( $err ) . '</p>';
 	}
+	$out .= function_exists( 'ltef_owner_admin_url' ) ? '<div class="panel ltef-owner-signin"><h2 class="h-m" style="font-size: 30px;">Sign in</h2><p style="margin: 0;">With the username or email and the password you set when Tina approved your claim.</p><p style="margin: 0;"><a class="ltef-btn" href="' . esc_url( wp_login_url( ltef_owner_admin_url() ) ) . '">Sign in to your listing</a></p></div>' : '';
 	$out .= '<form class="panel ltef-form" id="ltef-owner" method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" aria-labelledby="ltef-owner-h">'
-		. '<h2 id="ltef-owner-h" class="h-m" style="font-size: 30px;">Get a sign-in link</h2><p style="margin: 0;">Use the email Tina approved. No password.</p>'
+		. '<h2 id="ltef-owner-h" class="h-m" style="font-size: 30px;">Or get a one-time link</h2><p style="margin: 0;">No password needed: we email a link that works for two hours. Use the email Tina approved.</p>'
 		. '<div class="form-grid"><div class="ltef-field"><label class="ltef-field__label" for="ltef-owner-email">Email</label><input class="ltef-input" type="email" id="ltef-owner-email" name="email" required autocomplete="email"></div></div>'
 		. '<input type="hidden" name="action" value="ltef_owner_link">'
 		. '<input type="hidden" name="ltef_t" value="' . esc_attr( time() . '.' . wp_hash( time() . 'owner' ) ) . '">'
 		. '<p class="ltef-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="ltef_website" tabindex="-1" autocomplete="off"></label></p>'
 		. ( function_exists( 'ltef_turnstile_ready' ) && ltef_turnstile_ready() ? ltef_turnstile_widget( 'owner-link' ) : '' )
 		. '<button class="ltef-btn" type="submit">Email me a sign-in link</button></form>';
-	return ltef_wrap( $out );
+	return ltef_wrap( '<div class="ltef-owner-area">' . $out . '</div>' );
 }
 
 /** One place's editor. */
@@ -357,9 +359,22 @@ function ltef_owner_handle_save() {
 	}
 	set_transient( $rk, $n + 1, HOUR_IN_SECONDS );
 
+	$done = ltef_owner_apply( $place, $email, wp_unslash( $_POST ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized field by field there
+	if ( is_wp_error( $done ) ) {
+		$fail( $done->get_error_message() );
+	}
+	wp_safe_redirect( add_query_arg( 'ltef_saved', $place, $back ) . '#manage' );
+	exit;
+}
+
+/**
+ * Saves an owner's changes to a place: sanitized, logged, live at once, and emailed to Tina.
+ * Returns the changes, or a WP_Error saying what to fix. Callers check who's asking first.
+ */
+function ltef_owner_apply( $place, $email, $input ) {
 	$new = array();
 	foreach ( ltef_owner_fields() as $key => $def ) {
-		$raw = isset( $_POST[ $key ] ) ? (string) wp_unslash( $_POST[ $key ] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized below
+		$raw = isset( $input[ $key ] ) ? (string) $input[ $key ] : '';
 		if ( 'url' === $def[1] ) {
 			$raw = trim( $raw );
 			if ( '' !== $raw && ! preg_match( '#^https?://#i', $raw ) ) {
@@ -368,12 +383,12 @@ function ltef_owner_handle_save() {
 			$val = esc_url_raw( $raw, array( 'http', 'https' ) );
 			$host = (string) wp_parse_url( $val, PHP_URL_HOST );
 			if ( '' !== $raw && ( '' === $val || ! filter_var( $val, FILTER_VALIDATE_URL ) || false === strpos( $host, '.' ) ) ) {
-				$fail( $def[0] . ' doesn’t look like a web address.' );
+				return new WP_Error( 'url', $def[0] . ' doesn’t look like a web address.' );
 			}
 		} elseif ( 'textarea' === $def[1] ) {
 			$val = sanitize_textarea_field( $raw );
 			if ( mb_strlen( $val ) > LTEF_OWNER_NOTE_MAX ) {
-				$fail( 'The note is over ' . LTEF_OWNER_NOTE_MAX . ' characters.' );
+				return new WP_Error( 'long', 'The note is over ' . LTEF_OWNER_NOTE_MAX . ' characters.' );
 			}
 		} else {
 			$val = mb_substr( sanitize_text_field( $raw ), 0, 'hours' === $key ? 160 : 40 );
@@ -414,8 +429,7 @@ function ltef_owner_handle_save() {
 			wp_mail( $to, 'Owner update: ' . get_the_title( $place ), implode( "\n", $lines ) );
 		}
 	}
-	wp_safe_redirect( add_query_arg( 'ltef_saved', $place, $back ) . '#manage' );
-	exit;
+	return $changes;
 }
 
 /* ------------------------------------------------------------------ Tina's side: the Owners box */
@@ -430,18 +444,19 @@ add_action(
 function ltef_owner_meta_box( $post ) {
 	wp_nonce_field( 'ltef_owners_' . $post->ID, 'ltef_owners_nonce' );
 	$owners = ltef_owner_emails( $post->ID );
-	echo '<p class="description">People who can update the phone, website, menu link, hours and their note by email link. Approve a claim in the review queue, or add an email here once you’ve confirmed it’s theirs.</p>';
+	echo '<p class="description">People who can update the phone, website, menu link, hours and their note, with their own login or an email link. Approve a claim in the review queue, or add an email here once you’ve confirmed it’s theirs.</p>';
 	if ( $owners ) {
 		echo '<ul>';
 		foreach ( $owners as $i => $e ) {
-			printf( '<li><label><input type="checkbox" name="ltef_owner_remove[]" value="%1$s"> Remove %1$s</label></li>', esc_attr( $e ) );
+			$u = get_user_by( 'email', $e );
+			printf( '<li><label><input type="checkbox" name="ltef_owner_remove[]" value="%1$s"> Remove %1$s</label>%2$s</li>', esc_attr( $e ), $u ? '<br><span class="description">Login: <a href="' . esc_url( get_edit_user_link( $u->ID ) ) . '">' . esc_html( $u->user_login ) . '</a></span>' : '' );
 		}
 		echo '</ul>';
 	} else {
 		echo '<p><em>No owner yet. The page invites them to claim it.</em></p>';
 	}
 	echo '<p><label for="ltef-owner-add">Add an owner email</label><input type="email" id="ltef-owner-add" name="ltef_owner_add" class="widefat"></p>';
-	echo '<p><label><input type="checkbox" name="ltef_owner_send" value="1" checked> Email them a sign-in link</label></p>';
+	echo '<p><label><input type="checkbox" name="ltef_owner_send" value="1" checked> Make them a login and email them to set a password</label></p>';
 
 	$log = get_post_meta( $post->ID, 'ltef_owner_log', true );
 	if ( is_array( $log ) && $log ) {
@@ -489,9 +504,10 @@ add_action(
 		}
 		$add = ltef_owner_norm( wp_unslash( $_POST['ltef_owner_add'] ?? '' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- normalized by sanitize_email
 		if ( is_email( $add ) && ! in_array( $add, ltef_owner_emails( $post_id ), true ) ) {
-			ltef_owner_add( $post_id, $add );
-			if ( ! empty( $_POST['ltef_owner_send'] ) && 'publish' === get_post_status( $post_id ) ) {
-				ltef_owner_send_link( $add, true );
+			if ( ! empty( $_POST['ltef_owner_send'] ) && 'publish' === get_post_status( $post_id ) && function_exists( 'ltef_owner_grant' ) ) {
+				ltef_owner_grant( $post_id, $add );
+			} else {
+				ltef_owner_add( $post_id, $add );
 			}
 		}
 	},
