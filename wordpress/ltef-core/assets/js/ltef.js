@@ -193,9 +193,65 @@
 		} );
 	}
 
-	/* Daily deals: mark today's column. */
-	var todayCol = document.querySelector( '[data-ltef-days] .day-col[data-day="' + new Date().getDay() + '"]' );
+	/* Daily deals: one day at a time. The day chips become tabs; the page opens on today (or the day in the link). */
+	var todayNum = String( new Date().getDay() );
+	var todayCol = document.querySelector( '[data-ltef-days] .day-col[data-day="' + todayNum + '"]' );
 	if ( todayCol ) todayCol.classList.add( 'is-today' );
+	var dayGrid = document.querySelector( '[data-ltef-days]' );
+	var dayNav  = document.querySelector( '[data-ltef-daytabs]' );
+	if ( dayGrid && dayNav ) {
+		var dayTabs = Array.prototype.slice.call( dayNav.querySelectorAll( 'a[data-day-tab]' ) );
+		var dayCols = Array.prototype.slice.call( dayGrid.querySelectorAll( '.day-col' ) );
+		dayNav.setAttribute( 'role', 'tablist' );
+		dayNav.setAttribute( 'aria-label', 'Day of the week' );
+		dayGrid.classList.add( 'is-one-day' );
+		dayTabs.forEach( function ( t ) {
+			var key = t.getAttribute( 'data-day-tab' );
+			t.setAttribute( 'role', 'tab' );
+			t.setAttribute( 'aria-controls', key );
+			if ( t.getAttribute( 'data-day' ) === todayNum ) {
+				t.classList.add( 'is-today' );
+				t.insertAdjacentHTML( 'beforeend', '<span class="vh"> (today)</span>' );
+			}
+		} );
+		dayCols.forEach( function ( c ) {
+			c.setAttribute( 'role', 'tabpanel' );
+			c.setAttribute( 'aria-labelledby', 'tab-' + c.id );
+		} );
+		var pickDay = function ( key, focus ) {
+			dayTabs.forEach( function ( t ) {
+				var on = t.getAttribute( 'data-day-tab' ) === key;
+				t.setAttribute( 'aria-selected', on ? 'true' : 'false' );
+				t.setAttribute( 'tabindex', on ? '0' : '-1' );
+				if ( on && focus ) t.focus();
+				if ( on && t.scrollIntoView && dayNav.scrollWidth > dayNav.clientWidth ) t.scrollIntoView( { block: 'nearest', inline: 'center' } );
+			} );
+			dayCols.forEach( function ( c ) { c.hidden = c.id !== key; } );
+		};
+		var keys  = dayTabs.map( function ( t ) { return t.getAttribute( 'data-day-tab' ); } );
+		var start = location.hash.slice( 1 );
+		var todayTab = dayTabs.filter( function ( t ) { return t.getAttribute( 'data-day' ) === todayNum; } )[0];
+		pickDay( keys.indexOf( start ) > -1 ? start : ( todayTab ? todayTab.getAttribute( 'data-day-tab' ) : keys[0] ), false );
+		window.addEventListener( 'hashchange', function () {
+			var k = location.hash.slice( 1 );
+			if ( keys.indexOf( k ) > -1 ) pickDay( k, false );
+		} );
+		dayTabs.forEach( function ( t, i ) {
+			t.addEventListener( 'click', function ( e ) {
+				e.preventDefault();
+				pickDay( keys[ i ], false );
+				if ( history.replaceState ) history.replaceState( null, '', '#' + keys[ i ] );
+			} );
+			t.addEventListener( 'keydown', function ( e ) {
+				var to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: keys.length - 1 }[ e.key ];
+				if ( undefined === to ) return;
+				e.preventDefault();
+				to = ( to + keys.length ) % keys.length;
+				pickDay( keys[ to ], true );
+				if ( history.replaceState ) history.replaceState( null, '', '#' + keys[ to ] );
+			} );
+		} );
+	}
 
 	/* Header menus: one open at a time; close on Escape or a click outside. */
 	var menus = Array.prototype.slice.call( document.querySelectorAll( 'details[data-ltef-menu]' ) );

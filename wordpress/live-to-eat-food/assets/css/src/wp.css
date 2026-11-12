@@ -202,6 +202,21 @@ body { background: var(--lemon); }
 
 /* Daily deals */
 .day-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+.day-jump .ltef-chip { text-decoration: none; flex: none; }
+.wp-block-ltef-daily-deals { min-width: 0; max-width: 100%; }
+.day-jump { min-width: 0; max-width: 100%; position: relative; }
+@media (max-width: 640px) {
+	.day-jump { flex-wrap: nowrap; overflow-x: auto; padding: 6px 4px 10px; margin: 0 0 14px; scrollbar-width: thin; }
+	.day-jump .ltef-chip { padding: 8px 14px; }
+}
+.day-jump [aria-selected="true"] { background: var(--basil); color: var(--vinyl); box-shadow: none; }
+.day-jump__n { display: inline-grid; place-items: center; min-width: 22px; height: 22px; margin-left: 8px; padding: 0 6px; box-sizing: border-box; border-radius: var(--radius-pill); background: var(--lemon); color: var(--basil); font: 800 13px/1 var(--font-interface); }
+.day-jump .ltef-chip.is-today::before { content: ""; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--chili); }
+.day-col__cards { display: grid; gap: 14px; align-content: start; }
+/* One day at a time (the script adds is-one-day; without it every day shows) */
+.day-grid.is-one-day { display: block; }
+.day-grid.is-one-day .day-col[hidden] { display: none; }
+.day-grid.is-one-day .day-col__cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 16px 22px; }
 .special-card { display: grid; gap: 8px; }
 .special-card > .ltef-lbl { align-self: flex-start; justify-self: start; }
 .special-card__name { color: var(--basil); text-decoration: none; }
