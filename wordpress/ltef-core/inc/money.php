@@ -540,8 +540,7 @@ function ltef_price_fields() {
 		'vip_limit'     => array( 'VIP Woo-pons per month', 'max', '' ),
 		'event_premium' => array( 'Premium event listing', '$ a month', 'Listing an event stays free.' ),
 		'job_post'      => array( 'Job post', '$ a month', '' ),
-		'enhanced_low'  => array( 'Enhanced listing, from', '$ a month', 'Shown as a pilot range on Work with Tina.' ),
-		'enhanced_high' => array( 'Enhanced listing, up to', '$ a month', '' ),
+		'enhanced_price' => array( 'Enhanced listing', '$ a month', 'Charged every month through Stripe when an owner upgrades from their listing screen. A new price applies to new upgrades; existing ones keep theirs.' ),
 	);
 }
 

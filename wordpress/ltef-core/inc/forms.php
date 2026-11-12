@@ -118,6 +118,12 @@ function ltef_forms() {
 				array( 'role', 'Your role', 'text', false, 'Owner, manager, chef…' ),
 				array( 'phone', 'Your phone', 'tel', true, 'In case Tina needs to reach you. Never shown.' ),
 				array( 'email', 'Email', 'email', true, 'Your sign-in links go here. Never shown.' ),
+				array( 'details', 'Your listing details', 'section', false, 'Optional. Anything you fill in here goes live on your page when Tina approves your claim. Leave a box blank to keep what’s there.' ),
+				array( 'listing_phone', 'Phone on your listing', 'tel', false, '' ),
+				array( 'website', 'Website', 'text', false, 'Like yourplace.com' ),
+				array( 'menu', 'Menu link', 'text', false, 'A page or PDF with your current menu.' ),
+				array( 'hours', 'Hours', 'text', false, 'Like: Tue–Sun 11–9, closed Mon.' ),
+				array( 'owner_note', 'A note for your page', 'textarea', false, 'Shown as “From the owner”: the patio is open, cash only. Up to 280 characters.' ),
 			),
 		),
 		'special' => array(
@@ -210,6 +216,10 @@ function ltef_block_submit_form( $attrs ) {
 		$auto = array( 'email' => 'email', 'phone' => 'tel', 'business' => 'organization', 'name' => 'name' );
 		$ac   = isset( $auto[ $name ] ) ? ' autocomplete="' . $auto[ $name ] . '"' : '';
 		$h    = $hint ? '<p class="ltef-field__hint" id="' . esc_attr( $id ) . '-h">' . esc_html( $hint ) . '</p>' : '';
+		if ( 'section' === $type ) {
+			$fields .= '<div class="ltef-field ltef-field--section"><p class="ltef-form__section" id="' . esc_attr( $id ) . '">' . esc_html( $label ) . '</p>' . ( $hint ? '<p class="ltef-field__hint">' . esc_html( $hint ) . '</p>' : '' ) . '</div>';
+			continue;
+		}
 		if ( 'checkbox' === $type ) {
 			$fields .= '<div class="ltef-field ltef-field--check"><label for="' . esc_attr( $id ) . '"><input type="checkbox" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="1"' . $r . '> ' . esc_html( $label ) . '</label></div>';
 			continue;
@@ -299,7 +309,7 @@ function ltef_handle_submit() {
 	$v = array();
 	foreach ( $forms[ $key ]['fields'] as $fd ) {
 		list( $name, $label, $type, $req ) = $fd;
-		if ( 'file' === $type ) {
+		if ( 'file' === $type || 'section' === $type ) {
 			continue;
 		}
 		$raw = isset( $_POST[ $name ] ) ? wp_unslash( $_POST[ $name ] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -320,6 +330,13 @@ function ltef_handle_submit() {
 	}
 	if ( 'woopon' === $key && $v['end'] < $v['start'] ) {
 		$fail( 'The end date is before the start date.' );
+	}
+	if ( 'claim' === $key && function_exists( 'ltef_owner_claim_details' ) ) {
+		$ok = ltef_owner_claim_details( $v );
+		if ( is_wp_error( $ok ) ) {
+			$fail( $ok->get_error_message() );
+		}
+		$v = array_merge( $v, $ok ); // web addresses made whole
 	}
 
 	// uploads: the VIP flyer, a photo

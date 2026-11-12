@@ -206,6 +206,9 @@ function ltef_save_meta( $post_id, $post ) {
 	}
 	foreach ( ltef_fields( $post->post_type ) as $key => $def ) {
 		$id = 'ltef_' . $key;
+		if ( 'enhanced' === $key && function_exists( 'ltef_enhanced_sub_live' ) && ltef_enhanced_sub_live( $post_id ) ) {
+			continue; // a paid subscription decides this; the Owners box shows it
+		}
 		if ( 'checkbox' === $def[1] ) {
 			update_post_meta( $post_id, $id, ! empty( $_POST[ $id ] ) );
 			continue;

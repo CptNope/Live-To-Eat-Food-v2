@@ -26,8 +26,39 @@ function ltef_owner_fields() {
 		'website'    => array( 'Website', 'url', 'Like yourplace.com' ),
 		'menu'       => array( 'Menu link', 'url', 'A page or PDF with your current menu.' ),
 		'hours'      => array( 'Hours', 'text', 'Like: Tue–Sun 11–9, closed Mon. Saving marks them checked today.' ),
-		'owner_note' => array( 'A note from you', 'textarea', 'Shown on your page as “From the owner”: a new chef, the patio is open, cash only. Up to ' . LTEF_OWNER_NOTE_MAX . ' characters.' ),
+		'owner_note' => array( 'A note from you', 'textarea', 'Shown on your page as “From the owner”: a new chef, the patio is open, cash only. Up to ' . LTEF_OWNER_NOTE_MAX . ' characters.', LTEF_OWNER_NOTE_MAX ),
 	);
+}
+
+/** What an Enhanced listing adds, edited the same way (photos are handled on their own). */
+function ltef_owner_enhanced_fields() {
+	return array(
+		'story'      => array( 'Your story', 'textarea', 'Who you are, what you cook and what to order, in your words. Up to 700 characters.', 700 ),
+		'highlights' => array( 'Menu highlights', 'lines', 'One dish per line, with the price after a bar: Margherita pie | $16. Up to 10.', 10 ),
+		'links'      => array( 'Booking and ordering links', 'links', 'One per line: what it is, a bar, then the address. Book a table | resy.com/your-place. Up to 3.', 3 ),
+	);
+}
+
+/** Every owner-editable field's label, for logs and emails. */
+function ltef_owner_labels() {
+	return array_merge( wp_list_pluck( ltef_owner_fields(), 0 ), wp_list_pluck( ltef_owner_enhanced_fields(), 0 ), array( 'owner_note' => 'From the owner', 'gallery' => 'Photos' ) );
+}
+
+/** A web address as typed ("mysite.com" too) made whole, or WP_Error. */
+function ltef_owner_url( $raw, $label ) {
+	$raw = trim( (string) $raw );
+	if ( '' === $raw ) {
+		return '';
+	}
+	if ( ! preg_match( '#^https?://#i', $raw ) ) {
+		$raw = 'https://' . $raw;
+	}
+	$val  = esc_url_raw( $raw, array( 'http', 'https' ) );
+	$host = (string) wp_parse_url( $val, PHP_URL_HOST );
+	if ( '' === $val || ! filter_var( $val, FILTER_VALIDATE_URL ) || false === strpos( $host, '.' ) ) {
+		return new WP_Error( 'url', $label . ' doesn’t look like a web address.' );
+	}
+	return $val;
 }
 
 /* ------------------------------------------------------------------ Who owns what */
@@ -187,10 +218,51 @@ function ltef_owner_claim_flags( $post_id ) {
 	if ( $owners ) {
 		$flags[] = array( 'warn', 'Already managed by ' . esc_html( implode( ', ', $owners ) ) );
 	}
+	$fields = get_post_meta( $post_id, 'ltef_fields', true );
+	$sugg   = array();
+	foreach ( ltef_owner_claim_map() as $from => $to ) {
+		if ( is_array( $fields ) && '' !== (string) ( $fields[ $from ] ?? '' ) ) {
+			$sugg[] = ltef_owner_short( $to );
+		}
+	}
+	if ( $sugg ) {
+		$flags[] = array( 'pay', 'Approving puts their ' . esc_html( implode( ', ', $sugg ) ) . ' live' );
+	}
 	return $flags;
 }
 
-/** Approving a claim adds the email to the place and sends the first sign-in link. [ publish, note ] */
+/** Claim form name => listing field, for the details an owner can suggest on their claim. */
+/** Short names for listing fields in Tina's notes: "their phone, hours and note". */
+function ltef_owner_short( $key ) {
+	return array( 'phone' => 'phone', 'website' => 'website', 'menu' => 'menu link', 'hours' => 'hours', 'owner_note' => 'note' )[ $key ] ?? $key;
+}
+
+function ltef_owner_claim_map() {
+	return array( 'listing_phone' => 'phone', 'website' => 'website', 'menu' => 'menu', 'hours' => 'hours', 'owner_note' => 'owner_note' );
+}
+
+/** The listing details on a claim, checked as they would be on the owner's own screen. [ claim name => clean value ] or WP_Error. */
+function ltef_owner_claim_details( $v ) {
+	$in = array();
+	foreach ( ltef_owner_claim_map() as $from => $to ) {
+		if ( '' !== (string) ( $v[ $from ] ?? '' ) ) {
+			$in[ $to ] = $v[ $from ];
+		}
+	}
+	$clean = ltef_owner_clean( $in, array_intersect_key( ltef_owner_fields(), $in ) );
+	if ( is_wp_error( $clean ) ) {
+		return $clean;
+	}
+	$out = array();
+	foreach ( ltef_owner_claim_map() as $from => $to ) {
+		if ( isset( $clean[ $to ] ) ) {
+			$out[ $from ] = $clean[ $to ];
+		}
+	}
+	return $out;
+}
+
+/** Approving a claim: the owner gets their login, and the details they suggested go live. [ publish, note ] */
 function ltef_owner_on_approve( $post_id ) {
 	$place  = (int) get_post_meta( $post_id, 'ltef_claim_place', true );
 	$fields = get_post_meta( $post_id, 'ltef_fields', true );
@@ -198,7 +270,18 @@ function ltef_owner_on_approve( $post_id ) {
 	if ( ! $place || ! is_email( $email ) ) {
 		return array( false, 'Pick the place first: no listing matched this claim. Add their email under Owners on the place instead.' );
 	}
-	return array( true, ltef_owner_grant( $place, $email, $fields['name'] ?? '' ) );
+	$note  = ltef_owner_grant( $place, $email, $fields['name'] ?? '' );
+	$sugg  = array();
+	foreach ( ltef_owner_claim_map() as $from => $to ) {
+		if ( '' !== (string) ( $fields[ $from ] ?? '' ) ) {
+			$sugg[ $to ] = $fields[ $from ];
+		}
+	}
+	if ( $sugg ) {
+		$done = ltef_owner_apply( $place, ltef_owner_norm( $email ), $sugg, array_intersect_key( ltef_owner_fields(), $sugg ) );
+		$note .= is_wp_error( $done ) ? ' Their listing details weren’t saved: ' . $done->get_error_message() : ( $done ? ' Their details are live (' . implode( ', ', array_map( function ( $c ) { return ltef_owner_short( $c['key'] ); }, $done ) ) . '); undo any of it on the place.' : '' );
+	}
+	return array( true, $note );
 }
 
 /* ------------------------------------------------------------------ The owner area (For restaurants) */
@@ -368,32 +451,62 @@ function ltef_owner_handle_save() {
 }
 
 /**
- * Saves an owner's changes to a place: sanitized, logged, live at once, and emailed to Tina.
- * Returns the changes, or a WP_Error saying what to fix. Callers check who's asking first.
+ * Owner input sanitized field by field: [ key => value ] for every field given, or WP_Error saying what to fix.
+ * A field missing from the input comes back empty, so callers that only change some fields pass only those.
  */
-function ltef_owner_apply( $place, $email, $input ) {
+function ltef_owner_clean( $input, $fields ) {
 	$new = array();
-	foreach ( ltef_owner_fields() as $key => $def ) {
-		$raw = isset( $input[ $key ] ) ? (string) $input[ $key ] : '';
-		if ( 'url' === $def[1] ) {
-			$raw = trim( $raw );
-			if ( '' !== $raw && ! preg_match( '#^https?://#i', $raw ) ) {
-				$raw = 'https://' . $raw;
+	foreach ( $fields as $key => $def ) {
+		$raw  = isset( $input[ $key ] ) ? (string) $input[ $key ] : '';
+		$type = $def[1];
+		if ( 'url' === $type ) {
+			$val = ltef_owner_url( $raw, $def[0] );
+			if ( is_wp_error( $val ) ) {
+				return $val;
 			}
-			$val = esc_url_raw( $raw, array( 'http', 'https' ) );
-			$host = (string) wp_parse_url( $val, PHP_URL_HOST );
-			if ( '' !== $raw && ( '' === $val || ! filter_var( $val, FILTER_VALIDATE_URL ) || false === strpos( $host, '.' ) ) ) {
-				return new WP_Error( 'url', $def[0] . ' doesn’t look like a web address.' );
+		} elseif ( 'textarea' === $type ) {
+			$val = trim( sanitize_textarea_field( $raw ) );
+			$max = (int) ( $def[3] ?? LTEF_OWNER_NOTE_MAX );
+			if ( mb_strlen( $val ) > $max ) {
+				return new WP_Error( 'long', $def[0] . ' is over ' . $max . ' characters.' );
 			}
-		} elseif ( 'textarea' === $def[1] ) {
-			$val = sanitize_textarea_field( $raw );
-			if ( mb_strlen( $val ) > LTEF_OWNER_NOTE_MAX ) {
-				return new WP_Error( 'long', 'The note is over ' . LTEF_OWNER_NOTE_MAX . ' characters.' );
+		} elseif ( 'lines' === $type || 'links' === $type ) {
+			$rows = array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', sanitize_textarea_field( $raw ) ) ) ) );
+			if ( count( $rows ) > (int) $def[3] ) {
+				return new WP_Error( 'many', $def[0] . ': up to ' . (int) $def[3] . ', please.' );
 			}
+			foreach ( $rows as $i => $row ) {
+				$parts = array_map( 'trim', explode( '|', $row, 2 ) );
+				if ( 'links' === $type ) {
+					if ( count( $parts ) < 2 || '' === $parts[0] ) {
+						return new WP_Error( 'link', 'Each link needs a name, a bar, then the address: Book a table | resy.com/your-place' );
+					}
+					$u = ltef_owner_url( $parts[1], 'The link for “' . $parts[0] . '”' );
+					if ( is_wp_error( $u ) || '' === $u ) {
+						return is_wp_error( $u ) ? $u : new WP_Error( 'link', 'The link for “' . $parts[0] . '” has no address.' );
+					}
+					$rows[ $i ] = mb_substr( $parts[0], 0, 30 ) . ' | ' . $u;
+				} else {
+					$rows[ $i ] = mb_substr( $parts[0], 0, 70 ) . ( isset( $parts[1] ) && '' !== $parts[1] ? ' | ' . mb_substr( $parts[1], 0, 20 ) : '' );
+				}
+			}
+			$val = implode( "\n", $rows );
 		} else {
 			$val = mb_substr( sanitize_text_field( $raw ), 0, 'hours' === $key ? 160 : 40 );
 		}
 		$new[ $key ] = $val;
+	}
+	return $new;
+}
+
+/**
+ * Saves an owner's changes to a place: sanitized, logged, live at once, and emailed to Tina.
+ * Returns the changes, or a WP_Error saying what to fix. Callers check who's asking first.
+ */
+function ltef_owner_apply( $place, $email, $input, $fields = null ) {
+	$new = ltef_owner_clean( $input, null === $fields ? ltef_owner_fields() : $fields );
+	if ( is_wp_error( $new ) ) {
+		return $new;
 	}
 
 	$log     = get_post_meta( $place, 'ltef_owner_log', true );
@@ -408,7 +521,7 @@ function ltef_owner_apply( $place, $email, $input ) {
 		$changes[] = array( 'key' => $key, 'old' => $old, 'new' => $val );
 		$log[]     = array( 't' => time(), 'email' => $email, 'key' => $key, 'old' => $old, 'new' => $val, 'undone' => false );
 	}
-	if ( '' !== $new['hours'] ) {
+	if ( '' !== ( $new['hours'] ?? '' ) ) {
 		update_post_meta( $place, 'ltef_hours_checked', wp_date( 'Y-m-d' ) ); // they looked at the hours and saved them
 	}
 	if ( $changes ) {
@@ -418,7 +531,7 @@ function ltef_owner_apply( $place, $email, $input ) {
 		do_action( 'ltef_owner_saved', $place, $changes, $email );
 		$to = ltef_setting( 'notify_email' );
 		if ( $to ) {
-			$labels = array_merge( wp_list_pluck( ltef_owner_fields(), 0 ), array( 'owner_note' => 'From the owner' ) );
+			$labels = ltef_owner_labels();
 			$lines  = array( $email . ' changed ' . get_the_title( $place ) . '. It’s live now.', '' );
 			foreach ( $changes as $c ) {
 				$lines[] = $labels[ $c['key'] ] . ': ' . ( '' === $c['old'] ? '(empty)' : $c['old'] ) . '  →  ' . ( '' === $c['new'] ? '(empty)' : $c['new'] );
@@ -455,12 +568,19 @@ function ltef_owner_meta_box( $post ) {
 	} else {
 		echo '<p><em>No owner yet. The page invites them to claim it.</em></p>';
 	}
+	if ( function_exists( 'ltef_enhanced_sub' ) ) {
+		$sub = ltef_enhanced_sub( $post->ID );
+		if ( ! empty( $sub['id'] ) && function_exists( 'ltef_enhanced_sub_live' ) && ltef_enhanced_sub_live( $post->ID ) ) {
+			$end = ! empty( $sub['period_end'] ) ? wp_date( 'M j', (int) $sub['period_end'] ) : '';
+			printf( '<p><strong>Enhanced: paid by subscription.</strong><br><span class="description">%s. The Enhanced checkbox follows Stripe while this runs; cancel in Stripe to stop it.</span></p>', esc_html( ! empty( $sub['cancel_at_period_end'] ) ? 'Canceled, ends ' . $end : ( 'past_due' === ( $sub['status'] ?? '' ) ? 'Payment failed, Stripe is retrying' : 'Renews ' . $end ) ) );
+		}
+	}
 	echo '<p><label for="ltef-owner-add">Add an owner email</label><input type="email" id="ltef-owner-add" name="ltef_owner_add" class="widefat"></p>';
 	echo '<p><label><input type="checkbox" name="ltef_owner_send" value="1" checked> Make them a login and email them to set a password</label></p>';
 
 	$log = get_post_meta( $post->ID, 'ltef_owner_log', true );
 	if ( is_array( $log ) && $log ) {
-		$labels = array_merge( wp_list_pluck( ltef_owner_fields(), 0 ), array( 'owner_note' => 'From the owner' ) );
+		$labels = ltef_owner_labels();
 		echo '<h4 style="margin: 1.2em 0 .4em;">Owner changes</h4><ol class="ltef-owner-log" reversed>';
 		$shown = 0;
 		foreach ( array_reverse( $log, true ) as $i => $c ) {
@@ -468,10 +588,13 @@ function ltef_owner_meta_box( $post ) {
 				break;
 			}
 			// Only the newest change to a field can be undone, and only while the page still shows it.
-			$current = (string) ltef_meta( $post->ID, $c['key'] );
+			$current = 'gallery' === $c['key'] ? '' : (string) ltef_meta( $post->ID, $c['key'] );
+			$can     = 'gallery' === $c['key'] ? ! empty( $c['att'] ) && in_array( (int) $c['att'], ltef_owner_gallery( $post->ID ), true ) : $current === $c['new'];
 			if ( $c['undone'] ) {
 				$undo = '<em>Undone</em>';
-			} elseif ( $current === $c['new'] ) {
+			} elseif ( 'gallery' === $c['key'] && empty( $c['att'] ) ) {
+				$undo = '<em>Can’t be undone</em>';
+			} elseif ( $can ) {
 				$undo = '<a href="' . esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=ltef_owner_undo&post=' . $post->ID . '&i=' . (int) $i ), 'ltef_owner_undo_' . $post->ID ) ) . '">Undo</a>';
 			} else {
 				$undo = '<em>Changed since</em>';
@@ -523,7 +646,12 @@ function ltef_owner_handle_undo() {
 	}
 	$i   = isset( $_GET['i'] ) ? absint( $_GET['i'] ) : -1;
 	$log = get_post_meta( $id, 'ltef_owner_log', true );
-	if ( is_array( $log ) && isset( $log[ $i ] ) && empty( $log[ $i ]['undone'] ) && array_key_exists( $log[ $i ]['key'], ltef_owner_fields() ) && (string) ltef_meta( $id, $log[ $i ]['key'] ) === $log[ $i ]['new'] ) {
+	$c = is_array( $log ) && isset( $log[ $i ] ) && empty( $log[ $i ]['undone'] ) ? $log[ $i ] : null;
+	if ( $c && 'gallery' === $c['key'] && ! empty( $c['att'] ) && in_array( (int) $c['att'], ltef_owner_gallery( $id ), true ) ) {
+		ltef_owner_gallery_remove( $id, (int) $c['att'] ); // an added photo comes off and is deleted
+		$log[ $i ]['undone'] = true;
+		update_post_meta( $id, 'ltef_owner_log', $log );
+	} elseif ( $c && array_key_exists( $c['key'], ltef_owner_fields() + ltef_owner_enhanced_fields() ) && (string) ltef_meta( $id, $c['key'] ) === $c['new'] ) {
 		update_post_meta( $id, 'ltef_' . $log[ $i ]['key'], $log[ $i ]['old'] );
 		$log[ $i ]['undone'] = true;
 		update_post_meta( $id, 'ltef_owner_log', $log );

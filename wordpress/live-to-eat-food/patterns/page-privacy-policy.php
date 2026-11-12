@@ -48,7 +48,7 @@
 <li>Paid listings: Stripe takes your card on its own page. We see the amount, whether it was paid and the email address you gave, never your card number.</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
-<li>Listing owners: if you claim your business’s listing, we keep your name, role, phone and email so Tina can confirm it’s yours. Approving the claim creates a login that opens only your listing; you sign in with a password or with an emailed link that works for two hours. Each change you make is kept with your email so Tina can see who changed what.</li>
+<li>Listing owners: if you claim your business’s listing, we keep your name, role, phone and email so Tina can confirm it’s yours. Approving the claim creates a login that opens only your listing; you sign in with a password or with an emailed link that works for two hours. Each change you make is kept with your email so Tina can see who changed what. Photos and words you add to an Enhanced listing are public on your page, and Stripe takes its monthly payment on its own page.</li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 <!-- wp:paragraph -->

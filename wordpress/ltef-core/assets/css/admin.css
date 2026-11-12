@@ -837,3 +837,13 @@
 		transform: none;
 	}
 }
+
+/* Your listing (business owners): the Enhanced offer and editor */
+.ltef-owner-admin .ltef-owner-form { margin-bottom: 8px; }
+.ltef-owner-admin .ltef-enh-offer, .ltef-owner-admin .ltef-enh { margin: 8px 0 40px; }
+.ltef-owner-admin .ltef-enh h2 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ltef-owner-admin .ltef-enh-list { list-style: disc; margin: 4px 0 14px 22px; }
+.ltef-owner-admin .ltef-enh-list li { margin: 4px 0; }
+.ltef-owner-admin .ltef-enh-photos { list-style: none; margin: 0 0 14px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 14px; }
+.ltef-owner-admin .ltef-enh-photos img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 12px; margin-bottom: 6px; }
+.ltef-owner-admin .ltef-enh-plan p { margin: 6px 0; }

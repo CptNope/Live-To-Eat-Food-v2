@@ -21,6 +21,7 @@ function ltef_settings() {
 		'job_post'        => 100,
 		'enhanced_low'    => 29,
 		'enhanced_high'   => 59,
+		'enhanced_price'  => 29,
 		'dont_work_with'  => '',
 		'reply_days'      => 2,
 		'turnstile_site'   => '',

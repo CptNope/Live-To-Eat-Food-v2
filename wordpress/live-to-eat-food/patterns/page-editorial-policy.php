@@ -82,19 +82,13 @@
 <!-- /wp:group -->
 <!-- wp:group {"anchor":"enhanced"} -->
 <div id="enhanced" class="wp-block-group"><!-- wp:heading {"anchor":"h-enhanced"} -->
-<h2 id="h-enhanced" class="wp-block-heading">Enhanced listings and Charter merchants</h2>
+<h2 id="h-enhanced" class="wp-block-heading">Enhanced listings</h2>
 <!-- /wp:heading -->
 <!-- wp:html -->
 <span class="ltef-lbl ltef-lbl--enhanced ltef-lbl--sm" style="align-self: flex-start; justify-self: start;"><svg aria-hidden="true" viewbox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1"><rect height="16" rx="4" width="16" x="4" y="4"></rect><path d="M12 8.5v7M8.5 12h7"></path></g></svg>Enhanced listing</span>
 <!-- /wp:html -->
-<!-- wp:html -->
-<span class="ltef-lbl ltef-lbl--charter ltef-lbl--sm" style="align-self: flex-start; justify-self: start;"><svg aria-hidden="true" viewbox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1"><path d="M4 9.5l1.5-5h13L20 9.5"></path><path d="M4 9.5c0 1.6 1.3 2.5 2.7 2.5s2.6-.9 2.6-2.5c0 1.6 1.2 2.5 2.7 2.5s2.7-.9 2.7-2.5c0 1.6 1.2 2.5 2.6 2.5S20 11.1 20 9.5"></path><path d="M5.5 12v8h13v-8M10 20v-4.5h4V20"></path></g></svg>Charter merchant</span>
-<!-- /wp:html -->
 <!-- wp:paragraph -->
-<p>Restaurants can pay to add their own photos, menu, story and booking links to their page. That content is labeled as theirs and sits after Tina’s take. It doesn’t change her take, the order of any list, or whether a place is in a guide. Basic listings are free forever.</p>
-<!-- /wp:paragraph -->
-<!-- wp:paragraph -->
-<p>At launch, 25 Charter merchants get Enhanced free for 90 days in exchange for a Featured decal. The decal says “Paid listing” on it.</p>
+<p>Restaurants can pay [ltef_price key="enhanced_price"] a month to add their own photos, menu, story and booking links to their page. That content is labeled as theirs and sits after Tina’s take. It doesn’t change her take, the order of any list, or whether a place is in a guide. Basic listings are free forever.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:group {"anchor":"woo-pons"} -->
