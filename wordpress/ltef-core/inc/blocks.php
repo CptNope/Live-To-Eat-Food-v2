@@ -36,7 +36,7 @@ function ltef_block_defs() {
 		'roulette'       => array( 'Restaurant Roulette', 'The wheel: Tina’s places or every restaurant.', 'image-rotate', array(), 'ltef_block_roulette', false ),
 		'site-nav'       => array( 'Site navigation', 'The header menu: top links and a grouped More panel on wide screens, a grouped Menu on phones, and the Monthly Crumbs button.', 'menu', array(), 'ltef_block_site_nav', false ),
 		'daily-deals'    => array( 'Daily deals by day', 'Every weekly special, Monday to Sunday, with today marked. Add deals under Places → Daily deals.', 'calendar', array(), 'ltef_block_daily_deals', false ),
-		'verdicts'       => array( 'Tina’s two verdicts', 'Favorite and Don’t miss, explained.', 'star-filled', array(), 'ltef_block_verdicts', false ),
+		'verdicts'       => array( 'Tina’s two verdicts', 'Favorite and Must try, explained.', 'star-filled', array(), 'ltef_block_verdicts', false ),
 	);
 }
 
@@ -124,7 +124,7 @@ function ltef_block_place_take( $attrs, $content, $block ) {
 		if ( ltef_meta( $id, 'tina_quote' ) ) {
 			$out .= '<p class="ltef-note place-quote">“' . esc_html( ltef_meta( $id, 'tina_quote' ) ) . '”</p>';
 		}
-		$out .= $own ? '' : ( $v ? '<div class="ltef-verdicts">' . $v . '</div>' : '<p class="verdict-line"><span class="verdict-line__k">No verdict yet</span> Tina marks a place Favorite or Don’t miss when it really gets her. <a href="' . esc_url( home_url( '/how-it-works/#verdicts' ) ) . '">How verdicts work</a></p>' );
+		$out .= $own ? '' : ( $v ? '<div class="ltef-verdicts">' . $v . '</div>' : '<p class="verdict-line"><span class="verdict-line__k">No verdict yet</span> Tina marks a place Favorite or Must try when it really gets her. <a href="' . esc_url( home_url( '/how-it-works/#verdicts' ) ) . '">How verdicts work</a></p>' );
 	} else {
 		$out .= '<p class="verdict-line"><span class="verdict-line__k">Not yet</span> Tina hasn’t posted from here. <a href="' . esc_url( home_url( '/how-it-works/#ltef-suggest' ) ) . '">Think she should go?</a></p>';
 	}
@@ -496,7 +496,7 @@ function ltef_block_jobs() {
 }
 
 function ltef_block_verdicts() {
-	return ltef_wrap( '<div class="ltef-verdicts">' . ltef_verdict_html( 'favorite' ) . ltef_verdict_html( 'dont-miss' ) . '</div><p>No stars and no scores. When a place or a dish really gets her, Tina marks it <strong>Favorite</strong> (the star: she keeps going back) or <strong>Don’t miss</strong> (the target: order this one). Most places get neither, and that’s fine: the post and her words say the rest. Only Tina gives them, only for meals she ate, and nothing pays for one.</p>', 'verdicts-row' );
+	return ltef_wrap( '<div class="ltef-verdicts">' . ltef_verdict_html( 'favorite' ) . ltef_verdict_html( 'dont-miss' ) . '</div><p>No stars and no scores. When a place or a dish really gets her, Tina marks it <strong>Favorite</strong> (the star: she keeps going back) or <strong>Must try</strong> (the target: order this one). Most places get neither, and that’s fine: the post and her words say the rest. Only Tina gives them, only for meals she ate, and nothing pays for one.</p>', 'verdicts-row' );
 }
 
 function ltef_block_roulette() {

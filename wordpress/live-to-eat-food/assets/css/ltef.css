@@ -497,7 +497,7 @@ textarea.ltef-input { min-height: 96px; padding: 12px 16px; border-radius: 18px;
 .ltef-coupon > .ltef-lbl--partner { grid-column: 1 / -1; }
 .ltef-coupon__connect { grid-column: 1 / -1; font: 600 14px/1.4 var(--font-interface); color: var(--basil); }
 
-/* Nov 2: two verdicts. Favorite (star) and Don't miss (target): tomato ink in Tina's hand, an icon so colour is never the only cue */
+/* Nov 2: two verdicts. Favorite (star) and Must try (target): tomato ink in Tina's hand, an icon so colour is never the only cue */
 .ltef-verdict { display: inline-flex; align-items: center; gap: 6px; }
 .ltef-verdict__i { width: 17px; height: 17px; flex: none; }
 .ltef-verdict--fav { background: var(--lemon); }

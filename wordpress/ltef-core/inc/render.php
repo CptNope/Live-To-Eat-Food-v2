@@ -94,13 +94,13 @@ function ltef_place_labels( $post_id, $small = false ) {
 	return $out;
 }
 
-/** Favorite (star) or Don't miss (target). Empty string when Tina hasn't given one. */
+/** Favorite (star) or Must try (target). Empty string when Tina hasn't given one. */
 function ltef_verdict_html( $verdict ) {
 	if ( 'favorite' === $verdict ) {
 		return '<span class="ltef-verdict ltef-verdict--fav">' . ltef_icon( 'star' ) . 'Favorite</span>';
 	}
 	if ( 'dont-miss' === $verdict ) {
-		return '<span class="ltef-verdict ltef-verdict--miss">' . ltef_icon( 'target' ) . 'Don’t miss</span>';
+		return '<span class="ltef-verdict ltef-verdict--miss">' . ltef_icon( 'target' ) . 'Must try</span>';
 	}
 	return '';
 }
