@@ -85,6 +85,16 @@ function ltef_fields( $type ) {
 			'contact_phone' => array( 'Contact phone', 'tel', 'Private.', null, true ),
 			'contact_email' => array( 'Contact email', 'email', 'Private.', null, true ),
 		),
+		'ltef_dish'    => array(
+			'place'       => array( 'Place on the site', 'place', 'The card links to this page. Matched from the form when the name fits.' ),
+			'business'    => array( 'Business, as sent', 'text', 'Shown when no place is picked.' ),
+			'price_text'  => array( 'Price', 'text', 'Like $14. Optional.' ),
+			'about'       => array( 'About it', 'textarea', 'One or two lines, in the business’s words. Up to 200 characters.' ),
+			'photo'       => array( 'Photo', 'attachment', 'Their photo of the dish.' ),
+			'until'       => array( 'Shown until', 'date', 'Set to 4 weeks from the day it goes up. Change it to end it early or give it longer.' ),
+			'contact_phone' => array( 'Contact phone', 'tel', 'Private.', null, true ),
+			'contact_email' => array( 'Contact email', 'email', 'Private.', null, true ),
+		),
 		'ltef_special' => array(
 			'place'       => array( 'Place on the site', 'place', 'The place running the special.' ),
 			'deal'        => array( 'The deal, in a few words', 'text', 'Like: Buy one, get one pizza. Shown big on the card.' ),
@@ -114,7 +124,7 @@ function ltef_fields( $type ) {
 
 add_action( 'init', 'ltef_register_meta', 20 );
 function ltef_register_meta() {
-	foreach ( array( 'ltef_place', 'ltef_woopon', 'ltef_event', 'ltef_job', 'ltef_ad', 'ltef_special' ) as $type ) {
+	foreach ( array( 'ltef_place', 'ltef_woopon', 'ltef_event', 'ltef_job', 'ltef_ad', 'ltef_special', 'ltef_dish' ) as $type ) {
 		foreach ( ltef_fields( $type ) as $key => $def ) {
 			$private = ! empty( $def[4] );
 			$kind    = $def[1];
@@ -145,7 +155,7 @@ function ltef_sanitize_attachment( $v ) { return absint( $v ); }
 
 add_action( 'add_meta_boxes', 'ltef_meta_boxes' );
 function ltef_meta_boxes() {
-	$titles = array( 'ltef_place' => 'Place details', 'ltef_woopon' => 'The deal', 'ltef_event' => 'Event details', 'ltef_job' => 'Job details', 'ltef_ad' => 'The ad', 'ltef_special' => 'The weekly deal' );
+	$titles = array( 'ltef_place' => 'Place details', 'ltef_woopon' => 'The deal', 'ltef_event' => 'Event details', 'ltef_job' => 'Job details', 'ltef_ad' => 'The ad', 'ltef_special' => 'The weekly deal', 'ltef_dish' => 'The new dish' );
 	foreach ( $titles as $type => $title ) {
 		add_meta_box( 'ltef-fields', $title, 'ltef_render_meta_box', $type, 'normal', 'high' );
 	}

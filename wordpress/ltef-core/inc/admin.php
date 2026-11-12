@@ -16,7 +16,7 @@ function ltef_admin_menu() {
 }
 
 function ltef_review_types() {
-	return array( 'ltef_woopon' => 'Woo-pon', 'ltef_event' => 'Event', 'ltef_job' => 'Job post', 'ltef_place' => 'Place', 'ltef_submission' => 'Message' );
+	return array( 'ltef_woopon' => 'Woo-pon', 'ltef_event' => 'Event', 'ltef_job' => 'Job post', 'ltef_dish' => 'New dish', 'ltef_place' => 'Place', 'ltef_submission' => 'Message' );
 }
 
 function ltef_pending_count() {
@@ -71,6 +71,11 @@ function ltef_review_page() {
 		}
 		if ( 'ltef_job' === $p->post_type ) {
 			$flags[] = array( 'paid', 'Job post: ' . esc_html( ltef_money( ltef_setting( 'job_post' ) ) ) . ' a month' );
+		}
+		if ( 'ltef_dish' === $p->post_type ) {
+			$flags[] = array( 'paid', 'New dish: ' . esc_html( ltef_money( ltef_setting( 'dish_price' ) ) ) . ' for ' . (int) ( LTEF_DISH_DAYS / 7 ) . ' weeks on Explore, from the day you approve it' );
+			$dp      = (int) ltef_meta( $p->ID, 'place' );
+			$flags[] = $dp ? array( '', 'Links to <a href="' . esc_url( get_permalink( $dp ) ) . '" target="_blank" rel="noopener">' . esc_html( get_the_title( $dp ) ) . '</a>' ) : array( 'warn', 'No place on the site matched. Pick one under Edit first, or it shows without a link.' );
 		}
 		$payflag = function_exists( 'ltef_pay_flag' ) ? ltef_pay_flag( $p->ID ) : '';
 		if ( $payflag ) {
@@ -166,7 +171,7 @@ function ltef_register_settings() {
 			'type'              => 'array',
 			'sanitize_callback' => function ( $in ) {
 				$out = ltef_settings();
-				foreach ( array( 'woopon_weekly', 'woopon_free', 'woopon_vip', 'vip_limit', 'event_premium', 'job_post', 'enhanced_low', 'enhanced_high', 'enhanced_price', 'reply_days' ) as $k ) {
+				foreach ( array( 'woopon_weekly', 'woopon_free', 'woopon_vip', 'vip_limit', 'event_premium', 'job_post', 'dish_price', 'enhanced_low', 'enhanced_high', 'enhanced_price', 'reply_days' ) as $k ) {
 					if ( isset( $in[ $k ] ) ) {
 						$out[ $k ] = max( 0, (float) $in[ $k ] );
 					}

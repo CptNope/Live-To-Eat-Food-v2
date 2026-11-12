@@ -107,6 +107,9 @@ function ltef_paid_item( $key, $v ) {
 	if ( 'event' === $key && 'premium' === ( $v['tier'] ?? '' ) ) {
 		return array( 'cents' => ltef_cents( $s['event_premium'] ), 'label' => sprintf( 'Premium event listing: %s (1 month)', $v['name'] ), 'source' => 'event' );
 	}
+	if ( 'dish' === $key ) {
+		return array( 'cents' => ltef_cents( $s['dish_price'] ), 'label' => sprintf( 'New dish for %s: %s (%d weeks)', $v['business'], $v['dish'], (int) ( LTEF_DISH_DAYS / 7 ) ), 'source' => 'dish' );
+	}
 	if ( 'job' === $key ) {
 		$m = max( 1, min( 3, (int) ( $v['months'] ?? 1 ) ) );
 		return array( 'cents' => ltef_cents( $s['job_post'] ) * $m, 'label' => sprintf( 'Job post for %s: %s (%d %s)', $v['business'], $v['role'], $m, 1 === $m ? 'month' : 'months' ), 'source' => 'job' );

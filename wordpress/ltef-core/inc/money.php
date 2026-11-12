@@ -41,6 +41,7 @@ function ltef_money_sources() {
 		'vip'         => 'VIP Woo-pon',
 		'event'       => 'Premium event listing',
 		'job'         => 'Job post',
+		'dish'        => 'New dish',
 		'ad'          => 'Ad spot',
 		'enhanced'    => 'Enhanced listing',
 		'partner'     => 'Partner commission',
@@ -540,6 +541,7 @@ function ltef_price_fields() {
 		'vip_limit'     => array( 'VIP Woo-pons per month', 'max', '' ),
 		'event_premium' => array( 'Premium event listing', '$ a month', 'Listing an event stays free.' ),
 		'job_post'      => array( 'Job post', '$ a month', '' ),
+		'dish_price'    => array( 'New dish', '$ a dish', 'Shown in New dishes on Explore for 4 weeks from the day Tina approves it.' ),
 		'enhanced_price' => array( 'Enhanced listing', '$ a month', 'Charged every month through Stripe when an owner upgrades from their listing screen. A new price applies to new upgrades; existing ones keep theirs.' ),
 	);
 }

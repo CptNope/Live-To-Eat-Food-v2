@@ -31,6 +31,7 @@ function ltef_block_defs() {
 		'event-facts'    => array( 'Event: the details', 'When, where, price and kind, with the tickets and directions buttons.', 'calendar-alt', array(), 'ltef_block_event_facts', true ),
 		'job-facts'      => array( 'Job post: the details', 'Business, hours, pay and how to apply.', 'businessperson', array(), 'ltef_block_job_facts', true ),
 		'events'         => array( 'Upcoming events', 'Events from today on, premium listings first in their week. With Calendar on, a List / Calendar switch and a month view.', 'calendar-alt', array( 'count' => array( 'type' => 'number', 'default' => 12 ), 'calendar' => array( 'type' => 'boolean', 'default' => false ) ), 'ltef_block_events', false ),
+		'new-dishes'     => array( 'New dishes', 'New dishes businesses listed for 4 weeks (paid, labeled), with a link to add one.', 'carrot', array(), 'ltef_block_new_dishes', false ),
 		'jobs'           => array( 'Restaurant jobs', 'Open job posts with filter chips.', 'businessperson', array(), 'ltef_block_jobs', false ),
 		'roulette'       => array( 'Restaurant Roulette', 'The wheel: Tina’s places or every restaurant.', 'image-rotate', array(), 'ltef_block_roulette', false ),
 		'site-nav'       => array( 'Site navigation', 'The header menu: top links and a grouped More panel on wide screens, a grouped Menu on phones, and the Monthly Crumbs button.', 'menu', array(), 'ltef_block_site_nav', false ),

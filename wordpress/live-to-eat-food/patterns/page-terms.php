@@ -73,7 +73,7 @@
 <h2 id="h-paid" class="wp-block-heading">Paid listings</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Weekly and VIP Woo-pons, premium event listings and job posts are paid; the price is shown before you send. When card payments are on, Stripe holds the amount when you send it, and you’re only charged if Tina approves it. If she declines, the hold is released. If a hold runs out first, or you skip the card, we email a pay link after approval and the listing goes up once it’s paid.</p>
+<p>Weekly and VIP Woo-pons, premium event listings, job posts and new dishes are paid; the price is shown before you send. When card payments are on, Stripe holds the amount when you send it, and you’re only charged if Tina approves it. If she declines, the hold is released. If a hold runs out first, or you skip the card, we email a pay link after approval and the listing goes up once it’s paid.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
 <p>An Enhanced listing is [ltef_price key="enhanced_price"] a month, billed by Stripe each month until you cancel. Cancel any time from your listing: it stays on until the end of the month you’ve paid for, then your page goes back to the free listing.</p>
