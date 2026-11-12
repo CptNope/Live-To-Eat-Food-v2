@@ -211,9 +211,9 @@ function ltef_more_videos( $post_id ) {
 	return $out;
 }
 
-/** What kind of place: eat (the default), shop, wellness, services, fun or community. */
+/** What kind of place: eat (the default), shop, wellness, beauty, services, fun or community. */
 function ltef_place_kinds() {
-	return array( 'eat' => 'Food & drink', 'shop' => 'Shops', 'wellness' => 'Wellness & beauty', 'services' => 'Services', 'fun' => 'Things to do', 'community' => 'Community' );
+	return array( 'eat' => 'Food & drink', 'shop' => 'Shops', 'wellness' => 'Health & wellness', 'beauty' => 'Beauty & aesthetics', 'services' => 'Services', 'fun' => 'Things to do', 'community' => 'Community & nonprofits' );
 }
 
 function ltef_place_kind( $post_id ) {
