@@ -18,7 +18,7 @@ $u = function ( $p ) {
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"className":"is-style-lede"} -->
-<p class="is-style-lede">Ten years of Worcester and Central Mass meals Tina paid for herself. Tell us what you’re craving and we’ll show you where she’d go.</p>
+<p class="is-style-lede">Ten years of Worcester and Central Mass meals Tina really ate. Tell us what you’re craving and we’ll show you where she’d go.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
@@ -38,7 +38,7 @@ $u = function ( $p ) {
 
 <!-- wp:column {"verticalAlignment":"center","width":"38%","className":"home-hero__art"} -->
 <div class="wp-block-column is-vertically-aligned-center home-hero__art" style="flex-basis:38%"><!-- wp:image {"sizeSlug":"full","className":"home-hero__stamp"} -->
-<figure class="wp-block-image size-full home-hero__stamp"><img src="<?php echo ltef_theme_img( 'logo/ltef-stamp-tina-ate-here.svg' ); ?>" alt="Tina ate here: every pick is a real meal, paid for by Tina"/></figure>
+<figure class="wp-block-image size-full home-hero__stamp"><img src="<?php echo ltef_theme_img( 'logo/ltef-stamp-tina-ate-here.svg' ); ?>" alt="Tina ate here: every pick is a real meal Tina ate"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></section>

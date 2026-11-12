@@ -35,7 +35,7 @@
 <h2 id="h-opinions" class="wp-block-heading">Tina’s picks are opinions</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Places, verdicts, quotes and guides are Tina’s honest opinions about meals she paid for, unless the page says otherwise (see the <a href="<?php echo esc_url( home_url( '/editorial-policy/' ) ); ?>">Editorial policy</a>). They aren’t guarantees. Hours, prices, menus and deals change, so check with the business before you go, and always ask a restaurant about allergies and dietary needs.</p>
+<p>Places, verdicts, quotes and guides are Tina’s honest opinions about meals she ate (see the <a href="<?php echo esc_url( home_url( '/editorial-policy/' ) ); ?>">Editorial policy</a>). They aren’t guarantees. Hours, prices, menus and deals change, so check with the business before you go, and always ask a restaurant about allergies and dietary needs.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:group {"anchor":"deals"} -->

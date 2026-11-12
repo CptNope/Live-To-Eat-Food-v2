@@ -627,6 +627,11 @@ function ltef_event_facts( $post_id ) {
 	if ( '' !== $kind ) {
 		$rows[] = array( 'Kind', $kind );
 	}
+	$by  = (string) ltef_meta( $post_id, 'submitted_by' );
+	$aff = array( 'organizer' => 'the organizer', 'venue' => 'from the venue', 'vendor' => 'a vendor or performer', 'sharing' => 'not involved, sharing it' )[ (string) ltef_meta( $post_id, 'affiliation' ) ] ?? '';
+	if ( '' !== $by && ! ltef_meta( $post_id, 'tina' ) ) {
+		$rows[] = array( 'Listed by', $by . ( $aff ? ', ' . $aff : '' ) );
+	}
 	$dl = '';
 	foreach ( $rows as $r ) {
 		$dl .= '<div><dt>' . esc_html( $r[0] ) . '</dt><dd>' . esc_html( $r[1] ) . '</dd></div>';
@@ -640,7 +645,7 @@ function ltef_event_facts( $post_id ) {
 		. ( $past ? '<p class="ev-facts__past">This event has passed. <a href="' . esc_url( home_url( '/events/' ) ) . '">See what’s coming up</a>.</p>' : '' )
 		. ( $dl ? '<dl class="facts-dl">' . $dl . '</dl>' : '' )
 		. ( $btns ? '<div class="ltef-actions">' . $btns . '</div>' : '' )
-		. '<p class="meta facts-claim">' . ( ltef_meta( $post_id, 'tina' ) ? '' : 'Listed by the organizer. Times and prices can change, so check before you go. ' ) . 'Have an event? <a href="' . esc_url( home_url( '/events/' ) ) . '#submit">Add it here</a>: listing is free.</p>'
+		. '<p class="meta facts-claim">' . ( ltef_meta( $post_id, 'tina' ) ? '' : 'Sent in to the site, not written by Tina. Times and prices can change, so check before you go. ' ) . 'Have an event? <a href="' . esc_url( home_url( '/events/' ) ) . '#submit">Add it here</a>: listing is free.</p>'
 		. '</div>';
 }
 
