@@ -393,13 +393,16 @@ function ltef_daily_deals_html() {
 	$jump = '';
 	$cols = '';
 	foreach ( ltef_weekdays() as $d => $day ) {
-		$jump .= '<a class="ltef-chip" href="#' . esc_attr( $d ) . '">' . esc_html( substr( $day, 0, 3 ) ) . '</a>';
+		$n     = count( $by_day[ $d ] );
+		// Each chip is a link to its day; the script turns them into tabs that show one day at a time.
+		$jump .= '<a class="ltef-chip" href="#' . esc_attr( $d ) . '" id="tab-' . esc_attr( $d ) . '" data-day-tab="' . esc_attr( $d ) . '" data-day="' . (int) $num[ $d ] . '">' . esc_html( substr( $day, 0, 3 ) )
+			. ( $n ? '<span class="day-jump__n"><span class="vh">, </span>' . $n . '<span class="vh"> ' . ( 1 === $n ? 'deal' : 'deals' ) . '</span></span>' : '' ) . '</a>';
 		$cards = $by_day[ $d ]
 			? implode( '', array_map( 'ltef_special_card', $by_day[ $d ] ) )
 			: '<p class="panel special-empty">Nothing on ' . esc_html( $day ) . 's yet. <a href="#tell">Know one?</a></p>';
-		$cols .= '<section class="day-col" data-day="' . (int) $num[ $d ] . '" id="' . esc_attr( $d ) . '" aria-labelledby="d-' . esc_attr( $d ) . '"><h2 id="d-' . esc_attr( $d ) . '" class="h-m day-col__h">' . esc_html( $day ) . '</h2>' . $cards . '</section>';
+		$cols .= '<section class="day-col" data-day="' . (int) $num[ $d ] . '" id="' . esc_attr( $d ) . '" aria-labelledby="d-' . esc_attr( $d ) . '"><h2 id="d-' . esc_attr( $d ) . '" class="h-m day-col__h">' . esc_html( $day ) . '</h2><div class="day-col__cards">' . $cards . '</div></section>';
 	}
-	return '<nav class="ltef-chips day-jump" aria-label="Jump to a day">' . $jump . '</nav><div class="day-grid" data-ltef-days>' . $cols . '</div>';
+	return '<nav class="ltef-chips day-jump" aria-label="Jump to a day" data-ltef-daytabs>' . $jump . '</nav><div class="day-grid" data-ltef-days>' . $cols . '</div>';
 }
 
 /** Weekly deals for one place, for the place page's facts. */
