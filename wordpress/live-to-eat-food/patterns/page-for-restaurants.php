@@ -100,31 +100,6 @@
 <!-- /wp:group --></section>
 <!-- /wp:group -->
 
-<!-- wp:group {"tagName":"section","anchor":"said-owners","className":"is-style-sheet","backgroundColor":"butter","layout":{"type":"constrained","contentSize":"1240px"}} -->
-<section id="said-owners" class="wp-block-group is-style-sheet has-butter-background-color has-background"><!-- wp:group {"className":"head"} -->
-<div class="wp-block-group head"><!-- wp:heading {"anchor":"h-said-own"} -->
-<h2 id="h-said-own" class="wp-block-heading">What businesses say</h2>
-<!-- /wp:heading -->
-<!-- wp:paragraph {"className":"is-style-meta"} -->
-<p class="is-style-meta">Slots for real quotes, added with each owner’s OK</p>
-<!-- /wp:paragraph --></div>
-<!-- /wp:group -->
-<!-- wp:group {"className":"testi-grid"} -->
-<div class="wp-block-group testi-grid"><!-- wp:html -->
-<figure class="panel testi"><blockquote class="testi__q">“[A line from an owner who ran a Woo-pon, in their own words]”</blockquote><figcaption class="testi__by"><b>[Name]</b><span>[Business] · [What they ran: Woo-pon]</span></figcaption></figure>
-<!-- /wp:html -->
-<!-- wp:html -->
-<figure class="panel testi"><blockquote class="testi__q">“[A line from an organizer who listed an event, in their own words]”</blockquote><figcaption class="testi__by"><b>[Name]</b><span>[Business] · [What they ran: premium event]</span></figcaption></figure>
-<!-- /wp:html -->
-<!-- wp:html -->
-<figure class="panel testi"><blockquote class="testi__q">“[A line from a business Tina visited, in their own words]”</blockquote><figcaption class="testi__by"><b>[Name]</b><span>[Business] · [What they ran: paid visit]</span></figcaption></figure>
-<!-- /wp:html --></div>
-<!-- /wp:group -->
-<!-- wp:paragraph {"className":"is-style-meta"} -->
-<p class="is-style-meta">Empty until real businesses say yes. We never write a testimonial for anyone, and a quote is never paid for.</p>
-<!-- /wp:paragraph --></section>
-<!-- /wp:group -->
-
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"pistachio","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section class="wp-block-group is-style-sheet has-pistachio-background-color has-background"><!-- wp:heading {"anchor":"h-more"} -->
 <h2 id="h-more" class="wp-block-heading">More for owners</h2>
