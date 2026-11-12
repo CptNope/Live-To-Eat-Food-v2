@@ -279,8 +279,15 @@ add_action(
 
 /* ------------------------------------------------------------------ Money */
 
-/** Income for a payment, and Stripe's fee as an expense, so Money stays right on its own. */
-function ltef_stripe_log_payment( $cents, $source, $party, $label, $charge_id ) {
+/**
+ * Income for a payment, and Stripe's fee as an expense, so Money stays right on its own.
+ * Logged once per payment: $ref (or the charge id) is kept on the row, and a repeat is skipped.
+ */
+function ltef_stripe_log_payment( $cents, $source, $party, $label, $charge_id, $ref = '' ) {
+	$ref = $ref ? $ref : ( $charge_id ? 'charge:' . $charge_id : '' );
+	if ( $ref && get_posts( array( 'post_type' => 'ltef_income', 'post_status' => 'any', 'numberposts' => 1, 'fields' => 'ids', 'meta_key' => 'ltef_m_ref', 'meta_value' => $ref ) ) ) { // phpcs:ignore WordPress.DB.SlowDBQuery
+		return;
+	}
 	$sources = ltef_money_sources();
 	$source  = isset( $sources[ $source ] ) ? $source : 'other';
 	wp_insert_post(
@@ -288,7 +295,7 @@ function ltef_stripe_log_payment( $cents, $source, $party, $label, $charge_id ) 
 			'post_type'   => 'ltef_income',
 			'post_status' => 'private',
 			'post_title'  => $sources[ $source ] . ( $party ? ' · ' . $party : '' ),
-			'meta_input'  => array( 'ltef_m_date' => wp_date( 'Y-m-d' ), 'ltef_m_cents' => (int) $cents, 'ltef_m_note' => $label . ' (Stripe)', 'ltef_m_source' => $source, 'ltef_m_method' => 'stripe', 'ltef_m_party' => $party ),
+			'meta_input'  => array( 'ltef_m_date' => wp_date( 'Y-m-d' ), 'ltef_m_cents' => (int) $cents, 'ltef_m_note' => $label . ' (Stripe)', 'ltef_m_source' => $source, 'ltef_m_method' => 'stripe', 'ltef_m_party' => $party, 'ltef_m_ref' => $ref ),
 		)
 	);
 	if ( $charge_id ) {
@@ -366,6 +373,10 @@ function ltef_stripe_webhook( WP_REST_Request $req ) {
 		return new WP_REST_Response( array( 'error' => 'bad signature' ), 400 );
 	}
 	$e    = json_decode( $payload, true );
+	// Test-mode news after switching to live (or the other way round) is acknowledged and ignored.
+	if ( is_array( $e ) && isset( $e['livemode'] ) && (bool) $e['livemode'] !== ( 'live' === ltef_stripe_mode() ) ) {
+		return new WP_REST_Response( array( 'ok' => true, 'ignored' => 'other mode' ), 200 );
+	}
 	$seen = (array) get_option( 'ltef_stripe_seen', array() );
 	if ( empty( $e['id'] ) || in_array( $e['id'], $seen, true ) ) {
 		return new WP_REST_Response( array( 'ok' => true ), 200 );
@@ -403,6 +414,8 @@ function ltef_stripe_webhook( WP_REST_Request $req ) {
 			);
 		}
 	}
+	/** Lets other parts of the plugin act on a verified event (Enhanced subscriptions). */
+	do_action( 'ltef_stripe_event', $e );
 	return new WP_REST_Response( array( 'ok' => true ), 200 );
 }
 
@@ -443,6 +456,31 @@ add_action(
 	21
 );
 
+/** What the site listens for. Bump the version when this changes, so a connected webhook is updated. */
+const LTEF_STRIPE_EVENTS_V = 2;
+function ltef_stripe_events() {
+	return array( 'checkout.session.completed', 'checkout.session.expired', 'payment_intent.canceled', 'charge.refunded', 'invoice.paid', 'customer.subscription.updated', 'customer.subscription.deleted' );
+}
+
+/** A webhook made before the event list changed gets the new list (its secret stays the same). */
+add_action(
+	'admin_init',
+	function () {
+		$s    = ltef_stripe();
+		$mode = ltef_stripe_mode();
+		$h    = $s['hooks'][ $mode ] ?? array();
+		if ( ! $s['key'] || empty( $h['id'] ) || (int) ( $h['v'] ?? 1 ) >= LTEF_STRIPE_EVENTS_V || ! current_user_can( 'manage_options' ) || get_transient( 'ltef_stripe_events_try' ) ) {
+			return;
+		}
+		set_transient( 'ltef_stripe_events_try', 1, 10 * MINUTE_IN_SECONDS ); // don't hammer Stripe if it fails
+		$r = ltef_stripe_api( 'POST', 'webhook_endpoints/' . rawurlencode( $h['id'] ), array( 'enabled_events' => ltef_stripe_events() ) );
+		if ( ! is_wp_error( $r ) ) {
+			$s['hooks'][ $mode ]['v'] = LTEF_STRIPE_EVENTS_V;
+			update_option( 'ltef_stripe', $s, false );
+		}
+	}
+);
+
 /** Make (or remake) the webhook in Stripe for this site, for the saved key's mode. */
 function ltef_stripe_connect() {
 	$s    = ltef_stripe();
@@ -457,13 +495,13 @@ function ltef_stripe_connect() {
 		array(
 			'url'            => $url,
 			'description'    => 'Live to Eat Food site',
-			'enabled_events' => array( 'checkout.session.completed', 'checkout.session.expired', 'payment_intent.canceled', 'charge.refunded' ),
+			'enabled_events' => ltef_stripe_events(),
 		)
 	);
 	if ( is_wp_error( $hook ) ) {
 		return $hook;
 	}
-	$s['hooks'][ $mode ] = array( 'id' => $hook['id'], 'secret' => $hook['secret'], 'url' => $url );
+	$s['hooks'][ $mode ] = array( 'id' => $hook['id'], 'secret' => $hook['secret'], 'url' => $url, 'v' => LTEF_STRIPE_EVENTS_V );
 	update_option( 'ltef_stripe', $s, false );
 	return true;
 }
@@ -492,7 +530,7 @@ add_action(
 			}
 			$s['on'] = ! empty( $_POST['on'] );
 			update_option( 'ltef_stripe', $s, false );
-			if ( '' !== $new || empty( $s['hooks'][ ltef_stripe_mode() ]['secret'] ) ) {
+			if ( '' !== $new || empty( $s['hooks'][ ltef_stripe_mode() ]['secret'] ) || (int) ( $s['hooks'][ ltef_stripe_mode() ]['v'] ?? 1 ) < LTEF_STRIPE_EVENTS_V ) {
 				$c   = $s['key'] ? ltef_stripe_connect() : true;
 				$msg = is_wp_error( $c ) ? 'Saved, but Stripe said: ' . $c->get_error_message() : 'Saved and connected to Stripe (' . ltef_stripe_mode() . ' mode).';
 			} else {
@@ -538,6 +576,19 @@ add_action(
 		}
 		wp_safe_redirect( admin_url( 'admin.php?page=ltef-payments&ltef_msg=' . rawurlencode( $msg ) ) );
 		exit;
+	}
+);
+
+/** On Payments: say when the webhook is missing the subscription events, so Enhanced upgrades are paused. */
+add_action(
+	'admin_notices',
+	function () {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		$s      = ltef_stripe();
+		if ( ! $screen || false === strpos( $screen->id, 'ltef-payments' ) || ! $s['key'] || empty( $s['hooks'][ ltef_stripe_mode() ]['id'] ) || (int) ( $s['hooks'][ ltef_stripe_mode() ]['v'] ?? 1 ) >= LTEF_STRIPE_EVENTS_V ) {
+			return;
+		}
+		echo '<div class="notice notice-warning"><p><strong>Enhanced upgrades are paused.</strong> Stripe’s connection to the site doesn’t send subscription updates yet. Press <em>Save</em> below to reconnect it; if that fails, the Stripe key may not be allowed to manage webhooks.</p></div>';
 	}
 );
 

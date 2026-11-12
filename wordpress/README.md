@@ -89,12 +89,21 @@ The scheme is built from WordPress's own scheme template: edit `ltef-core/assets
 
 ## Owners update their own listing
 
-Any place can be claimed from its page (“Is this your business? Claim this listing”) or from **For restaurants → Claim your listing**. The claim lands in the review queue with the place it names and the listing’s phone number: Tina calls that number, then approves. Approving adds the owner’s email to the place and emails them how to sign in.
+Any place can be claimed from its page (“Is this your business? Claim this listing”) or from **For restaurants → Claim your listing**. The claim can also suggest the listing’s phone, website, menu link, hours and note. It lands in the review queue with the place it names, the listing’s phone number and which details it would change: Tina calls that number, then approves, and the suggested details go live (logged, so she can undo them). Approving adds the owner’s email to the place and emails them how to sign in.
 
 - **Their login:** approving a claim makes a WordPress account with the **Business owner** role and emails a link to set a password (if the email already has an account, it keeps its role; one without editing rights also becomes a Business owner). Signing in lands on **Your listing**, the only screen the role has besides Profile: no dashboard, posts, pages, media, comments, other places or settings, no front-end admin bar and no application passwords. Which places a login can edit follows the owner emails on each place, so removing an email in the Owners box removes that access; if an owner changes their email on Profile, their listings follow it.
 - **Or an email link:** For restaurants → Update your listing also offers a one-time link that works for two hours, for owners who’d rather not use a password. The page always answers the same way, so it can’t be used to find out who owns what. Links are rate-limited per email and per connection, and the page they open is never cached, indexed or sent as a referrer.
 - **What owners can change:** phone, website, menu link, hours (saving marks them checked today) and a note of up to 280 characters shown as “From the owner.” Never Tina’s line, verdict, videos or labels.
 - **Changes go live right away.** Tina gets an email listing each change, and the place’s **Owners** box (on its edit screen) keeps a log with **Undo** for the newest change to each field. The same box adds or removes owner emails (adding one can make their login and email them), for example when someone claims a place by phone.
+
+## Enhanced listings ($29 a month)
+
+An approved owner can upgrade from **Your listing**. The price is **Enhanced listing** under Money → Prices & split; a new price applies to new upgrades only.
+
+- **Paying:** Stripe Checkout starts a monthly subscription (card or Link). Stripe’s webhook switches Enhanced on, records each month’s payment and Stripe’s fee in Money (income source “Enhanced listing”), and switches it off when the subscription ends or goes unpaid. The site’s webhook listens for `invoice.paid` and `customer.subscription.updated/deleted` as well; a webhook connected before this was added is updated automatically the next time an admin opens the dashboard.
+- **Cancelling:** from Your listing. It stays on until the end of the month already paid for (“Keep Enhanced” undoes it until then). Photos and text are kept in case they come back. Tina gets an email for each upgrade, cancel and end.
+- **What it adds:** up to 8 photos (each with a description for screen readers), the owner’s story (700 characters), up to 10 menu highlights with prices and up to 3 booking or ordering links, in a “From [place]” section after Tina’s take and the facts, labeled Enhanced listing. In Explore the row shows their first photo, and the start of their story when Tina hasn’t been. Changes go live at once and are logged; an added photo can be undone from the Owners box.
+- **By hand:** ticking Enhanced listing on a place still works (for a deal arranged directly); the owner then sees “arranged with Tina” instead of the plan.
 
 ## Tina's own business
 

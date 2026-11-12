@@ -85,12 +85,6 @@
 <!-- wp:paragraph -->
 <p>The owner pays for extra photos, a menu and booking links on their page. It never changes Tina’s take or where the place appears.</p>
 <!-- /wp:paragraph -->
-<!-- wp:html -->
-<span class="ltef-lbl ltef-lbl--charter" style="align-self: flex-start; justify-self: start;"><svg aria-hidden="true" viewbox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1"><path d="M4 9.5l1.5-5h13L20 9.5"></path><path d="M4 9.5c0 1.6 1.3 2.5 2.7 2.5s2.6-.9 2.6-2.5c0 1.6 1.2 2.5 2.7 2.5s2.7-.9 2.7-2.5c0 1.6 1.2 2.5 2.6 2.5S20 11.1 20 9.5"></path><path d="M5.5 12v8h13v-8M10 20v-4.5h4V20"></path></g></svg>Charter merchant</span>
-<!-- /wp:html -->
-<!-- wp:paragraph -->
-<p>One of the founding restaurants that got Enhanced free for 90 days at launch, in return for the Featured decal. It’s a business deal, not a pick.</p>
-<!-- /wp:paragraph -->
 <!-- wp:group {"anchor":"verdicts"} -->
 <div id="verdicts" class="wp-block-group"><!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Tina’s two verdicts</h3>

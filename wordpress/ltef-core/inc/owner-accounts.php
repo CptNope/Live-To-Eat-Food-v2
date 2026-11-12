@@ -215,6 +215,10 @@ function ltef_owner_admin_page() {
 	} elseif ( $err ) {
 		echo '<div class="notice notice-error"><p>' . esc_html( $err ) . '</p></div>';
 	}
+	$enh = isset( $_GET['ltef_enh_msg'] ) ? sanitize_key( wp_unslash( $_GET['ltef_enh_msg'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( $enh ) {
+		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( 'canceled' === $enh ? 'Enhanced is canceled. It stays on until the end of the month you’ve paid for, and nothing more is charged.' : 'You’re keeping Enhanced. It renews as before.' ) . '</p></div>';
+	}
 	if ( ! $places ) {
 		echo '<div class="ltef-panel"><p><strong>No listing is linked to this login yet.</strong></p><p>If Tina approved your claim, the listing follows the email on your profile: ' . esc_html( $user->user_email ) . '. Changed it? Email <a href="mailto:tina@livetoeatfoodie.com">tina@livetoeatfoodie.com</a> and she’ll link it again.</p></div></div>';
 		return;
@@ -244,6 +248,7 @@ function ltef_owner_admin_page() {
 			(int) $p->ID,
 			wp_nonce_field( 'ltef_owner_save_' . $p->ID, '_wpnonce', true, false )
 		);
+		echo function_exists( 'ltef_enhanced_owner_panel' ) ? ltef_enhanced_owner_panel( $p->ID ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built and escaped there
 	}
 	echo '<p class="description">Something else wrong on your page? <a href="' . esc_url( ltef_owner_page_url() ) . '#listing">Tell us</a>. To change your password, open <a href="' . esc_url( admin_url( 'profile.php' ) ) . '">Profile</a>.</p></div>';
 }

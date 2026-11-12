@@ -108,9 +108,10 @@ function ltef_verdict_html( $verdict ) {
 /** A place as a card: photo or sticker, label, name, meta, Tina's line. */
 function ltef_place_card( $post_id ) {
 	$field = ltef_place_field( $post_id );
+	$own   = function_exists( 'ltef_enhanced_card_photo' ) ? ltef_enhanced_card_photo( $post_id ) : '';
 	$img   = has_post_thumbnail( $post_id )
 		? get_the_post_thumbnail( $post_id, 'medium_large', array( 'alt' => '', 'class' => 'ltef-card__photo' ) )
-		: '<img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ) . '" alt="" width="148" height="148">';
+		: ( $own ? $own : '<img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ) . '" alt="" width="148" height="148">' );
 	$quote = ltef_meta( $post_id, 'tina_quote' );
 	$v     = ltef_tina_owns( $post_id ) ? '' : ltef_verdict_html( ltef_meta( $post_id, 'verdict' ) );
 	return sprintf(
@@ -122,7 +123,7 @@ function ltef_place_card( $post_id ) {
 		esc_html( get_the_title( $post_id ) ),
 		esc_html( ltef_place_meta_line( $post_id, false ) ),
 		$v ? '<div class="ltef-verdicts">' . $v . '</div>' : '',
-		$quote ? '<p class="ltef-note">“' . esc_html( $quote ) . '”</p>' : ''
+		$quote ? '<p class="ltef-note">“' . esc_html( $quote ) . '”</p>' : ( function_exists( 'ltef_enhanced_card_line' ) ? ltef_enhanced_card_line( $post_id ) : '' )
 	);
 }
 
@@ -134,19 +135,24 @@ function ltef_place_row( $post_id ) {
 	};
 	$dish = ltef_meta( $post_id, 'dish' );
 	$name = get_the_title( $post_id );
+	// An Enhanced listing fills the same row a little more: the owner's first photo, and the start of their story when Tina hasn't been.
+	$enh   = function_exists( 'ltef_enhanced_on' ) && ltef_enhanced_on( $post_id );
+	$gal   = $enh ? ltef_owner_gallery( $post_id ) : array();
+	$photo = $gal ? wp_get_attachment_image_url( $gal[0], 'thumbnail' ) : '';
+	$story = $enh && ! $dish ? (string) ltef_meta( $post_id, 'story' ) : '';
 	return sprintf(
-		'<article class="panel place-row" data-name="%1$s" data-area="%2$s" data-cravings="%3$s" data-with="%4$s" data-tina="%5$d" data-kind="%14$s"><div class="place-row__ph" style="background: var(--%6$s);"><img src="%7$s" alt="" width="148" height="148" loading="lazy" decoding="async"></div><div class="place-row__txt"><a href="%8$s" class="h-s tap">%9$s</a><span class="meta">%10$s</span>%11$s<span class="place-row__labels">%12$s%13$s</span></div></article>',
+		'<article class="panel place-row" data-name="%1$s" data-area="%2$s" data-cravings="%3$s" data-with="%4$s" data-tina="%5$d" data-kind="%14$s"><div class="place-row__ph" style="background: var(--%6$s);"><img src="%7$s" alt="" width="148" height="148" loading="lazy" decoding="async"' . ( $photo ? ' class="place-row__photo"' : '' ) . '></div><div class="place-row__txt"><a href="%8$s" class="h-s tap">%9$s</a><span class="meta">%10$s</span>%11$s<span class="place-row__labels">%12$s%13$s</span></div></article>',
 		esc_attr( strtolower( $name . ' ' . ltef_meta( $post_id, 'cuisine' ) . ' ' . $dish ) ),
 		esc_attr( $terms( 'ltef_area' ) ),
 		esc_attr( $terms( 'ltef_craving' ) ),
 		esc_attr( $terms( 'ltef_with' ) ),
 		ltef_tina_ate( $post_id ) ? 1 : 0,
 		esc_attr( ltef_place_field( $post_id ) ),
-		esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ),
+		esc_url( $photo ? $photo : ltef_sticker_url( ltef_place_sticker( $post_id ) ) ),
 		esc_url( get_permalink( $post_id ) ),
 		esc_html( $name ),
 		esc_html( ltef_place_meta_line( $post_id ) ),
-		$dish ? '<span class="row-order"><span class="row-order__k">Tina ordered</span> ' . esc_html( ltef_in_sentence( $dish ) ) . '</span>' : '',
+		$dish ? '<span class="row-order"><span class="row-order__k">Tina ordered</span> ' . esc_html( ltef_in_sentence( $dish ) ) . '</span>' : ( '' !== $story ? '<span class="row-order"><span class="row-order__k">From the owner</span> ' . esc_html( wp_trim_words( $story, 14 ) ) . '</span>' : '' ),
 		ltef_place_labels( $post_id, true ),
 		ltef_verdict_html( ltef_meta( $post_id, 'verdict' ) ),
 		esc_attr( ltef_place_kind( $post_id ) )

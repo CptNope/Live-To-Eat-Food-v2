@@ -76,6 +76,9 @@
 <p>Weekly and VIP Woo-pons, premium event listings and job posts are paid; the price is shown before you send. When card payments are on, Stripe holds the amount when you send it, and you’re only charged if Tina approves it. If she declines, the hold is released. If a hold runs out first, or you skip the card, we email a pay link after approval and the listing goes up once it’s paid.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
+<p>An Enhanced listing is [ltef_price key="enhanced_price"] a month, billed by Stripe each month until you cancel. Cancel any time from your listing: it stays on until the end of the month you’ve paid for, then your page goes back to the free listing.</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
 <p>Questions about a payment or a refund: <a href="mailto:tina@livetoeatfoodie.com">tina@livetoeatfoodie.com</a> or <a href="mailto:info@jeremyanderson.tech">info@jeremyanderson.tech</a>.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->

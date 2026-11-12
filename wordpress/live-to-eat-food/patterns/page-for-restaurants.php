@@ -34,7 +34,7 @@
 <p>Your page on Live to Eat Food, kept current by you. Once Tina confirms it’s yours, you can change your phone, website, menu link and hours, and add a short note that shows as “From the owner.” Changes go live right away.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
-<p>Tina’s take, her videos and her verdict stay hers. Claiming is free and never buys a visit, a verdict or a better spot in a list.</p>
+<p>Tina’s take, her videos and her verdict stay hers. Claiming is free and never buys a visit, a verdict or a better spot in a list. Want your photos, your story, menu highlights and booking links on your page too? Once you’re approved, you can upgrade to an Enhanced listing for [ltef_price key="enhanced_price"] a month from your listing.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"is-style-meta"} -->
 <p class="is-style-meta">To confirm it’s you, Tina calls the number on your listing. Then we email you a link to set up your login, which opens only your own listing.</p>
