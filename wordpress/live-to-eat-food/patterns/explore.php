@@ -19,6 +19,11 @@ $u = function ( $p ) {
 <!-- /wp:paragraph -->
 </section>
 <!-- /wp:group -->
+<!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"pistachio","layout":{"type":"constrained","contentSize":"1240px"}} -->
+<section class="wp-block-group is-style-sheet has-pistachio-background-color has-background">
+<!-- wp:ltef/verdict-picks /-->
+</section>
+<!-- /wp:group -->
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"vinyl","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section class="wp-block-group is-style-sheet has-vinyl-background-color has-background">
 <!-- wp:ltef/new-dishes /-->

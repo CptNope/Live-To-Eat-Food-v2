@@ -32,6 +32,7 @@ function ltef_block_defs() {
 		'job-facts'      => array( 'Job post: the details', 'Business, hours, pay and how to apply.', 'businessperson', array(), 'ltef_block_job_facts', true ),
 		'events'         => array( 'Upcoming events', 'Events from today on, premium listings first in their week. With Calendar on, a List / Calendar switch and a month view.', 'calendar-alt', array( 'count' => array( 'type' => 'number', 'default' => 12 ), 'calendar' => array( 'type' => 'boolean', 'default' => false ) ), 'ltef_block_events', false ),
 		'new-dishes'     => array( 'New dishes', 'New dishes businesses listed for 4 weeks (paid, labeled), with a link to add one.', 'carrot', array(), 'ltef_block_new_dishes', false ),
+		'verdict-picks'  => array( 'Tina’s verdicts', 'Her Favorites and Must try places, each as a row of cards.', 'star-filled', array(), 'ltef_block_verdict_picks', false ),
 		'jobs'           => array( 'Restaurant jobs', 'Open job posts with filter chips.', 'businessperson', array(), 'ltef_block_jobs', false ),
 		'roulette'       => array( 'Restaurant Roulette', 'The wheel: Tina’s places or every restaurant.', 'image-rotate', array(), 'ltef_block_roulette', false ),
 		'site-nav'       => array( 'Site navigation', 'The header menu: top links and a grouped More panel on wide screens, a grouped Menu on phones, and the Monthly Crumbs button.', 'menu', array(), 'ltef_block_site_nav', false ),
@@ -200,6 +201,40 @@ function ltef_block_latest_places( $attrs ) {
 		return ltef_wrap( '<p class="meta">Tina’s places show up here once they’re added under Places.</p>' );
 	}
 	return ltef_wrap( '<div class="cards">' . implode( '', array_map( function ( $p ) { return ltef_place_card( $p->ID ); }, $posts ) ) . '</div>' );
+}
+
+/** Places with one of Tina's verdicts, her newest visit first. Her own businesses never get one. */
+function ltef_verdict_places( $verdict ) {
+	return array_values(
+		array_filter(
+			ltef_tina_places( -1 ),
+			function ( $p ) use ( $verdict ) {
+				return $verdict === ltef_meta( $p->ID, 'verdict' ) && ! ltef_tina_owns( $p->ID );
+			}
+		)
+	);
+}
+
+/** Explore's two verdict sections: Favorites and Must try, as cards. The script folds each to its first eight. */
+function ltef_block_verdict_picks() {
+	$groups = array(
+		'favorite'  => array( 'favorites', 'Tina’s Favorites', 'The star: places she keeps going back to.' ),
+		'dont-miss' => array( 'must-try', 'Must try', 'The target: order this one.' ),
+	);
+	$out = '';
+	foreach ( $groups as $v => $g ) {
+		$posts = ltef_verdict_places( $v );
+		if ( ! $posts ) {
+			continue;
+		}
+		$out .= '<section class="verdict-group" id="' . esc_attr( $g[0] ) . '" aria-labelledby="vg-' . esc_attr( $g[0] ) . '" data-verdict-group>'
+			. '<div class="verdict-group__h"><h2 class="h-l" id="vg-' . esc_attr( $g[0] ) . '"><span aria-hidden="true">' . ltef_verdict_html( $v ) . '</span><span class="verdict-group__t">' . esc_html( $g[1] ) . '</span></h2><p class="meta">' . esc_html( $g[2] ) . ' ' . count( $posts ) . ' places.</p></div>'
+			. '<div class="cards">' . implode( '', array_map( function ( $p ) { return ltef_place_card( $p->ID ); }, $posts ) ) . '</div></section>';
+	}
+	if ( '' === $out ) {
+		return '';
+	}
+	return ltef_wrap( '<div class="verdict-picks">' . $out . '<p class="meta verdict-picks__how">Only Tina gives these, only for meals she ate, and nothing pays for one. <a href="' . esc_url( home_url( '/how-it-works/' ) ) . '#verdicts">How verdicts work</a>.</p></div>', 'verdict-picks' );
 }
 
 /** Explore is for eating: shops, salons, outings and the rest live on Beyond food. */
@@ -514,6 +549,7 @@ function ltef_block_roulette() {
 			'name'     => $p->post_title,
 			'meta'     => ltef_place_meta_line( $p->ID ),
 			'tina'     => ltef_tina_ate( $p->ID ),
+			'verdict'  => ltef_tina_owns( $p->ID ) ? '' : (string) ltef_meta( $p->ID, 'verdict' ),
 			'month'    => ltef_month_label( ltef_meta( $p->ID, 'tina_date' ) ),
 			'quote'    => (string) ltef_meta( $p->ID, 'tina_quote' ),
 			'dish'     => (string) ltef_meta( $p->ID, 'dish' ),
@@ -560,12 +596,12 @@ function ltef_block_roulette() {
 		. '<div class="roul-left"><div class="roul-result" aria-live="polite">'
 		. '<div class="roul-card roul-card--wait" data-state="spinning" hidden><p class="h-m">Spinning…</p><p>Picking from <span data-f="count"></span> places.</p></div>'
 		. '<div class="roul-card roul-card--none" data-state="nomatch" hidden><p class="h-m">Nothing on the wheel for that yet.</p><p>Try another town or craving, say anyone’s coming, or spin from all restaurants.</p></div>'
-		. '<article class="roul-card roul-card--pick" data-state="pick" hidden><div class="roul-card__labels"><span class="ltef-lbl ltef-lbl--tina" data-if="tina">' . ltef_icon( 'pen' ) . 'Tina ate here · <span data-f="month"></span></span><span class="ltef-lbl ltef-lbl--notyet" data-if="notyet">Tina hasn’t been yet</span></div>'
+		. '<article class="roul-card roul-card--pick" data-state="pick" hidden><div class="roul-card__labels"><span class="ltef-lbl ltef-lbl--tina" data-if="tina">' . ltef_icon( 'pen' ) . 'Tina ate here · <span data-f="month"></span></span><span class="ltef-lbl ltef-lbl--notyet" data-if="notyet">Tina hasn’t been yet</span><span data-if="favorite" hidden>' . ltef_verdict_html( 'favorite' ) . '</span><span data-if="dont-miss" hidden>' . ltef_verdict_html( 'dont-miss' ) . '</span></div>'
 		. '<h2 class="roul-card__name" tabindex="-1" data-f="name"></h2><p class="meta" data-f="meta"></p>'
 		. '<div data-if="tina"><div class="ordered"><span class="ordered__ph" data-f="bg"><img src="" alt="" data-f="img" width="56" height="56"></span><span class="ordered__txt"><span class="ordered__k">What Tina ordered</span><span class="ordered__dish" data-f="dish"></span></span></div><p class="ltef-note">“<span data-f="quote"></span>”</p></div>'
 		. '<p data-if="notyet">Tina hasn’t eaten here yet, so there’s no video or take. It’s on the wheel because you picked all restaurants.</p>'
 		. '<div class="roul-card__acts"><a class="ltef-btn" href="#" data-f="maps" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions</a><a class="ltef-btn ltef-btn--alt" href="#" data-f="video" data-if="tina" target="_blank" rel="noopener">' . ltef_icon( 'play' ) . 'Watch Tina’s video</a><a class="ltef-btn ltef-btn--alt" href="#" data-f="href">See the place</a></div></article></div>'
-		. '<div class="roul-adjust"><div class="roul-group"><span class="roul-group__h">Spin from</span><div class="ltef-chips" role="group" aria-label="Which places">' . $chips( 'where', array( 'tina' => 'Where Tina ate', 'all' => 'All restaurants' ) ) . '</div></div>'
+		. '<div class="roul-adjust"><div class="roul-group"><span class="roul-group__h">Spin from</span><div class="ltef-chips" role="group" aria-label="Which places">' . $chips( 'where', array( 'tina' => 'Where Tina ate', 'favorite' => 'Tina’s Favorites', 'dont-miss' => 'Must try', 'all' => 'All restaurants' ) ) . '</div></div>'
 		. '<div class="roul-group"><label class="roul-group__h" for="roul-town">In or near</label><select class="ltef-input roul-town" id="roul-town" data-roul-town>' . $town_opts . '</select></div>'
 		. '<div class="roul-group"><span class="roul-group__h">I’m in the mood for</span><div class="ltef-chips" role="group" aria-label="Craving">' . $chips( 'mood', $cravings ) . '</div></div>'
 		. '<div class="roul-group"><span class="roul-group__h">Who’s coming</span><div class="ltef-chips" role="group" aria-label="Who’s coming">' . $chips( 'with', $withs ) . '</div></div></div></div>'
