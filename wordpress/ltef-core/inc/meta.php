@@ -38,6 +38,9 @@ function ltef_fields( $type ) {
 			'hours_checked' => array( 'Hours checked on', 'date', '' ),
 			'facts'       => array( 'Worth knowing', 'textarea', 'One fact per line.' ),
 			'owner_note'  => array( 'From the owner', 'textarea', 'The owner’s own short note, shown labeled as theirs. Owners edit it themselves; clear it if it isn’t accurate.' ),
+			'announce'    => array( 'Owner announcement', 'textarea', 'The owner’s dated news, shown near the top of the page until the end date. Owners post it themselves; clear it to take it down.' ),
+			'announce_link' => array( 'Announcement link', 'url', '' ),
+			'announce_until' => array( 'Announcement ends', 'date', 'It comes down by itself after this day.' ),
 		),
 		'ltef_woopon'  => array(
 			'business'    => array( 'Business name', 'text', '' ),

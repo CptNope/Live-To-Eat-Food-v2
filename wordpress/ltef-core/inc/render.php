@@ -309,6 +309,29 @@ function ltef_place_facts( $post_id ) {
 		. '<div class="ltef-actions"><a class="ltef-btn ltef-btn--sm" href="' . esc_url( ltef_maps_url( get_the_title( $post_id ), $addr, $town ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' . $web . $menu . '</div>' . $claim . '</div>';
 }
 
+/** The owner's announcement on a place page: dated, labeled as theirs and kept apart from Tina's take. */
+function ltef_place_announcement( $post_id ) {
+	$a = function_exists( 'ltef_owner_announcement' ) ? ltef_owner_announcement( $post_id ) : null;
+	if ( ! $a ) {
+		return '';
+	}
+	list( $text, $link, $posted, $until ) = $a;
+	$when = array_filter(
+		array(
+			$posted ? 'Posted ' . date_i18n( 'M j', strtotime( $posted ) ) : '',
+			$until ? 'Ends ' . date_i18n( 'M j', strtotime( $until ) ) : '',
+			'From the owner, not Tina',
+		)
+	);
+	$hid = 'place-news-' . (int) $post_id;
+	return '<aside class="panel place-news" aria-labelledby="' . esc_attr( $hid ) . '">'
+		. '<h2 class="place-news__by" id="' . esc_attr( $hid ) . '">' . ltef_icon( 'mega' ) . 'News from ' . esc_html( get_the_title( $post_id ) ) . '</h2>'
+		. '<p class="place-news__t">' . esc_html( $text ) . '</p>'
+		. ( $link ? '<p class="place-news__go"><a class="ltef-btn ltef-btn--sm" href="' . esc_url( $link ) . '" target="_blank" rel="noopener">Learn more<span class="vh"> about this from ' . esc_html( get_the_title( $post_id ) ) . ' (opens a new tab)</span></a></p>' : '' )
+		. '<p class="meta place-news__meta">' . esc_html( implode( ' · ', $when ) ) . '</p>'
+		. '</aside>';
+}
+
 /* ------------------------------------------------------------------ Daily deals */
 
 /** Weekday keys, Monday first, with their names. */
