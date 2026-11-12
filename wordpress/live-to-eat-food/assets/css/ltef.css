@@ -1061,3 +1061,14 @@ body { background: var(--lemon); }
 .ev-kind::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--k-ac); flex: none; }
 .ev-tags { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
 .ev-legend { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Explore: Tina's verdicts, a section each */
+.verdict-picks { display: grid; gap: 56px; }
+.verdict-group { display: grid; gap: 22px; }
+.verdict-group__h { display: grid; gap: 6px; }
+.verdict-group__h .h-l { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin: 0; }
+.verdict-group__h .h-l .ltef-verdict { font-size: 15px; }
+.verdict-group__h .meta { margin: 0; }
+.verdict-group__more { margin: 0; }
+.verdict-picks__how { margin: 0; }
+.roul-card__labels [hidden] { display: none; }

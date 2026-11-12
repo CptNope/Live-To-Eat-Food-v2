@@ -136,6 +136,26 @@
 		tier.addEventListener( 'change', sync ); sync();
 	} );
 
+	// Explore: each verdict section shows its first eight places, with a button for the rest.
+	$$( '[data-verdict-group]' ).forEach( function ( g ) {
+		var cards = $$( '.cards > *', g );
+		if ( cards.length <= 8 ) return;
+		cards.slice( 8 ).forEach( function ( c ) { c.hidden = true; } );
+		var name = ( g.querySelector( '.verdict-group__t' ) || {} ).textContent || 'places';
+		var more = document.createElement( 'p' );
+		more.className = 'verdict-group__more';
+		more.innerHTML = '<button type="button" class="ltef-btn ltef-btn--alt" aria-expanded="false"></button>';
+		var b = more.firstChild;
+		b.textContent = 'Show all ' + cards.length + ' ' + name;
+		b.addEventListener( 'click', function () {
+			cards.slice( 8 ).forEach( function ( c ) { c.hidden = false; } );
+			b.setAttribute( 'aria-expanded', 'true' );
+			more.remove();
+			var next = cards[8] && cards[8].querySelector( 'a' ); if ( next ) next.focus();
+		} );
+		g.appendChild( more );
+	} );
+
 	// Restaurant Roulette.
 	var R = document.querySelector( '[data-roulette]' );
 	if ( R ) {
@@ -147,7 +167,8 @@
 		var show = function ( name ) { Object.keys( states ).forEach( function ( k ) { states[ k ].hidden = k !== name; } ); };
 		var pool = function () {
 			return data.filter( function ( p ) {
-				return ( st.where === 'all' || p.tina ) && ( ! st.town || p.town === st.town ) && ( ! st.mood || p.cravings.indexOf( st.mood ) > -1 ) && ( ! st.with || p.with.indexOf( st.with ) > -1 );
+				var where = st.where === 'all' || ( st.where === 'tina' ? p.tina : p.verdict === st.where );
+				return where && ( ! st.town || p.town === st.town ) && ( ! st.mood || p.cravings.indexOf( st.mood ) > -1 ) && ( ! st.with || p.with.indexOf( st.with ) > -1 );
 			} );
 		};
 		var fill = function ( f, v ) { $$( '[data-f="' + f + '"]', R ).forEach( function ( el ) { el.textContent = v || ''; } ); };
@@ -182,6 +203,7 @@
 				[ 'name', 'meta', 'month', 'quote', 'dish' ].forEach( function ( k ) { fill( k, p[ k ] ); } );
 				$$( '[data-if="tina"]', R ).forEach( function ( el ) { el.hidden = ! p.tina; } );
 				$$( '[data-if="notyet"]', R ).forEach( function ( el ) { el.hidden = !! p.tina; } );
+				[ 'favorite', 'dont-miss' ].forEach( function ( v ) { $$( '[data-if="' + v + '"]', R ).forEach( function ( el ) { el.hidden = p.verdict !== v; } ); } );
 				$$( '[data-f="bg"]', R ).forEach( function ( el ) { el.style.background = p.bg; } );
 				$$( '[data-f="img"]', R ).forEach( function ( el ) { el.src = p.img; } );
 				$$( '[data-f="href"]', R ).forEach( function ( el ) { el.href = p.href; } );
