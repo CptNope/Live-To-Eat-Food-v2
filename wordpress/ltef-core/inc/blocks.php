@@ -391,12 +391,12 @@ function ltef_block_events( $attrs ) {
 		}
 	);
 	$list = '<div class="ev-list">' . implode( '', array_map( function ( $p ) { return ltef_event_row( $p->ID ); }, $posts ) ) . '</div>';
-	return ltef_wrap( $cal ? ltef_events_views( $list ) : $list );
+	return ltef_wrap( $cal ? ltef_events_views( $list, ltef_event_legend( wp_list_pluck( $posts, 'ID' ) ) ) : $list );
 }
 
 /** The List / Calendar switch around the list. The switch and calendar stay hidden until the script runs, so without it the list is all there is. */
-function ltef_events_views( $list ) {
-	return '<div class="ev-views" data-ltef-events><div class="ev-switch" role="group" aria-label="Show events as" hidden><button type="button" class="ltef-chip" data-ev-view="list" aria-pressed="true">List</button><button type="button" class="ltef-chip" data-ev-view="calendar" aria-pressed="false">Calendar</button></div>'
+function ltef_events_views( $list, $legend = '' ) {
+	return '<div class="ev-views" data-ltef-events><div class="ev-switch" role="group" aria-label="Show events as" hidden><button type="button" class="ltef-chip" data-ev-view="list" aria-pressed="true">List</button><button type="button" class="ltef-chip" data-ev-view="calendar" aria-pressed="false">Calendar</button></div>' . $legend
 		. '<div class="ev-listview">' . $list . '</div>' . ltef_events_calendar() . '</div>';
 }
 
@@ -441,8 +441,9 @@ function ltef_events_calendar() {
 	$link = function ( $id, $long ) {
 		$prem = (int) ltef_meta( $id, 'premium' );
 		$time = (string) ltef_meta( $id, 'time' );
-		$more = $long ? implode( ' · ', array_filter( array( (string) ltef_meta( $id, 'venue' ), ltef_event_price( $id ) ) ) ) : '';
-		return '<li class="cal-ev' . ( $prem ? ' is-prem' : '' ) . '"><a href="' . esc_url( get_permalink( $id ) ) . '">' . ( '' !== $time ? '<span class="cal-ev__t">' . esc_html( $time ) . '</span> ' : '' ) . '<span class="cal-ev__n">' . esc_html( get_the_title( $id ) ) . '</span>' . ( $prem ? '<span class="vh"> (premium listing)</span>' : '' ) . ( '' !== $more ? '<span class="cal-ev__m">' . esc_html( $more ) . '</span>' : '' ) . '</a></li>';
+		$kind = ltef_field_label( 'ltef_event', 'kind', ltef_event_kind( $id ) );
+		$more = $long ? implode( ' · ', array_filter( array( $kind, (string) ltef_meta( $id, 'venue' ), ltef_event_price( $id ) ) ) ) : '';
+		return '<li class="cal-ev ev-k--' . esc_attr( ltef_event_kind( $id ) ) . ( $prem ? ' is-prem' : '' ) . '"><a href="' . esc_url( get_permalink( $id ) ) . '">' . ( $long ? '' : '<span class="vh">' . esc_html( $kind ) . ': </span>' ) . ( '' !== $time ? '<span class="cal-ev__t">' . esc_html( $time ) . '</span> ' : '' ) . '<span class="cal-ev__n">' . esc_html( get_the_title( $id ) ) . '</span>' . ( $prem ? '<span class="vh"> (premium listing)</span>' : '' ) . ( '' !== $more ? '<span class="cal-ev__m">' . esc_html( $more ) . '</span>' : '' ) . '</a></li>';
 	};
 	$months = '';
 	for ( $i = 0; $i < $count; $i++ ) {

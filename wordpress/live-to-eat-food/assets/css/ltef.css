@@ -828,7 +828,8 @@ body { background: var(--lemon); }
 .cal-ev a { display: block; padding: 5px 8px; border-radius: 9px; background: var(--vinyl); color: var(--basil); font: 600 13px/1.3 var(--font-interface); text-decoration: none; overflow-wrap: anywhere; box-shadow: inset 0 0 0 1px rgba(30,59,42,.14); }
 .cal-ev a:hover { text-decoration: underline; }
 .cal-ev a:focus-visible { outline: 3px solid var(--basil); outline-offset: 2px; }
-.cal-ev.is-prem a { background: var(--peach); }
+.cal-ev a { background: var(--k-bg, var(--vinyl)); box-shadow: inset 4px 0 0 var(--k-ac, var(--olive)); padding-left: 11px; }
+.cal-ev.is-prem a { box-shadow: inset 4px 0 0 var(--k-ac, var(--olive)), inset 0 0 0 2px var(--basil); }
 .cal-ev__t { font-weight: 800; }
 .cal-ev__m { display: block; margin-top: 2px; font-weight: 500; color: var(--olive); }
 .cal-agenda { display: none; list-style: none; margin: 0; padding: 0; gap: 16px; }
@@ -842,7 +843,7 @@ body { background: var(--lemon); }
 .ev-row { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 20px; align-items: start; }
 .ev-date { display: grid; place-items: center; align-content: center; width: 84px; height: 84px; border-radius: 50%; background: var(--yolk); text-align: center; font: 800 16px/1 var(--font-interface); }
 .ev-date b { font-size: 32px; }
-.ev-premium .ev-date { background: var(--peach); }
+.ev-row .ev-date { background: var(--k-bg, var(--yolk)); box-shadow: inset 0 0 0 3px var(--k-ac, transparent); }
 .ev-txt { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
 .job-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 24px; align-items: start; }
 .job-kind { background: var(--pistachio); color: var(--basil); justify-self: start; }
@@ -1044,3 +1045,17 @@ body { background: var(--lemon); }
 .dish-card__about { font-size: 15px; line-height: 1.45; }
 .dish-card__foot { margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; align-self: end; }
 .dish-card__foot .meta { font-size: 13px; }
+
+/* Event kinds: each has a color, always shown with its name */
+.ev-k--food    { --k-bg: #ffd8c2; --k-ac: #d9693a; }
+.ev-k--market  { --k-bg: #ffe586; --k-ac: #c99a00; }
+.ev-k--music   { --k-bg: #e4d8f7; --k-ac: #7656b3; }
+.ev-k--art     { --k-bg: #f9d3e3; --k-ac: #bf4a7e; }
+.ev-k--fitness { --k-bg: #cdeab4; --k-ac: #3d8a37; }
+.ev-k--retail  { --k-bg: #cfe3f6; --k-ac: #3a74b0; }
+.ev-k--family  { --k-bg: #d3efec; --k-ac: #2a8a80; }
+.ev-k--other   { --k-bg: #efeadb; --k-ac: #8a8170; }
+.ev-kind { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 8px; border-radius: var(--radius-pill); background: var(--k-bg); color: var(--basil); font: 700 13px/1.3 var(--font-interface); white-space: nowrap; }
+.ev-kind::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--k-ac); flex: none; }
+.ev-tags { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
+.ev-legend { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }

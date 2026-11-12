@@ -577,7 +577,7 @@ function ltef_event_row( $post_id ) {
 	$meta = implode( ' · ', array_filter( array( ltef_meta( $post_id, 'time' ), ltef_meta( $post_id, 'venue' ), ltef_event_price( $post_id ) ) ) );
 	$link = ltef_meta( $post_id, 'link' );
 	return sprintf(
-		'<article class="panel ev-row%1$s"><span class="ev-date"><span>%2$s</span><b>%3$s</b></span><div class="ev-txt">%4$s<h3 class="h-s"><a class="ev-row__link" href="%10$s">%5$s</a></h3><p class="meta">%6$s</p>%7$s<div class="ltef-actions">%8$s<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="%9$s" target="_blank" rel="noopener">Get directions<span class="vh"> (opens Google Maps)</span></a></div></div></article>',
+		'<article class="panel ev-row ev-k--%11$s%1$s"><span class="ev-date"><span>%2$s</span><b>%3$s</b></span><div class="ev-txt"><div class="ev-tags">%12$s%4$s</div><h3 class="h-s"><a class="ev-row__link" href="%10$s">%5$s</a></h3><p class="meta">%6$s</p>%7$s<div class="ltef-actions">%8$s<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="%9$s" target="_blank" rel="noopener">Get directions<span class="vh"> (opens Google Maps)</span></a></div></div></article>',
 		$prem ? ' ev-premium' : '',
 		$ts ? esc_html( date_i18n( 'D', $ts ) ) : '',
 		$ts ? esc_html( date_i18n( 'j', $ts ) ) : '',
@@ -587,8 +587,33 @@ function ltef_event_row( $post_id ) {
 		has_excerpt( $post_id ) ? '<p>' . esc_html( get_the_excerpt( $post_id ) ) . '</p>' : '',
 		$link ? '<a class="ltef-btn ltef-btn--sm" href="' . esc_url( $link ) . '" target="_blank" rel="noopener">Details<span class="vh"> (opens a new tab)</span></a>' : '',
 		esc_url( ltef_maps_url( '', (string) ltef_meta( $post_id, 'venue' ) ) ),
-		esc_url( get_permalink( $post_id ) )
+		esc_url( get_permalink( $post_id ) ),
+		esc_attr( ltef_event_kind( $post_id ) ),
+		ltef_event_kind_chip( $post_id )
 	);
+}
+
+/** An event's kind key, "other" when it has none. */
+function ltef_event_kind( $post_id ) {
+	$k = (string) ltef_meta( $post_id, 'kind' );
+	return '' !== ltef_field_label( 'ltef_event', 'kind', $k ) ? $k : 'other';
+}
+
+/** An event's kind as a colored chip with its name, so the color is never the only cue. */
+function ltef_event_kind_chip( $post_id ) {
+	$k = ltef_event_kind( $post_id );
+	return '<span class="ev-kind ev-k--' . esc_attr( $k ) . '">' . esc_html( ltef_field_label( 'ltef_event', 'kind', $k ) ) . '</span>';
+}
+
+/** The kinds' colors, explained: one chip per kind among these events. */
+function ltef_event_legend( $ids ) {
+	$kinds = array_unique( array_map( 'ltef_event_kind', $ids ) );
+	if ( count( $kinds ) < 2 ) {
+		return '';
+	}
+	$order = array_keys( ltef_fields( 'ltef_event' )['kind'][3] );
+	usort( $kinds, function ( $a, $b ) use ( $order ) { return array_search( $a, $order, true ) <=> array_search( $b, $order, true ); } );
+	return '<ul class="ev-legend" aria-label="Kinds of events">' . implode( '', array_map( function ( $k ) { return '<li><span class="ev-kind ev-k--' . esc_attr( $k ) . '">' . esc_html( ltef_field_label( 'ltef_event', 'kind', $k ) ) . '</span></li>'; }, $kinds ) ) . '</ul>';
 }
 
 /** An event's price as listed, with a dollar sign added when it's only a number ("45" → "$45"). */
@@ -611,7 +636,7 @@ function ltef_event_facts( $post_id ) {
 	$venue = (string) ltef_meta( $post_id, 'venue' );
 	$price = ltef_event_price( $post_id );
 	$link  = (string) ltef_meta( $post_id, 'link' );
-	$kind  = 'other' === ltef_meta( $post_id, 'kind' ) ? '' : ltef_field_label( 'ltef_event', 'kind', (string) ltef_meta( $post_id, 'kind' ) );
+	$kind  = '';
 	$rows  = array();
 	if ( $ts ) {
 		$rows[] = array( 'When', date_i18n( 'l, F j, Y', $ts ) . ( '' !== $time ? ' · ' . $time : '' ) );
@@ -636,7 +661,7 @@ function ltef_event_facts( $post_id ) {
 	foreach ( $rows as $r ) {
 		$dl .= '<div><dt>' . esc_html( $r[0] ) . '</dt><dd>' . esc_html( $r[1] ) . '</dd></div>';
 	}
-	$labels = trim( ( ltef_meta( $post_id, 'tina' ) ? ltef_label( 'tina', 'Tina’s event' ) : '' ) . ( ltef_meta( $post_id, 'premium' ) ? ltef_label( 'sponsored', 'Premium listing' ) : '' ) );
+	$labels = trim( ltef_event_kind_chip( $post_id ) . ( ltef_meta( $post_id, 'tina' ) ? ltef_label( 'tina', 'Tina’s event' ) : '' ) . ( ltef_meta( $post_id, 'premium' ) ? ltef_label( 'sponsored', 'Premium listing' ) : '' ) );
 	$past   = $ts && wp_date( 'Y-m-d', $ts ) < ltef_today();
 	$btns   = ( $link ? '<a class="ltef-btn ltef-btn--sm" href="' . esc_url( $link ) . '" target="_blank" rel="noopener">Details and tickets<span class="vh"> (opens a new tab)</span></a>' : '' )
 		. ( '' !== $venue ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_maps_url( '', $venue ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' : '' );
