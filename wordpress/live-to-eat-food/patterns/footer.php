@@ -13,7 +13,7 @@ $u = function ( $p ) {
 <!-- wp:group {"tagName":"footer","className":"ltef-footer","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"top"}} -->
 <footer class="wp-block-group ltef-footer"><!-- wp:group {"style":{"layout":{"selfStretch":"fixed","flexSize":"560px"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group"><!-- wp:paragraph -->
-<p><strong>Every pick is a real meal.</strong> Tina pays for her meals; when she doesn’t, the page says so. Paid things always say so too.</p>
+<p><strong>Every pick is a real meal Tina ate.</strong> When a restaurant hosts her, the page says so. Ads and paid listings always say so too.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"className":"ltef-credit"} -->

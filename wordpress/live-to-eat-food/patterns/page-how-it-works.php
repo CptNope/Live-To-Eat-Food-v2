@@ -24,10 +24,10 @@
 <h2 id="h-pol" class="wp-block-heading">Restaurants can’t buy Tina’s opinion.</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"className":"is-style-lede"} -->
-<p class="is-style-lede">Tina pays for her meals unless we say otherwise, right on the page. When a restaurant hosts her, the page says Hosted before her take. Ads are labeled ads. Being listed is free, forever. Paying never changes what she says.</p>
+<p class="is-style-lede">Every pick is a meal Tina really ate. When a restaurant hosts her, the page says Hosted before her take. Ads are labeled ads. Being listed is free, forever. Paying never changes what she says.</p>
 <!-- /wp:paragraph -->
 <!-- wp:html -->
-<figure style="margin: 0; display: flex; flex-direction: column; align-items: center; gap: 18px;"><img alt="The Tina ate here stamp" src="<?php echo ltef_theme_img( 'logo/ltef-stamp-tina-ate-here.svg' ); ?>" style="width: min(100%, 280px); transform: rotate(-6deg); filter: drop-shadow(0 12px 18px rgba(0,0,0,.35));"/><figcaption class="meta" style="color: var(--butter); text-align: center; max-width: 34ch;">The stamp only ever appears beside a place Tina paid for, with the month she ate there. Hosted meals never get it.</figcaption></figure>
+<figure style="margin: 0; display: flex; flex-direction: column; align-items: center; gap: 18px;"><img alt="The Tina ate here stamp" src="<?php echo ltef_theme_img( 'logo/ltef-stamp-tina-ate-here.svg' ); ?>" style="width: min(100%, 280px); transform: rotate(-6deg); filter: drop-shadow(0 12px 18px rgba(0,0,0,.35));"/><figcaption class="meta" style="color: var(--butter); text-align: center; max-width: 34ch;">The stamp only ever appears beside a place Tina ate at, with the month she went. Hosted meals never get it.</figcaption></figure>
 <!-- /wp:html --></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->

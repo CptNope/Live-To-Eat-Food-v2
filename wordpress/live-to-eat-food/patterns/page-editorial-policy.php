@@ -24,13 +24,16 @@
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"vinyl","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section class="wp-block-group is-style-sheet has-vinyl-background-color has-background"><!-- wp:group {"anchor":"who-pays"} -->
 <div id="who-pays" class="wp-block-group"><!-- wp:heading {"anchor":"h-who-pays"} -->
-<h2 id="h-who-pays" class="wp-block-heading">Tina pays for her meals</h2>
+<h2 id="h-who-pays" class="wp-block-heading">Every pick is a meal Tina ate</h2>
 <!-- /wp:heading -->
 <!-- wp:html -->
 <span class="ltef-lbl ltef-lbl--tina ltef-lbl--sm" style="font-size: 15px;">Tina ate here · Oct 2026</span>
 <!-- /wp:html -->
 <!-- wp:paragraph -->
-<p>Unless a page says otherwise, Tina found the place, paid for the meal and wrote the take. That’s what the Tina ate here label and the stamp mean, always with the month she went.</p>
+<p>Unless a page says otherwise, Tina found the place, ate there and wrote the take. That’s what the Tina ate here label and the stamp mean, always with the month she went.</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p>We’re adding ten years of her videos, so a page doesn’t say who paid for each meal. When a restaurant hosts her, the page says Hosted. Spot an older visit that was hosted and isn’t marked? <a href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>#ltef-listing">Tell us</a> and we’ll fix it.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:group {"anchor":"hosted"} -->

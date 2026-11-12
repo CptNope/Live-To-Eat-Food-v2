@@ -61,10 +61,12 @@ function ltef_forms() {
 				array( 'date', 'Date', 'date', true, '' ),
 				array( 'time', 'Time', 'text', true, 'For example: 2–5pm.' ),
 				array( 'venue', 'Where', 'text', true, 'The place and the neighborhood.' ),
-				array( 'kind', 'What kind of event', 'select', true, '', array( '' => 'Pick one', 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'family' => 'Family', 'other' => 'Something else' ) ),
+				array( 'kind', 'What kind of event', 'select', true, '', array( '' => 'Pick one', 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'fitness' => 'Fitness or wellness', 'retail' => 'Retail or shopping', 'family' => 'Family', 'other' => 'Something else' ) ),
 				array( 'price', 'Price', 'text', false, 'Free, $35, pay your own way…' ),
 				array( 'about', 'What it is', 'textarea', false, 'Two lines is plenty.' ),
 				array( 'link', 'Link for details or tickets', 'url', false, '' ),
+				array( 'submitter', 'Your name', 'text', true, 'Shown on the event page as who listed it.' ),
+				array( 'affiliation', 'How you’re connected to it', 'select', true, 'Shown with your name, so people know who’s behind the listing.', array( '' => 'Pick one' ) + array( 'organizer' => 'I’m organizing it', 'venue' => 'It’s at my venue or business', 'vendor' => 'I’m a vendor or performer', 'sharing' => 'I’m not involved, just sharing it', 'other' => 'Something else' ) ),
 				array( 'tier', 'Listing', 'select', true, $cards ? 'Premium: Stripe asks for a card next and only charges it if Tina approves the listing.' : 'We confirm the price by email before anything is charged.', array( 'free' => 'Free listing', 'premium' => 'Premium listing: ' . ltef_money( $s['event_premium'] ) . ' a month' ) ),
 				array( 'phone', 'Phone to contact', 'tel', false, 'Only if we need to check a detail. Never shown.' ),
 				array( 'email', 'Your email', 'email', true, 'Only to ask about the event. Never shown.' ),
@@ -390,7 +392,7 @@ function ltef_handle_submit() {
 		case 'event':
 			$type  = 'ltef_event';
 			$title = $v['name'];
-			$meta  = array( 'date' => $v['date'], 'time' => $v['time'], 'venue' => $v['venue'], 'kind' => $v['kind'], 'price_text' => $v['price'], 'link' => $v['link'], 'premium' => 'premium' === $v['tier'], 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
+			$meta  = array( 'date' => $v['date'], 'time' => $v['time'], 'venue' => $v['venue'], 'kind' => $v['kind'], 'price_text' => $v['price'], 'link' => $v['link'], 'premium' => 'premium' === $v['tier'], 'submitted_by' => $v['submitter'], 'affiliation' => $v['affiliation'], 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
 			break;
 		case 'dish':
 			$type  = 'ltef_dish';
