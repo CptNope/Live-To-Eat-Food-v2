@@ -597,8 +597,8 @@ function ltef_nav_groups() {
 			array( 'Explore', '/explore/', 'explore', 'Explore every place' ),
 			array( 'Guides', '/guides/', 'guides' ),
 			array( 'Woo-pons', '/woo-pons/', 'woo-pons' ),
-			array( 'Roulette', '/roulette/', 'roulette', 'Restaurant Roulette' ),
 			array( 'Daily deals', '/daily-deals/', 'daily-deals' ),
+			array( 'Roulette', '/roulette/', 'roulette', 'Restaurant Roulette' ),
 		),
 		'Around town'      => array(
 			array( 'Events', '/events/', 'events' ),
@@ -660,11 +660,11 @@ function ltef_nav_link( $item, $current, $long = false, $class = '' ) {
 function ltef_site_nav_html() {
 	$groups  = ltef_nav_groups();
 	$current = ltef_nav_current();
-	$top     = array_merge( array_slice( $groups['Find food'], 0, 4 ), array( $groups['Around town'][0] ) );
+	$top     = array_merge( array_slice( $groups['Find food'], 0, 5 ), array( $groups['Around town'][0] ) );
 	$top_keys = wp_list_pluck( $top, 2 );
 	$main    = implode( '', array_map( function ( $i ) use ( $current ) { return ltef_nav_link( $i, $current ); }, $top ) );
 
-	// More: everything not in the top bar, in its groups. Events moves in here when the top bar narrows.
+	// More: everything not in the top bar, in its groups. The last two top links (Roulette, Events) move in here as the top bar narrows.
 	$more        = '';
 	$more_active = false;
 	foreach ( $groups as $name => $items ) {
@@ -674,8 +674,9 @@ function ltef_site_nav_html() {
 		}
 		foreach ( $items as $i ) {
 			if ( in_array( $i[2], $top_keys, true ) ) {
-				if ( 'events' === $i[2] ) {
-					$links .= ltef_nav_link( $i, $current, false, 'nav-overflow' );
+				$pos = array_search( $i[2], $top_keys, true ) + 1;
+				if ( $pos >= 5 ) {
+					$links .= ltef_nav_link( $i, $current, false, 'nav-overflow nav-overflow-' . $pos );
 				}
 				continue;
 			}
@@ -694,7 +695,8 @@ function ltef_site_nav_html() {
 	}
 	$more = '<div class="site-more__group"><p class="drawer-h">Food and around town</p><ul>' . $food . $more_links_food . '</ul></div>' . $more;
 	$chev = '<svg viewBox="0 0 24 24" aria-hidden="true" class="chev"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-	$events_current = 'events' === $current ? ' is-current-narrow' : '';
+	$cur_pos        = array_search( $current, $top_keys, true );
+	$events_current = false !== $cur_pos && $cur_pos >= 4 ? ' is-current-n' . ( $cur_pos + 1 ) : '';
 
 	// Menu on phones: every page, in its groups, with the newsletter last.
 	$drawer = '';
