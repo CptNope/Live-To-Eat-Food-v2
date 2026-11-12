@@ -14,7 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump to redraw every card after a design change. */
-const LTEF_CARD_V = 3;
+const LTEF_CARD_V = 4;
 
 /* ------------------------------------------------------------------ What each page says */
 
@@ -42,7 +42,7 @@ function ltef_share_lede( $content ) {
 
 /** Tina's photos for pages, by page, so each page keeps the same one. */
 function ltef_share_photo( $seed ) {
-	$photos = array( 'tina-cookie', 'tina-sushi', 'tina-cheers', 'tina-coconut-half' );
+	$photos = array( 'tina-coconut-half', 'tina-sushi', 'tina-cheers', 'tina-coconut' );
 	return 'tina/' . $photos[ abs( crc32( (string) $seed ) ) % count( $photos ) ] . '-1200.webp';
 }
 
@@ -56,7 +56,7 @@ function ltef_share_data() {
 	$title = wp_get_document_title();
 	$desc  = $home;
 	$type  = 'website';
-	$card  = array( 'Tina Vo’s food guide to Worcester and Central Mass', 'Meals Tina really ate, Woo-pons, daily deals and events.', '', '', 'photo:tina/tina-cookie-1200.webp' );
+	$card  = array( 'Tina Vo’s food guide to Worcester and Central Mass', 'Meals Tina really ate, Woo-pons, daily deals and events.', '', '', 'photo:tina/tina-coconut-half-1200.webp' );
 
 	if ( is_front_page() ) {
 		$title = $site . ': Tina Vo’s food guide to Worcester and Central Mass';
@@ -370,7 +370,7 @@ function ltef_card_draw( $card, $path ) {
 		$kw  = $box[2] - $box[0];
 		$dot = 0 === strpos( $style, 'kind-' );
 		$pw  = $kw + 76 + ( $dot ? 40 : 0 );
-		$kinds = array( 'food' => array( 'ffd8c2', 'd9693a' ), 'market' => array( 'ffe586', 'c99a00' ), 'music' => array( 'e4d8f7', '7656b3' ), 'art' => array( 'f9d3e3', 'bf4a7e' ), 'fitness' => array( 'cdeab4', '3d8a37' ), 'retail' => array( 'cfe3f6', '3a74b0' ), 'family' => array( 'd3efec', '2a8a80' ), 'nonprofit' => array( 'f6cfcb', 'b8322b' ), 'other' => array( 'efeadb', '8a8170' ) );
+		$kinds = array( 'food' => array( 'ffd8c2', 'd9693a' ), 'market' => array( 'ffe586', 'c99a00' ), 'music' => array( 'e4d8f7', '7656b3' ), 'art' => array( 'f9d3e3', 'bf4a7e' ), 'crafts' => array( 'e9e4b4', '857d14' ), 'fitness' => array( 'cdeab4', '3d8a37' ), 'retail' => array( 'cfe3f6', '3a74b0' ), 'family' => array( 'd3efec', '2a8a80' ), 'nonprofit' => array( 'f6cfcb', 'b8322b' ), 'other' => array( 'efeadb', '8a8170' ) );
 		if ( 'tina' === $style ) {
 			ltef_card_round( $im, $x, $y, $x + $pw, $y + 88, 44, $tomato );
 			ltef_card_round( $im, $x + 6, $y + 6, $x + $pw - 6, $y + 82, 38, $white );
