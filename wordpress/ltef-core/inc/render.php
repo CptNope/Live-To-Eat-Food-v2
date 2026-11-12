@@ -551,10 +551,10 @@ function ltef_event_row( $post_id ) {
 	$date = ltef_meta( $post_id, 'date' );
 	$ts   = $date ? strtotime( $date ) : 0;
 	$prem = ltef_meta( $post_id, 'premium' );
-	$meta = implode( ' · ', array_filter( array( ltef_meta( $post_id, 'time' ), ltef_meta( $post_id, 'venue' ), ltef_meta( $post_id, 'price_text' ) ) ) );
+	$meta = implode( ' · ', array_filter( array( ltef_meta( $post_id, 'time' ), ltef_meta( $post_id, 'venue' ), ltef_event_price( $post_id ) ) ) );
 	$link = ltef_meta( $post_id, 'link' );
 	return sprintf(
-		'<article class="panel ev-row%1$s"><span class="ev-date"><span>%2$s</span><b>%3$s</b></span><div class="ev-txt">%4$s<h3 class="h-s">%5$s</h3><p class="meta">%6$s</p>%7$s<div class="ltef-actions">%8$s<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="%9$s" target="_blank" rel="noopener">Get directions<span class="vh"> (opens Google Maps)</span></a></div></div></article>',
+		'<article class="panel ev-row%1$s"><span class="ev-date"><span>%2$s</span><b>%3$s</b></span><div class="ev-txt">%4$s<h3 class="h-s"><a class="ev-row__link" href="%10$s">%5$s</a></h3><p class="meta">%6$s</p>%7$s<div class="ltef-actions">%8$s<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="%9$s" target="_blank" rel="noopener">Get directions<span class="vh"> (opens Google Maps)</span></a></div></div></article>',
 		$prem ? ' ev-premium' : '',
 		$ts ? esc_html( date_i18n( 'D', $ts ) ) : '',
 		$ts ? esc_html( date_i18n( 'j', $ts ) ) : '',
@@ -563,8 +563,137 @@ function ltef_event_row( $post_id ) {
 		esc_html( $meta ),
 		has_excerpt( $post_id ) ? '<p>' . esc_html( get_the_excerpt( $post_id ) ) . '</p>' : '',
 		$link ? '<a class="ltef-btn ltef-btn--sm" href="' . esc_url( $link ) . '" target="_blank" rel="noopener">Details<span class="vh"> (opens a new tab)</span></a>' : '',
-		esc_url( ltef_maps_url( '', (string) ltef_meta( $post_id, 'venue' ) ) )
+		esc_url( ltef_maps_url( '', (string) ltef_meta( $post_id, 'venue' ) ) ),
+		esc_url( get_permalink( $post_id ) )
 	);
+}
+
+/** An event's price as listed, with a dollar sign added when it's only a number ("45" → "$45"). */
+function ltef_event_price( $post_id ) {
+	$p = (string) ltef_meta( $post_id, 'price_text' );
+	return preg_match( '/^\d+(\.\d{1,2})?$/', $p ) ? '$' . $p : $p;
+}
+
+/** A select field's label, like "Market or fair" for kind=market. */
+function ltef_field_label( $type, $key, $value ) {
+	$f = ltef_fields( $type );
+	return (string) ( $f[ $key ][3][ $value ] ?? '' );
+}
+
+/** The panel of facts on a single event: when, where, price, kind, and the ticket and directions buttons. */
+function ltef_event_facts( $post_id ) {
+	$date  = ltef_meta( $post_id, 'date' );
+	$ts    = $date ? strtotime( $date ) : 0;
+	$time  = (string) ltef_meta( $post_id, 'time' );
+	$venue = (string) ltef_meta( $post_id, 'venue' );
+	$price = ltef_event_price( $post_id );
+	$link  = (string) ltef_meta( $post_id, 'link' );
+	$kind  = 'other' === ltef_meta( $post_id, 'kind' ) ? '' : ltef_field_label( 'ltef_event', 'kind', (string) ltef_meta( $post_id, 'kind' ) );
+	$rows  = array();
+	if ( $ts ) {
+		$rows[] = array( 'When', date_i18n( 'l, F j, Y', $ts ) . ( '' !== $time ? ' · ' . $time : '' ) );
+	} elseif ( '' !== $time ) {
+		$rows[] = array( 'Time', $time );
+	}
+	if ( '' !== $venue ) {
+		$rows[] = array( 'Where', $venue );
+	}
+	if ( '' !== $price ) {
+		$rows[] = array( 'Price', $price );
+	}
+	if ( '' !== $kind ) {
+		$rows[] = array( 'Kind', $kind );
+	}
+	$dl = '';
+	foreach ( $rows as $r ) {
+		$dl .= '<div><dt>' . esc_html( $r[0] ) . '</dt><dd>' . esc_html( $r[1] ) . '</dd></div>';
+	}
+	$labels = trim( ( ltef_meta( $post_id, 'tina' ) ? ltef_label( 'tina', 'Tina’s event' ) : '' ) . ( ltef_meta( $post_id, 'premium' ) ? ltef_label( 'sponsored', 'Premium listing' ) : '' ) );
+	$past   = $ts && wp_date( 'Y-m-d', $ts ) < ltef_today();
+	$btns   = ( $link ? '<a class="ltef-btn ltef-btn--sm" href="' . esc_url( $link ) . '" target="_blank" rel="noopener">Details and tickets<span class="vh"> (opens a new tab)</span></a>' : '' )
+		. ( '' !== $venue ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_maps_url( '', $venue ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' : '' );
+	return '<div class="panel facts-panel ev-facts">'
+		. ( $labels ? '<div class="ev-facts__labels">' . $labels . '</div>' : '' )
+		. ( $past ? '<p class="ev-facts__past">This event has passed. <a href="' . esc_url( home_url( '/events/' ) ) . '">See what’s coming up</a>.</p>' : '' )
+		. ( $dl ? '<dl class="facts-dl">' . $dl . '</dl>' : '' )
+		. ( $btns ? '<div class="ltef-actions">' . $btns . '</div>' : '' )
+		. '<p class="meta facts-claim">' . ( ltef_meta( $post_id, 'tina' ) ? '' : 'Listed by the organizer. Times and prices can change, so check before you go. ' ) . 'Have an event? <a href="' . esc_url( home_url( '/events/' ) ) . '#submit">Add it here</a>: listing is free.</p>'
+		. '</div>';
+}
+
+/** The panel of facts on a single job post. */
+function ltef_job_facts( $post_id ) {
+	$rows = array_filter(
+		array(
+			array( 'Business', (string) ltef_meta( $post_id, 'business' ) ),
+			array( 'Neighborhood', (string) ltef_meta( $post_id, 'area_text' ) ),
+			array( 'Kind of job', ltef_field_label( 'ltef_job', 'job_kind', (string) ltef_meta( $post_id, 'job_kind' ) ) ),
+			array( 'Hours', ltef_field_label( 'ltef_job', 'hours_type', (string) ltef_meta( $post_id, 'hours_type' ) ) ),
+			array( 'Pay', (string) ltef_meta( $post_id, 'pay' ) ),
+		),
+		function ( $r ) { return '' !== $r[1]; }
+	);
+	$dl = '';
+	foreach ( $rows as $r ) {
+		$dl .= '<div><dt>' . esc_html( $r[0] ) . '</dt><dd>' . esc_html( $r[1] ) . '</dd></div>';
+	}
+	$how = (string) ltef_meta( $post_id, 'how_to_apply' );
+	if ( '' !== $how ) {
+		$dl .= '<div><dt>How to apply</dt><dd>' . make_clickable( esc_html( $how ) ) . '</dd></div>';
+	}
+	$until  = (string) ltef_meta( $post_id, 'until' );
+	$closed = $until && $until < ltef_today();
+	return '<div class="panel facts-panel ev-facts">'
+		. '<div class="ev-facts__labels">' . ltef_label( 'sponsored', 'Job post' ) . '</div>'
+		. ( $closed ? '<p class="ev-facts__past">This job post has closed. <a href="' . esc_url( home_url( '/restaurant-jobs/' ) ) . '">See open jobs</a>.</p>' : '' )
+		. ( $dl ? '<dl class="facts-dl">' . $dl . '</dl>' : '' )
+		. '<p class="meta facts-claim">Posted by the business. Live to Eat Food doesn’t hire for it. <a href="' . esc_url( home_url( '/restaurant-jobs/' ) ) . '#post-job">Post a job</a>.</p>'
+		. '</div>';
+}
+
+/** Event details for search engines (schema.org Event), from the same fields the page shows. */
+add_action(
+	'wp_head',
+	function () {
+		if ( ! is_singular( 'ltef_event' ) ) {
+			return;
+		}
+		$id   = get_queried_object_id();
+		$date = (string) ltef_meta( $id, 'date' );
+		if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date ) ) {
+			return;
+		}
+		$venue = (string) ltef_meta( $id, 'venue' );
+		$desc  = has_excerpt( $id ) ? get_the_excerpt( $id ) : wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $id ) ), 40 );
+		$data  = array(
+			'@context'            => 'https://schema.org',
+			'@type'               => 'Event',
+			'name'                => get_the_title( $id ),
+			'startDate'           => $date,
+			'eventStatus'         => 'https://schema.org/EventScheduled',
+			'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
+			'url'                 => get_permalink( $id ),
+		);
+		if ( '' !== $venue ) {
+			$data['location'] = array( '@type' => 'Place', 'name' => $venue, 'address' => $venue );
+		}
+		if ( '' !== trim( $desc ) ) {
+			$data['description'] = $desc;
+		}
+		if ( preg_match( '/^\s*free\b/i', (string) ltef_meta( $id, 'price_text' ) ) ) {
+			$data['isAccessibleForFree'] = true;
+		}
+		echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG ) . "</script>\n";
+	}
+);
+
+/** The excerpt, when a post has one and no body: older events were listed with a short description only. */
+function ltef_excerpt_as_body( $post_id ) {
+	$p = get_post( $post_id );
+	if ( ! $p || '' !== trim( wp_strip_all_tags( $p->post_content ) ) || '' === trim( $p->post_excerpt ) ) {
+		return '';
+	}
+	return '<div class="ltef-prose">' . wpautop( esc_html( $p->post_excerpt ) ) . '</div>';
 }
 
 function ltef_job_row( $post_id ) {

@@ -27,6 +27,8 @@ function ltef_block_defs() {
 		'ad-spot'        => array( 'Ad spot', 'The sold ad for this spot, or “Ad space open” with a way to advertise.', 'megaphone', array( 'spot' => array( 'type' => 'string', 'default' => 'home' ) ), 'ltef_block_ad_spot', false ),
 		'owner-area'     => array( 'Owners: manage a listing', 'Approved owners ask for a sign-in link here, then update their phone, website, menu link, hours and note.', 'admin-users', array(), 'ltef_block_owner_area', false ),
 		'submit-form'    => array( 'Submission form', 'A form that sends to Tina’s review queue.', 'feedback', array( 'form' => array( 'type' => 'string', 'default' => 'woopon' ) ), 'ltef_block_submit_form', false ),
+		'event-facts'    => array( 'Event: the details', 'When, where, price and kind, with the tickets and directions buttons.', 'calendar-alt', array(), 'ltef_block_event_facts', true ),
+		'job-facts'      => array( 'Job post: the details', 'Business, hours, pay and how to apply.', 'businessperson', array(), 'ltef_block_job_facts', true ),
 		'events'         => array( 'Upcoming events', 'Events from today on, premium listings first in their week. With Calendar on, a List / Calendar switch and a month view.', 'calendar-alt', array( 'count' => array( 'type' => 'number', 'default' => 12 ), 'calendar' => array( 'type' => 'boolean', 'default' => false ) ), 'ltef_block_events', false ),
 		'jobs'           => array( 'Restaurant jobs', 'Open job posts with filter chips.', 'businessperson', array(), 'ltef_block_jobs', false ),
 		'roulette'       => array( 'Restaurant Roulette', 'The wheel: Tina’s places or every restaurant.', 'image-rotate', array(), 'ltef_block_roulette', false ),
@@ -329,6 +331,22 @@ function ltef_block_woopon_ticket( $attrs, $content, $block ) {
 	return $id && 'ltef_woopon' === get_post_type( $id ) ? ltef_wrap( ltef_woopon_ticket( $id ) ) : '';
 }
 
+function ltef_block_event_facts( $attrs, $content, $block ) {
+	$id = ltef_ctx_post( $block );
+	if ( ! $id || 'ltef_event' !== get_post_type( $id ) ) {
+		return '';
+	}
+	return ltef_wrap( ltef_event_facts( $id ) . ltef_excerpt_as_body( $id ), 'event-facts' );
+}
+
+function ltef_block_job_facts( $attrs, $content, $block ) {
+	$id = ltef_ctx_post( $block );
+	if ( ! $id || 'ltef_job' !== get_post_type( $id ) ) {
+		return '';
+	}
+	return ltef_wrap( ltef_job_facts( $id ) . ltef_excerpt_as_body( $id ), 'job-facts' );
+}
+
 function ltef_block_ad_spot( $attrs ) {
 	return ltef_wrap( ltef_ad_spot( sanitize_key( $attrs['spot'] ?? 'home' ) ) );
 }
@@ -415,7 +433,7 @@ function ltef_events_calendar() {
 	$link = function ( $id, $long ) {
 		$prem = (int) ltef_meta( $id, 'premium' );
 		$time = (string) ltef_meta( $id, 'time' );
-		$more = $long ? implode( ' · ', array_filter( array( (string) ltef_meta( $id, 'venue' ), (string) ltef_meta( $id, 'price_text' ) ) ) ) : '';
+		$more = $long ? implode( ' · ', array_filter( array( (string) ltef_meta( $id, 'venue' ), ltef_event_price( $id ) ) ) ) : '';
 		return '<li class="cal-ev' . ( $prem ? ' is-prem' : '' ) . '"><a href="' . esc_url( get_permalink( $id ) ) . '">' . ( '' !== $time ? '<span class="cal-ev__t">' . esc_html( $time ) . '</span> ' : '' ) . '<span class="cal-ev__n">' . esc_html( get_the_title( $id ) ) . '</span>' . ( $prem ? '<span class="vh"> (premium listing)</span>' : '' ) . ( '' !== $more ? '<span class="cal-ev__m">' . esc_html( $more ) . '</span>' : '' ) . '</a></li>';
 	};
 	$months = '';
