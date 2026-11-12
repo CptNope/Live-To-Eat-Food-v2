@@ -1025,3 +1025,22 @@ body { background: var(--lemon); }
 .place-news__by svg { width: 20px; height: 20px; flex: none; color: var(--basil); }
 .place-news__t { margin: 0; font: 600 clamp(19px, 2.2vw, 22px)/1.4 var(--font-interface); color: var(--basil); overflow-wrap: anywhere; }
 .place-news__go, .place-news__meta { margin: 0; }
+
+/* Explore: New dishes (paid, labeled) */
+.dishes { display: grid; gap: 22px; justify-items: start; }
+.dishes__head { display: grid; gap: 8px; max-width: 70ch; }
+.dishes__head .h-l { margin: 0; }
+.dishes__lede { margin: 0; }
+.dishes__list { list-style: none; margin: 0; padding: 0; width: 100%; display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
+.dish-card { display: flex; flex-direction: column; overflow: hidden; border-radius: var(--radius-sticker); background: var(--butter); box-shadow: inset 0 0 0 1.5px rgba(30,59,42,.14); }
+.dish-card__ph { aspect-ratio: 4 / 3; background: var(--pistachio); display: grid; place-items: center; }
+.dish-card__ph--none svg { width: 44px; height: 44px; color: var(--leaf); opacity: .55; }
+.dish-card__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dish-card__body { display: grid; gap: 6px; padding: 14px 16px 16px; align-content: start; flex: 1; }
+.dish-card__t { margin: 0; font: 800 19px/1.25 var(--font-interface); color: var(--basil); overflow-wrap: anywhere; }
+.dish-card__biz, .dish-card__about { margin: 0; overflow-wrap: anywhere; }
+.dish-card__biz { font: 700 15px/1.4 var(--font-interface); color: var(--olive); }
+.dish-card__price { color: var(--basil); }
+.dish-card__about { font-size: 15px; line-height: 1.45; }
+.dish-card__foot { margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; align-self: end; }
+.dish-card__foot .meta { font-size: 13px; }

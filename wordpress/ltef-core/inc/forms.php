@@ -128,13 +128,28 @@ function ltef_forms() {
 		),
 		'special' => array(
 			'title'  => 'Send a special',
-			'intro'  => 'A weekly special or a new dish: tell us the place, the day and the deal. Owners add their own, free.',
+			'intro'  => 'A deal that comes back every week: tell us the place, the day and the deal. Free. A new dish on your menu goes in New dishes on Explore instead.',
 			'button' => 'Send the special',
 			'fields' => array(
 				array( 'business', 'The place', 'text', true, '' ),
-				array( 'what', 'The special or dish', 'text', true, 'Like BOGO pizza, or a new pandan latte.' ),
+				array( 'what', 'The special', 'text', true, 'Like BOGO pizza, or half-price wings.' ),
 				array( 'when', 'When', 'text', true, 'Every Tuesday, or through Dec 15.' ),
 				array( 'email', 'Email', 'email', false, '' ),
+			),
+		),
+		'dish'    => array(
+			'title'  => 'Add your new dish',
+			'intro'  => ltef_money( $s['dish_price'] ) . ' a dish. It shows in New dishes on Explore for ' . (int) ( LTEF_DISH_DAYS / 7 ) . ' weeks from the day Tina approves it, labeled as a paid listing.',
+			'button' => 'Send the dish',
+			'note'   => $cards ? 'Sent to Tina for review. Stripe asks for a card next and holds ' . ltef_money( $s['dish_price'] ) . ': you’re only charged if Tina approves it.' : 'Sent to Tina for review. We confirm by email before anything is charged.',
+			'fields' => array(
+				array( 'business', 'Your business', 'text', true, 'Start typing and pick it from the list, so the dish links to your page.' ),
+				array( 'dish', 'The new dish', 'text', true, 'Like: pandan tres leches, or a birria ramen.' ),
+				array( 'price', 'Price', 'text', false, 'Like $14.' ),
+				array( 'about', 'About it', 'textarea', false, 'One or two lines: what’s in it, when it’s around. Up to ' . LTEF_DISH_ABOUT_MAX . ' characters.' ),
+				array( 'photo', 'A photo of it', 'file', false, 'Your own photo of the dish. A JPG or PNG, up to 10 MB.' ),
+				array( 'phone', 'Phone to contact', 'tel', false, 'Only if Tina needs to check something. Never shown.' ),
+				array( 'email', 'Email', 'email', true, 'For the receipt. Never shown.' ),
 			),
 		),
 		'photo'   => array(
@@ -231,12 +246,13 @@ function ltef_block_submit_form( $attrs ) {
 			}
 			$ctl .= '</select>';
 		} elseif ( 'textarea' === $type ) {
-			$ctl = '<textarea class="ltef-input" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" rows="3"' . $r . $desc . '></textarea>';
+			$max = 'dish' === $key && 'about' === $name ? ' maxlength="' . LTEF_DISH_ABOUT_MAX . '"' : '';
+			$ctl = '<textarea class="ltef-input" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" rows="3"' . $r . $desc . $max . '></textarea>';
 		} elseif ( 'file' === $type ) {
 			$has_file = true;
 			$ctl      = '<input class="ltef-input" type="file" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" accept="image/jpeg,image/png' . ( 'flyer' === $name ? ',application/pdf' : '' ) . '"' . $r . $desc . '>';
 		} else {
-			$pick = 'claim' === $key && 'place' === $name;
+			$pick = ( 'claim' === $key && 'place' === $name ) || ( 'dish' === $key && 'business' === $name );
 			$val  = $pick && $claim_id ? ' value="' . esc_attr( ltef_owner_place_label( $claim_id ) ) . '"' : '';
 			$ctl  = '<input class="ltef-input" type="' . esc_attr( $type ) . '" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . $r . $desc . $ac . $val . ( $pick ? ' list="' . esc_attr( $id ) . '-list" autocomplete="off"' : '' ) . '>' . ( $pick && function_exists( 'ltef_owner_datalist' ) ? ltef_owner_datalist( $id . '-list' ) : '' );
 		}
@@ -328,6 +344,9 @@ function ltef_handle_submit() {
 		}
 		$v[ $name ] = $val;
 	}
+	if ( 'dish' === $key && mb_strlen( $v['about'] ) > LTEF_DISH_ABOUT_MAX ) {
+		$fail( 'About it is over ' . LTEF_DISH_ABOUT_MAX . ' characters.' );
+	}
 	if ( 'woopon' === $key && $v['end'] < $v['start'] ) {
 		$fail( 'The end date is before the start date.' );
 	}
@@ -372,6 +391,11 @@ function ltef_handle_submit() {
 			$type  = 'ltef_event';
 			$title = $v['name'];
 			$meta  = array( 'date' => $v['date'], 'time' => $v['time'], 'venue' => $v['venue'], 'kind' => $v['kind'], 'price_text' => $v['price'], 'link' => $v['link'], 'premium' => 'premium' === $v['tier'], 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
+			break;
+		case 'dish':
+			$type  = 'ltef_dish';
+			$title = $v['dish'];
+			$meta  = array( 'business' => $v['business'], 'price_text' => $v['price'], 'about' => $v['about'], 'place' => function_exists( 'ltef_owner_match_place' ) ? ltef_owner_match_place( $v['business'] ) : 0, 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
 			break;
 		case 'job':
 			$type  = 'ltef_job';

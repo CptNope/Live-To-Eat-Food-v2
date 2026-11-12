@@ -93,6 +93,18 @@ function ltef_register_post_types() {
 		)
 	);
 	register_post_type(
+		'ltef_dish',
+		array(
+			'labels'        => array_merge( ltef_labels( 'New dish', 'New dishes' ), array( 'all_items' => 'New dishes' ) ),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_menu'  => 'edit.php?post_type=ltef_place',
+			'show_in_rest'  => true,
+			'supports'      => array( 'title', 'custom-fields', 'revisions' ),
+			'description'   => 'New dishes businesses pay to list in New dishes on Explore, for 4 weeks each.',
+		)
+	);
+	register_post_type(
 		'ltef_submission',
 		array(
 			'labels'        => array_merge( ltef_labels( 'Message', 'Messages' ), array( 'all_items' => 'Messages and signups' ) ),
