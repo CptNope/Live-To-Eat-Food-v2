@@ -27,7 +27,7 @@ function ltef_fields( $type ) {
 			'facebook'    => array( 'Facebook copy', 'url', 'Optional. Open the video on Facebook and copy the link from the address bar (facebook.com/reel/… or …/videos/…). The video must be Public. The site plays the first copy it has, in this order: YouTube, Instagram, Facebook, TikTok, and links to the others under the video.' ),
 			'tina_date'   => array( 'Month she posted', 'month', 'Shown as “Tina ate here · Aug 2026”.' ),
 			'more_videos' => array( 'More videos from here', 'textarea', 'Her other videos from this place, one per line: month | link | her caption. Example: 2026-08 | https://www.tiktok.com/@livetoeatfoodie/video/… | Another bread-cellent meal. Put a YouTube or Instagram copy in the same line after the first link, with a space between.' ),
-			'verdict'     => array( 'Tina’s verdict', 'select', 'Only Tina picks this. Most places get neither.', array( '' => 'No verdict', 'favorite' => 'Favorite (star)', 'dont-miss' => 'Don’t miss (target)' ) ),
+			'verdict'     => array( 'Tina’s verdict', 'select', 'Only Tina picks this. Most places get neither.', array( '' => 'No verdict', 'favorite' => 'Favorite (star)', 'dont-miss' => 'Must try (target)' ) ),
 			'hosted'      => array( 'Hosted visit', 'checkbox', 'The place invited Tina and covered the meal. The page says so above her take.' ),
 			'own'         => array( 'Tina’s own business', 'checkbox', 'Tina owns it. The page and every list say so, and it never gets a verdict (federal advertising rules ask creators to disclose this).' ),
 			'enhanced'    => array( 'Enhanced listing', 'checkbox', 'The owner pays for extra modules. Never changes Tina’s take or any ranking.' ),

@@ -90,10 +90,10 @@
 <h3 class="wp-block-heading">Tina’s two verdicts</h3>
 <!-- /wp:heading -->
 <!-- wp:html -->
-<div class="ltef-verdicts"><span class="ltef-verdict ltef-verdict--fav"><svg aria-hidden="true" class="ltef-verdict__i" viewbox="0 0 24 24"><path d="M12 3.6l2.5 5.3 5.8.7-4.3 4 1.1 5.8L12 16.6l-5.1 2.8 1.1-5.8-4.3-4 5.8-.7z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="1.6"></path></svg>Favorite</span><span class="ltef-verdict ltef-verdict--miss"><svg aria-hidden="true" class="ltef-verdict__i" viewbox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="8.6"></circle><circle cx="12" cy="12" r="4.8"></circle></g><circle cx="12" cy="12" fill="currentColor" r="1.9"></circle></svg>Don’t miss</span></div>
+<div class="ltef-verdicts"><span class="ltef-verdict ltef-verdict--fav"><svg aria-hidden="true" class="ltef-verdict__i" viewbox="0 0 24 24"><path d="M12 3.6l2.5 5.3 5.8.7-4.3 4 1.1 5.8L12 16.6l-5.1 2.8 1.1-5.8-4.3-4 5.8-.7z" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="1.6"></path></svg>Favorite</span><span class="ltef-verdict ltef-verdict--miss"><svg aria-hidden="true" class="ltef-verdict__i" viewbox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="8.6"></circle><circle cx="12" cy="12" r="4.8"></circle></g><circle cx="12" cy="12" fill="currentColor" r="1.9"></circle></svg>Must try</span></div>
 <!-- /wp:html -->
 <!-- wp:paragraph -->
-<p>No stars and no scores. When a place or a dish really gets her, Tina marks it <strong>Favorite</strong> (the star: she keeps going back) or <strong>Don’t miss</strong> (the target: order this one). Most places get neither, and that’s fine: the post and her words say the rest. Only Tina gives them, only for meals she ate, and nothing pays for one.</p>
+<p>No stars and no scores. When a place or a dish really gets her, Tina marks it <strong>Favorite</strong> (the star: she keeps going back) or <strong>Must try</strong> (the target: order this one). Most places get neither, and that’s fine: the post and her words say the rest. Only Tina gives them, only for meals she ate, and nothing pays for one.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></section>
