@@ -783,6 +783,7 @@ function ltef_nav_groups() {
 			array( 'Woo-pons', '/woo-pons/', 'woo-pons' ),
 			array( 'Daily deals', '/daily-deals/', 'daily-deals' ),
 			array( 'Roulette', '/roulette/', 'roulette', 'Restaurant Roulette' ),
+			array( 'Giveaways', '/giveaways/', 'giveaways' ),
 		),
 		'Around town'      => array(
 			array( 'Events', '/events/', 'events' ),

@@ -129,7 +129,7 @@ function ltef_fields( $type ) {
 			'end'         => array( 'Runs until', 'date', 'After this day the spot shows “Ad space open” again.' ),
 		),
 	);
-	return isset( $f[ $type ] ) ? $f[ $type ] : array();
+	return apply_filters( 'ltef_fields', isset( $f[ $type ] ) ? $f[ $type ] : array(), $type );
 }
 
 add_action( 'init', 'ltef_register_meta', 20 );

@@ -1091,3 +1091,25 @@ body { background: var(--lemon); }
 .vip-spots__line strong { font-weight: 800; }
 .vip-spots__sub { margin: 0; font-size: 15px; color: var(--olive); }
 .vip-spots .ltef-btn { margin-top: 4px; }
+
+/* Giveaways: the page's cards and the home page banner */
+.gw-list { display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
+.gw-card { display: flex; flex-direction: column; overflow: hidden; border-radius: var(--radius-sticker); background: var(--vinyl); box-shadow: var(--kiss-cut), var(--lift); color: var(--basil); }
+.gw-card__ph { aspect-ratio: 4 / 3; background: var(--pistachio); }
+.gw-card__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gw-card__body { display: grid; gap: 10px; padding: 18px 20px 22px; justify-items: start; }
+.gw-card__when { margin: 0; font: 700 14px/1.3 var(--font-interface); color: var(--olive); text-transform: uppercase; letter-spacing: .04em; }
+.gw-card__t { margin: 0; font: 800 22px/1.25 var(--font-interface); overflow-wrap: anywhere; }
+.gw-card__value { font-weight: 600; color: var(--olive); }
+.gw-card__donor, .gw-card__winner { margin: 0; font: 600 16px/1.4 var(--font-interface); }
+.gw-card__how { margin: 0; padding-left: 1.3em; display: grid; gap: 4px; }
+.gw-card__fine { margin: 0; font-size: 13px; color: var(--olive); }
+.gw-card--ended { opacity: .9; }
+.gw-card--ended .gw-card__ph { filter: grayscale(.4); }
+.gw-now-h { margin: 0 0 16px; }
+.gw-past-h { margin: 36px 0 16px; }
+.gw-none { margin: 0; }
+.gw-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; max-width: 1240px; margin: 0 auto; padding: 14px 20px; border-radius: var(--radius-sticker); background: var(--lemon); color: var(--basil); box-shadow: inset 0 0 0 2px var(--basil); box-sizing: border-box; }
+.gw-banner__k { font: 800 13px/1 var(--font-interface); text-transform: uppercase; letter-spacing: .06em; padding: 6px 10px; border-radius: 999px; background: var(--basil); color: var(--lemon); }
+.gw-banner__t { margin: 0; flex: 1 1 260px; font: 500 17px/1.4 var(--font-interface); }
+.wp-block-ltef-giveaway-banner { padding: 0 16px; margin: 18px 0; }

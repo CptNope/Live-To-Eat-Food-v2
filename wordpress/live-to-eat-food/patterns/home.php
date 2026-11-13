@@ -44,6 +44,8 @@ $u = function ( $p ) {
 <!-- /wp:columns --></section>
 <!-- /wp:group -->
 
+<!-- wp:ltef/giveaway-banner /-->
+
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"butter","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section class="wp-block-group is-style-sheet has-butter-background-color has-background"><!-- wp:group {"className":"head"} -->
 <div class="wp-block-group head"><!-- wp:heading {"anchor":"h-picks"} -->
