@@ -270,9 +270,9 @@ function ltef_owner_datalist( $id ) {
 
 /** Review-queue chips for a claim: which place, and the number Tina calls to check. */
 function ltef_owner_claim_flags( $post_id ) {
-	$place = (int) get_post_meta( $post_id, 'ltef_claim_place', true );
+	$place = ltef_owner_claim_place( $post_id );
 	if ( ! $place ) {
-		return array( array( 'warn', 'No place on the site matched. Add their email under Owners on the right place, then mark this done.' ) );
+		return array( array( 'warn', 'No place on the site matched. Pick the right one below, then approve.' ) );
 	}
 	$flags   = array( array( '', 'Claims <a href="' . esc_url( get_permalink( $place ) ) . '" target="_blank" rel="noopener">' . esc_html( get_the_title( $place ) ) . '</a>' ) );
 	$phone   = ltef_meta( $place, 'phone' );
@@ -327,9 +327,59 @@ function ltef_owner_claim_details( $v ) {
 	return $out;
 }
 
+/**
+ * The place a claim is for. A claim that matched nothing when it was sent is tried again by name, since the
+ * listing may have been added since, or the matching got better.
+ */
+function ltef_owner_claim_place( $post_id ) {
+	$place = (int) get_post_meta( $post_id, 'ltef_claim_place', true );
+	if ( $place && 'publish' === get_post_status( $place ) ) {
+		return $place;
+	}
+	$fields = get_post_meta( $post_id, 'ltef_fields', true );
+	$place  = ltef_owner_match_place( is_array( $fields ) ? ( $fields['place'] ?? '' ) : '' );
+	if ( $place ) {
+		update_post_meta( $post_id, 'ltef_claim_place', $place );
+	}
+	return $place;
+}
+
+/** On a claim that matched nothing: a box to pick the place from the site's list. */
+function ltef_owner_claim_match_form( $post_id ) {
+	if ( ltef_owner_claim_place( $post_id ) ) {
+		return '';
+	}
+	$id = 'ltef-match-' . (int) $post_id;
+	return '<form class="ltef-match" method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">'
+		. '<input type="hidden" name="action" value="ltef_claim_match"><input type="hidden" name="post" value="' . (int) $post_id . '">'
+		. wp_nonce_field( 'ltef_claim_match_' . $post_id, '_wpnonce', true, false )
+		. '<label for="' . esc_attr( $id ) . '">Match to a place</label> '
+		. '<input type="text" id="' . esc_attr( $id ) . '" name="place" list="' . esc_attr( $id ) . '-list" autocomplete="off" required placeholder="Start typing the name"> '
+		. ltef_owner_datalist( $id . '-list' )
+		. '<button class="button">Match</button></form>';
+}
+
+add_action(
+	'admin_post_ltef_claim_match',
+	function () {
+		$id = isset( $_POST['post'] ) ? absint( $_POST['post'] ) : 0;
+		check_admin_referer( 'ltef_claim_match_' . $id );
+		if ( ! $id || ! current_user_can( 'edit_post', $id ) || 'claim' !== get_post_meta( $id, 'ltef_form', true ) ) {
+			wp_die( 'Not allowed.' );
+		}
+		$place = ltef_owner_match_place( isset( $_POST['place'] ) ? sanitize_text_field( wp_unslash( $_POST['place'] ) ) : '' );
+		if ( $place ) {
+			update_post_meta( $id, 'ltef_claim_place', $place );
+		}
+		$note = $place ? 'Matched to ' . html_entity_decode( get_the_title( $place ), ENT_QUOTES, 'UTF-8' ) . '. Check it, then approve.' : 'No place by that name. Pick it from the list as you type.';
+		wp_safe_redirect( add_query_arg( array( 'ltef_done' => $place ? 'matched' : 'waiting', 'ltef_note' => rawurlencode( $note ) ), admin_url( 'admin.php?page=ltef-review' ) ) );
+		exit;
+	}
+);
+
 /** Approving a claim: the owner gets their login, and the details they suggested go live. [ publish, note ] */
 function ltef_owner_on_approve( $post_id ) {
-	$place  = (int) get_post_meta( $post_id, 'ltef_claim_place', true );
+	$place  = ltef_owner_claim_place( $post_id );
 	$fields = get_post_meta( $post_id, 'ltef_fields', true );
 	$email  = is_array( $fields ) ? ( $fields['email'] ?? '' ) : '';
 	if ( ! $place || ! is_email( $email ) ) {
