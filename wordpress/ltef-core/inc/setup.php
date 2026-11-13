@@ -23,6 +23,7 @@ function ltef_pages() {
 		'crumbs'           => array( 'Monthly Crumbs', 'live-to-eat-food/page-crumbs' ),
 		'tina'             => array( 'Tina', 'live-to-eat-food/page-tina' ),
 		'daily-deals'      => array( 'Daily deals', 'live-to-eat-food/page-daily-deals' ),
+		'giveaways'        => array( 'Giveaways', 'live-to-eat-food/page-giveaways' ),
 		'beyond-food'      => array( 'Beyond food', 'live-to-eat-food/page-beyond-food' ),
 		'your-bites'       => array( 'Your bites', 'live-to-eat-food/page-your-bites' ),
 		'accessibility'    => array( 'Accessibility', 'live-to-eat-food/page-accessibility' ),
