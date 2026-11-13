@@ -22,3 +22,23 @@ add_action(
 	10,
 	3
 );
+
+/** How many testimonials are up. */
+function ltef_testimonial_count() {
+	$c = wp_count_posts( 'ltef_testimonial' );
+	return isset( $c->publish ) ? (int) $c->publish : 0;
+}
+
+/**
+ * A section (group block) with the class hide-if-no-testimonials shows only once a testimonial is up, so
+ * About Tina and the home page never show an empty "What businesses say".
+ */
+add_filter(
+	'render_block_core/group',
+	function ( $html, $block ) {
+		$class = (string) ( $block['attrs']['className'] ?? '' );
+		return false !== strpos( $class, 'hide-if-no-testimonials' ) && ! ltef_testimonial_count() ? '' : $html;
+	},
+	10,
+	2
+);
