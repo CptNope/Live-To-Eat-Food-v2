@@ -16,7 +16,7 @@ function ltef_pages() {
 		'food-help'        => array( 'Food help', 'live-to-eat-food/page-food-help' ),
 		'submit'           => array( 'Send something in', 'live-to-eat-food/page-submit' ),
 		'work-with-tina'   => array( 'Work with Tina', 'live-to-eat-food/page-work-with-tina' ),
-		'for-restaurants'  => array( 'For restaurants', 'live-to-eat-food/page-for-restaurants' ),
+		'for-restaurants'  => array( 'For businesses', 'live-to-eat-food/page-for-restaurants' ),
 		'testimonial'      => array( 'Share your experience', 'live-to-eat-food/page-testimonial' ),
 		'how-it-works'     => array( 'How it works', 'live-to-eat-food/page-how-it-works' ),
 		'editorial-policy' => array( 'Editorial policy', 'live-to-eat-food/page-editorial-policy' ),

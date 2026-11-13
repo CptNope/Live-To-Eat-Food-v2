@@ -1,20 +1,20 @@
 <?php
 /**
- * Title: For restaurants
+ * Title: For businesses
  * Slug: live-to-eat-food/page-for-restaurants
  * Categories: ltef-pages
  * Block Types: core/post-content
  * Post Types: page
- * Description: The For restaurants page, ready to edit.
+ * Description: The For businesses page, ready to edit.
  * Viewport Width: 1400
  */
 ?>
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"butter","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section class="wp-block-group is-style-sheet has-butter-background-color has-background"><!-- wp:heading {"level":1,"anchor":"h-own"} -->
-<h1 id="h-own" class="wp-block-heading">For restaurants</h1>
+<h1 id="h-own" class="wp-block-heading">For businesses</h1>
 <!-- /wp:heading -->
 <!-- wp:paragraph {"className":"is-style-lede"} -->
-<p class="is-style-lede">For restaurants and every other local business. Being listed is free, forever. What did you come to do?</p>
+<p class="is-style-lede">For restaurants, shops, salons and every other local business. Being listed is free, forever. What did you come to do?</p>
 <!-- /wp:paragraph -->
 <!-- wp:html -->
 <ul aria-label="What you came to do" class="doors"><li><a class="door" href="#claim"><span class="door__txt"><span class="door__t">Claim your listing</span><span class="door__line">Keep your hours, links and menu current and post your news yourself. Free.</span></span><span class="door__go"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></span></a></li><li><a class="door" href="#listing"><span class="door__txt"><span class="door__t">Fix my listing</span><span class="door__line">Hours, menu, links, an opening or an event. Free.</span></span><span class="door__go"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></span></a></li><li><a class="door" href="<?php echo esc_url( home_url( '/how-it-works/' ) ); ?>#ltef-suggest"><span class="door__txt"><span class="door__t">Ask Tina to visit</span><span class="door__line">It goes on her list to try, with everyone else’s. It can’t be paid for.</span></span><span class="door__go"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></span></a></li><li><a class="door" href="<?php echo esc_url( home_url( '/submit/' ) ); ?>"><span class="door__txt"><span class="door__t">Send something in</span><span class="door__line">Every form in one place: listings, Woo-pons, events, jobs, specials. What each costs and what happens next.</span></span><span class="door__go"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></span></a></li><li><a class="door door--paid" href="<?php echo esc_url( home_url( '/work-with-tina/' ) ); ?>"><span class="door__txt"><span class="door__t">Advertise<span class="ltef-lbl ltef-lbl--sponsored ltef-lbl--sm" style="align-self: flex-start; justify-self: start;"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 3.5v17M16 7.8c-.6-1.4-2.2-2.4-4-2.4-2.2 0-4 1.2-4 3s1.8 2.5 4 2.9 4 1.4 4 3.2-1.8 2.8-4 2.8c-1.9 0-3.5-1-4.1-2.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.1"></path></svg>Paid</span></span><span class="door__line">Woo-pons, premium events, job posts, new dishes, paid ads in Monthly Crumbs, Enhanced listings and paid visits, all labeled.</span></span><span class="door__go"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></span></a></li></ul>
