@@ -42,3 +42,12 @@ add_filter(
 	10,
 	2
 );
+
+/** The place a testimonial's business is: the one Tina picked, or else a match by the business name. 0 if none. */
+function ltef_testimonial_place( $id ) {
+	$place = (int) ltef_meta( $id, 'place' );
+	if ( $place && 'publish' === get_post_status( $place ) ) {
+		return $place;
+	}
+	return function_exists( 'ltef_owner_match_place' ) ? ltef_owner_match_place( (string) ltef_meta( $id, 'business' ) ) : 0;
+}
