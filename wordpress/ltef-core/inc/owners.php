@@ -226,7 +226,30 @@ function ltef_owner_match_place( $name, $id = 0 ) {
 		$town  = isset( $m[1] ) ? strtolower( trim( $m[1] ) ) : '';
 		$found = array_values( array_filter( $found, function ( $p ) use ( $town ) { return strtolower( (string) ltef_meta( $p, 'town' ) ) === $town; } ) );
 	}
-	return 1 === count( $found ) ? (int) $found[0] : 0;
+	if ( 1 === count( $found ) ) {
+		return (int) $found[0];
+	}
+	// Typed by hand: "I love frankies" for "I Love Frankie’s". Compare letters and digits only.
+	$key = ltef_place_name_key( $base );
+	if ( strlen( $key ) < 4 ) {
+		return 0;
+	}
+	global $wpdb;
+	$rows = $wpdb->get_results( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = 'ltef_place' AND post_status = 'publish'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	$hits = array();
+	foreach ( $rows as $r ) {
+		if ( ltef_place_name_key( $r->post_title ) === $key ) {
+			$hits[] = (int) $r->ID;
+		}
+	}
+	return 1 === count( $hits ) ? $hits[0] : 0;
+}
+
+/** A place name boiled down for matching: lowercase letters and digits, no "the". */
+function ltef_place_name_key( $name ) {
+	$n = strtolower( html_entity_decode( (string) $name, ENT_QUOTES, 'UTF-8' ) );
+	$n = preg_replace( '/^the\s+/', '', $n );
+	return preg_replace( '/[^a-z0-9]/', '', $n );
 }
 
 /** "Name (Town)", as the claim form's list shows a place. */
