@@ -405,6 +405,7 @@
 	grid-template-areas:
 		"head head"
 		"flags flags"
+		"match match"
 		"details actions";
 	gap: 16px 32px;
 }
@@ -441,6 +442,21 @@
 }
 .ltef-card__flags li {
 	margin: 0;
+}
+.ltef-match {
+	grid-area: match;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 10px;
+	margin: 0;
+}
+.ltef-match label {
+	font-weight: 600;
+}
+.ltef-match input[type="text"] {
+	flex: 1 1 260px;
+	max-width: 420px;
 }
 .ltef-card__details {
 	grid-area: details;
@@ -692,6 +708,7 @@
 		grid-template-areas:
 			"head"
 			"flags"
+			"match"
 			"details"
 			"actions";
 	}

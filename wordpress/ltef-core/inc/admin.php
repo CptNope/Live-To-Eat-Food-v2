@@ -38,7 +38,7 @@ function ltef_review_page() {
 	echo '<p class="ltef-lede">Everything people send in waits here. Nothing goes on the site until it’s approved. Aim to reply within ' . (int) ltef_setting( 'reply_days' ) . ' days: the site promises that.</p>';
 	if ( $done ) {
 		$note = isset( $_GET['ltef_note'] ) ? sanitize_text_field( rawurldecode( wp_unslash( $_GET['ltef_note'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$text = array( 'approved' => 'Approved. It’s live now (messages are marked done).', 'waiting' => 'Not live yet.' )[ $done ] ?? 'Declined and moved to the trash. It can be restored from there. Any card hold was released.';
+		$text = array( 'approved' => 'Approved. It’s live now (messages are marked done).', 'waiting' => 'Not live yet.', 'matched' => '' )[ $done ] ?? 'Declined and moved to the trash. It can be restored from there. Any card hold was released.';
 		echo '<div class="notice notice-' . ( 'waiting' === $done ? 'warning' : 'success' ) . ' is-dismissible"><p>' . esc_html( trim( $text . ' ' . $note ) ) . '</p></div>';
 	}
 	if ( ! $items ) {
@@ -108,7 +108,7 @@ function ltef_review_page() {
 			return wp_nonce_url( admin_url( 'admin-post.php?action=ltef_review&do=' . $act . '&post=' . $p->ID ), 'ltef_review_' . $p->ID );
 		};
 		printf(
-			'<li class="ltef-card" aria-labelledby="ltef-q-%9$d"><header class="ltef-card__head"><span class="ltef-chip ltef-chip--kind">%1$s</span><h2 class="ltef-card__title" id="ltef-q-%9$d">%2$s</h2><span class="ltef-card__when">Sent %3$s</span></header>%5$s<dl class="ltef-card__details">%4$s</dl><div class="ltef-card__actions"><a class="button button-primary" href="%6$s">Approve</a><a class="button" href="%7$s">Edit first</a><details class="ltef-decline"><summary>Decline</summary><form method="post" action="%8$s"><input type="hidden" name="action" value="ltef_review"><input type="hidden" name="do" value="decline"><input type="hidden" name="post" value="%9$d">%10$s<label class="screen-reader-text" for="why-%9$d">Private reason</label><input id="why-%9$d" type="text" name="why" placeholder="Private reason (optional)"><label class="ltef-check"><input type="checkbox" name="block" value="1"> Add to the don’t-work-with list</label><button class="button">Decline and move to trash</button></form></details></div></li>',
+			'<li class="ltef-card" aria-labelledby="ltef-q-%9$d"><header class="ltef-card__head"><span class="ltef-chip ltef-chip--kind">%1$s</span><h2 class="ltef-card__title" id="ltef-q-%9$d">%2$s</h2><span class="ltef-card__when">Sent %3$s</span></header>%5$s%11$s<dl class="ltef-card__details">%4$s</dl><div class="ltef-card__actions"><a class="button button-primary" href="%6$s">Approve</a><a class="button" href="%7$s">Edit first</a><details class="ltef-decline"><summary>Decline</summary><form method="post" action="%8$s"><input type="hidden" name="action" value="ltef_review"><input type="hidden" name="do" value="decline"><input type="hidden" name="post" value="%9$d">%10$s<label class="screen-reader-text" for="why-%9$d">Private reason</label><input id="why-%9$d" type="text" name="why" placeholder="Private reason (optional)"><label class="ltef-check"><input type="checkbox" name="block" value="1"> Add to the don’t-work-with list</label><button class="button">Decline and move to trash</button></form></details></div></li>',
 			esc_html( ltef_review_types()[ $p->post_type ] ),
 			esc_html( $p->post_title ),
 			esc_html( human_time_diff( strtotime( $p->post_date ), current_time( 'timestamp' ) ) . ' ago' ), // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
@@ -118,7 +118,8 @@ function ltef_review_page() {
 			esc_url( get_edit_post_link( $p->ID ) ? get_edit_post_link( $p->ID ) : '#' ),
 			esc_url( admin_url( 'admin-post.php' ) ),
 			$p->ID,
-			wp_nonce_field( 'ltef_review_' . $p->ID, '_wpnonce', true, false )
+			wp_nonce_field( 'ltef_review_' . $p->ID, '_wpnonce', true, false ),
+			'claim' === get_post_meta( $p->ID, 'ltef_form', true ) && function_exists( 'ltef_owner_claim_match_form' ) ? ltef_owner_claim_match_form( $p->ID ) : '' // escaped there
 		);
 	}
 	echo '</ol></div>';
