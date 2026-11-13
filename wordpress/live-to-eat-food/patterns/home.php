@@ -110,4 +110,11 @@ $u = function ( $p ) {
 <!-- wp:ltef/events {"count":3} /--></section>
 <!-- /wp:group -->
 
+<!-- wp:group {"tagName":"section","anchor":"said","className":"is-style-sheet hide-if-no-testimonials","backgroundColor":"pistachio","layout":{"type":"constrained","contentSize":"1240px"}} -->
+<section id="said" class="wp-block-group is-style-sheet hide-if-no-testimonials has-pistachio-background-color has-background"><!-- wp:heading {"anchor":"h-said"} -->
+<h2 id="h-said" class="wp-block-heading">What businesses say</h2>
+<!-- /wp:heading -->
+<!-- wp:ltef/testimonials {"count":3,"more":true} /--></section>
+<!-- /wp:group -->
+
 <!-- wp:pattern {"slug":"live-to-eat-food/crumbs-signup"} /-->
