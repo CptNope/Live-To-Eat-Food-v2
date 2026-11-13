@@ -41,7 +41,7 @@ function ltef_forms() {
 			'fields' => array(
 				array( 'business', 'Business name', 'text', true, '' ),
 				array( 'deal', 'The deal', 'text', true, 'For example: $5 off two large pies, or a free side with any bowl.' ),
-				array( 'tier', 'How you’d like to run it', 'select', true, '', array( '' => 'Pick one', 'free' => 'Try it free: ' . (int) $s['woopon_free'] . ' weeks, first time only', 'weekly' => 'Weekly: ' . $weekly . ' a week', 'vip' => 'VIP Woo-pon: ' . $vip . ', in Tina’s monthly video' ) ),
+				array( 'tier', 'How you’d like to run it', 'select', true, '', array( '' => 'Pick one', 'free' => 'Try it free: ' . (int) $s['woopon_free'] . ' weeks, first time only', 'weekly' => 'Weekly: ' . $weekly . ' a week', 'vip' => 'VIP Woo-pon: ' . $vip . ', in Tina’s monthly video' . ( function_exists( 'ltef_vip_left_text' ) && ltef_vip_left_text() ? ' (' . rtrim( ltef_vip_left_text(), '.' ) . ')' : '' ) ) ),
 				array( 'kind', 'What kind of business', 'select', true, '', array( '' => 'Pick one', 'food' => 'Food or drink', 'service' => 'A service', 'online' => 'Online' ) ),
 				array( 'start', 'Start date', 'date', true, '' ),
 				array( 'end', 'End date', 'date', true, '' ),
@@ -372,6 +372,9 @@ function ltef_handle_submit() {
 	}
 	if ( 'woopon' === $key && $v['end'] < $v['start'] ) {
 		$fail( 'The end date is before the start date.' );
+	}
+	if ( 'woopon' === $key && 'vip' === $v['tier'] && function_exists( 'ltef_vip_full_error' ) && ltef_vip_full_error( $v['start'] ) ) {
+		$fail( ltef_vip_full_error( $v['start'] ) );
 	}
 	if ( 'claim' === $key && function_exists( 'ltef_owner_claim_details' ) ) {
 		$ok = ltef_owner_claim_details( $v );

@@ -62,6 +62,9 @@ function ltef_review_page() {
 				$flags[] = array( 'partner' === $tier || 'free' === $tier ? '' : 'paid', esc_html( $t ) );
 			}
 			if ( 'vip' === $tier ) {
+				if ( function_exists( 'ltef_vip_flag' ) ) {
+					$flags[] = ltef_vip_flag( $p->ID ); // escaped there
+				}
 				$flyer   = (int) ltef_meta( $p->ID, 'flyer' );
 				$flags[] = $flyer ? array( '', '<a href="' . esc_url( wp_get_attachment_url( $flyer ) ) . '" target="_blank" rel="noopener">See the flyer</a>' ) : array( 'warn', 'No flyer' );
 			}
@@ -139,6 +142,8 @@ function ltef_handle_review() {
 			list( $publish, $note ) = ltef_owner_on_approve( $id );
 		} elseif ( 'ltef_special' === get_post_type( $id ) && function_exists( 'ltef_special_ready' ) ) {
 			list( $publish, $note ) = ltef_special_ready( $id );
+		} elseif ( 'ltef_woopon' === get_post_type( $id ) && function_exists( 'ltef_vip_can_approve' ) && ! ltef_vip_can_approve( $id )[0] ) {
+			list( $publish, $note ) = ltef_vip_can_approve( $id );
 		} else {
 			list( $publish, $note ) = function_exists( 'ltef_stripe_on_approve' ) ? ltef_stripe_on_approve( $id ) : array( true, '' );
 		}
