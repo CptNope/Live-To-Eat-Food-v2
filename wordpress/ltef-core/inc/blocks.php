@@ -38,6 +38,7 @@ function ltef_block_defs() {
 		'roulette'       => array( 'Restaurant Roulette', 'The wheel: Tina’s places or every restaurant.', 'image-rotate', array(), 'ltef_block_roulette', false ),
 		'site-nav'       => array( 'Site navigation', 'The header menu: top links and a grouped More panel on wide screens, a grouped Menu on phones, and the Monthly Crumbs button.', 'menu', array(), 'ltef_block_site_nav', false ),
 		'daily-deals'    => array( 'Daily deals by day', 'Every weekly special, Monday to Sunday, with today marked. Add deals under Places → Daily deals.', 'calendar', array(), 'ltef_block_daily_deals', false ),
+		'vip-spots'      => array( 'VIP spots left', 'How many VIP Woo-pon spots are left this month, with a button to the form.', 'star-filled', array(), 'ltef_block_vip_spots', false ),
 		'verdicts'       => array( 'Tina’s two verdicts', 'Favorite and Must try, explained.', 'star-filled', array(), 'ltef_block_verdicts', false ),
 	);
 }

@@ -31,7 +31,7 @@ $u = function ( $p ) {
 <!-- /wp:button -->
 
 <!-- wp:button {"className":"is-style-alt"} -->
-<div class="wp-block-button is-style-alt"><a class="wp-block-button__link wp-element-button" href="<?php echo $u( '/woo-pons/' ); ?>">This week’s Woo-pons</a></div>
+<div class="wp-block-button is-style-alt"><a class="wp-block-button__link wp-element-button" href="<?php echo $u( '/woo-pons/' ); ?>">This month’s Woo-pons</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->

@@ -132,3 +132,34 @@ add_action(
 	20,
 	3
 );
+
+/**
+ * The VIP spots callout for the Woo-pons page: how many are left this month, with a way to take one.
+ * When this month is full, it points to next month instead.
+ */
+function ltef_block_vip_spots() {
+	$limit = ltef_vip_limit();
+	if ( ! $limit ) {
+		return '';
+	}
+	list( $a, $b ) = ltef_vip_months();
+	$left = ltef_vip_left( $a );
+	$ym   = $left ? $a : $b;
+	$n    = $left ? $left : ltef_vip_left( $b );
+	if ( ! $n ) {
+		return ltef_wrap( '<aside class="vip-spots vip-spots--full" aria-label="VIP Woo-pon spots">' . ltef_label( 'vip', 'VIP Woo-pon' ) . '<p class="vip-spots__line">VIP spots for ' . esc_html( ltef_vip_month_name( $a ) ) . ' and ' . esc_html( ltef_vip_month_name( $b ) ) . ' are full.</p><p class="vip-spots__sub">A regular Woo-pon still runs any week.</p></aside>', 'vip-spots-block' );
+	}
+	$name = ltef_vip_month_name( $ym );
+	$line = $left
+		? '<strong>' . $n . ' of ' . $limit . '</strong> VIP ' . ( 1 === $n ? 'spot' : 'spots' ) . ' left for ' . esc_html( $name )
+		: esc_html( ltef_vip_month_name( $a ) ) . ' is full. <strong>' . $n . ' of ' . $limit . '</strong> VIP ' . ( 1 === $n ? 'spot' : 'spots' ) . ' open for ' . esc_html( $name );
+	return ltef_wrap(
+		'<aside class="vip-spots" aria-label="VIP Woo-pon spots">'
+		. ltef_label( 'vip', 'VIP Woo-pon' )
+		. '<p class="vip-spots__line">' . $line . '</p>'
+		. '<p class="vip-spots__sub">Tina presents each VIP Woo-pon in her ' . esc_html( $name ) . ' video, with your flyer. Only ' . $limit . ' a month, so the video stays short. ' . esc_html( ltef_money( ltef_setting( 'woopon_vip' ) ) ) . '.</p>'
+		. '<a class="ltef-btn ltef-btn--sm" href="#submit">Get a VIP spot</a>'
+		. '</aside>',
+		'vip-spots-block'
+	);
+}

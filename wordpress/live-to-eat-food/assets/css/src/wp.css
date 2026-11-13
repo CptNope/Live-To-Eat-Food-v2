@@ -369,3 +369,10 @@ body { background: var(--lemon); }
 .ltef-vip-left {
 	font-weight: 700;
 }
+
+/* VIP spots left this month, on the Woo-pons page */
+.vip-spots { display: grid; gap: 8px; justify-items: start; max-width: 560px; margin-top: 8px; padding: 18px 20px 20px; border-radius: var(--radius-sticker); background: var(--butter); box-shadow: inset 0 0 0 2px var(--basil); }
+.vip-spots__line { margin: 0; font: 700 21px/1.3 var(--font-interface); color: var(--basil); }
+.vip-spots__line strong { font-weight: 800; }
+.vip-spots__sub { margin: 0; font-size: 15px; color: var(--olive); }
+.vip-spots .ltef-btn { margin-top: 4px; }
