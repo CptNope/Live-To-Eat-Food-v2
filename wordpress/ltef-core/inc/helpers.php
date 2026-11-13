@@ -19,7 +19,7 @@ function ltef_settings() {
 		'vip_limit'       => 10,
 		'event_premium'   => 50,
 		'job_post'        => 100,
-		'dish_price'      => 5,
+		'dish_price'      => 15,
 		'enhanced_low'    => 29,
 		'enhanced_high'   => 59,
 		'enhanced_price'  => 29,
