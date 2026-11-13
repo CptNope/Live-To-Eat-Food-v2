@@ -1079,3 +1079,8 @@ body { background: var(--lemon); }
 .wp-block-ltef-testimonials .testi__q { color: var(--basil); }
 .wp-block-ltef-testimonials .testi__q p { margin: 0; }
 .testi-ask { margin: 0; font: 600 16px/1.45 var(--font-interface); color: var(--olive); }
+
+/* VIP Woo-pon spots left this month and next */
+.ltef-vip-left {
+	font-weight: 700;
+}

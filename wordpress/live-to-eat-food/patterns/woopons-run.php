@@ -64,7 +64,7 @@ $weeks = function_exists( 'ltef_setting' ) ? (int) ltef_setting( 'woopon_free' )
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Tina presents your Woo-pon in her monthly video, and the ticket carries the VIP label. Send a flyer with it: she shows it in the video. Up to [ltef_price key="vip_limit"] a month.</p>
+<p>Tina presents your Woo-pon in her monthly video, and the ticket carries the VIP label. Send a flyer with it: she shows it in the video. Up to [ltef_price key="vip_limit"] a month, so the video doesn’t run long: [ltef_vip_left]</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
