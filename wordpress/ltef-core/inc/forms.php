@@ -133,7 +133,7 @@ function ltef_forms() {
 			'intro'  => 'A deal that comes back every week: tell us the place, the day and the deal. Free. A new dish on your menu goes in New dishes on Explore instead.',
 			'button' => 'Send the special',
 			'fields' => array(
-				array( 'business', 'The place', 'text', true, '' ),
+				array( 'business', 'The place', 'text', true, 'Start typing and pick it from the list.' ),
 				array( 'what', 'The special', 'text', true, 'Like BOGO pizza, or half-price wings.' ),
 				array( 'when', 'When', 'text', true, 'Every Tuesday, or through Dec 15.' ),
 				array( 'email', 'Email', 'email', false, '' ),
@@ -272,7 +272,7 @@ function ltef_block_submit_form( $attrs ) {
 			$has_file = true;
 			$ctl      = '<input class="ltef-input" type="file" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" accept="image/jpeg,image/png' . ( 'flyer' === $name ? ',application/pdf' : '' ) . '"' . $r . $desc . '>';
 		} else {
-			$pick = ( 'claim' === $key && 'place' === $name ) || ( 'dish' === $key && 'business' === $name );
+			$pick = ( 'claim' === $key && 'place' === $name ) || ( in_array( $key, array( 'dish', 'special' ), true ) && 'business' === $name );
 			$val  = $pick && $claim_id ? ' value="' . esc_attr( ltef_owner_place_label( $claim_id ) ) . '"' : '';
 			$ctl  = '<input class="ltef-input" type="' . esc_attr( $type ) . '" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . $r . $desc . $ac . $val . ( $pick ? ' list="' . esc_attr( $id ) . '-list" autocomplete="off"' : '' ) . '>' . ( $pick && function_exists( 'ltef_owner_datalist' ) ? ltef_owner_datalist( $id . '-list' ) : '' );
 		}
@@ -419,6 +419,10 @@ function ltef_handle_submit() {
 			$type  = 'ltef_dish';
 			$title = $v['dish'];
 			$meta  = array( 'business' => $v['business'], 'price_text' => $v['price'], 'about' => $v['about'], 'place' => function_exists( 'ltef_owner_match_place' ) ? ltef_owner_match_place( $v['business'] ) : 0, 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
+			break;
+		case 'special':
+			$type                  = 'ltef_special';
+			list( $title, $meta ) = ltef_special_from_form( $v );
 			break;
 		case 'testimonial':
 			$type  = 'ltef_testimonial';
