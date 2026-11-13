@@ -430,7 +430,7 @@ function ltef_handle_submit() {
 		case 'testimonial':
 			$type  = 'ltef_testimonial';
 			$title = $v['name'] . ', ' . $v['business'];
-			$meta  = array( 'name' => $v['name'], 'business' => $v['business'], 'role' => $v['role'], 'worked' => $v['worked'], 'quote' => $v['quote'], 'contact_email' => $v['email'] );
+			$meta  = array( 'name' => $v['name'], 'business' => $v['business'], 'place' => function_exists( 'ltef_owner_match_place' ) ? ltef_owner_match_place( $v['business'] ) : 0, 'role' => $v['role'], 'worked' => $v['worked'], 'quote' => $v['quote'], 'contact_email' => $v['email'] );
 			break;
 		case 'job':
 			$type  = 'ltef_job';

@@ -335,6 +335,7 @@ input[type="file"].ltef-input::file-selector-button { margin-right: 12px; paddin
 .testi__q { margin: 0; font: 600 20px/1.35 var(--font-reading); color: var(--olive); }
 .testi__by { display: grid; gap: 2px; font: 600 14px/1.4 var(--font-interface); color: var(--olive); }
 .testi__by b { color: var(--basil); }
+.testi__by a { color: var(--basil); text-decoration: underline; text-underline-offset: 2px; }
 
 /* Nov 2: the Submit hub, the call-ahead note, the business card board */
 .sub-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }

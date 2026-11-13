@@ -223,8 +223,12 @@ function ltef_block_testimonials( $atts = array() ) {
 		if ( '' === $quote ) {
 			continue;
 		}
-		$who   = implode( ' · ', array_filter( array( implode( ', ', array_filter( array( (string) ltef_meta( $p->ID, 'role' ), (string) ltef_meta( $p->ID, 'business' ) ) ) ), $kinds[ (string) ltef_meta( $p->ID, 'worked' ) ] ?? '' ) ) );
-		$cards .= '<figure class="panel testi"><blockquote class="testi__q"><p>“' . esc_html( $quote ) . '”</p></blockquote><figcaption class="testi__by"><b>' . esc_html( (string) ltef_meta( $p->ID, 'name' ) ) . '</b><span>' . esc_html( $who ) . '</span></figcaption></figure>';
+		$biz   = (string) ltef_meta( $p->ID, 'business' );
+		$place = function_exists( 'ltef_testimonial_place' ) ? ltef_testimonial_place( $p->ID ) : 0;
+		$biz_h = '' !== $biz && $place ? '<a href="' . esc_url( get_permalink( $place ) ) . '">' . esc_html( $biz ) . '</a>' : esc_html( $biz );
+		$first = implode( ', ', array_filter( array( esc_html( (string) ltef_meta( $p->ID, 'role' ) ), $biz_h ) ) );
+		$who   = implode( ' · ', array_filter( array( $first, esc_html( $kinds[ (string) ltef_meta( $p->ID, 'worked' ) ] ?? '' ) ) ) );
+		$cards .= '<figure class="panel testi"><blockquote class="testi__q"><p>“' . esc_html( $quote ) . '”</p></blockquote><figcaption class="testi__by"><b>' . esc_html( (string) ltef_meta( $p->ID, 'name' ) ) . '</b><span>' . $who . '</span></figcaption></figure>'; // $who is escaped piece by piece
 	}
 	$total = ! empty( $atts['more'] ) ? ltef_testimonial_count() : 0;
 	$more  = $total > count( $posts ) ? ' <a href="' . esc_url( home_url( '/work-with-tina/' ) ) . '#said">Read all ' . (int) $total . '</a>.' : '';

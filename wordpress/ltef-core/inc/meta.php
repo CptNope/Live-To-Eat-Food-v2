@@ -101,6 +101,7 @@ function ltef_fields( $type ) {
 			'quote'       => array( 'Their words', 'textarea', 'Shown as written. Shorten it if it’s long, but don’t change what they said.' ),
 			'name'        => array( 'Name', 'text', '' ),
 			'business'    => array( 'Business', 'text', '' ),
+			'place'       => array( 'Their place on the site', 'place', 'Links the business name to its page. Left empty, it’s matched by the business name when it can be.' ),
 			'role'        => array( 'Role', 'text', 'Optional. Owner, chef, organizer…' ),
 			'worked'      => array( 'What they did with Tina', 'select', '', array( '' => '—' ) + ltef_testimonial_kinds() ),
 			'contact_email' => array( 'Contact email', 'email', 'Private.', null, true ),
