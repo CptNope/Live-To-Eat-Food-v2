@@ -155,7 +155,7 @@ h1, h2, h3, .h-s, .ltef-card__name, .ltef-coupon__where { overflow-wrap: anywher
   .roul-adjust[open] > summary { margin-bottom: 18px; }
 }
 
-/* For restaurants: three doors. The paid one wears the sponsored hatch so it can't read as editorial. */
+/* For businesses: three doors. The paid one wears the sponsored hatch so it can't read as editorial. */
 .doors { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; max-width: 560px; }
 .door { display: flex; align-items: center; gap: 16px; padding: 18px 20px; border-radius: var(--radius-sticker); background: var(--vinyl); box-shadow: inset 0 0 0 2.5px var(--basil), var(--lift); color: var(--basil); text-decoration: none; transition: transform .4s cubic-bezier(.16,1,.3,1); }
 .door:hover { transform: translateY(-2px); }
@@ -859,7 +859,7 @@ body { background: var(--lemon); }
 .ltef-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .ltef-sent { display: grid; gap: 8px; }
 
-/* Owners: the note on a place page, the claim line, the owner area on For restaurants */
+/* Owners: the note on a place page, the claim line, the owner area on For businesses */
 .facts-owner { margin: 0; display: grid; gap: 6px; align-self: stretch; box-sizing: border-box; padding: 14px 18px; border-radius: var(--radius-tag); background: var(--butter); box-shadow: inset 0 0 0 1.5px rgba(30,59,42,.14); }
 .facts-owner__by { display: inline-flex; gap: 6px; align-items: center; font: 700 14px var(--font-interface); color: var(--olive); }
 .facts-owner__by svg { width: 18px; height: 18px; flex: none; }

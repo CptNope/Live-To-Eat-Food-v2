@@ -399,7 +399,7 @@ function ltef_owner_on_approve( $post_id ) {
 	return array( true, $note );
 }
 
-/* ------------------------------------------------------------------ The owner area (For restaurants) */
+/* ------------------------------------------------------------------ The owner area (For businesses) */
 
 /** Sign-in links carry a token: never cache that page, never index it, never leak it to other sites. */
 add_action(

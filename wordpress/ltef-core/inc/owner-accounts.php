@@ -109,7 +109,7 @@ function ltef_owner_grant( $place, $email, $name = '' ) {
 	ltef_owner_add( $place, $email );
 	$made = ltef_owner_ensure_user( $email, $name );
 	if ( is_wp_error( $made ) ) {
-		return 'They’re an owner of ' . get_the_title( $place ) . ', but no login was made (' . $made->get_error_message() . '). They can still use an email link on For restaurants.';
+		return 'They’re an owner of ' . get_the_title( $place ) . ', but no login was made (' . $made->get_error_message() . '). They can still use an email link on For businesses.';
 	}
 	list( $uid, $is_new ) = $made;
 	$sent = ltef_owner_welcome( $uid, $is_new );

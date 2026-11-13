@@ -29,7 +29,7 @@
 <h2 id="h-tell" class="wp-block-heading">Know a weekly special?</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Tell us the place, the day and the deal. Owners can add their own too, free, from <a href="<?php echo esc_url( home_url( '/for-restaurants/' ) ); ?>">For restaurants</a>.</p>
+<p>Tell us the place, the day and the deal. Owners can add their own too, free, from <a href="<?php echo esc_url( home_url( '/for-restaurants/' ) ); ?>">For businesses</a>.</p>
 <!-- /wp:paragraph -->
 <!-- wp:ltef/submit-form {"form":"special"} /--></div>
 <!-- /wp:group --></section>

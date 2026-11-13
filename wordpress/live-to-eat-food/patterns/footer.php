@@ -31,7 +31,7 @@ $u = function ( $p ) {
 <!-- wp:navigation-link {"label":"How it works","url":"<?php echo $u( '/how-it-works/' ); ?>","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"Editorial policy","url":"<?php echo $u( '/editorial-policy/' ); ?>","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"Food help","url":"<?php echo $u( '/food-help/' ); ?>","kind":"custom"} /-->
-<!-- wp:navigation-link {"label":"For restaurants","url":"<?php echo $u( '/for-restaurants/' ); ?>","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"For businesses","url":"<?php echo $u( '/for-restaurants/' ); ?>","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"Work with Tina","url":"<?php echo $u( '/work-with-tina/' ); ?>","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"About Tina","url":"<?php echo $u( '/tina/' ); ?>","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"Monthly Crumbs","url":"<?php echo $u( '/crumbs/' ); ?>","kind":"custom"} /-->

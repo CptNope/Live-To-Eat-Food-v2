@@ -190,6 +190,7 @@ function ltef_pay_flag( $post_id ) {
 		'expired'       => 'Payment: ' . $amt . ', the card hold ran out. Approving emails a pay link',
 		'link_sent'     => '<strong>Approved, waiting for payment</strong> (' . $amt . '): it goes live when they pay',
 		'paid'          => 'Paid ' . $amt,
+		'comped'        => 'Free: approved at no charge',
 	);
 	return $map[ $p['status'] ] ?? '';
 }
@@ -199,7 +200,7 @@ function ltef_pay_flag( $post_id ) {
  */
 function ltef_stripe_on_approve( $post_id ) {
 	$p = ltef_pay( $post_id );
-	if ( ! $p || in_array( $p['status'] ?? '', array( 'paid', 'released' ), true ) ) {
+	if ( ! $p || in_array( $p['status'] ?? '', array( 'paid', 'released', 'comped' ), true ) ) {
 		return array( true, '' );
 	}
 	if ( 'link_sent' === $p['status'] ) {
@@ -240,6 +241,18 @@ function ltef_stripe_on_decline( $post_id ) {
 		ltef_stripe_api( 'POST', 'payment_links/' . rawurlencode( $p['link_id'] ), array( 'active' => false ) );
 		ltef_pay_set( $post_id, array( 'status' => 'released' ) );
 	}
+}
+
+/** Whether a submission still has money to collect, so the queue offers "Approve free". */
+function ltef_pay_open( $post_id ) {
+	$p = ltef_pay( $post_id );
+	return $p && ! in_array( $p['status'] ?? '', array( 'paid', 'released', 'comped' ), true );
+}
+
+/** Approving free: release any card hold or pay link, and mark it as given at no charge. */
+function ltef_stripe_comp( $post_id ) {
+	ltef_stripe_on_decline( $post_id );
+	ltef_pay_set( $post_id, array( 'status' => 'comped', 'comped_at' => current_time( 'mysql' ) ) );
 }
 
 /* ------------------------------------------------------------------ Pay links */

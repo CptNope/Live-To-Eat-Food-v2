@@ -789,8 +789,8 @@ function ltef_nav_groups() {
 			array( 'Your bites', '/your-bites/', 'your-bites' ),
 			array( 'Food help', '/food-help/', 'food-help' ),
 		),
-		'For restaurants'  => array(
-			array( 'For restaurants', '/for-restaurants/', 'for-restaurants' ),
+		'For businesses'   => array(
+			array( 'For businesses', '/for-restaurants/', 'for-restaurants' ),
 			array( 'Restaurant jobs', '/restaurant-jobs/', 'restaurant-jobs' ),
 			array( 'Work with Tina', '/work-with-tina/', 'work-with-tina' ),
 			array( 'Send something in', '/submit/', 'submit' ),

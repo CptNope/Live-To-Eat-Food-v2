@@ -144,7 +144,7 @@ body { background: var(--lemon); }
 .ltef-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .ltef-sent { display: grid; gap: 8px; }
 
-/* Owners: the note on a place page, the claim line, the owner area on For restaurants */
+/* Owners: the note on a place page, the claim line, the owner area on For businesses */
 .facts-owner { margin: 0; display: grid; gap: 6px; align-self: stretch; box-sizing: border-box; padding: 14px 18px; border-radius: var(--radius-tag); background: var(--butter); box-shadow: inset 0 0 0 1.5px rgba(30,59,42,.14); }
 .facts-owner__by { display: inline-flex; gap: 6px; align-items: center; font: 700 14px var(--font-interface); color: var(--olive); }
 .facts-owner__by svg { width: 18px; height: 18px; flex: none; }
