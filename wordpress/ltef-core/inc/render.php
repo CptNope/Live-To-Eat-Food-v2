@@ -128,7 +128,7 @@ function ltef_place_card( $post_id ) {
 }
 
 /** A place as a row in Explore, with the data the filters read. */
-function ltef_place_row( $post_id ) {
+function ltef_place_row( $post_id, $beyond = false ) {
 	$terms = function ( $tax ) use ( $post_id ) {
 		$t = get_the_terms( $post_id, $tax );
 		return ( $t && ! is_wp_error( $t ) ) ? implode( ' ', wp_list_pluck( $t, 'slug' ) ) : '';
@@ -141,8 +141,8 @@ function ltef_place_row( $post_id ) {
 	$photo = $gal ? wp_get_attachment_image_url( $gal[0], 'thumbnail' ) : '';
 	$story = $enh && ! $dish ? (string) ltef_meta( $post_id, 'story' ) : '';
 	return sprintf(
-		'<article class="panel place-row" data-name="%1$s" data-area="%2$s" data-cravings="%3$s" data-with="%4$s" data-tina="%5$d" data-kind="%14$s"><div class="place-row__ph" style="background: var(--%6$s);"><img src="%7$s" alt="" width="148" height="148" loading="lazy" decoding="async"' . ( $photo ? ' class="place-row__photo"' : '' ) . '></div><div class="place-row__txt"><a href="%8$s" class="h-s tap">%9$s</a><span class="meta">%10$s</span>%11$s<span class="place-row__labels">%12$s%13$s</span></div></article>',
-		esc_attr( strtolower( $name . ' ' . ltef_meta( $post_id, 'cuisine' ) . ' ' . $dish ) ),
+		'<article class="panel place-row" data-name="%1$s" data-area="%2$s" data-cravings="%3$s" data-with="%4$s" data-tina="%5$d" data-kind="%14$s" data-title="%16$s"%15$s><div class="place-row__ph" style="background: var(--%6$s);"><img src="%7$s" alt="" width="148" height="148" loading="lazy" decoding="async"' . ( $photo ? ' class="place-row__photo"' : '' ) . '></div><div class="place-row__txt"><a href="%8$s" class="h-s tap">%9$s</a><span class="meta">%10$s</span>%11$s<span class="place-row__labels">%12$s%13$s</span></div></article>',
+		esc_attr( function_exists( 'ltef_place_search_text' ) ? ltef_place_search_text( $post_id ) : strtolower( $name . ' ' . ltef_meta( $post_id, 'cuisine' ) . ' ' . $dish ) ),
 		esc_attr( $terms( 'ltef_area' ) ),
 		esc_attr( $terms( 'ltef_craving' ) ),
 		esc_attr( $terms( 'ltef_with' ) ),
@@ -155,7 +155,9 @@ function ltef_place_row( $post_id ) {
 		$dish ? '<span class="row-order"><span class="row-order__k">Tina ordered</span> ' . esc_html( ltef_in_sentence( $dish ) ) . '</span>' : ( '' !== $story ? '<span class="row-order"><span class="row-order__k">From the owner</span> ' . esc_html( wp_trim_words( $story, 14 ) ) . '</span>' : '' ),
 		ltef_place_labels( $post_id, true ),
 		ltef_verdict_html( ltef_meta( $post_id, 'verdict' ) ),
-		esc_attr( ltef_place_kind( $post_id ) )
+		esc_attr( ltef_place_kind( $post_id ) ),
+		$beyond ? ' data-beyond="1" hidden' : '',
+		esc_attr( function_exists( 'ltef_search_norm' ) ? ltef_search_norm( $name ) : strtolower( $name ) )
 	);
 }
 
