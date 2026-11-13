@@ -298,6 +298,12 @@ function ltef_block_explore() {
 		. '<div class="ltef-field"><label class="ltef-field__label" for="ex-area">Neighborhood</label><select class="ltef-input" id="ex-area" data-explore-area>' . $opts( 'ltef_area', 'Everywhere' ) . '</select></div>'
 		. '<button class="ltef-chip" type="button" aria-pressed="false" data-explore-tina>Only places Tina’s been</button></form>';
 	$beyond = ltef_beyond_food_places();
+	// Shops, salons and days out live on Beyond food, but a search here finds them too.
+	foreach ( $beyond as $in ) {
+		foreach ( $in as $p ) {
+			$rows[] = ltef_place_row( $p->ID, true );
+		}
+	}
 	$aside  = $beyond ? '<p class="meta explore-beyond">Looking for Tina’s shops, salons and days out? They’re on <a href="' . esc_url( home_url( '/beyond-food/' ) ) . '">Beyond food</a>.</p>' : '';
 	$out  = $form . $aside . '<p class="meta" aria-live="polite" data-explore-count>' . count( $all ) . ' places</p><div class="explore-list">' . implode( '', $rows ) . '</div>'
 		. '<p class="explore-more-wrap"><button class="ltef-btn ltef-btn--alt" type="button" data-explore-more hidden>Show more</button></p>'

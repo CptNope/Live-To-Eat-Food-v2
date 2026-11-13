@@ -85,24 +85,33 @@
 	var ex = document.querySelector( '[data-explore-form]' );
 	if ( ex ) {
 		var q = ex.querySelector( '[data-explore-q]' ), cr = ex.querySelector( '[data-explore-craving]' ), ar = ex.querySelector( '[data-explore-area]' ), kd = ex.querySelector( '[data-explore-kind]' ), tb = ex.querySelector( '[data-explore-tina]' );
-		var rows = $$( '.place-row' ), feed = document.querySelector( '.ltef-explore .ltef-slot--feed' );
+		var rows = $$( '.place-row' ), list = rows.length ? rows[0].parentNode : null, base = rows.filter( function ( r ) { return ! r.hasAttribute( 'data-beyond' ); } ).length, feed = document.querySelector( '.ltef-explore .ltef-slot--feed' );
 		var countEl = document.querySelector( '[data-explore-count]' ), empty = document.querySelector( '[data-explore-empty]' );
 		var PAGE = 24, limit = PAGE, more = document.querySelector( '[data-explore-more]' );
 		var apply = function ( keep ) {
-			var t = ( q.value || '' ).trim().toLowerCase(), k = kd ? kd.value : '', c = cr.value, a = ar.value, only = tb.getAttribute( 'aria-pressed' ) === 'true', matched = [];
+			// Same clean-up as the server's search text: no accents, apostrophes or hashtags; every word must match.
+			var t = ( q.value || '' ).normalize( 'NFD' ).replace( /[\u0300-\u036f]/g, '' ).toLowerCase().replace( /[\u2018\u2019\u02BC'#]/g, '' ).replace( /[^a-z0-9$&]+/g, ' ' ).trim(), words = t ? t.split( ' ' ) : [], k = kd ? kd.value : '', c = cr.value, a = ar.value, only = tb.getAttribute( 'aria-pressed' ) === 'true', matched = [];
 			if ( ! keep ) limit = PAGE;
 			rows.forEach( function ( r ) {
-				var ok = ( ! t || r.getAttribute( 'data-name' ).indexOf( t ) > -1 ) &&
+				var name = ' ' + r.getAttribute( 'data-name' );
+				var ok = ( ! r.hasAttribute( 'data-beyond' ) || words.length ) &&
+					words.every( function ( w ) { return name.indexOf( ' ' + w ) > -1; } ) &&
 					( ! k || r.getAttribute( 'data-kind' ) === k ) &&
 					( ! c || ( ' ' + r.getAttribute( 'data-cravings' ) + ' ' ).indexOf( ' ' + c + ' ' ) > -1 ) &&
 					( ! a || ( ' ' + r.getAttribute( 'data-area' ) + ' ' ).indexOf( ' ' + a + ' ' ) > -1 ) &&
 					( ! only || r.getAttribute( 'data-tina' ) === '1' );
 				if ( ok ) matched.push( r );
 			} );
+			// A search lists places whose name matches first, then the rest in their usual order.
+			if ( words.length ) {
+				var rank = function ( r ) { var n = ' ' + ( r.getAttribute( 'data-title' ) || '' ) + ' '; return n.indexOf( ' ' + t + ' ' ) > -1 ? 0 : ( words.every( function ( w ) { return n.indexOf( ' ' + w ) > -1; } ) ? 1 : 2 ); };
+				matched = matched.map( function ( r, i ) { return [ rank( r ), i, r ]; } ).sort( function ( x, y ) { return x[0] - y[0] || x[1] - y[1]; } ).map( function ( x ) { return x[2]; } );
+			}
+			if ( list ) ( words.length ? matched : rows ).forEach( function ( r ) { list.appendChild( r ); } );
 			var shown = matched.slice( 0, limit );
 			rows.forEach( function ( r ) { r.hidden = shown.indexOf( r ) < 0; } );
 			if ( feed ) { feed.hidden = shown.length < 4; if ( shown[ 3 ] ) shown[ 3 ].after( feed ); }
-			if ( countEl ) countEl.textContent = matched.length === rows.length ? rows.length + ' places' : matched.length + ' of ' + rows.length + ' places match';
+			if ( countEl ) countEl.textContent = ! t && ! k && ! c && ! a && ! only ? base + ' places' : matched.length + ' ' + ( 1 === matched.length ? 'place matches' : 'places match' );
 			if ( more ) {
 				var left = matched.length - shown.length;
 				more.hidden = left <= 0;
