@@ -864,3 +864,8 @@
 .ltef-owner-admin .ltef-enh-photos { list-style: none; margin: 0 0 14px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 14px; }
 .ltef-owner-admin .ltef-enh-photos img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 12px; margin-bottom: 6px; }
 .ltef-owner-admin .ltef-enh-plan p { margin: 6px 0; }
+.ltef-owner-admin .ltef-owner-jump ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 18px; padding: 0; list-style: none; }
+.ltef-owner-admin .ltef-owner-jump a { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 2px var(--ltef-basil, #1E3B2A); color: var(--ltef-basil, #1E3B2A); font-weight: 600; text-decoration: none; }
+.ltef-owner-admin .ltef-owner-jump a:hover, .ltef-owner-admin .ltef-owner-jump a:focus { background: var(--ltef-basil, #1E3B2A); color: #fff; }
+.ltef-owner-admin .ltef-owner-more { margin: 24px 0 12px; }
+.ltef-owner-admin .ltef-owner-form { scroll-margin-top: 48px; }

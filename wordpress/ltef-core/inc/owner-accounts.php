@@ -146,7 +146,8 @@ add_action(
 add_action(
 	'admin_menu',
 	function () {
-		add_menu_page( 'Your listing', 'Your listing', LTEF_OWNER_CAP, 'ltef-my-listing', 'ltef_owner_admin_page', 'dashicons-store', 2 );
+		$label = count( ltef_owner_places( wp_get_current_user()->user_email ) ) > 1 ? 'Your listings' : 'Your listing';
+		add_menu_page( $label, $label, LTEF_OWNER_CAP, 'ltef-my-listing', 'ltef_owner_admin_page', 'dashicons-store', 2 );
 		if ( ltef_owner_is_limited() ) {
 			remove_menu_page( 'index.php' );
 		}
@@ -208,7 +209,15 @@ function ltef_owner_admin_page() {
 	$places = ltef_owner_places( $user->user_email );
 	$saved  = isset( $_GET['ltef_saved'] ) ? absint( $_GET['ltef_saved'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$err    = isset( $_GET['ltef_owner_error'] ) ? sanitize_text_field( wp_unslash( $_GET['ltef_owner_error'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	echo '<div class="wrap ltef-owner-admin"><h1>Your listing</h1>';
+	$claim  = esc_url( ltef_owner_page_url() ) . '#claim';
+	echo '<div class="wrap ltef-owner-admin"><h1>' . ( count( $places ) > 1 ? 'Your listings' : 'Your listing' ) . '</h1>';
+	if ( count( $places ) > 1 ) {
+		echo '<nav class="ltef-owner-jump" aria-label="Your listings"><ul>';
+		foreach ( $places as $p ) {
+			echo '<li><a href="#ltef-own-' . (int) $p->ID . '">' . esc_html( get_the_title( $p->ID ) ) . '</a></li>';
+		}
+		echo '</ul></nav>';
+	}
 	echo '<p class="ltef-lede">Changes go live on Live to Eat Food right away, and Tina sees each one. Her take, her videos and her verdict are hers, so they aren’t here.</p>';
 	if ( $saved && in_array( $saved, wp_list_pluck( $places, 'ID' ), true ) ) {
 		printf( '<div class="notice notice-success is-dismissible"><p>Saved. It’s live on <a href="%s">%s’s page</a>.</p></div>', esc_url( get_permalink( $saved ) ), esc_html( get_the_title( $saved ) ) );
@@ -220,7 +229,7 @@ function ltef_owner_admin_page() {
 		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( 'canceled' === $enh ? 'Enhanced is canceled. It stays on until the end of the month you’ve paid for, and nothing more is charged.' : 'You’re keeping Enhanced. It renews as before.' ) . '</p></div>';
 	}
 	if ( ! $places ) {
-		echo '<div class="ltef-panel"><p><strong>No listing is linked to this login yet.</strong></p><p>If Tina approved your claim, the listing follows the email on your profile: ' . esc_html( $user->user_email ) . '. Changed it? Email <a href="mailto:tina@livetoeatfoodie.com">tina@livetoeatfoodie.com</a> and she’ll link it again.</p></div></div>';
+		echo '<div class="ltef-panel"><p><strong>No listing is linked to this login yet.</strong></p><p>If Tina approved your claim, the listing follows the email on your profile: ' . esc_html( $user->user_email ) . '. Changed it? Email <a href="mailto:tina@livetoeatfoodie.com">tina@livetoeatfoodie.com</a> and she’ll link it again.</p><p>Not claimed yet? <a href="' . $claim . '">Claim your place</a>.</p></div></div>';
 		return;
 	}
 	foreach ( $places as $p ) {
@@ -250,6 +259,7 @@ function ltef_owner_admin_page() {
 		);
 		echo function_exists( 'ltef_enhanced_owner_panel' ) ? ltef_enhanced_owner_panel( $p->ID ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built and escaped there
 	}
+	echo '<div class="ltef-panel ltef-owner-more"><p><strong>Own another place?</strong> <a href="' . $claim . '">Claim another location</a> with the same email, ' . esc_html( $user->user_email ) . ', and once Tina approves it, it shows up here under this login.</p></div>';
 	echo '<p class="description">Something else wrong on your page? <a href="' . esc_url( ltef_owner_page_url() ) . '#listing">Tell us</a>. To change your password, open <a href="' . esc_url( admin_url( 'profile.php' ) ) . '">Profile</a>.</p></div>';
 }
 
