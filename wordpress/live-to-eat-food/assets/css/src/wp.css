@@ -121,9 +121,24 @@ body { background: var(--lemon); }
 .cal-agenda__d { display: flex; gap: 8px; align-items: center; margin: 0; font: 700 17px var(--font-interface); }
 .cal-agenda .cal-ev a { padding: 10px 12px; font-size: 15px; }
 .cal-none { margin: 0; }
+.cal-jump { display: none; }
 @media (max-width: 760px) {
-	.cal-grid { display: none; }
+	/* Phones: the same month grid, compact, with a dot per event; the days' events are listed below it. */
+	.cal-grid { border-spacing: 3px; margin: 0 -3px 18px; }
+	.cal-grid th { padding: 0 0 2px; text-align: center; font-size: 12px; }
+	.cal-grid td { position: relative; height: 54px; padding: 5px 0 0; text-align: center; border-radius: 10px; }
+	.cal-grid .cal-num { justify-content: center; font-size: 14px; }
+	.cal-grid .cal-today { display: none; }
+	.cal-grid .cal-evs { display: none; }
+	.cal-jump { display: block; position: absolute; inset: 0; border-radius: 10px; }
+	.cal-jump:focus-visible { outline: 3px solid var(--basil); outline-offset: 1px; }
+	.cal-dots { position: absolute; left: 3px; right: 3px; bottom: 7px; display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; }
+	.cal-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--k-ac, var(--olive)); box-shadow: 0 0 0 1px rgba(255,255,255,.7); }
+	.cal-grid td.has-ev { background: var(--vinyl); box-shadow: inset 0 0 0 1.5px rgba(30,59,42,.22); }
+	.cal-grid td.has-ev.is-today { background: var(--lemon); box-shadow: inset 0 0 0 2px var(--basil); }
 	.cal-agenda { display: grid; }
+	.cal-agenda__day { scroll-margin-top: 90px; border-radius: 14px; }
+	.cal-agenda__day:target { outline: 3px solid var(--yolk); outline-offset: 6px; }
 }
 .ev-row { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 20px; align-items: start; }
 .ev-date { display: grid; place-items: center; align-content: center; width: 84px; height: 84px; border-radius: 50%; background: var(--yolk); text-align: center; font: 800 16px/1 var(--font-interface); }

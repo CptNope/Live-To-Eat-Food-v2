@@ -534,9 +534,18 @@ function ltef_events_calendar() {
 			$ids  = $by[ $iso ] ?? array();
 			$ts   = strtotime( $iso . ' 12:00' );
 			$num  = '<span class="cal-num"><span class="vh">' . esc_html( wp_date( 'l, F', $ts ) ) . ' </span>' . $day . '</span>';
-			$cells .= '<td class="cal-day' . ( $ids ? ' has-ev' : '' ) . '" data-date="' . esc_attr( $iso ) . '">' . $num . ( $ids ? '<ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link ) { return $link( $id, false ); }, $ids ) ) . '</ul>' : '' ) . '</td>';
+			// On phones the grid shows a dot per event; tapping the day jumps to its events in the list below.
+			$dots = '';
 			if ( $ids ) {
-				$agenda .= '<li class="cal-agenda__day" data-date="' . esc_attr( $iso ) . '"><h4 class="cal-agenda__d">' . esc_html( wp_date( 'D, M j', $ts ) ) . '</h4><ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link ) { return $link( $id, true ); }, $ids ) ) . '</ul></li>';
+				foreach ( $ids as $id ) {
+					$dots .= '<span class="cal-dot ev-k--' . esc_attr( ltef_event_kind( $id ) ) . '"></span>';
+				}
+				$n     = count( $ids );
+				$dots  = '<a class="cal-jump" href="#ag-' . esc_attr( $iso ) . '"><span class="cal-dots" aria-hidden="true">' . $dots . '</span><span class="vh">' . $n . ' ' . ( 1 === $n ? 'event' : 'events' ) . ' on ' . esc_html( wp_date( 'l, F j', $ts ) ) . '</span></a>';
+			}
+			$cells .= '<td class="cal-day' . ( $ids ? ' has-ev' : '' ) . '" data-date="' . esc_attr( $iso ) . '">' . $num . ( $ids ? '<ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link ) { return $link( $id, false ); }, $ids ) ) . '</ul>' . $dots : '' ) . '</td>';
+			if ( $ids ) {
+				$agenda .= '<li class="cal-agenda__day" id="ag-' . esc_attr( $iso ) . '" data-date="' . esc_attr( $iso ) . '"><h4 class="cal-agenda__d">' . esc_html( wp_date( 'D, M j', $ts ) ) . '</h4><ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link ) { return $link( $id, true ); }, $ids ) ) . '</ul></li>';
 			}
 			if ( 0 === ( $lead + $day ) % 7 ) {
 				$rows .= '<tr>' . $cells . '</tr>';
