@@ -31,6 +31,7 @@ function ltef_fields( $type ) {
 			'hosted'      => array( 'Hosted visit', 'checkbox', 'The place invited Tina and covered the meal. The page says so above her take.' ),
 			'own'         => array( 'Tina’s own business', 'checkbox', 'Tina owns it. The page and every list say so, and it never gets a verdict (federal advertising rules ask creators to disclose this).' ),
 			'enhanced'    => array( 'Enhanced listing', 'checkbox', 'The owner pays for extra modules. Never changes Tina’s take or any ranking.' ),
+			'enhanced_until' => array( 'Free Enhanced until', 'date', 'For Enhanced given free (no Stripe plan): it switches off after this day, and the owner gets a reminder a week before. Leave blank for no end.' ),
 			'phone'       => array( 'Phone', 'tel', '' ),
 			'website'     => array( 'Website', 'url', '' ),
 			'menu'        => array( 'Menu link', 'url', 'Optional. Owners can set this themselves once their claim is approved.' ),

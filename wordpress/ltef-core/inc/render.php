@@ -300,6 +300,9 @@ function ltef_place_facts( $post_id ) {
 	$worth = $facts ? '<div class="facts-worth"><h3 class="h-s">Worth knowing</h3><ul class="facts-list">' . implode( '', array_map( function ( $f ) { return '<li>' . esc_html( $f ) . '</li>'; }, $facts ) ) . '</ul></div>' : '';
 	$web   = ltef_meta( $post_id, 'website' ) ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_meta( $post_id, 'website' ) ) . '" target="_blank" rel="noopener">Website<span class="vh"> (opens a new tab)</span></a>' : '';
 	$menu  = ltef_meta( $post_id, 'menu' ) ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_meta( $post_id, 'menu' ) ) . '" target="_blank" rel="noopener">Menu<span class="vh"> (opens a new tab)</span></a>' : '';
+	if ( '' === $menu && function_exists( 'ltef_owner_menu_files' ) && ltef_enhanced_on( $post_id ) && ltef_owner_menu_files( $post_id ) ) {
+		$menu = '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="#full-menu">Menu</a>';
+	}
 	$owned = function_exists( 'ltef_owner_emails' ) && ltef_owner_emails( $post_id );
 	$note  = $owned ? (string) ltef_meta( $post_id, 'owner_note' ) : '';
 	$from  = '' !== $note ? '<figure class="facts-owner"><figcaption class="facts-owner__by">' . ltef_icon( 'store' ) . 'From the owner</figcaption><blockquote><p>' . esc_html( $note ) . '</p></blockquote></figure>' : '';

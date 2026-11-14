@@ -83,7 +83,7 @@ function ltef_owner_enhanced_fields() {
 
 /** Every owner-editable field's label, for logs and emails. */
 function ltef_owner_labels() {
-	return array_merge( wp_list_pluck( ltef_owner_fields(), 0 ), wp_list_pluck( ltef_owner_enhanced_fields(), 0 ), array( 'owner_note' => 'From the owner', 'announce_until' => 'Announcement ends', 'gallery' => 'Photos' ) );
+	return array_merge( wp_list_pluck( ltef_owner_fields(), 0 ), wp_list_pluck( ltef_owner_enhanced_fields(), 0 ), array( 'owner_note' => 'From the owner', 'announce_until' => 'Announcement ends', 'gallery' => 'Photos', 'menu_files' => 'Full menu' ) );
 }
 
 /** A web address as typed ("mysite.com" too) made whole, or WP_Error. */
@@ -728,11 +728,13 @@ function ltef_owner_meta_box( $post ) {
 				break;
 			}
 			// Only the newest change to a field can be undone, and only while the page still shows it.
-			$current = 'gallery' === $c['key'] ? '' : (string) ltef_meta( $post->ID, $c['key'] );
-			$can     = 'gallery' === $c['key'] ? ! empty( $c['att'] ) && in_array( (int) $c['att'], ltef_owner_gallery( $post->ID ), true ) : $current === $c['new'];
+			$files   = in_array( $c['key'], array( 'gallery', 'menu_files' ), true );
+			$in      = 'menu_files' === $c['key'] ? ( function_exists( 'ltef_owner_menu_files' ) ? ltef_owner_menu_files( $post->ID ) : array() ) : ltef_owner_gallery( $post->ID );
+			$current = $files ? '' : (string) ltef_meta( $post->ID, $c['key'] );
+			$can     = $files ? ! empty( $c['att'] ) && in_array( (int) $c['att'], $in, true ) : $current === $c['new'];
 			if ( $c['undone'] ) {
 				$undo = '<em>Undone</em>';
-			} elseif ( 'gallery' === $c['key'] && empty( $c['att'] ) ) {
+			} elseif ( $files && empty( $c['att'] ) ) {
 				$undo = '<em>Can’t be undone</em>';
 			} elseif ( $can ) {
 				$undo = '<a href="' . esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=ltef_owner_undo&post=' . $post->ID . '&i=' . (int) $i ), 'ltef_owner_undo_' . $post->ID ) ) . '">Undo</a>';
@@ -789,6 +791,10 @@ function ltef_owner_handle_undo() {
 	$c = is_array( $log ) && isset( $log[ $i ] ) && empty( $log[ $i ]['undone'] ) ? $log[ $i ] : null;
 	if ( $c && 'gallery' === $c['key'] && ! empty( $c['att'] ) && in_array( (int) $c['att'], ltef_owner_gallery( $id ), true ) ) {
 		ltef_owner_gallery_remove( $id, (int) $c['att'] ); // an added photo comes off and is deleted
+		$log[ $i ]['undone'] = true;
+		update_post_meta( $id, 'ltef_owner_log', $log );
+	} elseif ( $c && 'menu_files' === $c['key'] && ! empty( $c['att'] ) && function_exists( 'ltef_owner_menu_files' ) && in_array( (int) $c['att'], ltef_owner_menu_files( $id ), true ) ) {
+		ltef_owner_menu_remove( $id, (int) $c['att'] ); // an added menu comes off and is deleted
 		$log[ $i ]['undone'] = true;
 		update_post_meta( $id, 'ltef_owner_log', $log );
 	} elseif ( $c && array_key_exists( $c['key'], ltef_owner_fields() + ltef_owner_enhanced_fields() ) && (string) ltef_meta( $id, $c['key'] ) === $c['new'] ) {

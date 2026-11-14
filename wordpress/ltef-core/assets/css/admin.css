@@ -869,3 +869,5 @@
 .ltef-owner-admin .ltef-owner-jump a:hover, .ltef-owner-admin .ltef-owner-jump a:focus { background: var(--ltef-basil, #1E3B2A); color: #fff; }
 .ltef-owner-admin .ltef-owner-more { margin: 24px 0 12px; }
 .ltef-owner-admin .ltef-owner-form { scroll-margin-top: 48px; }
+.ltef-owner-admin .ltef-enh-menufiles { list-style: disc; margin: 0 0 12px 22px; }
+.ltef-owner-admin .ltef-enh-menufiles li { margin: 4px 0; }
