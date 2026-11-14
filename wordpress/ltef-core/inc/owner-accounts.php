@@ -100,7 +100,7 @@ function ltef_owner_welcome( $user_id, $is_new ) {
 	}
 	$lines[] = '';
 	$lines[] = 'Your login opens only your own listing, and changes go live right away. Tina’s take, her videos and her verdict are hers, so they aren’t part of it.';
-	$lines[] = 'Link run out or password forgotten? Use “Lost your password?” on the sign-in page, or get a one-time sign-in link at ' . ltef_owner_page_url() . '#manage';
+	$lines[] = 'Link run out or password forgotten? Use “Lost your password?” on the sign-in page: ' . wp_lostpassword_url( ltef_owner_admin_url() );
 	return wp_mail( $user->user_email, $is_new ? 'Set up your Live to Eat Food login' : 'You can now update ' . $names, implode( "\n", $lines ) );
 }
 
@@ -180,6 +180,27 @@ add_filter(
 	},
 	10,
 	2
+);
+
+/**
+ * Once: owner emails added before every owner had a login (they used emailed sign-in links) get one now,
+ * with no email sent. "Lost your password?" lets them set a password.
+ */
+add_action(
+	'admin_init',
+	function () {
+		if ( get_option( 'ltef_owner_logins_v1' ) ) {
+			return;
+		}
+		update_option( 'ltef_owner_logins_v1', time(), false );
+		global $wpdb;
+		$emails = $wpdb->get_col( "SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = 'ltef_owner'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		foreach ( $emails as $e ) {
+			if ( is_email( $e ) && ! get_user_by( 'email', $e ) ) {
+				ltef_owner_ensure_user( $e );
+			}
+		}
+	}
 );
 
 /** If an owner changes their email on their profile, their listings follow it. */

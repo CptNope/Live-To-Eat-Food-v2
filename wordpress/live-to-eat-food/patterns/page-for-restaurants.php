@@ -51,7 +51,7 @@
 <h2 id="h-manage" class="wp-block-heading">Update your listing</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
-<p>Already approved? Sign in with the password you set, or get a one-time link by email.</p>
+<p>Already approved? Sign in with the password you set.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:ltef/owner-area /--></div>
