@@ -26,7 +26,7 @@ function ltef_block_defs() {
 		'woopons'        => array( 'Woo-pons', 'The live Woo-pons with filter chips, or only the online partner codes.', 'tickets-alt', array( 'show' => array( 'type' => 'string', 'default' => 'local' ) ), 'ltef_block_woopons', false ),
 		'woopon-ticket'  => array( 'Woo-pon ticket', 'The current Woo-pon as a ticket.', 'tickets-alt', array(), 'ltef_block_woopon_ticket', true ),
 		'ad-spot'        => array( 'Ad spot', 'The sold ad for this spot, or “Ad space open” with a way to advertise.', 'megaphone', array( 'spot' => array( 'type' => 'string', 'default' => 'home' ) ), 'ltef_block_ad_spot', false ),
-		'owner-area'     => array( 'Owners: manage a listing', 'Approved owners ask for a sign-in link here, then update their phone, website, menu link, hours, note and announcement.', 'admin-users', array(), 'ltef_block_owner_area', false ),
+		'owner-area'     => array( 'Owners: manage a listing', 'Approved owners sign in here with their password, then update their listing.', 'admin-users', array(), 'ltef_block_owner_area', false ),
 		'submit-form'    => array( 'Submission form', 'A form that sends to Tina’s review queue.', 'feedback', array( 'form' => array( 'type' => 'string', 'default' => 'woopon' ) ), 'ltef_block_submit_form', false ),
 		'event-facts'    => array( 'Event: the details', 'When, where, price and kind, with the tickets and directions buttons.', 'calendar-alt', array(), 'ltef_block_event_facts', true ),
 		'job-facts'      => array( 'Job post: the details', 'Business, hours, pay and how to apply.', 'businessperson', array(), 'ltef_block_job_facts', true ),

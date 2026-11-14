@@ -119,7 +119,7 @@ function ltef_forms() {
 				array( 'name', 'Your name', 'text', true, '' ),
 				array( 'role', 'Your role', 'text', false, 'Owner, manager, chef…' ),
 				array( 'phone', 'Your phone', 'tel', true, 'In case Tina needs to reach you. Never shown.' ),
-				array( 'email', 'Email', 'email', true, 'Your sign-in links go here. Never shown.' ),
+				array( 'email', 'Email', 'email', true, 'Your login and password setup go here. Never shown.' ),
 				array( 'details', 'Your listing details', 'section', false, 'Optional. Anything you fill in here goes live on your page when Tina approves your claim. Leave a box blank to keep what’s there.' ),
 				array( 'listing_phone', 'Phone on your listing', 'tel', false, '' ),
 				array( 'website', 'Website', 'text', false, 'Like yourplace.com' ),
