@@ -297,6 +297,9 @@ function ltef_block_explore() {
 		$terms = get_terms( array( 'taxonomy' => $tax, 'hide_empty' => true ) );
 		$o     = '<option value="">' . esc_html( $any ) . '</option>';
 		foreach ( is_wp_error( $terms ) ? array() : $terms as $t ) {
+			if ( ltef_is_any_term( $t, $any ) ) {
+				continue; // a tag named like the "any" choice would show twice
+			}
 			$o .= '<option value="' . esc_attr( $t->slug ) . '">' . esc_html( $t->name ) . '</option>';
 		}
 		return $o;
@@ -621,13 +624,13 @@ function ltef_block_roulette() {
 	};
 	$cravings = array( '' => 'Anything' );
 	foreach ( get_terms( array( 'taxonomy' => 'ltef_craving', 'hide_empty' => true ) ) as $t ) {
-		if ( ! is_wp_error( $t ) && is_object( $t ) ) {
+		if ( ! is_wp_error( $t ) && is_object( $t ) && ! ltef_is_any_term( $t, 'Anything' ) ) {
 			$cravings[ $t->slug ] = $t->name;
 		}
 	}
 	$withs = array( '' => 'Anyone' );
 	foreach ( get_terms( array( 'taxonomy' => 'ltef_with', 'hide_empty' => true ) ) as $t ) {
-		if ( is_object( $t ) && 'anyone' !== $t->slug ) {
+		if ( is_object( $t ) && ! ltef_is_any_term( $t, 'Anyone' ) ) {
 			$withs[ $t->slug ] = $t->name;
 		}
 	}
@@ -657,4 +660,10 @@ function ltef_block_roulette() {
 		. '<button class="ltef-btn ltef-btn--alt roul-spin" type="button" data-spin>' . ltef_icon( 'spin' ) . '<span data-spin-label>Spin for it</span></button></div>'
 		. '<script type="application/json" data-roulette-places>' . wp_json_encode( $data, JSON_HEX_TAG | JSON_HEX_AMP ) . '</script></div>';
 	return ltef_wrap( $html, 'ltef-roulette' );
+}
+
+/** Whether a tag is just another "Anything" / "Anyone": the filters already have that choice, so it would show twice. */
+function ltef_is_any_term( $term, $any ) {
+	$key = function ( $s ) { return preg_replace( '/[^a-z0-9]/', '', strtolower( html_entity_decode( (string) $s, ENT_QUOTES, 'UTF-8' ) ) ); };
+	return $key( $term->name ) === $key( $any ) || $key( $term->slug ) === $key( $any );
 }
