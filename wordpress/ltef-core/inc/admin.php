@@ -113,22 +113,33 @@ function ltef_review_page() {
 				$label = isset( $defs[ $k ] ) && 'select' === $defs[ $k ][1] ? ltef_field_label( $p->post_type, $k, $v ) : '';
 				return '' !== $label ? $label : (string) $v;
 			};
+			// Form fields saved under another name: the title, and a few renamed fields.
+			$titles  = array( 'ltef_woopon' => 'deal', 'ltef_event' => 'name', 'ltef_dish' => 'dish', 'ltef_job' => 'role' );
+			$renamed = array(
+				'ltef_event'     => array( 'price' => 'price_text', 'submitter' => 'submitted_by' ),
+				'ltef_dish'      => array( 'price' => 'price_text' ),
+				'ltef_job'       => array( 'how' => 'how_to_apply' ),
+				'ltef_supporter' => array( 'name' => 'contact_name', 'email' => 'contact_email', 'phone' => 'contact_phone' ),
+			);
 			foreach ( $fields as $k => $val ) {
 				if ( is_array( $val ) ) {
 					continue;
 				}
 				// Show what it says now: the form's copy is what was sent, but Tina may have changed it since (Edit).
 				$sent = $val;
-				if ( isset( $defs[ $k ] ) && 'attachment' !== $defs[ $k ][1] && metadata_exists( 'post', $p->ID, 'ltef_' . $k ) ) {
-					$val = get_post_meta( $p->ID, 'ltef_' . $k, true );
-					$val = 'checkbox' === $defs[ $k ][1] ? (bool) $val : $val;
+				$mk   = $renamed[ $p->post_type ][ $k ] ?? $k;
+				if ( ( $titles[ $p->post_type ] ?? '' ) === $k ) {
+					$val = $p->post_title;
+				} elseif ( isset( $defs[ $mk ] ) && 'attachment' !== $defs[ $mk ][1] && metadata_exists( 'post', $p->ID, 'ltef_' . $mk ) ) {
+					$val = get_post_meta( $p->ID, 'ltef_' . $mk, true );
+					$val = 'checkbox' === $defs[ $mk ][1] ? (bool) $val : $val;
 				}
 				if ( ( '' === $val || null === $val ) && ( '' === $sent || null === $sent ) ) {
 					continue;
 				}
-				$now     = $show( $k, $val );
-				$was     = $show( $k, $sent );
-				$details .= '<dt>' . esc_html( isset( $defs[ $k ] ) ? $defs[ $k ][0] : ucfirst( str_replace( '_', ' ', $k ) ) ) . '</dt><dd>' . esc_html( '' !== $now ? $now : '—' ) . ( $now !== $was ? ' <span class="description">' . esc_html( '(sent as ' . ( '' !== $was ? $was : 'blank' ) . ')' ) . '</span>' : '' ) . '</dd>';
+				$now     = $show( $mk, $val );
+				$was     = $show( $mk, $sent );
+				$details .= '<dt>' . esc_html( isset( $defs[ $mk ] ) ? $defs[ $mk ][0] : ucfirst( str_replace( '_', ' ', $k ) ) ) . '</dt><dd>' . esc_html( '' !== $now ? $now : '—' ) . ( $now !== $was ? ' <span class="description">' . esc_html( '(sent as ' . ( '' !== $was ? $was : 'blank' ) . ')' ) . '</span>' : '' ) . '</dd>';
 			}
 		}
 		$chips = '';
