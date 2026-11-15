@@ -371,7 +371,7 @@ function ltef_card_draw( $card, $path ) {
 		$kw  = $box[2] - $box[0];
 		$dot = 0 === strpos( $style, 'kind-' );
 		$pw  = $kw + 76 + ( $dot ? 40 : 0 );
-		$kinds = array( 'food' => array( 'ffd8c2', 'd9693a' ), 'market' => array( 'ffe586', 'c99a00' ), 'music' => array( 'e4d8f7', '7656b3' ), 'art' => array( 'f9d3e3', 'bf4a7e' ), 'crafts' => array( 'e9e4b4', '857d14' ), 'fitness' => array( 'cdeab4', '3d8a37' ), 'retail' => array( 'cfe3f6', '3a74b0' ), 'family' => array( 'd3efec', '2a8a80' ), 'nonprofit' => array( 'f6cfcb', 'b8322b' ), 'other' => array( 'efeadb', '8a8170' ) );
+		$kinds = array( 'food' => array( 'ffd8c2', 'd9693a' ), 'market' => array( 'ffe586', 'c99a00' ), 'music' => array( 'e4d8f7', '7656b3' ), 'art' => array( 'f9d3e3', 'bf4a7e' ), 'crafts' => array( 'e9e4b4', '857d14' ), 'fitness' => array( 'cdeab4', '3d8a37' ), 'retail' => array( 'cfe3f6', '3a74b0' ), 'family' => array( 'd3efec', '2a8a80' ), 'social' => array( 'dcdff8', '4a54b8' ), 'nonprofit' => array( 'f6cfcb', 'b8322b' ), 'other' => array( 'efeadb', '8a8170' ) );
 		if ( 'tina' === $style ) {
 			ltef_card_round( $im, $x, $y, $x + $pw, $y + 88, 44, $tomato );
 			ltef_card_round( $im, $x + 6, $y + 6, $x + $pw - 6, $y + 82, 38, $white );

@@ -62,7 +62,7 @@ function ltef_forms() {
 				array( 'end_date', 'Last day', 'date', false, 'Only if it runs over several days.' ),
 				array( 'time', 'Time', 'text', true, 'For example: 2–5pm. Different hours each day? Like “Thu 4–8pm, Fri 12–6pm”.' ),
 				array( 'venue', 'Where', 'text', true, 'The place and the neighborhood.' ),
-				array( 'kind', 'What kind of event', 'select', true, '', array( '' => 'Pick one', 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'crafts' => 'Arts and crafts', 'fitness' => 'Fitness or wellness', 'retail' => 'Retail or shopping', 'family' => 'Family', 'nonprofit' => 'Nonprofit or fundraiser', 'other' => 'Something else' ) ),
+				array( 'kind', 'What kind of event', 'select', true, '', array( '' => 'Pick one', 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'crafts' => 'Arts and crafts', 'fitness' => 'Fitness or wellness', 'retail' => 'Retail or shopping', 'family' => 'Family', 'social' => 'Social or meetup', 'nonprofit' => 'Nonprofit or fundraiser', 'other' => 'Something else' ) ),
 				array( 'price', 'Price', 'text', false, 'Free, $35, pay your own way…' ),
 				array( 'about', 'What it is', 'textarea', false, 'Two lines is plenty.' ),
 				array( 'link', 'Link for details or tickets', 'url', false, '' ),
