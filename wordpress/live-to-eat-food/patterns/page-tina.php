@@ -49,13 +49,6 @@
 <!-- /wp:html --></section>
 <!-- /wp:group -->
 
-<!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"butter","layout":{"type":"constrained","contentSize":"1240px"}} -->
-<section class="wp-block-group is-style-sheet has-butter-background-color has-background"><!-- wp:heading {"anchor":"h-posts"} -->
-<h2 id="h-posts" class="wp-block-heading">Her latest posts</h2>
-<!-- /wp:heading -->
-<!-- wp:ltef/latest-places {"count":3} /--></section>
-<!-- /wp:group -->
-
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"peach","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section class="wp-block-group is-style-sheet has-peach-background-color has-background"><!-- wp:html -->
 <div class="wrap" style="display: grid; gap: 26px;"><div class="head"><h2 class="h-l" id="h-wild">Photos with Tina</h2><p class="lede" style="margin: 0;">Took a photo with Tina at a meetup, an event or a night out? Send it in and it goes here, credited to you.</p></div><div class="two" style="align-items: start;"><div style="display: grid; gap: 12px;"><h3 class="h-m" style="font-size: 30px;">Got a photo with Tina?</h3><p style="margin: 0; max-width: 44ch;">Only photos Tina posed for: no candids, no shots from across the room. She sees every photo before it goes up, and each one carries your handle.</p></div></div></div>

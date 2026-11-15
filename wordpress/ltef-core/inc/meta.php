@@ -16,7 +16,7 @@ function ltef_fields( $type ) {
 		'ltef_place'   => array(
 			'address'     => array( 'Street address', 'text', 'Number and street, like 93 Shrewsbury St. The neighborhood is set under Neighborhoods.' ),
 			'town'        => array( 'Town', 'text', 'Leave blank for Worcester.' ),
-			'kind'        => array( 'What kind of place', 'select', 'Food & drink places go on Explore, Restaurant Roulette and Tina’s latest picks. Everything else goes on Beyond food.', array( 'eat' => 'Food & drink', 'shop' => 'Shop', 'wellness' => 'Health & wellness', 'beauty' => 'Beauty & aesthetics', 'services' => 'Services', 'fun' => 'Things to do', 'community' => 'Community & nonprofits' ) ),
+			'kind'        => array( 'What kind of place', 'select', 'Food & drink places go on Explore, Restaurant Roulette and Tina’s latest visits. Everything else goes on Beyond food.', array( 'eat' => 'Food & drink', 'shop' => 'Shop', 'wellness' => 'Health & wellness', 'beauty' => 'Beauty & aesthetics', 'services' => 'Services', 'fun' => 'Things to do', 'community' => 'Community & nonprofits' ) ),
 			'cuisine'     => array( 'Cuisine (or what it is)', 'text', 'Short: Vietnamese, Neapolitan pizza, Coffee and pastries. For other places: Thrift shop, Hot yoga, Theater.' ),
 			'price'       => array( 'Price', 'select', '', array( '' => '—', '$' => '$ (under $15)', '$$' => '$$ (under $30)', '$$$' => '$$$' ) ),
 			'dish'        => array( 'What Tina ordered', 'text', 'From her post. Leave blank if she hasn’t been.' ),
@@ -124,7 +124,7 @@ function ltef_fields( $type ) {
 			'checked'     => array( 'Last confirmed', 'month', 'The month Tina posted it or the place confirmed it. Shown as “per Tina, Aug 2026”.' ),
 		),
 		'ltef_ad'      => array(
-			'spot'        => array( 'Spot', 'select', '', array( 'home' => 'Home page, under Tina’s latest picks', 'rail' => 'Place pages, beside the facts', 'feed' => 'A card in Explore', 'guide' => 'Between stops on a guide' ) ),
+			'spot'        => array( 'Spot', 'select', '', array( 'home' => 'Home page, under Tina’s latest visits', 'rail' => 'Place pages, beside the facts', 'feed' => 'A card in Explore', 'guide' => 'Between stops on a guide' ) ),
 			'line'        => array( 'One line, in the advertiser’s words', 'text', '' ),
 			'url'         => array( 'Link', 'url', '' ),
 			'cta'         => array( 'Button text', 'text', 'Visit [business], See the offer…' ),
