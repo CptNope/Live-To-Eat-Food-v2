@@ -20,7 +20,7 @@ function ltef_block_defs() {
 		'place-announcement' => array( 'Place: Owner announcement', 'The owner’s dated news, near the top of the page. Shows nothing when there isn’t one.', 'megaphone', array(), 'ltef_block_place_announcement', true ),
 		'place-facts'    => array( 'Place: Before you go', 'Address, hours, phone and what’s worth knowing, with the place-page ad spot beside it.', 'info-outline', array( 'showAd' => array( 'type' => 'boolean', 'default' => true ) ), 'ltef_block_place_facts', true ),
 		'place-card'     => array( 'Place card', 'One place as a card. Use inside a Query Loop of places.', 'id', array(), 'ltef_block_place_card', true ),
-		'latest-places'  => array( 'Tina’s latest picks', 'Her newest places as cards.', 'location', array( 'count' => array( 'type' => 'number', 'default' => 4 ) ), 'ltef_block_latest_places', false ),
+		'latest-places'  => array( 'Tina’s latest visits', 'Her newest places as cards.', 'location', array( 'count' => array( 'type' => 'number', 'default' => 4 ) ), 'ltef_block_latest_places', false ),
 		'explore'        => array( 'Explore every place', 'Every place to eat with search and filters, and the Explore ad spot after the fourth.', 'search', array(), 'ltef_block_explore', false ),
 		'beyond-food'    => array( 'Beyond food', 'Tina’s shops, salons, classes and days out, grouped by kind.', 'store', array(), 'ltef_block_beyond_food', false ),
 		'woopons'        => array( 'Woo-pons', 'The live Woo-pons with filter chips, or only the online partner codes.', 'tickets-alt', array( 'show' => array( 'type' => 'string', 'default' => 'local' ) ), 'ltef_block_woopons', false ),

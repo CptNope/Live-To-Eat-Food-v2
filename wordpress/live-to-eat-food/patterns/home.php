@@ -3,7 +3,7 @@
  * Title: Home
  * Slug: live-to-eat-food/home
  * Categories: ltef-pages
- * Description: Where should we eat? Tina's latest picks, the home ad spot, Woo-pons, Roulette, events and Monthly Crumbs.
+ * Description: Where should we eat? Tina's latest visits, the home ad spot, Woo-pons, Roulette, events and Monthly Crumbs.
  * Viewport Width: 1400
  */
 $u = function ( $p ) {
@@ -49,7 +49,7 @@ $u = function ( $p ) {
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"butter","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section class="wp-block-group is-style-sheet has-butter-background-color has-background"><!-- wp:group {"className":"head"} -->
 <div class="wp-block-group head"><!-- wp:heading {"anchor":"h-picks"} -->
-<h2 id="h-picks" class="wp-block-heading">Tina’s latest picks</h2>
+<h2 id="h-picks" class="wp-block-heading">Tina’s latest visits</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"className":"is-style-meta"} -->

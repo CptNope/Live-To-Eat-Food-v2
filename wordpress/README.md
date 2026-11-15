@@ -35,7 +35,7 @@ Requires WordPress 6.6 or newer (tested on 6.8) and PHP 7.4 or newer.
 
 ### More from Tina, and what kind of place
 
-- **What kind of place:** Food & drink (the default), Shop, Wellness & beauty, Services, Things to do or Community. Food & drink places go on Explore, Restaurant Roulette and Tina's latest picks. Everything else goes on **Beyond food** (`/beyond-food/`), grouped by kind with a sticker for each (bag, flower, camera, ticket, heart), and its label reads "Tina went here". Explore shows 24 at a time with a Show more button (the filters search the whole list; without JavaScript every place shows). To move a place between the two, change its kind.
+- **What kind of place:** Food & drink (the default), Shop, Wellness & beauty, Services, Things to do or Community. Food & drink places go on Explore, Restaurant Roulette and Tina's latest visits. Everything else goes on **Beyond food** (`/beyond-food/`), grouped by kind with a sticker for each (bag, flower, camera, ticket, heart), and its label reads "Tina went here". Explore shows 24 at a time with a Show more button (the filters search the whole list; without JavaScript every place shows). To move a place between the two, change its kind.
 - **More videos from here:** her other videos from the same place, one per line as `month | link | her caption`. They show small under "More from Tina here", newest first, each with her caption.
 - **Tina's video (any link)** is a block for posts: a link (or several copies, separated by spaces), the month and her caption. The round-ups under *Out & about* use it.
 - Captions are Tina's own words from the post, with emoji and @ signs taken out. Where a caption had a promo code or a date that has passed, only the first sentence is used.
