@@ -91,6 +91,9 @@ function ltef_place_labels( $post_id, $small = false ) {
 	if ( ltef_meta( $post_id, 'enhanced' ) ) {
 		$out .= ltef_label( 'enhanced', 'Enhanced listing', $small );
 	}
+	if ( function_exists( 'ltef_place_supporter' ) && ltef_place_supporter( $post_id ) ) {
+		$out .= str_replace( 'Local supporter</span>', 'Local supporter<span class="vh">: pays monthly to support the site, which doesn’t change Tina’s take</span></span>', ltef_label( 'supporter', 'Local supporter', $small ) );
+	}
 	return $out;
 }
 

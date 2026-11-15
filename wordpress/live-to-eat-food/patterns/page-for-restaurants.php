@@ -73,6 +73,18 @@
 <!-- /wp:group --></section>
 <!-- /wp:group -->
 
+<!-- wp:group {"tagName":"section","anchor":"supporters","className":"is-style-sheet","backgroundColor":"pistachio","layout":{"type":"constrained","contentSize":"1240px"}} -->
+<section id="supporters" class="wp-block-group is-style-sheet has-pistachio-background-color has-background"><!-- wp:group {"className":"two"} -->
+<div class="wp-block-group two"><!-- wp:group {"layout":{"type":"default"}} -->
+<div class="wp-block-group"><!-- wp:heading {"anchor":"h-supporters"} -->
+<h2 id="h-supporters" class="wp-block-heading">Local supporters</h2>
+<!-- /wp:heading -->
+<!-- wp:ltef/supporters {"cta":true} /--></div>
+<!-- /wp:group -->
+<!-- wp:ltef/submit-form {"form":"supporter"} /--></div>
+<!-- /wp:group --></section>
+<!-- /wp:group -->
+
 <!-- wp:group {"tagName":"section","anchor":"web","className":"is-style-sheet","backgroundColor":"butter","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section id="web" class="wp-block-group is-style-sheet has-butter-background-color has-background"><!-- wp:group {"className":"is-style-panel"} -->
 <div class="wp-block-group is-style-panel"><!-- wp:paragraph -->

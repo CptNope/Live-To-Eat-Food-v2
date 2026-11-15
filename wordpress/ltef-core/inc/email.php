@@ -336,6 +336,10 @@ function ltef_email_page() {
 		$form( 'sync', '', sprintf( 'Send %d saved %s to Brevo', $waiting, 1 === $waiting ? 'signup' : 'signups' ), false );
 	}
 
+	if ( function_exists( 'ltef_supporter_crumbs_box' ) ) {
+		echo ltef_supporter_crumbs_box(); // escaped there
+	}
+
 	echo '<h2>Check it works</h2>';
 	$err = get_option( 'ltef_brevo_mail_error' );
 	if ( $err ) {
