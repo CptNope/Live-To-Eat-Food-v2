@@ -871,3 +871,15 @@
 .ltef-owner-admin .ltef-owner-form { scroll-margin-top: 48px; }
 .ltef-owner-admin .ltef-enh-menufiles { list-style: disc; margin: 0 0 12px 22px; }
 .ltef-owner-admin .ltef-enh-menufiles li { margin: 4px 0; }
+
+/* Places to try */
+.ltef-totry-add { margin: 0 0 18px; }
+.ltef-totry-add > summary { list-style: none; }
+.ltef-totry-add > summary::-webkit-details-marker { display: none; }
+.ltef-totry-add form { margin-top: 10px; padding: 4px 16px; background: #fff; border: 1px solid #dcdcde; border-radius: 8px; max-width: 760px; }
+.ltef-totry-table td { vertical-align: top; }
+.ltef-totry-table td:first-child { width: 24%; }
+.ltef-totry-whys { margin: 0; padding-left: 1.1em; list-style: disc; }
+.ltef-totry-whys li { margin: 0 0 4px; }
+.ltef-totry-table .ltef-chip { margin-top: 4px; }
+.ltef-totry-empty { font-size: 15px; margin-top: 20px; }

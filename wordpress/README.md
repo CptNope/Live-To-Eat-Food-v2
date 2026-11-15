@@ -87,6 +87,10 @@ The admin wears the site's colors. The plugin adds a **Live to Eat Food** color 
 
 The scheme is built from WordPress's own scheme template: edit `ltef-core/assets/css/src/admin-colors.scss`, then run `ltef-core/assets/css/build-admin.sh` (needs Dart Sass and a WordPress install at `WP_CORE`, default `/tmp/wp`).
 
+## Places to try
+
+**Places → Places to try** is Tina's list of where people want her to eat next: every “Suggest a spot” from the site, plus tips she adds by hand (**Add a tip**, for DMs, comments and email). Suggestions skip the review queue, since nothing about them is ever shown on the site. The same place sent more than once shows once with a count; if it's already listed, the row links to it and says whether Tina has been. Tabs: To try, Been there, Not for us. Rows show the email of anyone who asked to hear when she goes.
+
 ## Owners update their own listing
 
 Any place can be claimed from its page (“Is this your business? Claim this listing”) or from **For restaurants → Claim your listing**. The claim can also suggest the listing’s phone, website, menu link, hours and note. It lands in the review queue with the place it names, the listing’s phone number and which details it would change: Tina calls that number, then approves, and the suggested details go live (logged, so she can undo them). Approving adds the owner’s email to the place and emails them how to sign in.
