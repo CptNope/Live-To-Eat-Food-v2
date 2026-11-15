@@ -89,7 +89,7 @@ The scheme is built from WordPress's own scheme template: edit `ltef-core/assets
 
 ## Places to try
 
-**Places → Places to try** is Tina's list of where people want her to eat next: every “Suggest a spot” from the site, plus tips she adds by hand (**Add a tip**, for DMs, comments and email). Suggestions skip the review queue, since nothing about them is ever shown on the site. The same place sent more than once shows once with a count; if it's already listed, the row links to it and says whether Tina has been. Tabs: To try, Been there, Not for us. Rows show the email of anyone who asked to hear when she goes.
+**Places → Places to try** is Tina's list of where people want her to eat next: every “Suggest a spot” from the site, plus tips she adds by hand (**Add a tip**, for DMs, comments and email). Suggestions skip the review queue, since nothing about them is ever shown on the site; the list is also under **Review queue → Places to try**, and Waiting for Tina shows a short box with the newest few. The same place sent more than once shows once with a count; if it's already listed, the row links to it and says whether Tina has been. Tabs: To try, Been there, Not for us. Rows show the email of anyone who asked to hear when she goes.
 
 ## Owners update their own listing
 
