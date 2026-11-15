@@ -21,7 +21,7 @@ Requires WordPress 6.6 or newer (tested on 6.8) and PHP 7.4 or newer.
 |---|---|---|
 | Places | Every place: Tina's quote, video, date and verdict (Favorite or Don't miss), plus address, hours and "worth knowing" facts. Neighborhoods, cravings and "good with" are taxonomies. | `/explore/`, `/place/<name>/` |
 | Woo-pons | Local deals and partner codes: free trial, weekly, VIP (with its flyer) or partner. They show only between their start and end dates. | `/woo-pons/` |
-| Events | Out & About Worcester+, with the $50 premium listing flag. | `/events/` |
+| Events | Out & About Worcester+, with the $50 premium listing flag. One entry can run several days (Date to Last day), with hours by day in Time, like “Thu 4–8pm, Fri 12–6pm”: it shows on the calendar each day with that day’s hours. | `/events/` |
 | Jobs | Restaurant job posts ($100 a month). | `/restaurant-jobs/` |
 | Ads | Sold ad spots (home, place rail, feed, guide). An unsold spot shows "Ad space open" and links to Work with Tina. | none |
 | Review queue | Everything people send in waits here: Approve, Edit first, or Decline with a private reason (and optionally add them to the don't-work-with list). Matches against that list are flagged. | none |

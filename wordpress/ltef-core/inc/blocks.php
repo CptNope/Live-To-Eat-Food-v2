@@ -438,17 +438,7 @@ function ltef_block_ad_spot( $attrs ) {
 }
 
 function ltef_block_events( $attrs ) {
-	$posts = get_posts(
-		array(
-			'post_type'   => 'ltef_event',
-			'post_status' => 'publish',
-			'numberposts' => max( 1, (int) ( $attrs['count'] ?? 12 ) ),
-			'meta_key'    => 'ltef_date', // phpcs:ignore WordPress.DB.SlowDBQuery
-			'orderby'     => 'meta_value',
-			'order'       => 'ASC',
-			'meta_query'  => array( array( 'key' => 'ltef_date', 'value' => ltef_today(), 'compare' => '>=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
-		)
-	);
+	$posts = ltef_events_from( ltef_today(), max( 1, (int) ( $attrs['count'] ?? 12 ) ) );
 	$cal = ! empty( $attrs['calendar'] );
 	if ( ! $posts ) {
 		$empty = '<p class="meta">Nothing listed yet. <a href="' . esc_url( home_url( '/events/' ) ) . '#submit">Add your event</a>: listing is free.</p>';
@@ -485,27 +475,18 @@ function ltef_events_views( $list, $legend = '' ) {
  */
 function ltef_events_calendar() {
 	$first  = new DateTimeImmutable( wp_date( 'Y-m-01' ), wp_timezone() );
-	$events = get_posts(
-		array(
-			'post_type'   => 'ltef_event',
-			'post_status' => 'publish',
-			'numberposts' => 300,
-			'meta_key'    => 'ltef_date', // phpcs:ignore WordPress.DB.SlowDBQuery
-			'orderby'     => 'meta_value',
-			'order'       => 'ASC',
-			'meta_query'  => array( array( 'key' => 'ltef_date', 'value' => $first->format( 'Y-m-d' ), 'compare' => '>=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
-		)
-	);
-	$by   = array();
-	$last = $first;
+	$events = ltef_events_from( $first->format( 'Y-m-d' ) );
+	$by     = array();
+	$last   = $first;
 	foreach ( $events as $e ) {
-		$d = (string) ltef_meta( $e->ID, 'date' );
-		if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $d ) ) {
-			continue;
+		foreach ( ltef_event_open_days( $e->ID ) as $d ) {
+			if ( $d < $first->format( 'Y-m-d' ) ) {
+				continue;
+			}
+			$by[ $d ][] = $e->ID;
+			$m          = new DateTimeImmutable( substr( $d, 0, 7 ) . '-01', wp_timezone() );
+			$last       = $m > $last ? $m : $last;
 		}
-		$by[ $d ][] = $e->ID;
-		$m          = new DateTimeImmutable( substr( $d, 0, 7 ) . '-01', wp_timezone() );
-		$last       = $m > $last ? $m : $last;
 	}
 	foreach ( $by as $d => $ids ) { // premium first within a day
 		usort( $ids, function ( $a, $b ) { return (int) ltef_meta( $b, 'premium' ) <=> (int) ltef_meta( $a, 'premium' ); } );
@@ -516,9 +497,9 @@ function ltef_events_calendar() {
 	foreach ( array( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ) as $wd ) {
 		$heads .= '<th scope="col" abbr="' . esc_attr( $wd ) . '">' . esc_html( substr( $wd, 0, 3 ) ) . '</th>';
 	}
-	$link = function ( $id, $long ) {
+	$link = function ( $id, $long, $iso ) {
 		$prem = (int) ltef_meta( $id, 'premium' );
-		$time = (string) ltef_meta( $id, 'time' );
+		$time = ltef_event_time_on( $id, $iso );
 		$kind = ltef_field_label( 'ltef_event', 'kind', ltef_event_kind( $id ) );
 		$more = $long ? implode( ' · ', array_filter( array( $kind, (string) ltef_meta( $id, 'venue' ), ltef_event_price( $id ) ) ) ) : '';
 		return '<li class="cal-ev ev-k--' . esc_attr( ltef_event_kind( $id ) ) . ( $prem ? ' is-prem' : '' ) . '"><a href="' . esc_url( get_permalink( $id ) ) . '">' . ( $long ? '' : '<span class="vh">' . esc_html( $kind ) . ': </span>' ) . ( '' !== $time ? '<span class="cal-ev__t">' . esc_html( $time ) . '</span> ' : '' ) . '<span class="cal-ev__n">' . esc_html( get_the_title( $id ) ) . '</span>' . ( $prem ? '<span class="vh"> (premium listing)</span>' : '' ) . ( '' !== $more ? '<span class="cal-ev__m">' . esc_html( $more ) . '</span>' : '' ) . '</a></li>';
@@ -546,9 +527,9 @@ function ltef_events_calendar() {
 				$n     = count( $ids );
 				$dots  = '<a class="cal-jump" href="#ag-' . esc_attr( $iso ) . '"><span class="cal-dots" aria-hidden="true">' . $dots . '</span><span class="vh">' . $n . ' ' . ( 1 === $n ? 'event' : 'events' ) . ' on ' . esc_html( wp_date( 'l, F j', $ts ) ) . '</span></a>';
 			}
-			$cells .= '<td class="cal-day' . ( $ids ? ' has-ev' : '' ) . '" data-date="' . esc_attr( $iso ) . '">' . $num . ( $ids ? '<ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link ) { return $link( $id, false ); }, $ids ) ) . '</ul>' . $dots : '' ) . '</td>';
+			$cells .= '<td class="cal-day' . ( $ids ? ' has-ev' : '' ) . '" data-date="' . esc_attr( $iso ) . '">' . $num . ( $ids ? '<ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link, $iso ) { return $link( $id, false, $iso ); }, $ids ) ) . '</ul>' . $dots : '' ) . '</td>';
 			if ( $ids ) {
-				$agenda .= '<li class="cal-agenda__day" id="ag-' . esc_attr( $iso ) . '" data-date="' . esc_attr( $iso ) . '"><h4 class="cal-agenda__d">' . esc_html( wp_date( 'D, M j', $ts ) ) . '</h4><ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link ) { return $link( $id, true ); }, $ids ) ) . '</ul></li>';
+				$agenda .= '<li class="cal-agenda__day" id="ag-' . esc_attr( $iso ) . '" data-date="' . esc_attr( $iso ) . '"><h4 class="cal-agenda__d">' . esc_html( wp_date( 'D, M j', $ts ) ) . '</h4><ul class="cal-evs">' . implode( '', array_map( function ( $id ) use ( $link, $iso ) { return $link( $id, true, $iso ); }, $ids ) ) . '</ul></li>';
 			}
 			if ( 0 === ( $lead + $day ) % 7 ) {
 				$rows .= '<tr>' . $cells . '</tr>';
