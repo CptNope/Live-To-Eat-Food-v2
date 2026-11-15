@@ -16,7 +16,7 @@ function ltef_admin_menu() {
 }
 
 function ltef_review_types() {
-	return array( 'ltef_woopon' => 'Woo-pon', 'ltef_event' => 'Event', 'ltef_job' => 'Job post', 'ltef_dish' => 'New dish', 'ltef_special' => 'Daily deal', 'ltef_testimonial' => 'Testimonial', 'ltef_place' => 'Place', 'ltef_submission' => 'Message' );
+	return array( 'ltef_woopon' => 'Woo-pon', 'ltef_event' => 'Event', 'ltef_job' => 'Job post', 'ltef_dish' => 'New dish', 'ltef_special' => 'Daily deal', 'ltef_testimonial' => 'Testimonial', 'ltef_place' => 'Place', 'ltef_supporter' => 'Local supporter', 'ltef_submission' => 'Message' );
 }
 
 function ltef_pending_count() {
@@ -90,6 +90,9 @@ function ltef_review_page() {
 		if ( 'ltef_special' === $p->post_type && function_exists( 'ltef_special_flags' ) ) {
 			$flags = array_merge( $flags, ltef_special_flags( $p->ID ) ); // escaped there
 		}
+		if ( 'ltef_supporter' === $p->post_type && function_exists( 'ltef_supporter_flags' ) ) {
+			$flags = array_merge( $flags, ltef_supporter_flags( $p->ID ) ); // escaped there
+		}
 		if ( 'claim' === get_post_meta( $p->ID, 'ltef_form', true ) && function_exists( 'ltef_owner_claim_flags' ) ) {
 			$flags = array_merge( $flags, ltef_owner_claim_flags( $p->ID ) ); // escaped there
 		}
@@ -126,7 +129,7 @@ function ltef_review_page() {
 			$p->ID,
 			wp_nonce_field( 'ltef_review_' . $p->ID, '_wpnonce', true, false ),
 			'claim' === get_post_meta( $p->ID, 'ltef_form', true ) && function_exists( 'ltef_owner_claim_match_form' ) ? ltef_owner_claim_match_form( $p->ID ) : '', // escaped there
-			function_exists( 'ltef_pay_open' ) && ltef_pay_open( $p->ID ) ? '<a class="button" href="' . esc_url( $url( 'free' ) ) . '">Approve free</a>' : ''
+			( function_exists( 'ltef_pay_open' ) && ltef_pay_open( $p->ID ) ) || 'ltef_supporter' === $p->post_type ? '<a class="button" href="' . esc_url( $url( 'free' ) ) . '">Approve free</a>' : ''
 		);
 	}
 	echo '</ol></div>';
@@ -141,7 +144,11 @@ function ltef_handle_review() {
 	}
 	$do = isset( $_REQUEST['do'] ) ? sanitize_key( wp_unslash( $_REQUEST['do'] ) ) : '';
 	$note = '';
-	if ( 'free' === $do ) {
+	if ( 'free' === $do && 'ltef_supporter' === get_post_type( $id ) && function_exists( 'ltef_supporter_comp' ) ) {
+		ltef_supporter_comp( $id );
+		$do   = 'approve';
+		$note = 'Approved free: they’re on the supporters list now, with no charge.';
+	} elseif ( 'free' === $do ) {
 		list( $ok, $note ) = 'ltef_woopon' === get_post_type( $id ) && function_exists( 'ltef_vip_can_approve' ) ? ltef_vip_can_approve( $id ) : array( true, '' );
 		if ( $ok && function_exists( 'ltef_stripe_comp' ) ) {
 			ltef_stripe_comp( $id );
@@ -154,6 +161,8 @@ function ltef_handle_review() {
 	} elseif ( 'approve' === $do ) {
 		if ( 'claim' === get_post_meta( $id, 'ltef_form', true ) && function_exists( 'ltef_owner_on_approve' ) ) {
 			list( $publish, $note ) = ltef_owner_on_approve( $id );
+		} elseif ( 'ltef_supporter' === get_post_type( $id ) && function_exists( 'ltef_supporter_on_approve' ) ) {
+			list( $publish, $note ) = ltef_supporter_on_approve( $id );
 		} elseif ( 'ltef_special' === get_post_type( $id ) && function_exists( 'ltef_special_ready' ) ) {
 			list( $publish, $note ) = ltef_special_ready( $id );
 		} elseif ( 'ltef_woopon' === get_post_type( $id ) && function_exists( 'ltef_vip_can_approve' ) && ! ltef_vip_can_approve( $id )[0] ) {

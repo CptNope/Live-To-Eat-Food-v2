@@ -87,6 +87,10 @@ The admin wears the site's colors. The plugin adds a **Live to Eat Food** color 
 
 The scheme is built from WordPress's own scheme template: edit `ltef-core/assets/css/src/admin-colors.scss`, then run `ltef-core/assets/css/build-admin.sh` (needs Dart Sass and a WordPress install at `WP_CORE`, default `/tmp/wp`).
 
+## Local supporters
+
+Businesses can chip in monthly to keep the site going (**Money → Prices → Local supporter**, $15 by default). They sign up from **For businesses → Local supporters** and wait in the review queue like everything else (the don't-work-with list is checked). **Approve** emails them a link to Stripe for the monthly plan; **Approve free** puts them on the list at no charge (set an end date under Edit, if any). Once paid or free, they're thanked: a striped “Local supporter” label on their place page, the list on For businesses and About Tina (that section hides while there are none), and a line in the footer. **Review queue → Email** and **Review queue → Local supporters** have a thank-you ready to paste into Monthly Crumbs. Supporters change their card or cancel from the link in their welcome email; payments land in Money as “Local supporter”. Supporting never changes Tina's take, verdicts or rankings, and every mention says it's paid.
+
 ## Places to try
 
 **Places → Places to try** is Tina's list of where people want her to eat next: every “Suggest a spot” from the site, plus tips she adds by hand (**Add a tip**, for DMs, comments and email). Suggestions skip the review queue, since nothing about them is ever shown on the site; the list is also under **Review queue → Places to try**, and Waiting for Tina shows a short box with the newest few. The same place sent more than once shows once with a count; if it's already listed, the row links to it and says whether Tina has been. Tabs: To try, Been there, Not for us. Rows show the email of anyone who asked to hear when she goes.

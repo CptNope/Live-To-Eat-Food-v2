@@ -886,3 +886,8 @@
 .ltef-totry-box { background: #fff; border: 1px solid #dcdcde; border-radius: 10px; padding: 4px 18px 6px; margin: 16px 0 22px; max-width: 760px; }
 .ltef-totry-box h2 { font-size: 18px; margin: 14px 0 6px; }
 .ltef-totry-box ul { margin: 6px 0 10px; padding-left: 1.1em; list-style: disc; }
+
+/* Local supporters: the Monthly Crumbs thank-you */
+.ltef-sup-crumbs { background: #fff; border: 1px solid #dcdcde; border-radius: 10px; padding: 4px 18px 10px; margin: 16px 0 22px; max-width: 760px; }
+.ltef-sup-crumbs h2 { font-size: 18px; margin: 14px 0 6px; }
+.ltef-sup-crumbs textarea { font-size: 14px; }

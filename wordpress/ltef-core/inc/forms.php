@@ -155,6 +155,19 @@ function ltef_forms() {
 				array( 'email', 'Email', 'email', true, 'For the receipt. Never shown.' ),
 			),
 		),
+		'supporter' => array(
+			'title'  => 'Become a local supporter',
+			'intro'  => 'Chip in ' . ltef_money( $s['supporter_price'] ) . ' a month to keep Live to Eat Food going. You’re thanked on the site, in the footer and in Tina’s Monthly Crumbs email. It’s a thank-you, not an ad or a review: it never changes what Tina says about anyone.',
+			'button' => 'Send it to Tina',
+			'note'   => 'Tina checks every sign-up first. Once she says yes, we email you a link to start the monthly plan with Stripe. Nothing is charged before that, and you can cancel any time.',
+			'fields' => array(
+				array( 'business', 'Your business', 'text', true, 'Start typing and pick it from the list if it’s on the site, so your name links to your page.' ),
+				array( 'website', 'Website', 'text', false, 'Like yourplace.com. Your name links here if you’re not on the site.' ),
+				array( 'name', 'Your name', 'text', true, '' ),
+				array( 'email', 'Email', 'email', true, 'The sign-up link and receipts go here. Never shown.' ),
+				array( 'phone', 'Phone', 'tel', false, 'Only if Tina needs to check something. Never shown.' ),
+			),
+		),
 		'testimonial' => array(
 			'title'  => 'How did it go?',
 			'intro'  => 'Worked with Tina on a visit, a Woo-pon, an event or anything else? Tell people how it went, in your own words.',
@@ -273,7 +286,7 @@ function ltef_block_submit_form( $attrs ) {
 			$has_file = true;
 			$ctl      = '<input class="ltef-input" type="file" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" accept="image/jpeg,image/png' . ( 'flyer' === $name ? ',application/pdf' : '' ) . '"' . $r . $desc . '>';
 		} else {
-			$pick = ( 'claim' === $key && 'place' === $name ) || ( in_array( $key, array( 'dish', 'special' ), true ) && 'business' === $name );
+			$pick = ( 'claim' === $key && 'place' === $name ) || ( in_array( $key, array( 'dish', 'special', 'supporter' ), true ) && 'business' === $name );
 			$val  = $pick && $claim_id ? ' value="' . esc_attr( ltef_owner_place_label( $claim_id ) ) . '"' : '';
 			$ctl  = '<input class="ltef-input" type="' . esc_attr( $type ) . '" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '"' . $r . $desc . $ac . $val . ( $pick ? ' list="' . esc_attr( $id ) . '-list" autocomplete="off"' : '' ) . '>' . ( $pick && function_exists( 'ltef_owner_datalist' ) ? ltef_owner_datalist( $id . '-list' ) : '' );
 		}
@@ -418,6 +431,13 @@ function ltef_handle_submit() {
 			$type  = 'ltef_event';
 			$title = $v['name'];
 			$meta  = array( 'date' => $v['date'], 'end_date' => ( $v['end_date'] ?? '' ) > $v['date'] ? $v['end_date'] : '', 'time' => $v['time'], 'venue' => $v['venue'], 'kind' => $v['kind'], 'price_text' => $v['price'], 'link' => $v['link'], 'premium' => 'premium' === $v['tier'], 'submitted_by' => $v['submitter'], 'affiliation' => $v['affiliation'], 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
+			break;
+		case 'supporter':
+			$type  = 'ltef_supporter';
+			$title = trim( preg_replace( '/\s*\([^)]*\)\s*$/', '', $v['business'] ) );
+			$web   = trim( (string) ( $v['website'] ?? '' ) );
+			$web   = '' === $web ? '' : esc_url_raw( preg_match( '#^https?://#i', $web ) ? $web : 'https://' . $web );
+			$meta  = array( 'website' => $web, 'place' => function_exists( 'ltef_owner_match_place' ) ? ltef_owner_match_place( $v['business'] ) : 0, 'contact_name' => $v['name'], 'contact_email' => $v['email'], 'contact_phone' => $v['phone'] ?? '' );
 			break;
 		case 'dish':
 			$type  = 'ltef_dish';

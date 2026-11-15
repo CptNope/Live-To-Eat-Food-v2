@@ -23,6 +23,7 @@ function ltef_settings() {
 		'enhanced_low'    => 29,
 		'enhanced_high'   => 59,
 		'enhanced_price'  => 29,
+		'supporter_price' => 15,
 		'dont_work_with'  => '',
 		'reply_days'      => 2,
 		'turnstile_site'   => '',
@@ -70,6 +71,7 @@ function ltef_icon( $name ) {
 		'cal'     => '<g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10.5h16M8.5 3.5v4M15.5 3.5v4"/></g>',
 		'store'   => '<g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 9.5 6 4.5h12l1.5 5"/><path d="M4.5 9.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5"/><path d="M6 12.5v7h12v-7M10 19.5v-4.5h4v4.5"/></g>',
 		'arrow'   => '<path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+		'heart'   => '<path d="M12 19.5s-7.5-4.4-7.5-10a4.3 4.3 0 0 1 7.5-2.9 4.3 4.3 0 0 1 7.5 2.9c0 5.6-7.5 10-7.5 10z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/>',
 	);
 	$class = in_array( $name, array( 'star', 'target' ), true ) ? ' class="ltef-verdict__i"' : '';
 	return isset( $p[ $name ] ) ? '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"' . $class . '>' . $p[ $name ] . '</svg>' : '';
@@ -79,7 +81,7 @@ function ltef_icon( $name ) {
  * A trust or paid label. Paid kinds wear the oat hatch (ltef-lbl--sponsored).
  */
 function ltef_label( $kind, $text, $small = true ) {
-	$icons = array( 'tina' => 'pen', 'hosted' => 'mail', 'sponsored' => 'dollar', 'partner' => 'dollar', 'enhanced' => 'plus', 'vip' => 'star', 'open' => 'mega', 'own' => 'store' );
+	$icons = array( 'tina' => 'pen', 'hosted' => 'mail', 'sponsored' => 'dollar', 'partner' => 'dollar', 'enhanced' => 'plus', 'vip' => 'star', 'open' => 'mega', 'own' => 'store', 'supporter' => 'heart' );
 	$class = 'vip' === $kind ? 'sponsored' : $kind;
 	$icon  = isset( $icons[ $kind ] ) ? ltef_icon( $icons[ $kind ] ) : '';
 	return sprintf( '<span class="ltef-lbl ltef-lbl--%s%s">%s%s</span>', esc_attr( $class ), $small ? ' ltef-lbl--sm' : '', $icon, esc_html( $text ) );
