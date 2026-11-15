@@ -434,3 +434,13 @@ body { background: var(--lemon); }
 .ltef-supporters a { color: var(--basil); text-decoration-thickness: 2px; text-underline-offset: .18em; }
 .ltef-footer .ltef-supporters-line { flex: 1 1 100%; margin: 6px 0 0; font-size: 15px; }
 .ltef-footer .ltef-supporters-line a { color: var(--basil); }
+
+/* Event flyer: beside the details on wide screens, under them on phones */
+.wp-block-ltef-event-facts.has-flyer { max-width: 1120px; }
+.ev-top { display: grid; gap: 28px; align-items: start; }
+@media (min-width: 860px) { .ev-top { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); } }
+.ev-flyer { margin: 0; display: grid; gap: 8px; }
+.ev-flyer > a { display: block; border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 2px var(--basil), 0 10px 24px rgba(30, 59, 42, .14); }
+.ev-flyer__img { display: block; width: 100%; height: auto; }
+.ev-flyer > a:focus-visible { outline: 3px solid var(--basil); outline-offset: 4px; }
+.ev-flyer figcaption { margin: 0; font-size: 14px; }

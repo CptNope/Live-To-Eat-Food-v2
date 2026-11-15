@@ -72,6 +72,9 @@ function ltef_review_page() {
 				$flags[] = $flyer ? array( '', '<a href="' . esc_url( wp_get_attachment_url( $flyer ) ) . '" target="_blank" rel="noopener">See the flyer</a>' ) : array( 'warn', 'No flyer' );
 			}
 		}
+		if ( 'ltef_event' === $p->post_type && (int) ltef_meta( $p->ID, 'flyer' ) ) {
+			$flags[] = array( '', '<a href="' . esc_url( wp_get_attachment_url( (int) ltef_meta( $p->ID, 'flyer' ) ) ) . '" target="_blank" rel="noopener">See the flyer</a>' );
+		}
 		if ( 'ltef_event' === $p->post_type && ltef_meta( $p->ID, 'premium' ) ) {
 			$flags[] = array( 'paid', 'Premium listing: ' . esc_html( ltef_money( ltef_setting( 'event_premium' ) ) ) . ' a month' );
 		}
