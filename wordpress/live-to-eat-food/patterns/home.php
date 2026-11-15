@@ -115,7 +115,7 @@ $u = function ( $p ) {
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"lemon","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section class="wp-block-group is-style-sheet has-lemon-background-color has-background"><!-- wp:group {"className":"head"} -->
 <div class="wp-block-group head"><!-- wp:heading {"anchor":"h-guides"} -->
-<h2 id="h-guides" class="wp-block-heading">Tina’s latest posts</h2>
+<h2 id="h-guides" class="wp-block-heading">Tina’s latest guides</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"className":"is-style-meta"} -->
