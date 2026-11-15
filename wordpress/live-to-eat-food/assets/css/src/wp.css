@@ -209,6 +209,7 @@ body { background: var(--lemon); }
 /* Query loops of places and guides */
 .wp-block-post-template.cards { list-style: none; padding: 0; }
 .ltef-guide-card { height: 100%; }
+.wp-block-post-template.home-guides { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)) !important; }
 .wp-block-query-pagination { margin-top: 30px; gap: 12px; font: 700 15px var(--font-interface); }
 
 /* Content pages written in the editor */
@@ -231,8 +232,8 @@ body { background: var(--lemon); }
 .has-basil-background-color .ltef-chip[aria-pressed="true"] { background: var(--lemon); color: var(--basil); box-shadow: none; }
 @media (max-width: 600px) { .home-hero__art { display: none; } }
 .has-basil-background-color a:not([class]), .has-basil-background-color .is-style-lede a { color: var(--lemon); }
-.ltef-guide-card h2.wp-block-post-title { font: 700 24px/1.15 var(--font-display); margin: 0 0 8px; }
-.ltef-guide-card h2.wp-block-post-title a { color: var(--basil); text-decoration: none; }
+.ltef-guide-card :is(h2, h3).wp-block-post-title { font: 700 24px/1.15 var(--font-display); margin: 0 0 8px; }
+.ltef-guide-card :is(h2, h3).wp-block-post-title a { color: var(--basil); text-decoration: none; }
 
 /* More from Tina: her other videos from a place, and single videos in round-up posts. */
 .more-vids { display: grid; gap: 8px; margin-bottom: clamp(28px, 4vw, 44px); }

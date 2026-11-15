@@ -112,6 +112,27 @@ $u = function ( $p ) {
 <!-- wp:ltef/events {"count":3} /--></section>
 <!-- /wp:group -->
 
+<!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"lemon","layout":{"type":"constrained","contentSize":"1240px"}} -->
+<section class="wp-block-group is-style-sheet has-lemon-background-color has-background"><!-- wp:group {"className":"head"} -->
+<div class="wp-block-group head"><!-- wp:heading {"anchor":"h-guides"} -->
+<h2 id="h-guides" class="wp-block-heading">Tina’s latest guides</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"className":"is-style-meta"} -->
+<p class="is-style-meta"><a href="<?php echo $u( '/guides/' ); ?>">All guides</a></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:query {"queryId":7,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false}} -->
+<div class="wp-block-query"><!-- wp:post-template {"className":"cards home-guides","layout":{"type":"grid","minimumColumnWidth":"260px"}} -->
+<!-- wp:group {"className":"is-style-panel ltef-guide-card"} -->
+<div class="wp-block-group is-style-panel ltef-guide-card"><!-- wp:post-title {"level":3,"isLink":true} /-->
+<!-- wp:post-excerpt {"moreText":"Read the guide"} /--></div>
+<!-- /wp:group -->
+<!-- /wp:post-template --></div>
+<!-- /wp:query --></section>
+<!-- /wp:group -->
+
 <!-- wp:group {"tagName":"section","anchor":"said","className":"is-style-sheet hide-if-no-testimonials","backgroundColor":"pistachio","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section id="said" class="wp-block-group is-style-sheet hide-if-no-testimonials has-pistachio-background-color has-background"><!-- wp:heading {"anchor":"h-said"} -->
 <h2 id="h-said" class="wp-block-heading">What businesses say</h2>
