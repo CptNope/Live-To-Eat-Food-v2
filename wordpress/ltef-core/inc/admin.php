@@ -105,11 +105,30 @@ function ltef_review_page() {
 		}
 		$details = '';
 		if ( is_array( $fields ) ) {
+			$defs = ltef_fields( $p->post_type );
+			$show = function ( $k, $v ) use ( $defs, $p ) {
+				if ( is_bool( $v ) ) {
+					return $v ? 'yes' : 'no';
+				}
+				$label = isset( $defs[ $k ] ) && 'select' === $defs[ $k ][1] ? ltef_field_label( $p->post_type, $k, $v ) : '';
+				return '' !== $label ? $label : (string) $v;
+			};
 			foreach ( $fields as $k => $val ) {
-				if ( '' === $val || null === $val ) {
+				if ( is_array( $val ) ) {
 					continue;
 				}
-				$details .= '<dt>' . esc_html( ucfirst( str_replace( '_', ' ', $k ) ) ) . '</dt><dd>' . esc_html( is_bool( $val ) ? ( $val ? 'yes' : 'no' ) : $val ) . '</dd>';
+				// Show what it says now: the form's copy is what was sent, but Tina may have changed it since (Edit).
+				$sent = $val;
+				if ( isset( $defs[ $k ] ) && 'attachment' !== $defs[ $k ][1] && metadata_exists( 'post', $p->ID, 'ltef_' . $k ) ) {
+					$val = get_post_meta( $p->ID, 'ltef_' . $k, true );
+					$val = 'checkbox' === $defs[ $k ][1] ? (bool) $val : $val;
+				}
+				if ( ( '' === $val || null === $val ) && ( '' === $sent || null === $sent ) ) {
+					continue;
+				}
+				$now     = $show( $k, $val );
+				$was     = $show( $k, $sent );
+				$details .= '<dt>' . esc_html( isset( $defs[ $k ] ) ? $defs[ $k ][0] : ucfirst( str_replace( '_', ' ', $k ) ) ) . '</dt><dd>' . esc_html( '' !== $now ? $now : '—' ) . ( $now !== $was ? ' <span class="description">' . esc_html( '(sent as ' . ( '' !== $was ? $was : 'blank' ) . ')' ) . '</span>' : '' ) . '</dd>';
 			}
 		}
 		$chips = '';
