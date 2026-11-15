@@ -74,9 +74,26 @@ add_action(
 	'admin_menu',
 	function () {
 		add_submenu_page( 'edit.php?post_type=ltef_place', 'Places to try', 'Places to try', 'edit_others_posts', 'ltef-to-try', 'ltef_totry_page' );
+		// The same list, reachable from the review queue's menu too.
+		add_submenu_page( 'ltef-review', 'Places to try', 'Places to try', 'edit_others_posts', 'edit.php?post_type=ltef_place&page=ltef-to-try', '', 2 );
 	},
 	20
 );
+
+/** For the review queue page: how many places are waiting to try, the newest few, and a link to the list. */
+function ltef_totry_box() {
+	$todo = array_filter( ltef_totry_groups(), function ( $g ) { return ! isset( ltef_totry_views()[ $g['try'] ] ) || '' === $g['try']; } );
+	$url  = admin_url( 'edit.php?post_type=ltef_place&page=ltef-to-try' );
+	$n    = count( $todo );
+	$list = '';
+	foreach ( array_slice( $todo, 0, 5 ) as $g ) {
+		$c     = count( $g['ids'] );
+		$list .= '<li>' . esc_html( $g['name'] ) . ( $c > 1 ? ' <span class="description">(' . $c . ' times)</span>' : '' ) . '</li>';
+	}
+	return '<section class="ltef-totry-box" aria-labelledby="ltef-totry-box-h"><h2 id="ltef-totry-box-h">Places to try <span class="count">(' . $n . ')</span></h2>'
+		. ( $n ? '<p>Where people want Tina to eat next. Suggestions skip the approvals below, since none of it goes on the site.</p><ul>' . $list . '</ul>' : '<p>Nothing waiting. Suggested spots land here; they skip the approvals below, since none of it goes on the site.</p>' )
+		. '<p><a class="button" href="' . esc_url( $url ) . '">' . ( $n > 5 ? 'See all ' . $n : 'Open the list' ) . '</a> <a class="button" href="' . esc_url( add_query_arg( 'add', '1', $url ) ) . '">Add a tip</a></p></section>';
+}
 
 function ltef_totry_page() {
 	if ( ! current_user_can( 'edit_others_posts' ) ) {
@@ -100,7 +117,7 @@ function ltef_totry_page() {
 	}
 
 	// Add a tip from a DM, a comment or an email.
-	echo '<details class="ltef-totry-add"' . ( $groups ? '' : ' open' ) . '><summary class="button">Add a tip</summary>'
+	echo '<details class="ltef-totry-add"' . ( $groups && empty( $_GET['add'] ) ? '' : ' open' ) . '><summary class="button">Add a tip</summary>'
 		. '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '"><input type="hidden" name="action" value="ltef_totry_add">' . wp_nonce_field( 'ltef_totry_add', '_wpnonce', true, false )
 		. '<table class="form-table" role="presentation">'
 		. '<tr><th scope="row"><label for="ltef-try-place">The place</label></th><td><input class="regular-text" id="ltef-try-place" name="place" required placeholder="Maple Ave Diner, Rutland"><p class="description">Name and town, so it’s easy to find later.</p></td></tr>'
