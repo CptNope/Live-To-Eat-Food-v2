@@ -847,6 +847,22 @@ function ltef_event_facts( $post_id ) {
 		. '</div>';
 }
 
+/** An event's flyer, when it has one: the image (opens full size), or a link for a PDF. '' when there's none. */
+function ltef_event_flyer( $post_id ) {
+	$att = (int) ltef_meta( $post_id, 'flyer' );
+	$url = $att ? wp_get_attachment_url( $att ) : '';
+	if ( ! $url ) {
+		return '';
+	}
+	$name = get_the_title( $post_id );
+	if ( wp_attachment_is_image( $att ) ) {
+		$img = wp_get_attachment_image( $att, 'large', false, array( 'class' => 'ev-flyer__img', 'alt' => 'Flyer for ' . $name, 'loading' => 'lazy', 'sizes' => '(max-width: 760px) 100vw, 380px' ) );
+		return '<figure class="ev-flyer"><a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . $img . '<span class="vh"> (opens full size in a new tab)</span></a>'
+			. '<figcaption class="meta">The flyer, from whoever listed it. <a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">Open full size<span class="vh"> (opens a new tab)</span></a></figcaption></figure>';
+	}
+	return '<p class="ev-flyer ev-flyer--file"><a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( $url ) . '" target="_blank" rel="noopener">See the flyer' . ( 'application/pdf' === get_post_mime_type( $att ) ? ' (PDF)' : '' ) . '<span class="vh"> (opens a new tab)</span></a></p>';
+}
+
 /** The panel of facts on a single job post. */
 function ltef_job_facts( $post_id ) {
 	$rows = array_filter(

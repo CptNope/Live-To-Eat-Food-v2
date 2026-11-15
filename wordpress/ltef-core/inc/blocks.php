@@ -423,7 +423,9 @@ function ltef_block_event_facts( $attrs, $content, $block ) {
 	if ( ! $id || 'ltef_event' !== get_post_type( $id ) ) {
 		return '';
 	}
-	return ltef_wrap( ltef_event_facts( $id ) . ltef_excerpt_as_body( $id ), 'event-facts' );
+	$flyer = ltef_event_flyer( $id );
+	$top   = $flyer ? '<div class="ev-top">' . ltef_event_facts( $id ) . $flyer . '</div>' : ltef_event_facts( $id );
+	return ltef_wrap( $top . ltef_excerpt_as_body( $id ), $flyer ? 'event-facts has-flyer' : 'event-facts' );
 }
 
 function ltef_block_job_facts( $attrs, $content, $block ) {

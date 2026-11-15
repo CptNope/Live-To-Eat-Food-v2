@@ -70,6 +70,7 @@ function ltef_fields( $type ) {
 			'venue'       => array( 'Where', 'text', 'The place and the neighborhood.' ),
 			'price_text'  => array( 'Price', 'text', 'Free, $35, Pay your own way…' ),
 			'link'        => array( 'Details or tickets link', 'url', '' ),
+			'flyer'       => array( 'Flyer', 'attachment', 'Optional. A JPG, PNG or PDF; shown on the event page when there is one.' ),
 			'kind'        => array( 'Kind', 'select', '', array( 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'crafts' => 'Arts and crafts', 'fitness' => 'Fitness or wellness', 'retail' => 'Retail or shopping', 'family' => 'Family', 'social' => 'Social or meetup', 'nonprofit' => 'Nonprofit or fundraiser', 'other' => 'Something else' ) ),
 			'premium'     => array( 'Premium listing (' . ltef_money( ltef_setting( 'event_premium' ) ) . ' a month)', 'checkbox', 'Pinned at the top of its week, labeled.' ),
 			'tina'        => array( 'Tina’s own event', 'checkbox', 'Shows her avatar.' ),
@@ -204,11 +205,21 @@ function ltef_render_meta_box( $post ) {
 				}
 				echo '</select>';
 			} elseif ( 'attachment' === $kind ) {
-				if ( $value ) {
-					$url = wp_get_attachment_url( (int) $value );
-					printf( '<a href="%s" target="_blank" rel="noopener">%s</a> ', esc_url( $url ), esc_html( basename( (string) $url ) ) );
-				}
-				printf( '<input type="number" id="%1$s" name="%1$s" value="%2$s" class="small-text"> <span class="description">Media library ID</span>', esc_attr( $id ), esc_attr( $value ) );
+				$url   = $value ? wp_get_attachment_url( (int) $value ) : '';
+				$thumb = $value && wp_attachment_is_image( (int) $value ) ? wp_get_attachment_image_url( (int) $value, 'medium' ) : '';
+				printf(
+					'<span class="ltef-media" data-ltef-media>'
+					. '<span class="ltef-media__show">%3$s</span>'
+					. '<input type="hidden" id="%1$s" name="%1$s" value="%2$s">'
+					. '<button type="button" class="button" data-ltef-media-pick>%4$s</button> '
+					. '<button type="button" class="button-link" data-ltef-media-clear%5$s>Remove</button>'
+					. '</span>',
+					esc_attr( $id ),
+					esc_attr( $value ),
+					$url ? ( $thumb ? '<img src="' . esc_url( $thumb ) . '" alt="" style="display:block;max-width:220px;height:auto;margin:6px 0;border-radius:6px">' : '' ) . '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html( basename( (string) $url ) ) . '</a><br>' : '',
+					$value ? 'Change' : 'Choose or upload',
+					$value ? '' : ' hidden'
+				);
 			} else {
 				$type = 'month' === $kind ? 'month' : ( in_array( $kind, array( 'date', 'url', 'email', 'tel' ), true ) ? $kind : 'text' );
 				printf( '<input type="%3$s" id="%1$s" name="%1$s" value="%2$s" class="regular-text">', esc_attr( $id ), esc_attr( $value ), esc_attr( $type ) );
@@ -245,3 +256,22 @@ function ltef_save_meta( $post_id, $post ) {
 		}
 	}
 }
+
+/** Attachment fields (event flyer, Woo-pon flyer, dish photo) pick from the media library instead of taking an ID. */
+add_action(
+	'admin_enqueue_scripts',
+	function ( $hook ) {
+		$screen = get_current_screen();
+		if ( ! in_array( $hook, array( 'post.php', 'post-new.php' ), true ) || ! $screen || ! in_array( 'attachment', wp_list_pluck( ltef_fields( $screen->post_type ), 1 ), true ) ) {
+			return;
+		}
+		wp_enqueue_media();
+		wp_add_inline_script(
+			'media-editor',
+			'document.addEventListener("click",function(e){var pick=e.target.closest("[data-ltef-media-pick]"),clear=e.target.closest("[data-ltef-media-clear]");if(!pick&&!clear){return;}var box=e.target.closest("[data-ltef-media]"),input=box.querySelector("input[type=hidden]"),show=box.querySelector(".ltef-media__show"),rm=box.querySelector("[data-ltef-media-clear]"),btn=box.querySelector("[data-ltef-media-pick]");e.preventDefault();'
+			. 'if(clear){input.value="";show.innerHTML="";rm.hidden=true;btn.textContent="Choose or upload";btn.focus();return;}'
+			. 'var f=wp.media({title:"Choose a file",button:{text:"Use this file"},library:{type:["image","application/pdf"]},multiple:false});'
+			. 'f.on("select",function(){var a=f.state().get("selection").first().toJSON(),t=a.sizes&&(a.sizes.medium||a.sizes.full);input.value=a.id;show.innerHTML="";if(t){var i=document.createElement("img");i.src=t.url;i.alt="";i.style.cssText="display:block;max-width:220px;height:auto;margin:6px 0;border-radius:6px";show.appendChild(i);}var l=document.createElement("a");l.href=a.url;l.target="_blank";l.rel="noopener";l.textContent=a.filename;show.appendChild(l);show.appendChild(document.createElement("br"));rm.hidden=false;btn.textContent="Change";btn.focus();});f.open();});'
+		);
+	}
+);

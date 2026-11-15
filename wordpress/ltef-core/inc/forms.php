@@ -66,6 +66,7 @@ function ltef_forms() {
 				array( 'price', 'Price', 'text', false, 'Free, $35, pay your own way…' ),
 				array( 'about', 'What it is', 'textarea', false, 'Two lines is plenty.' ),
 				array( 'link', 'Link for details or tickets', 'url', false, '' ),
+				array( 'flyer', 'Flyer', 'file', false, 'Optional. A JPG, PNG or PDF, up to 10 MB. It shows on the event page.' ),
 				array( 'submitter', 'Your name', 'text', true, 'Shown on the event page as who listed it.' ),
 				array( 'affiliation', 'How you’re connected to it', 'select', true, 'Shown with your name, so people know who’s behind the listing.', array( '' => 'Pick one' ) + array( 'organizer' => 'I’m organizing it', 'venue' => 'It’s at my venue or business', 'vendor' => 'I’m a vendor or performer', 'sharing' => 'I’m not involved, just sharing it', 'other' => 'Something else' ) ),
 				array( 'tier', 'Listing', 'select', true, $cards ? 'Premium: Stripe asks for a card next and only charges it if Tina approves the listing.' : 'We confirm the price by email before anything is charged.', array( 'free' => 'Free listing', 'premium' => 'Premium listing: ' . ltef_money( $s['event_premium'] ) . ' a month' ) ),
