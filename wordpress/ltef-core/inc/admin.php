@@ -35,7 +35,7 @@ function ltef_review_page() {
 	$items = get_posts( array( 'post_type' => array_keys( ltef_review_types() ), 'post_status' => 'pending', 'numberposts' => 200, 'orderby' => 'date', 'order' => 'ASC' ) );
 	$done  = isset( $_GET['ltef_done'] ) ? sanitize_key( wp_unslash( $_GET['ltef_done'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	echo '<div class="wrap ltef-review"><h1>Waiting for Tina</h1>';
-	echo '<p class="ltef-lede">Everything people send in waits here. Nothing goes on the site until it’s approved. Aim to reply within ' . (int) ltef_setting( 'reply_days' ) . ' days: the site promises that.</p>';
+	echo '<p class="ltef-lede">Everything people send in waits here. Nothing goes on the site until it’s approved. Aim to reply within ' . (int) ltef_setting( 'reply_days' ) . ' days: the site promises that. Suggested spots skip this queue and go to <a href="' . esc_url( admin_url( 'edit.php?post_type=ltef_place&page=ltef-to-try' ) ) . '">Places to try</a>.</p>';
 	if ( $done ) {
 		$note = isset( $_GET['ltef_note'] ) ? sanitize_text_field( rawurldecode( wp_unslash( $_GET['ltef_note'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$text = array( 'approved' => 'Approved. It’s live now (messages are marked done).', 'waiting' => 'Not live yet.', 'matched' => '' )[ $done ] ?? 'Declined and moved to the trash. It can be restored from there. Any card hold was released.';

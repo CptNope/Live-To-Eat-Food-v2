@@ -406,7 +406,7 @@ function ltef_handle_submit() {
 	}
 
 	$title = '';
-	$status = 'signup' === $key ? 'publish' : 'pending';
+	$status = in_array( $key, array( 'signup', 'suggest' ), true ) ? 'publish' : 'pending'; // suggestions go to Places → Places to try, never on the site
 	$meta  = array();
 	switch ( $key ) {
 		case 'woopon':
