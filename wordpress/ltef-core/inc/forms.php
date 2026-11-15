@@ -115,7 +115,7 @@ function ltef_forms() {
 			'title'  => 'Tell us it’s yours',
 			'intro'  => 'Keep your phone, website, menu link and hours up to date yourself, add a short note from you and post announcements. Free, like every listing.',
 			'button' => 'Send my claim',
-			'note'   => 'Tina confirms it’s yours by calling the number on your listing, usually within ' . (int) $s['reply_days'] . ' days. Then we email you a link to set up your login.',
+			'note'   => 'Tina confirms it’s yours by calling the number on your listing, usually within ' . (int) $s['reply_days'] . ' days. Then we email you a link to set up your login, from tina@livetoeatfoodie.com: if it’s not in your inbox, check Junk or Spam.',
 			'fields' => array(
 				array( 'place', 'Your business', 'text', true, 'Start typing and pick it from the list. Not on the site yet? Use “Fix my listing” below.' ),
 				array( 'name', 'Your name', 'text', true, '' ),
@@ -246,9 +246,9 @@ function ltef_block_submit_form( $attrs ) {
 			return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Sent, and your card is on hold.</p><p>You’re only charged if Tina approves it, usually within ' . esc_html( $days ) . ' days. If she doesn’t, the hold is released and nothing is charged.</p></div>' );
 		}
 		if ( '0' === $card ) {
-			return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Sent, without a card.</p><p>That’s fine. Tina reads everything, usually within ' . esc_html( $days ) . ' days, and if she approves it we’ll email you a link to pay. It goes up once it’s paid.</p></div>' );
+			return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Sent, without a card.</p><p>That’s fine. Tina reads everything, usually within ' . esc_html( $days ) . ' days, and if she approves it we’ll email you a link to pay. It goes up once it’s paid.</p><p class="meta">That email comes from tina@livetoeatfoodie.com. Not in your inbox? Check Junk or Spam.</p></div>' );
 		}
-		return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Sent. Thank you.</p><p>Tina reads everything, usually within ' . esc_html( $days ) . ' days. Nothing goes up until she approves it.</p></div>' );
+		return ltef_wrap( '<div class="panel ltef-sent" id="' . esc_attr( $uid ) . '" tabindex="-1"><p class="h-m">Sent. Thank you.</p><p>Tina reads everything, usually within ' . esc_html( $days ) . ' days. Nothing goes up until she approves it.</p><p class="meta">Any reply comes from tina@livetoeatfoodie.com. Not in your inbox? Check Junk or Spam, and mark it “Not spam” so the next one lands.</p></div>' );
 	}
 	$about = isset( $_GET['about'] ) ? sanitize_key( wp_unslash( $_GET['about'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	// A claim started from a place page arrives with that place filled in.

@@ -147,6 +147,28 @@ function ltef_brevo_addr( $s ) {
 	return array( 'email' => sanitize_email( $s ) );
 }
 
+/** A plain-text email as simple HTML with the same words: links made clickable, line breaks kept. */
+function ltef_mail_text_to_html( $text ) {
+	$html = esc_html( str_replace( "\r\n", "\n", $text ) );
+	$html = preg_replace_callback(
+		'#\bhttps?://(?:(?!&gt;)[^\s<])+#i',
+		function ( $m ) {
+			$url   = rtrim( $m[0], '.,);:!?' );
+			$after = substr( $m[0], strlen( $url ) );
+			return '<a href="' . esc_url( html_entity_decode( $url, ENT_QUOTES, 'UTF-8' ) ) . '">' . $url . '</a>' . $after;
+		},
+		$html
+	);
+	$paras = preg_split( "/\n{2,}/", trim( $html ) );
+	$body  = '';
+	foreach ( $paras as $p ) {
+		$body .= '<p style="margin:0 0 14px">' . nl2br( $p, false ) . '</p>';
+	}
+	return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>'
+		. '<body style="margin:0;padding:24px 16px;background:#ffffff;color:#1e3b2a;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.5">'
+		. '<div style="max-width:600px;margin:0 auto">' . $body . '</div></body></html>';
+}
+
 /**
  * Sends wp_mail through Brevo when that's switched on. If Brevo refuses, WordPress's own mail
  * is tried instead and the reason is kept for the Email page.
@@ -192,7 +214,9 @@ add_filter(
 		if ( $html ) {
 			$payload['htmlContent'] = (string) $atts['message'];
 		} else {
+			// Both a plain-text and an HTML copy of the same words: mail filters trust that more than one alone.
 			$payload['textContent'] = (string) $atts['message'];
+			$payload['htmlContent'] = ltef_mail_text_to_html( (string) $atts['message'] );
 		}
 		$files = array_filter( (array) $atts['attachments'] );
 		foreach ( $files as $f ) {
