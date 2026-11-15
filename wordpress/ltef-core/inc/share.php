@@ -101,12 +101,13 @@ function ltef_share_data() {
 			case 'ltef_event':
 				$date  = (string) ltef_meta( $id, 'date' );
 				$ts    = $date ? strtotime( $date ) : 0;
-				$when  = trim( ( $ts ? date_i18n( 'D, M j', $ts ) : '' ) . ( ltef_meta( $id, 'time' ) ? ' · ' . ltef_meta( $id, 'time' ) : '' ), ' ·' );
+				$multi = function_exists( 'ltef_event_multi' ) && ltef_event_multi( $id );
+				$when  = $multi ? ltef_event_dates( $id ) : trim( ( $ts ? date_i18n( 'D, M j', $ts ) : '' ) . ( ltef_meta( $id, 'time' ) ? ' · ' . ltef_meta( $id, 'time' ) : '' ), ' ·' );
 				$sub   = implode( ' · ', array_filter( array( $when, (string) ltef_meta( $id, 'venue' ) ) ) );
 				$kind  = function_exists( 'ltef_event_kind' ) ? ltef_event_kind( $id ) : 'other';
 				$about = has_excerpt( $id ) ? get_the_excerpt( $id ) : $post->post_content;
 				$price = function_exists( 'ltef_event_price' ) ? ltef_event_price( $id ) : '';
-				$desc  = ltef_share_text( implode( ' · ', array_filter( array( $ts ? date_i18n( 'l, F j', $ts ) : '', (string) ltef_meta( $id, 'time' ), (string) ltef_meta( $id, 'venue' ), $price ) ) ) . '. ' . ltef_share_text( $about, 160 ), 240 );
+				$desc  = ltef_share_text( implode( ' · ', array_filter( array( $multi ? ltef_event_dates( $id, true ) : ( $ts ? date_i18n( 'l, F j', $ts ) : '' ), (string) ltef_meta( $id, 'time' ), (string) ltef_meta( $id, 'venue' ), $price ) ) ) . '. ' . ltef_share_text( $about, 160 ), 240 );
 				$stick = array( 'fitness' => 'leaf', 'market' => 'bag', 'retail' => 'bag', 'family' => 'icecream', 'nonprofit' => 'heart', 'food' => 'donut' )[ $kind ] ?? 'ticket';
 				$card  = array( $name, $sub, ltef_field_label( 'ltef_event', 'kind', $kind ), 'kind-' . $kind, 'sticker:' . $stick );
 				break;

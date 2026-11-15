@@ -64,8 +64,9 @@ function ltef_fields( $type ) {
 			'contact_email' => array( 'Contact email', 'email', 'Private.', null, true ),
 		),
 		'ltef_event'   => array(
-			'date'        => array( 'Date', 'date', '' ),
-			'time'        => array( 'Time', 'text', 'Like 6–10pm.' ),
+			'date'        => array( 'Date', 'date', 'The first day, for an event over several days.' ),
+			'end_date'    => array( 'Last day', 'date', 'Only for an event over several days: it shows on the calendar every day from Date to here. Leave blank for one day.' ),
+			'time'        => array( 'Time', 'text', 'Like 6–10pm. Hours that change by day: “Thu 4–8pm, Fri 12–6pm, Sat–Sun 10am–5pm”.' ),
 			'venue'       => array( 'Where', 'text', 'The place and the neighborhood.' ),
 			'price_text'  => array( 'Price', 'text', 'Free, $35, Pay your own way…' ),
 			'link'        => array( 'Details or tickets link', 'url', '' ),

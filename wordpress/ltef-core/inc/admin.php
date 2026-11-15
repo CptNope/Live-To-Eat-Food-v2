@@ -275,3 +275,34 @@ add_filter(
 	10,
 	2
 );
+
+/** Events list: a When column, so events with the same name (or one over several days) are easy to tell apart. */
+add_filter(
+	'manage_ltef_event_posts_columns',
+	function ( $cols ) {
+		$out = array();
+		foreach ( $cols as $k => $v ) {
+			$out[ $k ] = $v;
+			if ( 'title' === $k ) {
+				$out['ltef_when'] = 'When';
+			}
+		}
+		return $out;
+	}
+);
+add_action(
+	'manage_ltef_event_posts_custom_column',
+	function ( $col, $post_id ) {
+		if ( 'ltef_when' !== $col ) {
+			return;
+		}
+		$dates = function_exists( 'ltef_event_dates' ) ? ltef_event_dates( $post_id ) : (string) ltef_meta( $post_id, 'date' );
+		echo esc_html( '' !== $dates ? $dates : '—' );
+		$time = (string) ltef_meta( $post_id, 'time' );
+		if ( '' !== $time ) {
+			echo '<br><span class="description">' . esc_html( $time ) . '</span>';
+		}
+	},
+	10,
+	2
+);

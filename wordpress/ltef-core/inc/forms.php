@@ -58,8 +58,9 @@ function ltef_forms() {
 			'button' => 'Send the event',
 			'fields' => array(
 				array( 'name', 'Event name', 'text', true, '' ),
-				array( 'date', 'Date', 'date', true, '' ),
-				array( 'time', 'Time', 'text', true, 'For example: 2–5pm.' ),
+				array( 'date', 'Date', 'date', true, 'The first day, if it runs over several days.' ),
+				array( 'end_date', 'Last day', 'date', false, 'Only if it runs over several days.' ),
+				array( 'time', 'Time', 'text', true, 'For example: 2–5pm. Different hours each day? Like “Thu 4–8pm, Fri 12–6pm”.' ),
 				array( 'venue', 'Where', 'text', true, 'The place and the neighborhood.' ),
 				array( 'kind', 'What kind of event', 'select', true, '', array( '' => 'Pick one', 'food' => 'Food or drink', 'market' => 'Market or fair', 'music' => 'Music or a show', 'art' => 'Art or a class', 'crafts' => 'Arts and crafts', 'fitness' => 'Fitness or wellness', 'retail' => 'Retail or shopping', 'family' => 'Family', 'nonprofit' => 'Nonprofit or fundraiser', 'other' => 'Something else' ) ),
 				array( 'price', 'Price', 'text', false, 'Free, $35, pay your own way…' ),
@@ -416,7 +417,7 @@ function ltef_handle_submit() {
 		case 'event':
 			$type  = 'ltef_event';
 			$title = $v['name'];
-			$meta  = array( 'date' => $v['date'], 'time' => $v['time'], 'venue' => $v['venue'], 'kind' => $v['kind'], 'price_text' => $v['price'], 'link' => $v['link'], 'premium' => 'premium' === $v['tier'], 'submitted_by' => $v['submitter'], 'affiliation' => $v['affiliation'], 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
+			$meta  = array( 'date' => $v['date'], 'end_date' => ( $v['end_date'] ?? '' ) > $v['date'] ? $v['end_date'] : '', 'time' => $v['time'], 'venue' => $v['venue'], 'kind' => $v['kind'], 'price_text' => $v['price'], 'link' => $v['link'], 'premium' => 'premium' === $v['tier'], 'submitted_by' => $v['submitter'], 'affiliation' => $v['affiliation'], 'contact_phone' => $v['phone'], 'contact_email' => $v['email'] );
 			break;
 		case 'dish':
 			$type  = 'ltef_dish';

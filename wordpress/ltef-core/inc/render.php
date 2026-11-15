@@ -579,8 +579,9 @@ function ltef_event_row( $post_id ) {
 	$date = ltef_meta( $post_id, 'date' );
 	$ts   = $date ? strtotime( $date ) : 0;
 	$prem = ltef_meta( $post_id, 'premium' );
-	$meta = implode( ' · ', array_filter( array( ltef_meta( $post_id, 'time' ), ltef_meta( $post_id, 'venue' ), ltef_event_price( $post_id ) ) ) );
-	$link = ltef_meta( $post_id, 'link' );
+	$multi = ltef_event_multi( $post_id );
+	$meta  = implode( ' · ', array_filter( array( $multi ? ltef_event_dates( $post_id ) : '', ltef_meta( $post_id, 'time' ), ltef_meta( $post_id, 'venue' ), ltef_event_price( $post_id ) ) ) );
+	$link  = ltef_meta( $post_id, 'link' );
 	return sprintf(
 		'<article class="panel ev-row ev-k--%11$s%1$s"><span class="ev-date"><span>%2$s</span><b>%3$s</b></span><div class="ev-txt"><div class="ev-tags">%12$s%4$s</div><h3 class="h-s"><a class="ev-row__link" href="%10$s">%5$s</a></h3><p class="meta">%6$s</p>%7$s<div class="ltef-actions">%8$s<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="%9$s" target="_blank" rel="noopener">Get directions<span class="vh"> (opens Google Maps)</span></a></div></div></article>',
 		$prem ? ' ev-premium' : '',
@@ -627,6 +628,158 @@ function ltef_event_price( $post_id ) {
 	return preg_match( '/^\d+(\.\d{1,2})?$/', $p ) ? '$' . $p : $p;
 }
 
+/* ------------------------------------------------------------------ Events over several days */
+
+/** The longest run an event can cover, so a typo in Last day can't fill a year of the calendar. */
+const LTEF_EVENT_MAX_DAYS = 62;
+
+/** An event's last day, Y-m-d: its Last day when that's after its Date, else its Date. '' with no date. */
+function ltef_event_last( $post_id ) {
+	$d = (string) ltef_meta( $post_id, 'date' );
+	$e = (string) ltef_meta( $post_id, 'end_date' );
+	if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $d ) ) {
+		return '';
+	}
+	return preg_match( '/^\d{4}-\d{2}-\d{2}$/', $e ) && $e > $d ? $e : $d;
+}
+
+/** Every day an event is on, Y-m-d, first to last. */
+function ltef_event_days( $post_id ) {
+	$d = (string) ltef_meta( $post_id, 'date' );
+	if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $d ) ) {
+		return array();
+	}
+	$last = ltef_event_last( $post_id );
+	$day  = new DateTimeImmutable( $d . ' 12:00', wp_timezone() );
+	$out  = array();
+	while ( count( $out ) < LTEF_EVENT_MAX_DAYS && $day->format( 'Y-m-d' ) <= $last ) {
+		$out[] = $day->format( 'Y-m-d' );
+		$day   = $day->modify( '+1 day' );
+	}
+	return $out;
+}
+
+/** The days an event is open: every day it runs, less any weekday its hours leave out ("Sat–Sun 10–5" over two weeks). */
+function ltef_event_open_days( $post_id ) {
+	$hours = ltef_event_hours( (string) ltef_meta( $post_id, 'time' ) );
+	$days  = ltef_event_days( $post_id );
+	if ( count( $days ) < 2 || ! $hours || isset( $hours['all'] ) ) {
+		return $days;
+	}
+	return array_values( array_filter( $days, function ( $iso ) use ( $hours ) { return isset( $hours[ (int) wp_date( 'w', strtotime( $iso . ' 12:00' ) ) ] ); } ) );
+}
+
+/** True when an event runs over more than one day. */
+function ltef_event_multi( $post_id ) {
+	return ltef_event_last( $post_id ) > (string) ltef_meta( $post_id, 'date' );
+}
+
+/**
+ * The Time field read as hours by weekday. "Thu 4–8pm, Fri 12–6pm, Sat–Sun 10am–5pm" gives
+ * [ 4 => '4–8pm', 5 => '12–6pm', 6 => '10am–5pm', 0 => '10am–5pm' ] (0 is Sunday); a plain "6–10pm" gives
+ * [ 'all' => '6–10pm' ]. A piece without a day name is the hours for any day not named.
+ */
+function ltef_event_hours( $time ) {
+	$time = trim( (string) $time );
+	if ( '' === $time ) {
+		return array();
+	}
+	$names = array( 'sun' => 0, 'mon' => 1, 'tue' => 2, 'wed' => 3, 'thu' => 4, 'fri' => 5, 'sat' => 6 );
+	$dayre = '(?:sun|mon|tue|wed|thu|fri|sat)[a-z]*\.?';
+	$out   = array();
+	$pieces = array();
+	$carry  = '';
+	foreach ( preg_split( '/\s*(?:[;\n]|,(?=\s*' . $dayre . '\b))\s*/iu', $time ) as $piece ) {
+		if ( ! preg_match( '/\d/', $piece ) ) { // "Fri, Sat 7pm": a day name alone goes with the next piece
+			$carry .= $piece . ', ';
+			continue;
+		}
+		$pieces[] = $carry . $piece;
+		$carry    = '';
+	}
+	if ( '' !== $carry ) {
+		$pieces[] = rtrim( $carry, ', ' );
+	}
+	foreach ( $pieces as $piece ) {
+		if ( ! preg_match( '/^((?:' . $dayre . ')(?:\s*(?:&|and|\/|,|-|–|—|to|through|thru)\s*' . $dayre . ')*)\s*:?\s*(.+)$/iu', $piece, $m ) ) {
+			$out['all'] = $piece;
+			continue;
+		}
+		$hours = trim( $m[2] );
+		preg_match_all( '/(' . $dayre . ')|(-|–|—|to|through|thru)/iu', $m[1], $toks, PREG_SET_ORDER );
+		$days  = array();
+		$range = false;
+		foreach ( $toks as $t ) {
+			if ( ! empty( $t[2] ) && empty( $t[1] ) ) {
+				$range = true;
+				continue;
+			}
+			$n = $names[ strtolower( substr( $t[1], 0, 3 ) ) ];
+			if ( $range && $days ) {
+				for ( $i = ( end( $days ) + 1 ) % 7, $guard = 0; $i !== $n && $guard < 7; $i = ( $i + 1 ) % 7, $guard++ ) {
+					$days[] = $i;
+				}
+			}
+			$days[] = $n;
+			$range  = false;
+		}
+		foreach ( $days as $n ) {
+			$out[ $n ] = $hours;
+		}
+	}
+	return $out;
+}
+
+/** An event's hours on one day (Y-m-d), from its Time field. */
+function ltef_event_time_on( $post_id, $iso ) {
+	$time = (string) ltef_meta( $post_id, 'time' );
+	if ( ! ltef_event_multi( $post_id ) ) {
+		return $time; // one day: the Time field as written
+	}
+	$hours = ltef_event_hours( $time );
+	$wd    = (int) wp_date( 'w', strtotime( $iso . ' 12:00' ) );
+	if ( isset( $hours[ $wd ] ) ) {
+		return $hours[ $wd ];
+	}
+	if ( isset( $hours['all'] ) ) {
+		return $hours['all'];
+	}
+	return count( $hours ) > 0 ? '' : $time;
+}
+
+/** "Thu, Nov 19 – Sun, Nov 22" for an event over several days, "Thu, Nov 19" for one day. $long spells it out. */
+function ltef_event_dates( $post_id, $long = false ) {
+	$d = (string) ltef_meta( $post_id, 'date' );
+	if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $d ) ) {
+		return '';
+	}
+	$fmt   = $long ? 'l, F j' : 'D, M j';
+	$first = strtotime( $d . ' 12:00' );
+	if ( ! ltef_event_multi( $post_id ) ) {
+		return wp_date( $long ? 'l, F j, Y' : $fmt, $first );
+	}
+	$last = strtotime( ltef_event_last( $post_id ) . ' 12:00' );
+	return wp_date( $fmt, $first ) . ' – ' . wp_date( $long ? 'l, F j, Y' : $fmt, $last );
+}
+
+/** Events that haven't ended: on or after $from (Y-m-d), by first day. A multi-day event still running is kept. */
+function ltef_events_from( $from, $count = 300 ) {
+	$early = wp_date( 'Y-m-d', strtotime( $from . ' 12:00' ) - LTEF_EVENT_MAX_DAYS * DAY_IN_SECONDS );
+	$posts = get_posts(
+		array(
+			'post_type'   => 'ltef_event',
+			'post_status' => 'publish',
+			'numberposts' => $count + 100,
+			'meta_key'    => 'ltef_date', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'orderby'     => 'meta_value',
+			'order'       => 'ASC',
+			'meta_query'  => array( array( 'key' => 'ltef_date', 'value' => $early, 'compare' => '>=' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+		)
+	);
+	$posts = array_values( array_filter( $posts, function ( $p ) use ( $from ) { return ltef_event_last( $p->ID ) >= $from; } ) );
+	return array_slice( $posts, 0, $count );
+}
+
 /** A select field's label, like "Market or fair" for kind=market. */
 function ltef_field_label( $type, $key, $value ) {
 	$f = ltef_fields( $type );
@@ -643,7 +796,19 @@ function ltef_event_facts( $post_id ) {
 	$link  = (string) ltef_meta( $post_id, 'link' );
 	$kind  = '';
 	$rows  = array();
-	if ( $ts ) {
+	if ( $ts && ltef_event_multi( $post_id ) ) {
+		$rows[] = array( 'When', ltef_event_dates( $post_id, true ) );
+		$hours  = ltef_event_hours( $time );
+		if ( count( $hours ) > 1 || ( $hours && ! isset( $hours['all'] ) ) ) {
+			$lines = array();
+			foreach ( ltef_event_open_days( $post_id ) as $iso ) {
+				$lines[] = wp_date( 'D, M j', strtotime( $iso . ' 12:00' ) ) . ': ' . ltef_event_time_on( $post_id, $iso );
+			}
+			$rows[] = array( 'Hours', implode( "\n", $lines ) );
+		} elseif ( '' !== $time ) {
+			$rows[] = array( 'Hours', $time . ', each day' );
+		}
+	} elseif ( $ts ) {
 		$rows[] = array( 'When', date_i18n( 'l, F j, Y', $ts ) . ( '' !== $time ? ' · ' . $time : '' ) );
 	} elseif ( '' !== $time ) {
 		$rows[] = array( 'Time', $time );
@@ -664,10 +829,10 @@ function ltef_event_facts( $post_id ) {
 	}
 	$dl = '';
 	foreach ( $rows as $r ) {
-		$dl .= '<div><dt>' . esc_html( $r[0] ) . '</dt><dd>' . esc_html( $r[1] ) . '</dd></div>';
+		$dl .= '<div><dt>' . esc_html( $r[0] ) . '</dt><dd>' . nl2br( esc_html( $r[1] ), false ) . '</dd></div>';
 	}
 	$labels = trim( ltef_event_kind_chip( $post_id ) . ( ltef_meta( $post_id, 'tina' ) ? ltef_label( 'tina', 'Tina’s event' ) : '' ) . ( ltef_meta( $post_id, 'premium' ) ? ltef_label( 'sponsored', 'Premium listing' ) : '' ) );
-	$past   = $ts && wp_date( 'Y-m-d', $ts ) < ltef_today();
+	$past   = $ts && ltef_event_last( $post_id ) < ltef_today();
 	$btns   = ( $link ? '<a class="ltef-btn ltef-btn--sm" href="' . esc_url( $link ) . '" target="_blank" rel="noopener">Details and tickets<span class="vh"> (opens a new tab)</span></a>' : '' )
 		. ( '' !== $venue ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_maps_url( '', $venue ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' : '' );
 	return '<div class="panel facts-panel ev-facts">'
@@ -728,6 +893,7 @@ add_action(
 			'@type'               => 'Event',
 			'name'                => get_the_title( $id ),
 			'startDate'           => $date,
+			'endDate'             => ltef_event_last( $id ),
 			'eventStatus'         => 'https://schema.org/EventScheduled',
 			'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
 			'url'                 => get_permalink( $id ),
