@@ -185,7 +185,14 @@ function ltef_si_singular( $schema, $post_id ) {
 	if ( empty( $schema['description'] ) && function_exists( 'ltef_share_data' ) && (int) get_queried_object_id() === (int) $post_id ) {
 		$schema['description'] = (string) ltef_share_data()[1];
 	}
-	return $schema;
+	// A place page is about the business. Done here, not in the page graph, so the
+	// site-wide schema feeds (one per post type, built outside a page view) carry it too.
+	if ( 'ltef_place' === get_post_type( $post_id ) ) {
+		$place                = ltef_si_place_node( (int) $post_id );
+		$schema['about']      = $place;
+		$schema['mainEntity'] = array( '@id' => $place['@id'] );
+	}
+	return ltef_si_decode( $schema );
 }
 
 function ltef_si_graph( $nodes, $context ) {
@@ -248,17 +255,6 @@ function ltef_si_graph( $nodes, $context ) {
 		$out[]    = ltef_si_tina_node();
 		$has_tina = true;
 	}
-	// A place page is about the business.
-	if ( $page_id && is_singular( 'ltef_place' ) ) {
-		$place = ltef_si_place_node( get_queried_object_id() );
-		$out[] = $place;
-		$out[] = array(
-			'@type'      => 'WebPage',
-			'@id'        => $page_id,
-			'about'      => array( '@id' => $place['@id'] ),
-			'mainEntity' => array( '@id' => $place['@id'] ),
-		);
-	}
 	// The Tina page is her profile.
 	if ( $page_id && is_page( 'tina' ) ) {
 		if ( ! $has_tina ) {
@@ -302,7 +298,7 @@ function ltef_si_llms( $out, $full ) {
 	$out = preg_replace( '/^(# [^\n]*\n\n)/', '$1' . str_replace( array( '\\', '$' ), array( '\\\\', '\\$' ), $intro ), $out, 1 );
 
 	// Places, food first.
-	$places = get_posts( array( 'post_type' => 'ltef_place', 'post_status' => 'publish', 'numberposts' => 500, 'orderby' => 'title', 'order' => 'ASC' ) );
+	$places = get_posts( array( 'post_type' => 'ltef_place', 'post_status' => 'publish', 'numberposts' => -1, 'orderby' => 'title', 'order' => 'ASC' ) );
 	$groups = array( 'eat' => array(), 'other' => array() );
 	foreach ( $places as $p ) {
 		$id    = $p->ID;
@@ -369,3 +365,64 @@ add_filter( 'jat_search_intel_singular_schema', 'ltef_si_singular', 20, 2 );
 add_filter( 'jat_search_intel_schema_graph', 'ltef_si_graph', 20, 2 );
 add_filter( 'jat_search_intel_llms_txt', 'ltef_si_llms', 20, 2 );
 add_filter( 'jat_search_intel_llms_contact_email', function () { return 'tina@livetoeatfoodie.com'; } );
+
+/**
+ * IndexNow for places, events and Woo-pons. Search Intel pings Bing (which ChatGPT search and
+ * Copilot answer from) for posts and pages; these are this site's own post types, so we ask it
+ * here, from a background job so saving never waits on Bing.
+ */
+function ltef_si_indexnow_types() {
+	return array( 'ltef_place', 'ltef_event', 'ltef_woopon' );
+}
+
+add_action(
+	'transition_post_status',
+	function ( $new, $old, $post ) {
+		if ( 'publish' !== $new || ! in_array( $post->post_type, ltef_si_indexnow_types(), true ) || '' !== $post->post_password ) {
+			return;
+		}
+		if ( wp_is_post_revision( $post ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ) {
+			return;
+		}
+		$url = get_permalink( $post );
+		if ( $url && ! wp_next_scheduled( 'ltef_si_indexnow', array( $url ) ) ) {
+			wp_schedule_single_event( time() + 60, 'ltef_si_indexnow', array( $url ) );
+		}
+	},
+	10,
+	3
+);
+
+add_action(
+	'ltef_si_indexnow',
+	function ( $url ) {
+		if ( ! class_exists( '\\JAT_Search_Intel\\Core' ) ) {
+			return;
+		}
+		$core = \JAT_Search_Intel\Core::get_instance();
+		$ix   = $core->indexnow ?? null;
+		if ( is_object( $ix ) && method_exists( $ix, 'submit_url' ) ) {
+			$ix->submit_url( (string) $url );
+		}
+	}
+);
+
+/**
+ * When Search Intel's sitemap is on, WordPress's own /wp-sitemap.xml goes away. Send anything
+ * that still asks for it (bots, old submissions) to the new one.
+ */
+add_action(
+	'template_redirect',
+	function () {
+		$path = (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '', PHP_URL_PATH ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( ! preg_match( '#^/wp-sitemap[a-z0-9_-]*\.xml$#', $path ) ) {
+			return;
+		}
+		$settings = (array) get_option( 'jat_search_intel_settings', array() );
+		if ( ! empty( $settings['enable_sitemap'] ) ) {
+			wp_safe_redirect( home_url( '/sitemap.xml' ), 301 );
+			exit;
+		}
+	},
+	1
+);
