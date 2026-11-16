@@ -50,6 +50,15 @@ function ltef_share_photo( $seed ) {
  * What the current request shares: [ title, description, type, card ], where card is
  * [ title, sub, kicker, kicker style (tina|own|kind-<key>|plain|''), art (sticker:<name> | photo:<theme img path> | att:<id>) ].
  */
+/** The meta description someone wrote by hand in JAT Search Intel's box, if any. */
+function ltef_share_own_description( $post_id ) {
+	if ( ! $post_id ) {
+		return '';
+	}
+	$own = trim( wp_strip_all_tags( (string) get_post_meta( $post_id, '_jat_search_intel_description', true ) ) );
+	return '' !== $own ? ltef_share_text( $own, 240 ) : '';
+}
+
 function ltef_share_data() {
 	$site  = 'Live to Eat Food';
 	$home  = 'Ten years of Worcester and Central Mass meals Tina really ate. Tell us what you’re craving and we’ll show you where she’d go.';
@@ -60,6 +69,8 @@ function ltef_share_data() {
 
 	if ( is_front_page() ) {
 		$title = $site . ': Tina Vo’s food guide to Worcester and Central Mass';
+		$own   = ltef_share_own_description( (int) get_option( 'page_on_front' ) );
+		$desc  = '' !== $own ? $own : $desc;
 		return array( $title, $desc, $type, $card );
 	}
 	if ( is_singular() ) {
@@ -131,6 +142,11 @@ function ltef_share_data() {
 				$type = 'post' === $post->post_type ? 'article' : 'website';
 				$art  = has_post_thumbnail( $id ) ? 'att:' . (int) get_post_thumbnail_id( $id ) : 'photo:' . ltef_share_photo( $id );
 				$card = array( $name, ltef_share_text( $desc, 120 ), '', '', $art );
+		}
+		// A description written in Search Intel's box on the edit screen wins over the automatic one.
+		$own = ltef_share_own_description( $id );
+		if ( '' !== $own ) {
+			$desc = $own;
 		}
 		return array( $title, $desc, $type, $card );
 	}
