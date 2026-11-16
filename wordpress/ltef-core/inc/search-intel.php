@@ -426,3 +426,29 @@ add_action(
 	},
 	1
 );
+
+/**
+ * One time: Tina's guides and posts were typed in under the site admin's account, so feeds and
+ * author data credited him. Hand them to Tina's own account. Only the author column changes:
+ * going through wp_update_post() would also stamp every 2017 post as "modified today", which
+ * would tell search engines and AI tools that old pages were freshly updated.
+ */
+add_action(
+	'admin_init',
+	function () {
+		if ( get_option( 'ltef_posts_to_tina_v1' ) || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		$tina = get_user_by( 'email', 'tina@livetoeatfoodie.com' );
+		if ( ! $tina || ! user_can( $tina, 'edit_posts' ) ) {
+			return;
+		}
+		global $wpdb;
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'post' AND post_status IN ( 'publish', 'future', 'draft', 'pending', 'private' ) AND post_author <> %d", $tina->ID ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		foreach ( $ids as $id ) {
+			$wpdb->update( $wpdb->posts, array( 'post_author' => $tina->ID ), array( 'ID' => (int) $id ), array( '%d' ), array( '%d' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			clean_post_cache( (int) $id );
+		}
+		update_option( 'ltef_posts_to_tina_v1', count( $ids ), false );
+	}
+);
