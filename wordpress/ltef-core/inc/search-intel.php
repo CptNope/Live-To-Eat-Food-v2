@@ -452,3 +452,40 @@ add_action(
 		update_option( 'ltef_posts_to_tina_v1', count( $ids ), false );
 	}
 );
+
+/**
+ * Broken link checker: places, events and Woo-pons keep their outside links in fields, not in
+ * the body, so hand them to Search Intel. A dead restaurant website is often the first sign a
+ * place has closed. Extra types are added only to the scan, so they don't get Search Intel's
+ * edit-screen boxes.
+ */
+function ltef_si_link_fields() {
+	return array(
+		'ltef_place'  => array( 'website', 'menu' ),
+		'ltef_event'  => array( 'link' ),
+		'ltef_woopon' => array( 'shop_url' ),
+	);
+}
+
+add_filter(
+	'jat_search_intel_link_checker_post_types',
+	function ( $types ) {
+		return array_values( array_unique( array_merge( (array) $types, array_keys( ltef_si_link_fields() ) ) ) );
+	}
+);
+
+add_filter(
+	'jat_search_intel_link_checker_links',
+	function ( $urls, $post_id ) {
+		$fields = ltef_si_link_fields()[ get_post_type( $post_id ) ] ?? array();
+		foreach ( $fields as $field ) {
+			$url = trim( (string) ltef_meta( $post_id, $field ) );
+			if ( '' !== $url && preg_match( '#^https?://#i', $url ) ) {
+				$urls[] = $url;
+			}
+		}
+		return $urls;
+	},
+	10,
+	2
+);
