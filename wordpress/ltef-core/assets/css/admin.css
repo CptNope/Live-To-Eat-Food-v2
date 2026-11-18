@@ -545,6 +545,85 @@
 	width: 100%;
 }
 
+/* reply by email, full width under the card */
+.ltef-card:has(> .ltef-reply) {
+	grid-template-areas:
+		"head head"
+		"flags flags"
+		"match match"
+		"details actions"
+		"reply reply";
+}
+.ltef-reply {
+	grid-area: reply;
+	border-top: 1px dashed rgb(30 59 42 / .3);
+	padding-top: 10px;
+}
+.ltef-reply > summary {
+	list-style: none;
+	cursor: pointer;
+	font-family: var(--ltef-label);
+	font-weight: 700;
+	font-size: 14px;
+	color: var(--ltef-basil);
+	padding: 8px 2px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	border-radius: 8px;
+}
+.ltef-reply > summary::-webkit-details-marker {
+	display: none;
+}
+.ltef-reply > summary::before {
+	content: "";
+	width: 8px;
+	height: 8px;
+	border-right: 2px solid currentColor;
+	border-bottom: 2px solid currentColor;
+	transform: rotate(-45deg);
+	transition: transform .18s ease;
+	margin: 0 4px 0 2px;
+}
+.ltef-reply[open] > summary::before {
+	transform: rotate(45deg);
+}
+.ltef-reply__form {
+	display: grid;
+	gap: 12px;
+	max-width: 760px;
+	padding-top: 6px;
+}
+.ltef-reply__form p {
+	margin: 0;
+}
+.ltef-reply__form label:not(.ltef-check),
+.ltef-reply__to span {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+.ltef-reply__form input[type="text"],
+.ltef-reply__form select,
+.ltef-reply__form textarea {
+	width: 100%;
+	max-width: none;
+}
+.ltef-reply__form textarea {
+	font-size: 15px;
+	line-height: 1.5;
+}
+.ltef-reply__form label.ltef-check {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	font-size: 14px;
+}
+.ltef-reply__form .description {
+	display: block;
+	margin-top: 8px;
+}
+
 /* empty state */
 .ltef-empty {
 	display: flex;
@@ -711,6 +790,15 @@
 			"match"
 			"details"
 			"actions";
+	}
+	.ltef-card:has(> .ltef-reply) {
+		grid-template-areas:
+			"head"
+			"flags"
+			"match"
+			"details"
+			"actions"
+			"reply";
 	}
 	.ltef-card__actions {
 		flex-direction: row;
