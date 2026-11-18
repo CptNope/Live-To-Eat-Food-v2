@@ -33,6 +33,19 @@ function ltef_reply_senders( $fresh = false ) {
 	return $out;
 }
 
+/** The team: verified Brevo senders on the site's own domain (tina@, jeremy@ …), as [ email => name ]. */
+function ltef_reply_team() {
+	$main   = strtolower( ltef_brevo()['from_email'] );
+	$domain = substr( strrchr( $main, '@' ), 1 );
+	$team   = array();
+	foreach ( ltef_reply_senders() as $email => $name ) {
+		if ( $domain && substr( strrchr( $email, '@' ), 1 ) === $domain ) {
+			$team[ $email ] = $name;
+		}
+	}
+	return $team;
+}
+
 /** The email address someone left on a submission, or ''. */
 function ltef_reply_to_address( $post_id ) {
 	$fields = get_post_meta( $post_id, 'ltef_fields', true );
@@ -61,8 +74,35 @@ function ltef_reply_flags( $post_id ) {
 	return $flags;
 }
 
-/** The "Reply by email" box for one queue card, or '' when there's no address to reply to. */
+/** What was already sent from this item, full text, so the whole team can read the thread. */
+function ltef_reply_history( $post_id ) {
+	$out = '';
+	foreach ( (array) get_post_meta( $post_id, 'ltef_replies', true ) as $r ) {
+		if ( ! is_array( $r ) || empty( $r['message'] ) ) {
+			continue;
+		}
+		$out .= sprintf(
+			'<details class="ltef-reply ltef-reply--sent"><summary>Sent %1$s: %2$s</summary><dl class="ltef-reply__meta"><dt>From</dt><dd>%3$s</dd><dt>To</dt><dd>%4$s</dd>%5$s</dl><div class="ltef-reply__text">%6$s</div></details>',
+			esc_html( wp_date( 'M j, g:ia', (int) $r['at'] ) ),
+			esc_html( $r['subject'] ),
+			esc_html( $r['from'] ),
+			esc_html( $r['to'] ),
+			! empty( $r['cc'] ) ? '<dt>CC</dt><dd>' . esc_html( implode( ', ', (array) $r['cc'] ) ) . '</dd>' : '',
+			esc_html( $r['message'] )
+		);
+	}
+	return $out ? '<div class="ltef-replies">' . $out . '</div>' : '';
+}
+
+/** Replies already sent plus the "Reply by email" box, in one full-width area under the card. */
 function ltef_reply_form( $post ) {
+	$box = ltef_reply_box( $post );
+	$log = ltef_reply_history( $post->ID );
+	return ( $box || $log ) ? '<div class="ltef-reply-area">' . $log . $box . '</div>' : '';
+}
+
+/** The "Reply by email" box for one queue card, or '' when there's no address to reply to. */
+function ltef_reply_box( $post ) {
 	$to = ltef_reply_to_address( $post->ID );
 	if ( ! $to ) {
 		return '';
@@ -81,21 +121,20 @@ function ltef_reply_form( $post ) {
 		$first = false;
 	}
 	$subject = 'Re: your message to Live to Eat Food';
-	$main    = strtolower( ltef_brevo()['from_email'] );
 	return $head . sprintf(
 		'<form method="post" action="%1$s" class="ltef-reply__form"><input type="hidden" name="action" value="ltef_reply"><input type="hidden" name="post" value="%2$d">%3$s'
 		. '<p class="ltef-reply__to"><span>To</span> %4$s</p>'
 		. '<p><label for="ltef-rf-%2$d">From</label><select id="ltef-rf-%2$d" name="from">%5$s</select></p>'
 		. '<p><label for="ltef-rs-%2$d">Subject</label><input type="text" id="ltef-rs-%2$d" name="subject" value="%6$s" required></p>'
 		. '<p><label for="ltef-rm-%2$d">Message</label><textarea id="ltef-rm-%2$d" name="message" rows="14" required></textarea></p>'
-		. '%7$s<p><button class="button button-primary">Send reply</button> <span class="description">Sent through Brevo. Their reply goes to the From address. The item stays here until you approve or decline it.</span></p></form></details>',
+		. '%7$s<p><button class="button button-primary">Send reply</button> <span class="description">Sent through Brevo. You get a copy, and the full text is kept on this item. Their reply goes to the From address (and the team, if they Reply All). The item stays here until you approve or decline it.</span></p></form></details>',
 		esc_url( admin_url( 'admin-post.php' ) ),
 		$id,
 		wp_nonce_field( 'ltef_reply_' . $id, '_wpnonce', true, false ),
 		esc_html( $to ),
 		$pick, // escaped above
 		esc_attr( $subject ),
-		isset( $senders[ $main ] ) ? '<p><label class="ltef-check"><input type="checkbox" name="copy" value="1" checked> Send a copy to ' . esc_html( $main ) . '</label></p>' : ''
+		count( ltef_reply_team() ) > 1 ? '<p><label class="ltef-check"><input type="checkbox" name="team" value="1" checked> CC the team (' . esc_html( implode( ', ', array_keys( ltef_reply_team() ) ) ) . '), so everyone sees their reply when they Reply All</label></p>' : ''
 	);
 }
 
@@ -130,9 +169,19 @@ function ltef_handle_reply() {
 		'htmlContent' => ltef_mail_text_to_html( $message ),
 		'tags'        => array( 'queue-reply' ),
 	);
-	$main = strtolower( ltef_brevo()['from_email'] );
-	if ( ! empty( $_POST['copy'] ) && $main !== $from && is_email( $main ) ) {
-		$payload['bcc'] = array( array( 'email' => $main ) );
+	$cc = array();
+	if ( ! empty( $_POST['team'] ) ) {
+		foreach ( ltef_reply_team() as $email => $name ) {
+			if ( $email !== $from && strtolower( $to ) !== $email ) {
+				$cc[] = array( 'email' => $email, 'name' => $name );
+			}
+		}
+	}
+	if ( $cc ) {
+		$payload['cc'] = $cc; // visible, so Reply All reaches the whole team
+	}
+	if ( strtolower( $to ) !== $from ) {
+		$payload['bcc'] = array( array( 'email' => $from ) ); // the sender's own copy: Brevo keeps none in their mailbox
 	}
 	$res = ltef_brevo_api( 'POST', 'smtp/email', $payload );
 	if ( is_wp_error( $res ) || ! in_array( $res[0], array( 200, 201, 202 ), true ) ) {
@@ -140,7 +189,7 @@ function ltef_handle_reply() {
 	}
 	$log   = (array) get_post_meta( $id, 'ltef_replies', true );
 	$log   = array_values( array_filter( $log, 'is_array' ) );
-	$log[] = array( 'at' => time(), 'from' => $from, 'to' => $to, 'subject' => $subject, 'by' => get_current_user_id(), 'id' => $res[1]['messageId'] ?? '' );
+	$log[] = array( 'at' => time(), 'from' => $from, 'to' => $to, 'cc' => wp_list_pluck( $cc, 'email' ), 'subject' => $subject, 'message' => $message, 'by' => get_current_user_id(), 'id' => $res[1]['messageId'] ?? '' );
 	update_post_meta( $id, 'ltef_replies', $log );
 	$back( 'replied', 'Reply sent to ' . $to . ' from ' . $from . '.' );
 }
