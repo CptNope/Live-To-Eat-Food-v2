@@ -546,7 +546,7 @@
 }
 
 /* reply by email, full width under the card */
-.ltef-card:has(> .ltef-reply) {
+.ltef-card:has(> .ltef-reply-area) {
 	grid-template-areas:
 		"head head"
 		"flags flags"
@@ -554,8 +554,12 @@
 		"details actions"
 		"reply reply";
 }
-.ltef-reply {
+.ltef-reply-area {
 	grid-area: reply;
+	display: grid;
+	gap: 4px;
+}
+.ltef-reply {
 	border-top: 1px dashed rgb(30 59 42 / .3);
 	padding-top: 10px;
 }
@@ -587,6 +591,33 @@
 }
 .ltef-reply[open] > summary::before {
 	transform: rotate(45deg);
+}
+.ltef-reply--sent > summary {
+	color: var(--ltef-olive, #4a5a3a);
+	font-weight: 600;
+}
+.ltef-reply__meta {
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	gap: 2px 12px;
+	margin: 6px 0 10px;
+	font-size: 14px;
+}
+.ltef-reply__meta dt {
+	font-weight: 600;
+}
+.ltef-reply__meta dd {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+.ltef-reply__text {
+	white-space: pre-line;
+	font-size: 15px;
+	line-height: 1.55;
+	max-width: 760px;
+	background: var(--ltef-pistachio, #f4f7ec);
+	border-radius: 12px;
+	padding: 14px 16px;
 }
 .ltef-reply__form {
 	display: grid;
@@ -791,7 +822,7 @@
 			"details"
 			"actions";
 	}
-	.ltef-card:has(> .ltef-reply) {
+	.ltef-card:has(> .ltef-reply-area) {
 		grid-template-areas:
 			"head"
 			"flags"
