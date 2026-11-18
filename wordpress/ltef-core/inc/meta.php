@@ -125,7 +125,7 @@ function ltef_fields( $type ) {
 			'checked'     => array( 'Last confirmed', 'month', 'The month Tina posted it or the place confirmed it. Shown as “per Tina, Aug 2026”.' ),
 		),
 		'ltef_ad'      => array(
-			'spot'        => array( 'Spot', 'select', '', array( 'home' => 'Home page, under Tina’s latest visits', 'rail' => 'Place pages, beside the facts', 'feed' => 'A card in Explore', 'guide' => 'Between stops on a guide' ) ),
+			'spot'        => array( 'Spot', 'select', '', array( 'home' => 'Home page, under Tina’s latest visits', 'rail' => 'Place pages, beside the facts', 'feed' => 'Top of Explore, under the heading', 'guide' => 'Between stops on a guide' ) ),
 			'line'        => array( 'One line, in the advertiser’s words', 'text', '' ),
 			'url'         => array( 'Link', 'url', '' ),
 			'cta'         => array( 'Button text', 'text', 'Visit [business], See the offer…' ),

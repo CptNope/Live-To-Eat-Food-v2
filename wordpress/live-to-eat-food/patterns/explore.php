@@ -17,6 +17,7 @@ $u = function ( $p ) {
 <!-- wp:paragraph {"className":"is-style-lede"} -->
 <p class="is-style-lede">Every place to eat on the site: the ones Tina ate at, newest first, then the ones she hasn’t been to yet. Search what she ordered, pick a craving or a neighborhood.</p>
 <!-- /wp:paragraph -->
+<!-- wp:ltef/ad-spot {"spot":"feed"} /-->
 </section>
 <!-- /wp:group -->
 <!-- wp:group {"tagName":"section","className":"is-style-sheet","backgroundColor":"pistachio","layout":{"type":"constrained","contentSize":"1240px"}} -->
