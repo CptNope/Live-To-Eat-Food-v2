@@ -24,6 +24,7 @@ function ltef_settings() {
 		'enhanced_high'   => 59,
 		'enhanced_price'  => 29,
 		'supporter_price' => 15,
+		'ad_explore'      => 100,
 		'dont_work_with'  => '',
 		'reply_days'      => 2,
 		'turnstile_site'   => '',

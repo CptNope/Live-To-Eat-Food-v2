@@ -538,6 +538,33 @@ function ltef_running_ad( $spot ) {
 }
 
 /**
+ * For a sold ad tied to a place on the site: a link to that page and, only when Tina has eaten
+ * there, the same "Tina ate here" label the place carries and a link to her video. The ad never
+ * borrows her verdicts or quotes.
+ *
+ * @return array{label:string,links:string}
+ */
+function ltef_ad_place_links( $ad_id ) {
+	$out   = array( 'label' => '', 'links' => '' );
+	$place = (int) ltef_meta( $ad_id, 'place' );
+	if ( ! $place || 'publish' !== get_post_status( $place ) ) {
+		return $out;
+	}
+	$links = array( '<a href="' . esc_url( get_permalink( $place ) ) . '">Their page on Live to Eat Food</a>' );
+	if ( ltef_tina_ate( $place ) && ! ltef_tina_owns( $place ) ) {
+		$month        = ltef_month_label( ltef_meta( $place, 'tina_date' ) );
+		$out['label'] = ltef_label( 'tina', ltef_tina_label( $place ) . ( $month ? ' · ' . $month : '' ) );
+		$video        = trim( (string) ltef_meta( $ad_id, 'video' ) );
+		$video        = '' !== $video ? $video : trim( (string) ltef_meta( $place, 'tina_video' ) );
+		if ( '' !== $video ) {
+			$links[] = '<a href="' . esc_url( $video ) . '" target="_blank" rel="noopener">Watch Tina’s video<span class="vh"> (opens a new tab)</span></a>';
+		}
+	}
+	$out['links'] = '<p class="ltef-slot__links">' . implode( '', $links ) . '</p>';
+	return $out;
+}
+
+/**
  * An ad spot: the sold ad (hatched, "Paid ad"), or, until one is sold, an invitation to advertise.
  */
 function ltef_ad_spot( $spot, $context_line = '' ) {
@@ -547,16 +574,22 @@ function ltef_ad_spot( $spot, $context_line = '' ) {
 	if ( $ad ) {
 		$logo = has_post_thumbnail( $ad->ID ) ? get_the_post_thumbnail( $ad->ID, 'medium', array( 'alt' => get_the_title( $ad->ID ) . ' logo' ) ) : esc_html( get_the_title( $ad->ID ) );
 		$cta  = ltef_meta( $ad->ID, 'cta' ) ? ltef_meta( $ad->ID, 'cta' ) : 'Visit ' . get_the_title( $ad->ID );
+		$head = ltef_label( 'sponsored', 'Paid ad' );
+		$more = ltef_ad_place_links( $ad->ID );
+		if ( $more['label'] ) {
+			$head = '<span class="ltef-slot__labels">' . $head . $more['label'] . '</span>';
+		}
 		return sprintf(
-			'<aside class="ltef-slot%1$s" aria-label="Paid ad: %2$s"><div class="ltef-slot__head">%3$s<span class="ltef-slot__why">Paid placement · <a href="%4$s">How paid ads work</a></span></div><div class="ltef-slot__body"><span class="ltef-slot__mark">%5$s</span><p class="ltef-slot__name">%2$s</p><p class="ltef-slot__line">%6$s</p><a class="ltef-btn ltef-btn--sm ltef-btn--alt ltef-slot__cta" href="%7$s" rel="sponsored noopener" target="_blank">%8$s</a></div></aside>',
+			'<aside class="ltef-slot%1$s" aria-label="Paid ad: %2$s"><div class="ltef-slot__head">%3$s<span class="ltef-slot__why">Paid placement · <a href="%4$s">How paid ads work</a></span></div><div class="ltef-slot__body"><span class="ltef-slot__mark">%5$s</span><p class="ltef-slot__name">%2$s</p><p class="ltef-slot__line">%6$s</p>%9$s<a class="ltef-btn ltef-btn--sm ltef-btn--alt ltef-slot__cta" href="%7$s" rel="sponsored noopener" target="_blank">%8$s</a></div></aside>',
 			$kind,
 			esc_html( get_the_title( $ad->ID ) ),
-			ltef_label( 'sponsored', 'Paid ad' ),
+			$head,
 			esc_url( $policy ),
 			$logo,
 			esc_html( ltef_meta( $ad->ID, 'line' ) ),
 			esc_url( ltef_meta( $ad->ID, 'url' ) ),
-			esc_html( $cta )
+			esc_html( $cta ),
+			$more['links']
 		);
 	}
 	$lines = array(
