@@ -562,7 +562,7 @@ function ltef_ad_spot( $spot, $context_line = '' ) {
 	$lines = array(
 		'home'  => 'Put your business under Tina’s latest visits, where people decide where to eat this week.',
 		'rail'  => 'Reach people looking at places nearby. One local business per page.',
-		'feed'  => 'A card in this list for your business. Never ranked, never numbered.',
+		'feed'  => 'Your business at the top of Explore, where people look for somewhere to eat. Never one of Tina’s picks.',
 		'guide' => 'A spot between the stops on this guide. Never one of Tina’s stops.',
 	);
 	$line = $context_line ? $context_line : ( $lines[ $spot ] ?? $lines['home'] );

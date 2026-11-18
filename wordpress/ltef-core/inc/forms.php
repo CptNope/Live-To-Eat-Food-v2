@@ -19,7 +19,7 @@ function ltef_forms() {
 		''         => 'Pick one',
 		'home'     => 'Ad spot: home page',
 		'rail'     => 'Ad spot: place pages',
-		'feed'     => 'Ad spot: a card in Explore',
+		'feed'     => 'Ad spot: top of Explore',
 		'guide'    => 'Ad spot: in a guide',
 		'sunday'   => 'Paid ad in Monthly Crumbs',
 		'vip'      => 'VIP Woo-pon (' . $vip . ')',

@@ -5,7 +5,7 @@
 	var be = wp.blockEditor;
 	var C = wp.components;
 	var CHOICES = {
-		spot: [ [ 'home', 'Home page' ], [ 'rail', 'Place pages' ], [ 'feed', 'Explore list' ], [ 'guide', 'Guide' ] ],
+		spot: [ [ 'home', 'Home page' ], [ 'rail', 'Place pages' ], [ 'feed', 'Top of Explore' ], [ 'guide', 'Guide' ] ],
 		form: [ [ 'woopon', 'Woo-pon' ], [ 'event', 'Event' ], [ 'job', 'Job post' ], [ 'suggest', 'Suggest a spot' ], [ 'listing', 'Fix my listing' ], [ 'special', 'Special or new dish' ], [ 'photo', 'Photo' ], [ 'contact', 'Work with Tina' ] ],
 		show: [ [ 'local', 'Local deals' ], [ 'online', 'Online partner codes' ] ]
 	};
