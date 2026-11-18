@@ -82,13 +82,14 @@ function ltef_reply_history( $post_id ) {
 			continue;
 		}
 		$out .= sprintf(
-			'<details class="ltef-reply ltef-reply--sent"><summary>Sent %1$s: %2$s</summary><dl class="ltef-reply__meta"><dt>From</dt><dd>%3$s</dd><dt>To</dt><dd>%4$s</dd>%5$s</dl><div class="ltef-reply__text">%6$s</div></details>',
+			'<details class="ltef-reply ltef-reply--sent"><summary>Sent %1$s: %2$s%7$s</summary><dl class="ltef-reply__meta"><dt>From</dt><dd>%3$s</dd><dt>To</dt><dd>%4$s</dd>%5$s</dl><div class="ltef-reply__text">%6$s</div></details>',
 			esc_html( wp_date( 'M j, g:ia', (int) $r['at'] ) ),
 			esc_html( $r['subject'] ),
 			esc_html( $r['from'] ),
 			esc_html( $r['to'] ),
 			! empty( $r['cc'] ) ? '<dt>CC</dt><dd>' . esc_html( implode( ', ', (array) $r['cc'] ) ) . '</dd>' : '',
-			esc_html( $r['message'] )
+			esc_html( $r['message'] ),
+			! empty( $r['manual'] ) ? ' <span class="description">(added by hand)</span>' : ''
 		);
 	}
 	return $out ? '<div class="ltef-replies">' . $out . '</div>' : '';
@@ -98,7 +99,8 @@ function ltef_reply_history( $post_id ) {
 function ltef_reply_form( $post ) {
 	$box = ltef_reply_box( $post );
 	$log = ltef_reply_history( $post->ID );
-	return ( $box || $log ) ? '<div class="ltef-reply-area">' . $log . $box . '</div>' : '';
+	$add = $box ? ltef_reply_log_form( $post ) : '';
+	return ( $box || $log ) ? '<div class="ltef-reply-area">' . $log . $box . $add . '</div>' : '';
 }
 
 /** The "Reply by email" box for one queue card, or '' when there's no address to reply to. */
@@ -192,4 +194,64 @@ function ltef_handle_reply() {
 	$log[] = array( 'at' => time(), 'from' => $from, 'to' => $to, 'cc' => wp_list_pluck( $cc, 'email' ), 'subject' => $subject, 'message' => $message, 'by' => get_current_user_id(), 'id' => $res[1]['messageId'] ?? '' );
 	update_post_meta( $id, 'ltef_replies', $log );
 	$back( 'replied', 'Reply sent to ' . $to . ' from ' . $from . '.' );
+}
+
+/** "Add an email sent elsewhere": paste a reply sent from a mailbox so the thread on the item stays complete. */
+function ltef_reply_log_form( $post ) {
+	$id = (int) $post->ID;
+	$me = wp_get_current_user()->user_email;
+	return sprintf(
+		'<details class="ltef-reply"><summary>Add an email sent elsewhere</summary><form method="post" action="%1$s" class="ltef-reply__form"><input type="hidden" name="action" value="ltef_reply_log"><input type="hidden" name="post" value="%2$d">%3$s'
+		. '<p class="description">For a reply sent from your own mailbox, so the whole team can read it here. Nothing is emailed.</p>'
+		. '<p><label for="ltef-lf-%2$d">From</label><input type="email" id="ltef-lf-%2$d" name="from" value="%4$s" required></p>'
+		. '<p><label for="ltef-lt-%2$d">To</label><input type="email" id="ltef-lt-%2$d" name="to" value="%5$s" required></p>'
+		. '<p><label for="ltef-ld-%2$d">Sent on</label><input type="datetime-local" id="ltef-ld-%2$d" name="when" value="%6$s" required></p>'
+		. '<p><label for="ltef-ls-%2$d">Subject</label><input type="text" id="ltef-ls-%2$d" name="subject" required></p>'
+		. '<p><label for="ltef-lm-%2$d">Message</label><textarea id="ltef-lm-%2$d" name="message" rows="10" required></textarea></p>'
+		. '<p><button class="button">Add to this item</button></p></form></details>',
+		esc_url( admin_url( 'admin-post.php' ) ),
+		$id,
+		wp_nonce_field( 'ltef_reply_log_' . $id, '_wpnonce', true, false ),
+		esc_attr( $me ),
+		esc_attr( ltef_reply_to_address( $id ) ),
+		esc_attr( wp_date( 'Y-m-d\\TH:i' ) )
+	);
+}
+
+add_action( 'admin_post_ltef_reply_log', 'ltef_handle_reply_log' );
+function ltef_handle_reply_log() {
+	$id = isset( $_POST['post'] ) ? absint( $_POST['post'] ) : 0;
+	check_admin_referer( 'ltef_reply_log_' . $id );
+	if ( ! $id || ! current_user_can( 'edit_post', $id ) ) {
+		wp_die( 'Not allowed.' );
+	}
+	$from    = isset( $_POST['from'] ) ? sanitize_email( wp_unslash( $_POST['from'] ) ) : '';
+	$to      = isset( $_POST['to'] ) ? sanitize_email( wp_unslash( $_POST['to'] ) ) : '';
+	$subject = isset( $_POST['subject'] ) ? sanitize_text_field( wp_unslash( $_POST['subject'] ) ) : '';
+	$message = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
+	$when    = isset( $_POST['when'] ) ? sanitize_text_field( wp_unslash( $_POST['when'] ) ) : '';
+	$at      = date_create_immutable( $when, wp_timezone() );
+	$back    = function ( $done, $note ) {
+		wp_safe_redirect( add_query_arg( array( 'ltef_done' => $done, 'ltef_note' => rawurlencode( $note ) ), admin_url( 'admin.php?page=ltef-review' ) ) );
+		exit;
+	};
+	if ( ! is_email( $from ) || ! is_email( $to ) || '' === $subject || '' === trim( $message ) || ! $at ) {
+		$back( 'unsent', 'Not added: it needs From, To, a date, a subject and the message.' );
+	}
+	$log    = array_values( array_filter( (array) get_post_meta( $id, 'ltef_replies', true ), 'is_array' ) );
+	$filled = false;
+	foreach ( $log as $i => $r ) {
+		// A reply the site sent before it kept the text: fill that one in rather than adding a second.
+		if ( empty( $r['message'] ) && strtolower( $r['from'] ?? '' ) === strtolower( $from ) && strtolower( $r['to'] ?? '' ) === strtolower( $to ) && ( $r['subject'] ?? '' ) === $subject ) {
+			$log[ $i ]['message'] = $message;
+			$filled               = true;
+			break;
+		}
+	}
+	if ( ! $filled ) {
+		$log[] = array( 'at' => $at->getTimestamp(), 'from' => strtolower( $from ), 'to' => $to, 'cc' => array(), 'subject' => $subject, 'message' => $message, 'by' => get_current_user_id(), 'manual' => true );
+	}
+	usort( $log, function ( $a, $b ) { return (int) $a['at'] <=> (int) $b['at']; } );
+	update_post_meta( $id, 'ltef_replies', $log );
+	$back( 'replied', 'Added to ' . get_the_title( $id ) . '.' );
 }
