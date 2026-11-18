@@ -129,6 +129,8 @@ function ltef_fields( $type ) {
 			'line'        => array( 'One line, in the advertiser’s words', 'text', '' ),
 			'url'         => array( 'Link', 'url', '' ),
 			'cta'         => array( 'Button text', 'text', 'Visit [business], See the offer…' ),
+			'place'       => array( 'Their place on the site', 'place', 'Optional. The ad links to their page here and, if Tina has eaten there, says so and links her video.' ),
+			'video'       => array( 'Tina’s video', 'url', 'Optional. Leave empty to use the video on their place page. Shown only when Tina has eaten there.' ),
 			'start'       => array( 'Runs from', 'date', '' ),
 			'end'         => array( 'Runs until', 'date', 'After this day the spot shows “Ad space open” again.' ),
 		),

@@ -447,10 +447,15 @@ textarea.ltef-input { min-height: 96px; padding: 12px 16px; border-radius: 18px;
 .ltef-slot__line { margin: 0; font: 500 16px/1.5 var(--font-reading); }
 .ltef-slot__cta { justify-self: start; margin-top: 4px; }
 .ltef-slot--rail .ltef-slot__body { grid-template-columns: minmax(0, 1fr); }
+.ltef-slot--rail .ltef-slot__links { grid-column: auto; }
 .ltef-slot--rail .ltef-slot__mark { grid-row: auto; width: 100%; aspect-ratio: 5 / 2; }
 .ltef-slot--feed .ltef-slot__body { grid-template-columns: 96px minmax(0, 1fr) auto; }
 .ltef-slot--feed .ltef-slot__mark { width: 96px; grid-row: span 2; }
 .ltef-slot--feed .ltef-slot__cta { grid-column: 3; grid-row: 1 / span 2; align-self: center; margin: 0; }
+.ltef-slot__labels { display: flex; flex-wrap: wrap; gap: 6px; }
+.ltef-slot__links { grid-column: 2; display: flex; flex-wrap: wrap; gap: 2px 18px; margin: 0; font: 700 14px/1.4 var(--font-interface); }
+.ltef-slot__links a { display: inline-block; padding-block: 6px; color: var(--basil); text-decoration-thickness: 1.5px; text-underline-offset: .18em; }
+@media (min-width: 561px) { .ltef-slot--feed:has(.ltef-slot__links) .ltef-slot__mark { grid-row: span 3; } .ltef-slot--feed:has(.ltef-slot__links) .ltef-slot__cta { grid-row: 1 / span 3; } }
 @media (max-width: 560px) { .ltef-slot__body, .ltef-slot--feed .ltef-slot__body { grid-template-columns: 64px minmax(0, 1fr); padding: 14px; } .ltef-slot__mark, .ltef-slot--feed .ltef-slot__mark { width: 64px; } .ltef-slot--feed .ltef-slot__cta { grid-column: 2; grid-row: auto; justify-self: start; } .ltef-slot--rail .ltef-slot__body { grid-template-columns: minmax(0, 1fr); } .ltef-slot--rail .ltef-slot__mark { width: 100%; } }
 
 /* Owner-supplied content on an Enhanced listing: additive, labeled, in the owner's voice, never Tina's hand. */

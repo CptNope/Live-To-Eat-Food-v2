@@ -544,6 +544,7 @@ function ltef_price_fields() {
 		'job_post'      => array( 'Job post', '$ a month', '' ),
 		'dish_price'    => array( 'New dish', '$ a dish', 'Shown in New dishes on Explore for 4 weeks from the day Tina approves it.' ),
 		'enhanced_price' => array( 'Enhanced listing', '$ a month', 'Charged every month through Stripe when an owner upgrades from their listing screen. A new price applies to new upgrades; existing ones keep theirs.' ),
+		'ad_explore'    => array( 'Ad spot: top of Explore', '$ a month', 'Quoted on Work with Tina. Booked by hand: add the ad under Ads once they pay.' ),
 		'supporter_price' => array( 'Local supporter', '$ a month', 'Charged every month through Stripe once Tina approves a supporter and they sign up. A new price applies to new sign-ups; existing ones keep theirs.' ),
 	);
 }

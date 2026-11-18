@@ -238,7 +238,7 @@ function ltef_register_settings() {
 			'type'              => 'array',
 			'sanitize_callback' => function ( $in ) {
 				$out = ltef_settings();
-				foreach ( array( 'woopon_weekly', 'woopon_free', 'woopon_vip', 'vip_limit', 'event_premium', 'job_post', 'dish_price', 'enhanced_low', 'enhanced_high', 'enhanced_price', 'reply_days' ) as $k ) {
+				foreach ( array( 'woopon_weekly', 'woopon_free', 'woopon_vip', 'vip_limit', 'event_premium', 'job_post', 'dish_price', 'enhanced_low', 'enhanced_high', 'enhanced_price', 'ad_explore', 'reply_days' ) as $k ) {
 					if ( isset( $in[ $k ] ) ) {
 						$out[ $k ] = max( 0, (float) $in[ $k ] );
 					}
