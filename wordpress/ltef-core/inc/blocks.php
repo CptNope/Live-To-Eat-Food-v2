@@ -42,6 +42,7 @@ function ltef_block_defs() {
 		'giveaways'      => array( 'Giveaways', 'Running and upcoming giveaways with how to enter, then past ones with the winner. Add them under Woo-pons → Giveaways.', 'awards', array(), 'ltef_block_giveaways', false ),
 		'giveaway-banner' => array( 'Giveaway banner', 'A banner while a giveaway runs, linking to how to enter. Shows nothing otherwise.', 'awards', array(), 'ltef_block_giveaway_banner', false ),
 		'vip-spots'      => array( 'VIP spots left', 'How many VIP Woo-pon spots are left this month, with a button to the form.', 'star-filled', array(), 'ltef_block_vip_spots', false ),
+		'in-memory'      => array( 'In loving memory', 'Places marked Closed for good, as cards. Shows nothing until there is one.', 'heart', array(), 'ltef_block_in_memory', false ),
 		'verdicts'       => array( 'Tina’s two verdicts', 'Favorite and Must try, explained.', 'star-filled', array(), 'ltef_block_verdicts', false ),
 	);
 }
@@ -172,7 +173,7 @@ function ltef_block_place_facts( $attrs, $content, $block ) {
 		return '';
 	}
 	$rail = '';
-	if ( ! empty( $attrs['showAd'] ) && ! ltef_meta( $id, 'enhanced' ) && 0 === $id % 2 ) {
+	if ( ! empty( $attrs['showAd'] ) && ! ltef_meta( $id, 'enhanced' ) && ! ltef_place_closed( $id ) && 0 === $id % 2 ) {
 		$area = ltef_place_area_name( $id );
 		$rail = '<div class="go-rail"><h2 class="go-rail__h">From a local business</h2>' . ltef_ad_spot( 'rail', $area ? 'Reach people looking at ' . $area . ' places. One local business per page.' : '' ) . '</div>';
 	}

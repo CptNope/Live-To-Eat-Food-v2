@@ -278,6 +278,9 @@ function ltef_more_videos_html( $post_id ) {
 
 /** Before you go: facts from the listing, then what's worth knowing. */
 function ltef_place_facts( $post_id ) {
+	if ( function_exists( 'ltef_place_closed' ) && ltef_place_closed( $post_id ) ) {
+		return ltef_closed_panel( $post_id );
+	}
 	$rows = array();
 	$addr = ltef_meta( $post_id, 'address' );
 	$town = ltef_town_state( ltef_meta( $post_id, 'town' ) );

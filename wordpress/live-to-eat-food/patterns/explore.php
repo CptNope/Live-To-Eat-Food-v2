@@ -35,6 +35,11 @@ $u = function ( $p ) {
 <!-- wp:ltef/explore /-->
 </section>
 <!-- /wp:group -->
+<!-- wp:group {"tagName":"section","className":"is-style-sheet hide-if-empty","backgroundColor":"oat","layout":{"type":"constrained","contentSize":"1240px"}} -->
+<section class="wp-block-group is-style-sheet hide-if-empty has-oat-background-color has-background">
+<!-- wp:ltef/in-memory /-->
+</section>
+<!-- /wp:group -->
 <!-- wp:group {"tagName":"section","anchor":"add-dish","className":"is-style-sheet","backgroundColor":"pistachio","layout":{"type":"constrained","contentSize":"1240px"}} -->
 <section id="add-dish" class="wp-block-group is-style-sheet has-pistachio-background-color has-background"><!-- wp:group {"className":"two"} -->
 <div class="wp-block-group two"><!-- wp:group {"layout":{"type":"default"}} -->
