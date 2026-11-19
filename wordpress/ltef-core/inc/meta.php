@@ -26,6 +26,8 @@ function ltef_fields( $type ) {
 			'instagram'   => array( 'Instagram copy', 'url', 'Optional. The reel or post link (instagram.com/reel/…).' ),
 			'facebook'    => array( 'Facebook copy', 'url', 'Optional. Open the video on Facebook and copy the link from the address bar (facebook.com/reel/… or …/videos/…). The video must be Public. The site plays the first copy it has, in this order: YouTube, Instagram, Facebook, TikTok, and links to the others under the video.' ),
 			'tina_date'   => array( 'Month she posted', 'month', 'Shown as “Tina ate here · Aug 2026”.' ),
+			'closed'      => array( 'Closed for good', 'checkbox', 'It leaves Explore, Roulette and every list and moves to “In loving memory” at the bottom of Explore. Its page stays up with Tina’s videos and says it has closed, with no directions or hours.' ),
+			'closed_on'   => array( 'Month it closed', 'month', 'Optional. Shown as “Closed Nov 2026”.' ),
 			'more_videos' => array( 'More videos from here', 'textarea', 'Her other videos from this place, one per line: month | link | her caption. Example: 2026-08 | https://www.tiktok.com/@livetoeatfoodie/video/… | Another bread-cellent meal. Put a YouTube or Instagram copy in the same line after the first link, with a space between.' ),
 			'verdict'     => array( 'Tina’s verdict', 'select', 'Only Tina picks this. Most places get neither.', array( '' => 'No verdict', 'favorite' => 'Favorite (star)', 'dont-miss' => 'Must try (target)' ) ),
 			'hosted'      => array( 'Hosted visit', 'checkbox', 'The place invited Tina and covered the meal. The page says so above her take.' ),
