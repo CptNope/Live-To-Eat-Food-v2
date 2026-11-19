@@ -40,8 +40,10 @@ function ltef_turnstile_widget( $where, $appearance = 'interaction-only' ) {
 		return '';
 	}
 	wp_enqueue_script( 'cf-turnstile', 'https://challenges.cloudflare.com/turnstile/v0/api.js', array(), null, array( 'strategy' => 'defer', 'in_footer' => true ) ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Cloudflare serves the current version at this URL
+	// Holds a press of the button until the check is done, so an early press can't fail.
+	wp_enqueue_script( 'ltef-turnstile-wait', LTEF_URL . 'assets/js/turnstile-wait.js', array(), LTEF_VERSION, array( 'in_footer' => true ) );
 	return sprintf(
-		'<div class="cf-turnstile ltef-turnstile" data-sitekey="%s" data-action="%s" data-theme="light" data-size="flexible" data-appearance="%s" data-language="en"></div>',
+		'<div class="cf-turnstile ltef-turnstile" data-sitekey="%s" data-action="%s" data-theme="light" data-size="flexible" data-appearance="%s" data-refresh-expired="auto" data-language="en"></div>',
 		esc_attr( $site ),
 		esc_attr( substr( preg_replace( '/[^a-z0-9_-]/i', '-', $where ), 0, 32 ) ),
 		esc_attr( $appearance )
@@ -121,7 +123,7 @@ add_action(
 	'login_enqueue_scripts',
 	function () {
 		if ( ltef_turnstile_login_on() ) {
-			wp_add_inline_style( 'login', '.login .ltef-turnstile{margin:0 0 16px}' );
+			wp_add_inline_style( 'login', '.login .ltef-turnstile{margin:0 0 16px}.login .ltef-turnstile-wait{margin:0 0 12px;font-size:13px;color:#1e3b2a}' );
 		}
 	}
 );
