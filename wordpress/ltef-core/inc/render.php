@@ -628,11 +628,22 @@ function ltef_event_row( $post_id ) {
 		esc_html( $meta ),
 		has_excerpt( $post_id ) ? '<p>' . esc_html( get_the_excerpt( $post_id ) ) . '</p>' : '',
 		$link ? '<a class="ltef-btn ltef-btn--sm" href="' . esc_url( $link ) . '" target="_blank" rel="noopener">Details<span class="vh"> (opens a new tab)</span></a>' : '',
-		esc_url( ltef_maps_url( '', (string) ltef_meta( $post_id, 'venue' ) ) ),
+		esc_url( ltef_event_maps_url( $post_id ) ),
 		esc_url( get_permalink( $post_id ) ),
 		esc_attr( ltef_event_kind( $post_id ) ),
 		ltef_event_kind_chip( $post_id )
 	);
+}
+
+/** Google Maps directions for an event: its street address when it has one, else the "Where" text. */
+function ltef_event_maps_url( $post_id ) {
+	$venue = trim( (string) ltef_meta( $post_id, 'venue' ) );
+	$addr  = trim( (string) ltef_meta( $post_id, 'address' ) );
+	if ( '' === $addr ) {
+		return ltef_maps_url( '', $venue );
+	}
+	// The address alone: the "Where" text often carries a neighborhood that throws the search off.
+	return ltef_maps_url( '', $addr, false !== strpos( $addr, ',' ) ? '' : 'Worcester, MA' );
 }
 
 /** An event's kind key, "other" when it has none. */
@@ -849,8 +860,10 @@ function ltef_event_facts( $post_id ) {
 	} elseif ( '' !== $time ) {
 		$rows[] = array( 'Time', $time );
 	}
-	if ( '' !== $venue ) {
-		$rows[] = array( 'Where', $venue );
+	$addr = trim( (string) ltef_meta( $post_id, 'address' ) );
+	if ( '' !== $venue || '' !== $addr ) {
+		$where  = '' !== $addr && false === stripos( $venue, $addr ) ? trim( $venue . "\n" . $addr ) : $venue;
+		$rows[] = array( 'Where', $where );
 	}
 	if ( '' !== $price ) {
 		$rows[] = array( 'Price', $price );
@@ -870,7 +883,7 @@ function ltef_event_facts( $post_id ) {
 	$labels = trim( ltef_event_kind_chip( $post_id ) . ( ltef_meta( $post_id, 'tina' ) ? ltef_label( 'tina', 'Tina’s event' ) : '' ) . ( ltef_meta( $post_id, 'premium' ) ? ltef_label( 'sponsored', 'Premium listing' ) : '' ) );
 	$past   = $ts && ltef_event_last( $post_id ) < ltef_today();
 	$btns   = ( $link ? '<a class="ltef-btn ltef-btn--sm" href="' . esc_url( $link ) . '" target="_blank" rel="noopener">Details and tickets<span class="vh"> (opens a new tab)</span></a>' : '' )
-		. ( '' !== $venue ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_maps_url( '', $venue ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' : '' );
+		. ( '' !== $venue || '' !== $addr ? '<a class="ltef-btn ltef-btn--sm ltef-btn--alt" href="' . esc_url( ltef_event_maps_url( $post_id ) ) . '" target="_blank" rel="noopener">' . ltef_icon( 'pin' ) . 'Get directions<span class="vh"> (opens Google Maps)</span></a>' : '' );
 	return '<div class="panel facts-panel ev-facts">'
 		. ( $labels ? '<div class="ev-facts__labels">' . $labels . '</div>' : '' )
 		. ( $past ? '<p class="ev-facts__past">This event has passed. <a href="' . esc_url( home_url( '/events/' ) ) . '">See what’s coming up</a>.</p>' : '' )
@@ -950,8 +963,13 @@ add_action(
 			'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
 			'url'                 => get_permalink( $id ),
 		);
-		if ( '' !== $venue ) {
-			$data['location'] = array( '@type' => 'Place', 'name' => $venue, 'address' => $venue );
+		$addr = trim( (string) ltef_meta( $id, 'address' ) );
+		if ( '' !== $venue || '' !== $addr ) {
+			$data['location'] = array(
+				'@type'   => 'Place',
+				'name'    => '' !== $venue ? $venue : $addr,
+				'address' => '' !== $addr ? array( '@type' => 'PostalAddress', 'streetAddress' => $addr, 'addressRegion' => 'MA', 'addressCountry' => 'US' ) : $venue,
+			);
 		}
 		if ( '' !== trim( $desc ) ) {
 			$data['description'] = $desc;

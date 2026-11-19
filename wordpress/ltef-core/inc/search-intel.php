@@ -345,6 +345,8 @@ function ltef_si_llms( $out, $full ) {
 				$last  = ltef_event_last( $e->ID );
 				$when  = $last && $last !== $when ? $when . ' to ' . $last : $when;
 				$venue = trim( (string) ltef_meta( $e->ID, 'venue' ) );
+				$addr  = trim( (string) ltef_meta( $e->ID, 'address' ) );
+				$venue = '' !== $addr && false === stripos( $venue, $addr ) ? trim( $venue . ', ' . $addr, ', ' ) : $venue;
 				$more .= sprintf( "- [%s](%s): %s\n", html_entity_decode( get_the_title( $e->ID ), ENT_QUOTES, 'UTF-8' ), esc_url_raw( get_permalink( $e->ID ) ), implode( ' · ', array_filter( array( $when, trim( (string) ltef_meta( $e->ID, 'time' ) ), $venue ) ) ) );
 			}
 			$more .= "\n";
