@@ -157,7 +157,7 @@ function ltef_block_video( $attrs ) {
 	}
 	$cap   = (string) ( $attrs['caption'] ?? '' );
 	$month = (string) ( $attrs['month'] ?? '' );
-	$html  = ltef_video_box( $sources, array( 'title' => 'Tina’s video' . ( $month ? ', ' . ltef_month_label( $month ) : '' ), 'month' => $month, 'caption' => $cap, 'field' => 'lemon' ) );
+	$html  = ltef_video_box( $sources, array( 'title' => 'Tina’s video' . ( $month ? ', ' . ltef_month_label( $month ) : '' ), 'month' => $month, 'caption' => $cap, 'field' => 'lemon', 'cover' => function_exists( 'ltef_video_thumb_img' ) ? ltef_video_thumb_img( $sources ) : '' ) );
 	return ltef_wrap( $html . ( $cap ? '<p class="ltef-note video-cap">“' . esc_html( $cap ) . '”</p>' : '' ), 'ltef-video' );
 }
 

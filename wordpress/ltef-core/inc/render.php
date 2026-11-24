@@ -223,8 +223,12 @@ function ltef_video_box( $sources, $o ) {
 	return '<div class="take-video"' . ( $o['id'] ? ' id="' . esc_attr( $o['id'] ) . '"' : '' ) . '>' . $box . $note . '</div>';
 }
 
-/** The cover for a place's video: a saved TikTok still, then the featured image, else none. */
+/** The cover for a place's video: the video's own thumbnail, then a saved TikTok still, then the featured image, else none. */
 function ltef_place_cover( $post_id, $sources ) {
+	$thumb = function_exists( 'ltef_video_thumb_img' ) ? ltef_video_thumb_img( $sources ) : '';
+	if ( $thumb ) {
+		return $thumb;
+	}
 	foreach ( $sources as $s ) {
 		if ( 'tiktok' === $s['platform'] ) {
 			$rel = 'assets/photos/videos/' . ltef_tiktok_id( $s['url'] ) . '.webp';
@@ -266,7 +270,7 @@ function ltef_more_videos_html( $post_id ) {
 		}
 		$month  = ltef_month_label( $v['month'] );
 		$title  = 'Tina’s video at ' . get_the_title( $post_id ) . ( $month ? ', ' . $month : '' );
-		$items .= '<li class="more-vid">' . ltef_video_box( $sources, array( 'title' => $title, 'month' => $v['month'], 'caption' => $v['caption'], 'field' => array( 'peach', 'lemon', 'butter', 'pistachio' )[ $i % 4 ], 'sticker' => ltef_sticker_url( ltef_place_sticker( $post_id ) ), 'small' => true ) )
+		$items .= '<li class="more-vid">' . ltef_video_box( $sources, array( 'title' => $title, 'month' => $v['month'], 'caption' => $v['caption'], 'field' => array( 'peach', 'lemon', 'butter', 'pistachio' )[ $i % 4 ], 'sticker' => ltef_sticker_url( ltef_place_sticker( $post_id ) ), 'cover' => function_exists( 'ltef_video_thumb_img' ) ? ltef_video_thumb_img( $sources ) : '', 'small' => true ) )
 			. ( $v['caption'] ? '<p class="more-vid__cap">“' . esc_html( $v['caption'] ) . '”</p>' : '' )
 			. ( $month ? '<p class="meta more-vid__when">' . esc_html( $month ) . '</p>' : '' ) . '</li>';
 	}
