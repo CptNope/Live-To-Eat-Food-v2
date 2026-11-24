@@ -587,6 +587,11 @@ function ltef_block_roulette() {
 			'quote'    => (string) ltef_meta( $p->ID, 'tina_quote' ),
 			'dish'     => (string) ltef_meta( $p->ID, 'dish' ),
 			'url'      => $vs ? $vs[0]['url'] : (string) ltef_meta( $p->ID, 'tina_video' ),
+			// Her video as a paused still that plays right on the card: the first playable copy, a second to fall back on, the saved thumbnail.
+			'embed'    => $vs ? (string) $vs[0]['embed'] : '',
+			'alt'      => isset( $vs[1] ) ? (string) $vs[1]['embed'] : '',
+			'vlabel'   => $vs ? (string) $vs[0]['label'] : '',
+			'thumb'    => $vs && function_exists( 'ltef_video_thumb_url' ) ? ltef_video_thumb_url( $vs ) : '',
 			'href'     => get_permalink( $p->ID ),
 			'maps'     => ltef_maps_url( $p->post_title, (string) ltef_meta( $p->ID, 'address' ), ltef_town_state( ltef_meta( $p->ID, 'town' ) ) ),
 			'town'     => ltef_meta( $p->ID, 'town' ) ? (string) ltef_meta( $p->ID, 'town' ) : 'Worcester',
@@ -629,7 +634,7 @@ function ltef_block_roulette() {
 		. '<div class="roul-left"><div class="roul-result" aria-live="polite">'
 		. '<div class="roul-card roul-card--wait" data-state="spinning" hidden><p class="h-m">Spinning…</p><p>Picking from <span data-f="count"></span> places.</p></div>'
 		. '<div class="roul-card roul-card--none" data-state="nomatch" hidden><p class="h-m">Nothing on the wheel for that yet.</p><p>Try another town or craving, say anyone’s coming, or spin from all restaurants.</p></div>'
-		. '<article class="roul-card roul-card--pick" data-state="pick" hidden><div class="roul-card__labels"><span class="ltef-lbl ltef-lbl--tina" data-if="tina">' . ltef_icon( 'pen' ) . 'Tina ate here · <span data-f="month"></span></span><span class="ltef-lbl ltef-lbl--notyet" data-if="notyet">Tina hasn’t been yet</span><span data-if="favorite" hidden>' . ltef_verdict_html( 'favorite' ) . '</span><span data-if="dont-miss" hidden>' . ltef_verdict_html( 'dont-miss' ) . '</span></div>'
+		. '<article class="roul-card roul-card--pick" data-state="pick" hidden><div class="roul-card__vid" data-roul-vid hidden></div><div class="roul-card__labels"><span class="ltef-lbl ltef-lbl--tina" data-if="tina">' . ltef_icon( 'pen' ) . 'Tina ate here · <span data-f="month"></span></span><span class="ltef-lbl ltef-lbl--notyet" data-if="notyet">Tina hasn’t been yet</span><span data-if="favorite" hidden>' . ltef_verdict_html( 'favorite' ) . '</span><span data-if="dont-miss" hidden>' . ltef_verdict_html( 'dont-miss' ) . '</span></div>'
 		. '<h2 class="roul-card__name" tabindex="-1" data-f="name"></h2><p class="meta" data-f="meta"></p>'
 		. '<div data-if="tina"><div class="ordered"><span class="ordered__ph" data-f="bg"><img src="" alt="" data-f="img" width="56" height="56"></span><span class="ordered__txt"><span class="ordered__k">What Tina ordered</span><span class="ordered__dish" data-f="dish"></span></span></div><p class="ltef-note">“<span data-f="quote"></span>”</p></div>'
 		. '<p data-if="notyet">Tina hasn’t eaten here yet, so there’s no video or take. It’s on the wheel because you picked all restaurants.</p>'
