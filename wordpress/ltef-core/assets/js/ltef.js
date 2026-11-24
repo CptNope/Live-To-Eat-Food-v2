@@ -85,7 +85,7 @@
 			wrap.className = 'ltef-card__vid';
 			x.type = 'button'; x.className = 'ltef-card__stop';
 			x.setAttribute( 'aria-label', 'Close the video' );
-			x.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>Close';
+			x.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>';
 			x.addEventListener( 'click', function () { stopCard( card ); b.focus(); } );
 			var box = tt.cloneNode( true );
 			wrap.appendChild( box );
