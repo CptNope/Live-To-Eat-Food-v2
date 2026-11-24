@@ -511,7 +511,7 @@ function ltef_woopon_ticket( $post_id ) {
 	} elseif ( $place && ltef_tina_owns( $place ) ) {
 		$tina = ltef_place_trust_label( $place );
 	} elseif ( $place && ltef_tina_ate( $place ) ) {
-		$tina = ltef_label( 'tina', 'Tina ate here · ' . ltef_month_label( ltef_meta( $place, 'tina_date' ) ) );
+		$tina = ltef_label( 'tina', trim( ltef_tina_label( $place ) . ' · ' . ltef_month_label( ltef_meta( $place, 'tina_date' ) ), ' ·' ) );
 	} else {
 		$tina = '<span class="ltef-lbl ltef-lbl--notyet ltef-lbl--sm">Tina hasn’t been yet</span>';
 	}

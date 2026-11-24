@@ -241,9 +241,9 @@ function ltef_place_trust_label( $post_id, $small = true ) {
 	return ltef_label( 'tina', trim( ltef_tina_label( $post_id ) . ' · ' . ltef_month_label( ltef_meta( $post_id, 'tina_date' ) ), ' ·' ), $small );
 }
 
-/** "Tina ate here" for food, "Tina went here" for everything else. */
+/** "Tina ate here" for food and drink, "Tina visited here" for everything else (shops, salons, things to do…). */
 function ltef_tina_label( $post_id ) {
-	return 'eat' === ltef_place_kind( $post_id ) ? 'Tina ate here' : 'Tina went here';
+	return 'eat' === ltef_place_kind( $post_id ) ? 'Tina ate here' : 'Tina visited here';
 }
 
 /** A town for maps and addresses: "Worcester, MA", or the town as given when it already names its state. */

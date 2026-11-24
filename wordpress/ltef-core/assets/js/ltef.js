@@ -248,6 +248,7 @@
 				btn.removeAttribute( 'aria-disabled' ); label.textContent = 'Spin again';
 				[ 'name', 'meta', 'month', 'quote', 'dish' ].forEach( function ( k ) { fill( k, p[ k ] ); } );
 				$$( '[data-if="tina"]', R ).forEach( function ( el ) { el.hidden = ! p.tina; } );
+				$$( '.ordered', R ).forEach( function ( el ) { el.style.display = p.dish ? '' : 'none'; } ); // no "What Tina ordered" without a dish (.ordered is display: flex, so hidden alone won't do)
 				$$( '[data-if="notyet"]', R ).forEach( function ( el ) { el.hidden = !! p.tina; } );
 				[ 'favorite', 'dont-miss' ].forEach( function ( v ) { $$( '[data-if="' + v + '"]', R ).forEach( function ( el ) { el.hidden = p.verdict !== v; } ); } );
 				$$( '[data-f="bg"]', R ).forEach( function ( el ) { el.style.background = p.bg; } );
