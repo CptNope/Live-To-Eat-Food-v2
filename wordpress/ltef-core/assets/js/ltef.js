@@ -8,9 +8,10 @@
 	// TikTok's player says when it's ready; if it doesn't (TikTok busy, blocked on the network, or the
 	// video gone), switch to another copy when there is one, or offer the video on TikTok and a retry.
 	var hosts = /^https:\/\/www\.(youtube-nocookie\.com|instagram\.com|facebook\.com|tiktok\.com)\//;
-	$$( '.tt' ).forEach( function ( box ) {
+	// Wires one paused player and returns its play function (null when it can't play here).
+	function player( box ) {
 		var btn = box.querySelector( '.tt-play' ), src = box.getAttribute( 'data-embed' );
-		if ( ! btn || ! src || ! hosts.test( src ) ) return;
+		if ( ! btn || ! src || ! hosts.test( src ) ) return null;
 		var alt = box.getAttribute( 'data-alt' ) || '', url = box.getAttribute( 'data-url' ) || '', label = box.getAttribute( 'data-label' ) || 'TikTok';
 		function frame( s ) {
 			var f = document.createElement( 'iframe' );
@@ -58,8 +59,54 @@
 			}
 			window.addEventListener( 'message', hear );
 		}
-		btn.addEventListener( 'click', function () { frame( src ).focus(); } );
-	} );
+		function play() { frame( src ).focus(); }
+		btn.addEventListener( 'click', play );
+		return play;
+	}
+	$$( '.tt' ).forEach( player );
+
+	// A card's photo plays Tina's video in a pop-up player; the rest of the card still opens the place.
+	// Closing empties the pop-up, which stops the video.
+	var cardBtns = $$( '.ltef-card__play' ), dlg = null, dlgBody = null;
+	function popup() {
+		if ( dlg ) return;
+		dlg = document.createElement( 'dialog' );
+		dlg.className = 'tt-dialog';
+		dlg.setAttribute( 'aria-label', 'Tina’s video' );
+		var bar = document.createElement( 'div' ), x = document.createElement( 'button' );
+		bar.className = 'tt-dialog__bar';
+		x.type = 'button'; x.className = 'ticket-close';
+		x.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="18" height="18"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>Close';
+		x.addEventListener( 'click', function () { dlg.close(); } );
+		bar.appendChild( x );
+		dlgBody = document.createElement( 'div' );
+		dlgBody.className = 'tt-dialog__body';
+		dlg.appendChild( bar );
+		dlg.appendChild( dlgBody );
+		dlg.addEventListener( 'click', function ( e ) {
+			if ( e.target !== dlg ) return;
+			var r = dlg.getBoundingClientRect();
+			if ( e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom ) dlg.close();
+		} );
+		dlg.addEventListener( 'close', function () { dlgBody.innerHTML = ''; } );
+		document.body.appendChild( dlg );
+	}
+	if ( cardBtns.length && typeof HTMLDialogElement === 'function' ) {
+		cardBtns.forEach( function ( b ) {
+			var tpl = b.parentNode.querySelector( 'template.ltef-card__video' );
+			if ( ! tpl ) return;
+			b.hidden = false;
+			b.addEventListener( 'click', function () {
+				popup();
+				dlgBody.innerHTML = '';
+				dlgBody.appendChild( tpl.content.cloneNode( true ) );
+				dlg.setAttribute( 'aria-label', b.getAttribute( 'aria-label' ).replace( /^Play /, '' ) );
+				dlg.showModal();
+				var box = dlgBody.querySelector( '.tt' ), go = box && player( box );
+				if ( go ) go();
+			} );
+		} );
+	}
 
 	// Chip groups that filter a list by data attributes (Woo-pons, jobs).
 	function chipFilter( chipAttr, itemSel, itemAttr, countEl, word ) {

@@ -116,6 +116,23 @@ function ltef_card_thumb( $post_id ) {
 		: '<img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ) . '" alt="" width="148" height="148">';
 }
 
+/**
+ * A card's play button: the photo becomes a button that opens Tina's video in a pop-up player on the same page.
+ * The player waits in a <template>, so nothing loads from any platform until someone presses play.
+ * Hidden until the script shows it, so without the script the card is just its link.
+ */
+function ltef_card_video( $post_id ) {
+	$video = ltef_video_html( $post_id );
+	if ( '' === $video ) {
+		return '';
+	}
+	$name  = get_the_title( $post_id );
+	$video = str_replace( '<div class="take-video" id="video">', '<div class="take-video">', $video );
+	return '<button class="ltef-card__play" type="button" hidden aria-label="' . esc_attr( 'Play Tina’s video at ' . $name ) . '"><span class="ltef-card__play-i">' . ltef_icon( 'play' ) . '</span></button>'
+		. '<template class="ltef-card__video">' . $video
+		. '<p class="tt-dialog__more"><a class="ltef-btn ltef-btn--sm" href="' . esc_url( get_permalink( $post_id ) ) . '">' . esc_html( 'See ' . $name ) . ltef_icon( 'arrow' ) . '</a></p></template>';
+}
+
 /** A place as a card: photo or sticker, label, name, meta, Tina's line. */
 function ltef_place_card( $post_id ) {
 	$field = ltef_place_field( $post_id );
@@ -126,7 +143,7 @@ function ltef_place_card( $post_id ) {
 	$quote = ltef_meta( $post_id, 'tina_quote' );
 	$v     = ltef_tina_owns( $post_id ) ? '' : ltef_verdict_html( ltef_meta( $post_id, 'verdict' ) );
 	return sprintf(
-		'<article class="ltef-card"><a href="%1$s" class="ltef-card__link"><div class="ltef-card__ph" style="background: var(--%2$s);">%3$s%4$s</div><div class="ltef-card__row"><h3 class="ltef-card__name">%5$s</h3></div><p class="ltef-card__meta">%6$s</p>%7$s%8$s</a></article>',
+		'<article class="ltef-card"><a href="%1$s" class="ltef-card__link"><div class="ltef-card__ph" style="background: var(--%2$s);">%3$s%4$s</div><div class="ltef-card__row"><h3 class="ltef-card__name">%5$s</h3></div><p class="ltef-card__meta">%6$s</p>%7$s%8$s</a>%9$s</article>',
 		esc_url( get_permalink( $post_id ) ),
 		esc_attr( $field ),
 		ltef_place_trust_label( $post_id, false ),
@@ -134,7 +151,8 @@ function ltef_place_card( $post_id ) {
 		esc_html( get_the_title( $post_id ) ),
 		esc_html( ltef_place_meta_line( $post_id, false ) ),
 		$v ? '<div class="ltef-verdicts">' . $v . '</div>' : '',
-		$quote ? '<p class="ltef-note">“' . esc_html( $quote ) . '”</p>' : ( function_exists( 'ltef_enhanced_card_line' ) ? ltef_enhanced_card_line( $post_id ) : '' )
+		$quote ? '<p class="ltef-note">“' . esc_html( $quote ) . '”</p>' : ( function_exists( 'ltef_enhanced_card_line' ) ? ltef_enhanced_card_line( $post_id ) : '' ),
+		ltef_card_video( $post_id )
 	);
 }
 
