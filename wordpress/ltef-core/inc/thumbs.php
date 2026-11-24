@@ -3,9 +3,9 @@
  * Video thumbnails: the real first frame of each of Tina's videos, shown on the paused player instead of a sticker.
  *
  * The site saves a copy of each thumbnail in uploads/ltef-thumbs/ and serves it itself, so a page still loads
- * nothing from YouTube or TikTok until someone presses play. YouTube Shorts give a tall thumbnail at a fixed
- * address; TikTok gives one through its public oEmbed lookup. Instagram and Facebook need an app token for this,
- * so a video that is only there keeps its sticker.
+ * nothing from YouTube, TikTok or Instagram until someone presses play. YouTube Shorts give a tall thumbnail at a
+ * fixed address; TikTok and Instagram put the cover image in their public video and embed pages. Facebook needs an
+ * app token for this, so a video that is only there keeps its sticker.
  *
  * @package LTEF_Core
  */
@@ -13,6 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 
 const LTEF_THUMBS_DIR = 'ltef-thumbs';
+const LTEF_THUMBS_VER = '2'; // bump to look again at every place's videos that still have no thumbnail
 
 /** The file name stem for one copy of a video: "youtube-AbC…" or "tiktok-7709…". '' when the platform has no thumbnail for us. */
 function ltef_thumb_key( $url ) {
@@ -23,7 +24,24 @@ function ltef_thumb_key( $url ) {
 	if ( 'tiktok' === $pf && ltef_tiktok_id( $url ) ) {
 		return 'tiktok-' . ltef_tiktok_id( $url );
 	}
+	if ( 'instagram' === $pf && ltef_instagram_ref( $url ) ) {
+		return 'instagram-' . ltef_instagram_ref( $url )[1];
+	}
 	return '';
+}
+
+/** A public page's HTML, fetched the way a browser would ask for it. '' on any failure. */
+function ltef_thumb_page( $url ) {
+	$res = wp_remote_get(
+		$url,
+		array(
+			'timeout'             => 10,
+			'limit_response_size' => 3 * MB_IN_BYTES,
+			'user-agent'          => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36',
+			'headers'             => array( 'Accept-Language' => 'en-US,en;q=0.9' ),
+		)
+	);
+	return is_wp_error( $res ) || 200 !== (int) wp_remote_retrieve_response_code( $res ) ? '' : (string) wp_remote_retrieve_body( $res );
 }
 
 /** Where thumbnails live: array( dir, url ). */
@@ -74,12 +92,25 @@ function ltef_thumb_remote( $url ) {
 			: array( "https://i.ytimg.com/vi/$id/oar2.jpg", "https://i.ytimg.com/vi/$id/hqdefault.jpg" );
 	}
 	if ( 'tiktok' === $pf && ltef_tiktok_id( $url ) ) {
+		$try = array();
 		$res = wp_remote_get( 'https://www.tiktok.com/oembed?url=' . rawurlencode( $url ), array( 'timeout' => 8 ) );
-		if ( is_wp_error( $res ) || 200 !== (int) wp_remote_retrieve_response_code( $res ) ) {
-			return array();
+		$data = is_wp_error( $res ) ? null : json_decode( wp_remote_retrieve_body( $res ), true );
+		if ( ! empty( $data['thumbnail_url'] ) ) {
+			$try[] = (string) $data['thumbnail_url'];
 		}
-		$data = json_decode( wp_remote_retrieve_body( $res ), true );
-		return ! empty( $data['thumbnail_url'] ) ? array( (string) $data['thumbnail_url'] ) : array();
+		// oEmbed stopped including the image in 2026; the video page still carries it as "cover".
+		$html = $try ? '' : ltef_thumb_page( 'https://www.tiktok.com/@livetoeatfoodie/video/' . ltef_tiktok_id( $url ) );
+		if ( preg_match( '/"cover":("https?:[^"]+")/', $html, $m ) ) {
+			$try[] = (string) json_decode( $m[1] );
+		}
+		return array_values( array_filter( $try ) );
+	}
+	if ( 'instagram' === $pf && ltef_instagram_ref( $url ) ) {
+		list( $kind, $code ) = ltef_instagram_ref( $url );
+		$html = ltef_thumb_page( 'https://www.instagram.com/' . $kind . '/' . $code . '/embed/captioned/' );
+		if ( preg_match( '/<img[^>]*class="EmbeddedMediaImage"[^>]*src="([^"]+)"/', $html, $m ) || preg_match( '/<img[^>]*src="([^"]+)"[^>]*class="EmbeddedMediaImage"/', $html, $m ) ) {
+			return array( html_entity_decode( $m[1], ENT_QUOTES ) );
+		}
 	}
 	return array();
 }
@@ -152,7 +183,8 @@ function ltef_place_fetch_thumbs( $post_id ) {
 		usort(
 			$urls,
 			function ( $a, $b ) {
-				return ( 'youtube' === ltef_video_platform( $b ) ) <=> ( 'youtube' === ltef_video_platform( $a ) );
+				$rank = array( 'youtube' => 0, 'tiktok' => 1, 'instagram' => 2 );
+				return ( $rank[ ltef_video_platform( $a ) ] ?? 9 ) <=> ( $rank[ ltef_video_platform( $b ) ] ?? 9 );
 			}
 		);
 		if ( ltef_video_thumb_url( $urls ) ) {
@@ -167,7 +199,7 @@ function ltef_place_fetch_thumbs( $post_id ) {
 		}
 		$missing += $got ? 0 : 1;
 	}
-	update_post_meta( $post_id, 'ltef_thumbs_for', md5( wp_json_encode( ltef_place_video_groups( $post_id ) ) ) );
+	update_post_meta( $post_id, 'ltef_thumbs_for', md5( LTEF_THUMBS_VER . wp_json_encode( ltef_place_video_groups( $post_id ) ) ) );
 	update_post_meta( $post_id, 'ltef_thumbs_missing', $missing );
 	return $missing;
 }
@@ -221,7 +253,7 @@ function ltef_thumbs_batch( $limit = 25, $seconds = 20 ) {
 	$todo = array();
 	foreach ( $ids as $id ) {
 		$groups = ltef_place_video_groups( $id );
-		if ( $groups && get_post_meta( $id, 'ltef_thumbs_for', true ) !== md5( wp_json_encode( $groups ) ) ) {
+		if ( $groups && get_post_meta( $id, 'ltef_thumbs_for', true ) !== md5( LTEF_THUMBS_VER . wp_json_encode( $groups ) ) ) {
 			$todo[] = $id;
 		}
 	}
