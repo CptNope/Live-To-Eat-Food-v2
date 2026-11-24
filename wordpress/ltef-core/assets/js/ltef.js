@@ -65,48 +65,38 @@
 	}
 	$$( '.tt' ).forEach( player );
 
-	// A card's photo plays Tina's video in a pop-up player; the rest of the card still opens the place.
-	// Closing empties the pop-up, which stops the video.
-	var cardBtns = $$( '.ltef-card__play' ), dlg = null, dlgBody = null;
-	function popup() {
-		if ( dlg ) return;
-		dlg = document.createElement( 'dialog' );
-		dlg.className = 'tt-dialog';
-		dlg.setAttribute( 'aria-label', 'Tina’s video' );
-		var bar = document.createElement( 'div' ), x = document.createElement( 'button' );
-		bar.className = 'tt-dialog__bar';
-		x.type = 'button'; x.className = 'ticket-close';
-		x.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="18" height="18"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>Close';
-		x.addEventListener( 'click', function () { dlg.close(); } );
-		bar.appendChild( x );
-		dlgBody = document.createElement( 'div' );
-		dlgBody.className = 'tt-dialog__body';
-		dlg.appendChild( bar );
-		dlg.appendChild( dlgBody );
-		dlg.addEventListener( 'click', function ( e ) {
-			if ( e.target !== dlg ) return;
-			var r = dlg.getBoundingClientRect();
-			if ( e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom ) dlg.close();
-		} );
-		dlg.addEventListener( 'close', function () { dlgBody.innerHTML = ''; } );
-		document.body.appendChild( dlg );
+	// A card's photo plays Tina's video right in the card: the card grows to the video's shape while it plays,
+	// and its ✕ (or starting another card) puts the photo back, which stops the video.
+	var playing = null;
+	function stopCard( card ) {
+		var v = card.querySelector( '.ltef-card__vid' );
+		if ( v ) v.remove();
+		card.classList.remove( 'is-playing' );
+		if ( playing === card ) playing = null;
 	}
-	if ( cardBtns.length && typeof HTMLDialogElement === 'function' ) {
-		cardBtns.forEach( function ( b ) {
-			var tpl = b.parentNode.querySelector( 'template.ltef-card__video' );
-			if ( ! tpl ) return;
-			b.hidden = false;
-			b.addEventListener( 'click', function () {
-				popup();
-				dlgBody.innerHTML = '';
-				dlgBody.appendChild( tpl.content.cloneNode( true ) );
-				dlg.setAttribute( 'aria-label', b.getAttribute( 'aria-label' ).replace( /^Play /, '' ) );
-				dlg.showModal();
-				var box = dlgBody.querySelector( '.tt' ), go = box && player( box );
-				if ( go ) go();
-			} );
+	$$( '.ltef-card__play' ).forEach( function ( b ) {
+		var card = b.closest( '.ltef-card' ), tpl = card && card.querySelector( 'template.ltef-card__video' );
+		var tt = tpl && tpl.content.querySelector( '.tt' );
+		if ( ! tt ) return;
+		b.hidden = false;
+		b.addEventListener( 'click', function () {
+			if ( playing && playing !== card ) stopCard( playing );
+			var wrap = document.createElement( 'div' ), x = document.createElement( 'button' );
+			wrap.className = 'ltef-card__vid';
+			x.type = 'button'; x.className = 'ltef-card__stop';
+			x.setAttribute( 'aria-label', 'Close the video' );
+			x.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>Close';
+			x.addEventListener( 'click', function () { stopCard( card ); b.focus(); } );
+			var box = tt.cloneNode( true );
+			wrap.appendChild( box );
+			wrap.appendChild( x );
+			card.insertBefore( wrap, card.firstChild );
+			card.classList.add( 'is-playing' );
+			playing = card;
+			var go = player( box );
+			if ( go ) go();
 		} );
-	}
+	} );
 
 	// Chip groups that filter a list by data attributes (Woo-pons, jobs).
 	function chipFilter( chipAttr, itemSel, itemAttr, countEl, word ) {
