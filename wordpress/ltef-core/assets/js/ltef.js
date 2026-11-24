@@ -255,6 +255,28 @@
 				$$( '[data-f="href"]', R ).forEach( function ( el ) { el.href = p.href; } );
 				$$( '[data-f="maps"]', R ).forEach( function ( el ) { el.href = p.maps; el.setAttribute( 'aria-label', 'Get directions to ' + p.name + ' (opens maps)' ); } );
 				$$( '[data-f="video"]', R ).forEach( function ( el ) { if ( p.url ) el.href = p.url; el.setAttribute( 'aria-label', 'Watch Tina’s video at ' + p.name + ' (opens a new tab)' ); } );
+				// Her video right on the card: the thumbnail as a paused still, playing in place. A new spin replaces it, which stops it.
+				var slot = R.querySelector( '[data-roul-vid]' ), card = states.pick;
+				var playable = p.tina && p.embed && hosts.test( p.embed );
+				slot.innerHTML = '';
+				slot.hidden = ! playable;
+				card.classList.toggle( 'has-vid', !! playable );
+				$$( '[data-f="video"]', R ).forEach( function ( el ) { el.hidden = ! p.tina || !! playable; } );
+				if ( playable ) {
+					var box = document.createElement( 'div' ), esc = function ( t ) { var d = document.createElement( 'span' ); d.textContent = t; return d.innerHTML; };
+					box.className = 'tt tt--sm' + ( p.thumb ? ' tt--cover' : '' );
+					box.style.background = p.bg;
+					box.setAttribute( 'data-embed', p.embed );
+					box.setAttribute( 'data-alt', p.alt || '' );
+					box.setAttribute( 'data-url', p.url || '' );
+					box.setAttribute( 'data-label', p.vlabel || 'TikTok' );
+					box.setAttribute( 'data-title', 'Tina’s video at ' + p.name );
+					box.innerHTML = ( p.thumb ? '<img class="tt-cover" src="' + esc( p.thumb ) + '" alt="" width="540" height="960" decoding="async">' : '<span class="tt-plate" aria-hidden="true"></span><img src="' + esc( p.img ) + '" alt="" width="148" height="148">' )
+						+ '<a class="tt-out" href="' + esc( p.url || '#' ) + '" target="_blank" rel="noopener">' + esc( p.vlabel ) + '<span class="vh"> (opens ' + esc( p.vlabel ) + ')</span></a>'
+						+ '<button class="tt-play" type="button" aria-label="' + esc( 'Play Tina’s video at ' + p.name ) + '"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>';
+					slot.appendChild( box );
+					player( box );
+				}
 				show( 'pick' );
 				var h = R.querySelector( '[data-f="name"]' ); if ( h ) h.focus( { preventScroll: false } );
 			}, reduce ? 0 : 3200 );

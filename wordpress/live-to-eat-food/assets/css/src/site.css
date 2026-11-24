@@ -182,6 +182,16 @@ h1, h2, h3, .h-s, .ltef-card__name, .ltef-coupon__where { overflow-wrap: anywher
 .roul-card__spin { width: 64px; animation: roul-turn 1.2s linear infinite; }
 .roul-card--pick { background: var(--butter); color: var(--basil); box-shadow: 0 0 0 4px var(--vinyl), 0 18px 30px -12px rgba(0,0,0,.45); transform: rotate(-1deg); }
 .roul-card__labels { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Her video on the card: a tall still beside the details that plays in place */
+.roul-card--pick.has-vid { grid-template-columns: clamp(130px, 36%, 220px) minmax(0, 1fr); column-gap: 22px; align-items: start; }
+.roul-card--pick.has-vid > :not(.roul-card__vid) { grid-column: 2; }
+.roul-card__vid { grid-column: 1; grid-row: 1 / span 8; align-self: start; }
+.roul-card__vid .tt { width: 100%; box-shadow: 0 0 0 4px var(--vinyl), var(--lift); }
+@media (max-width: 560px) {
+  .roul-card--pick.has-vid { grid-template-columns: minmax(0, 1fr); }
+  .roul-card--pick.has-vid > :not(.roul-card__vid) { grid-column: 1; }
+  .roul-card__vid { grid-row: auto; width: min(100%, 230px); justify-self: center; }
+}
 .roul-card__name { margin: 0; font: 400 clamp(32px, 3.4vw, 46px)/1.02 var(--font-display); color: var(--basil); overflow-wrap: anywhere; text-wrap: balance; }
 .roul-card .ltef-note { margin: 0; }
 .roul-card__acts { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; }
