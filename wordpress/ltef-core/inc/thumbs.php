@@ -115,8 +115,11 @@ function ltef_thumb_remote( $url ) {
 	return array();
 }
 
-/** Download and save one copy's thumbnail, sized for the player. Returns true when there is one saved now. */
-function ltef_thumb_fetch( $url ) {
+/**
+ * Download and save one copy's thumbnail, sized for the player. Returns true when there is one saved now.
+ * $remote: image addresses to try instead of looking them up (an admin handing one in, see the REST route).
+ */
+function ltef_thumb_fetch( $url, $remote = null ) {
 	$key = ltef_thumb_key( $url );
 	if ( '' === $key ) {
 		return false;
@@ -128,8 +131,8 @@ function ltef_thumb_fetch( $url ) {
 	if ( ! wp_mkdir_p( $dir ) ) {
 		return false;
 	}
-	foreach ( ltef_thumb_remote( $url ) as $remote ) {
-		$res = wp_remote_get( $remote, array( 'timeout' => 10, 'limit_response_size' => 4 * MB_IN_BYTES ) );
+	foreach ( null === $remote ? ltef_thumb_remote( $url ) : (array) $remote as $src ) {
+		$res = wp_remote_get( $src, array( 'timeout' => 10, 'limit_response_size' => 4 * MB_IN_BYTES ) );
 		$img = is_wp_error( $res ) ? '' : (string) wp_remote_retrieve_body( $res );
 		// YouTube answers a missing frame with a 120×90 grey placeholder; anything that small isn't a real frame.
 		if ( 200 !== (int) wp_remote_retrieve_response_code( $res ) || strlen( $img ) < 3000 ) {
@@ -300,6 +303,17 @@ add_action(
 					return current_user_can( 'manage_options' );
 				},
 				'callback'            => function ( $req ) {
+					// An admin's browser can read a cover the server is refused (Instagram turns servers away);
+					// it hands in the image address and the site still downloads and keeps its own copy.
+					$video = (string) $req->get_param( 'video' );
+					$src   = (string) $req->get_param( 'src' );
+					if ( '' !== $video && '' !== $src ) {
+						$host = (string) wp_parse_url( $src, PHP_URL_HOST );
+						if ( 'https' !== wp_parse_url( $src, PHP_URL_SCHEME ) || ! preg_match( '/(^|\.)(cdninstagram\.com|fbcdn\.net|tiktokcdn(-us)?\.com|ytimg\.com)$/', $host ) || '' === ltef_thumb_key( $video ) ) {
+							return new WP_Error( 'ltef_thumb_src', 'Not a video thumbnail address.', array( 'status' => 400 ) );
+						}
+						return array( 'saved' => ltef_thumb_fetch( $video, array( $src ) ) );
+					}
 					$id = (int) $req->get_param( 'place' );
 					if ( $id ) {
 						delete_post_meta( $id, 'ltef_thumbs_for' );
