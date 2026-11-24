@@ -212,7 +212,7 @@ function ltef_reply_log_form( $post ) {
 	$me = wp_get_current_user()->user_email;
 	return sprintf(
 		'<details class="ltef-reply"><summary>Add an email sent or received elsewhere</summary><form method="post" action="%1$s" class="ltef-reply__form"><input type="hidden" name="action" value="ltef_reply_log"><input type="hidden" name="post" value="%2$d">%3$s'
-		. '<p class="description">For a reply sent from your own mailbox, or their answer that came to it, so the whole team can read the whole thread here. Put their address in From for one they sent. Nothing is emailed.</p>'
+		. '<p class="description">For a reply sent from your own mailbox, or their answer that came to it, so the whole team can read the whole thread here. Put their address in From for one they sent. Adding the same email again just corrects its date. Nothing is emailed.</p>'
 		. '<p><label for="ltef-lf-%2$d">From</label><input type="email" id="ltef-lf-%2$d" name="from" value="%4$s" required></p>'
 		. '<p><label for="ltef-lt-%2$d">To</label><input type="email" id="ltef-lt-%2$d" name="to" value="%5$s" required></p>'
 		. '<p><label for="ltef-ld-%2$d">Sent on</label><input type="datetime-local" id="ltef-ld-%2$d" name="when" value="%6$s" required></p>'
@@ -226,6 +226,14 @@ function ltef_reply_log_form( $post ) {
 		esc_attr( ltef_reply_to_address( $id ) ),
 		esc_attr( wp_date( 'Y-m-d\\TH:i' ) )
 	);
+}
+
+/** Two copies of an email's text are the same once line endings and outer spaces are evened out. */
+function ltef_reply_same_text( $a, $b ) {
+	$norm = function ( $t ) {
+		return trim( preg_replace( '/[ \t]+\n/', "\n", str_replace( array( "\r\n", "\r" ), "\n", $t ) ) );
+	};
+	return $norm( $a ) === $norm( $b );
 }
 
 add_action( 'admin_post_ltef_reply_log', 'ltef_handle_reply_log' );
@@ -251,6 +259,12 @@ function ltef_handle_reply_log() {
 	$log    = array_values( array_filter( (array) get_post_meta( $id, 'ltef_replies', true ), 'is_array' ) );
 	$filled = false;
 	foreach ( $log as $i => $r ) {
+		// The same email added again (same From, To, subject and text): just correct its date and time.
+		if ( strtolower( $r['from'] ?? '' ) === strtolower( $from ) && strtolower( $r['to'] ?? '' ) === strtolower( $to ) && ( $r['subject'] ?? '' ) === $subject && ltef_reply_same_text( (string) ( $r['message'] ?? '' ), $message ) ) {
+			$log[ $i ]['at'] = $at->getTimestamp();
+			$filled          = true;
+			break;
+		}
 		// A reply the site sent before it kept the text: fill that one in rather than adding a second.
 		if ( empty( $r['message'] ) && strtolower( $r['from'] ?? '' ) === strtolower( $from ) && strtolower( $r['to'] ?? '' ) === strtolower( $to ) && ( $r['subject'] ?? '' ) === $subject ) {
 			$log[ $i ]['message'] = $message;
