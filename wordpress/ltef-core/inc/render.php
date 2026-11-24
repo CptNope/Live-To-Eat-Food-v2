@@ -117,20 +117,31 @@ function ltef_card_thumb( $post_id ) {
 }
 
 /**
- * A card's play button: the photo becomes a button that opens Tina's video in a pop-up player on the same page.
+ * A card's play button: the photo becomes a button that plays Tina's video right in the card.
  * The player waits in a <template>, so nothing loads from any platform until someone presses play.
  * Hidden until the script shows it, so without the script the card is just its link.
  */
 function ltef_card_video( $post_id ) {
-	$video = ltef_video_html( $post_id );
-	if ( '' === $video ) {
+	if ( ! ltef_meta( $post_id, 'tina_video' ) ) {
 		return '';
 	}
-	$name  = get_the_title( $post_id );
-	$video = str_replace( '<div class="take-video" id="video">', '<div class="take-video">', $video );
-	return '<button class="ltef-card__play" type="button" hidden aria-label="' . esc_attr( 'Play Tina’s video at ' . $name ) . '"><span class="ltef-card__play-i">' . ltef_icon( 'play' ) . '</span></button>'
-		. '<template class="ltef-card__video">' . $video
-		. '<p class="tt-dialog__more"><a class="ltef-btn ltef-btn--sm" href="' . esc_url( get_permalink( $post_id ) ) . '">' . esc_html( 'See ' . $name ) . ltef_icon( 'arrow' ) . '</a></p></template>';
+	$sources = ltef_video_sources( $post_id );
+	$box     = ltef_video_box(
+		$sources,
+		array(
+			'title'   => 'Tina’s video at ' . get_the_title( $post_id ),
+			'month'   => ltef_meta( $post_id, 'tina_date' ),
+			'field'   => ltef_place_field( $post_id ),
+			'cover'   => ltef_place_cover( $post_id, $sources ),
+			'sticker' => ltef_sticker_url( ltef_place_sticker( $post_id ) ),
+			'small'   => true,
+		)
+	);
+	if ( '' === $box ) {
+		return '';
+	}
+	return '<button class="ltef-card__play" type="button" hidden aria-label="' . esc_attr( 'Play Tina’s video at ' . get_the_title( $post_id ) ) . '"><span class="ltef-card__play-i">' . ltef_icon( 'play' ) . '</span></button>'
+		. '<template class="ltef-card__video">' . $box . '</template>';
 }
 
 /** A place as a card: photo or sticker, label, name, meta, Tina's line. */
