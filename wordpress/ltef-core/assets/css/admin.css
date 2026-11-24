@@ -596,6 +596,8 @@
 	color: var(--ltef-olive, #4a5a3a);
 	font-weight: 600;
 }
+.ltef-reply--in > summary { color: #1d6b3a; }
+.ltef-reply--in { border-left: 3px solid #1d6b3a; padding-left: 10px; }
 .ltef-reply__meta {
 	display: grid;
 	grid-template-columns: max-content minmax(0, 1fr);

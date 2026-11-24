@@ -68,10 +68,19 @@ function ltef_reply_flags( $post_id ) {
 	$flags = array();
 	foreach ( (array) get_post_meta( $post_id, 'ltef_replies', true ) as $r ) {
 		if ( is_array( $r ) && ! empty( $r['at'] ) ) {
-			$flags[] = array( '', esc_html( 'Replied ' . wp_date( 'M j, g:ia', (int) $r['at'] ) . ' from ' . $r['from'] ) );
+			$flags[] = array( '', esc_html( ( ltef_reply_is_incoming( $post_id, $r ) ? 'They wrote back ' : 'Replied ' ) . wp_date( 'M j, g:ia', (int) $r['at'] ) . ' from ' . $r['from'] ) );
 		}
 	}
 	return $flags;
+}
+
+/** An email in the thread that came from the person who wrote in, rather than one of us. */
+function ltef_reply_is_incoming( $post_id, $r ) {
+	if ( ! empty( $r['in'] ) ) {
+		return true;
+	}
+	$them = ltef_reply_to_address( $post_id );
+	return $them && strtolower( (string) ( $r['from'] ?? '' ) ) === strtolower( $them );
 }
 
 /** What was already sent from this item, full text, so the whole team can read the thread. */
@@ -81,8 +90,9 @@ function ltef_reply_history( $post_id ) {
 		if ( ! is_array( $r ) || empty( $r['message'] ) ) {
 			continue;
 		}
+		$in   = ltef_reply_is_incoming( $post_id, $r );
 		$out .= sprintf(
-			'<details class="ltef-reply ltef-reply--sent"><summary>Sent %1$s: %2$s%7$s</summary><dl class="ltef-reply__meta"><dt>From</dt><dd>%3$s</dd><dt>To</dt><dd>%4$s</dd>%5$s</dl><div class="ltef-reply__text">%6$s</div></details>',
+			'<details class="ltef-reply ltef-reply--sent' . ( $in ? ' ltef-reply--in' : '' ) . '"><summary>' . ( $in ? 'Received' : 'Sent' ) . ' %1$s: %2$s%7$s</summary><dl class="ltef-reply__meta"><dt>From</dt><dd>%3$s</dd><dt>To</dt><dd>%4$s</dd>%5$s</dl><div class="ltef-reply__text">%6$s</div></details>',
 			esc_html( wp_date( 'M j, g:ia', (int) $r['at'] ) ),
 			esc_html( $r['subject'] ),
 			esc_html( $r['from'] ),
@@ -201,8 +211,8 @@ function ltef_reply_log_form( $post ) {
 	$id = (int) $post->ID;
 	$me = wp_get_current_user()->user_email;
 	return sprintf(
-		'<details class="ltef-reply"><summary>Add an email sent elsewhere</summary><form method="post" action="%1$s" class="ltef-reply__form"><input type="hidden" name="action" value="ltef_reply_log"><input type="hidden" name="post" value="%2$d">%3$s'
-		. '<p class="description">For a reply sent from your own mailbox, so the whole team can read it here. Nothing is emailed.</p>'
+		'<details class="ltef-reply"><summary>Add an email sent or received elsewhere</summary><form method="post" action="%1$s" class="ltef-reply__form"><input type="hidden" name="action" value="ltef_reply_log"><input type="hidden" name="post" value="%2$d">%3$s'
+		. '<p class="description">For a reply sent from your own mailbox, or their answer that came to it, so the whole team can read the whole thread here. Put their address in From for one they sent. Nothing is emailed.</p>'
 		. '<p><label for="ltef-lf-%2$d">From</label><input type="email" id="ltef-lf-%2$d" name="from" value="%4$s" required></p>'
 		. '<p><label for="ltef-lt-%2$d">To</label><input type="email" id="ltef-lt-%2$d" name="to" value="%5$s" required></p>'
 		. '<p><label for="ltef-ld-%2$d">Sent on</label><input type="datetime-local" id="ltef-ld-%2$d" name="when" value="%6$s" required></p>'
@@ -249,7 +259,7 @@ function ltef_handle_reply_log() {
 		}
 	}
 	if ( ! $filled ) {
-		$log[] = array( 'at' => $at->getTimestamp(), 'from' => strtolower( $from ), 'to' => $to, 'cc' => array(), 'subject' => $subject, 'message' => $message, 'by' => get_current_user_id(), 'manual' => true );
+		$log[] = array( 'at' => $at->getTimestamp(), 'from' => strtolower( $from ), 'to' => $to, 'cc' => array(), 'subject' => $subject, 'message' => $message, 'by' => get_current_user_id(), 'manual' => true, 'in' => strtolower( $from ) === strtolower( (string) ltef_reply_to_address( $id ) ) );
 	}
 	usort( $log, function ( $a, $b ) { return (int) $a['at'] <=> (int) $b['at']; } );
 	update_post_meta( $id, 'ltef_replies', $log );
