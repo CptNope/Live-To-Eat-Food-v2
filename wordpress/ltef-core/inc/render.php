@@ -108,13 +108,21 @@ function ltef_verdict_html( $verdict ) {
 	return '';
 }
 
+/** A card's picture when there is no photo: the thumbnail of Tina's video there, else the place's sticker. */
+function ltef_card_thumb( $post_id ) {
+	$src = ltef_meta( $post_id, 'tina_video' ) && function_exists( 'ltef_video_thumb_url' ) ? ltef_video_thumb_url( ltef_video_sources( $post_id ) ) : '';
+	return $src
+		? '<img class="ltef-card__photo ltef-card__thumb" src="' . esc_url( $src ) . '" alt="" width="540" height="960" loading="lazy" decoding="async">'
+		: '<img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ) . '" alt="" width="148" height="148">';
+}
+
 /** A place as a card: photo or sticker, label, name, meta, Tina's line. */
 function ltef_place_card( $post_id ) {
 	$field = ltef_place_field( $post_id );
 	$own   = function_exists( 'ltef_enhanced_card_photo' ) ? ltef_enhanced_card_photo( $post_id ) : '';
 	$img   = has_post_thumbnail( $post_id )
 		? get_the_post_thumbnail( $post_id, 'medium_large', array( 'alt' => '', 'class' => 'ltef-card__photo' ) )
-		: ( $own ? $own : '<img src="' . esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ) . '" alt="" width="148" height="148">' );
+		: ( $own ? $own : ltef_card_thumb( $post_id ) );
 	$quote = ltef_meta( $post_id, 'tina_quote' );
 	$v     = ltef_tina_owns( $post_id ) ? '' : ltef_verdict_html( ltef_meta( $post_id, 'verdict' ) );
 	return sprintf(

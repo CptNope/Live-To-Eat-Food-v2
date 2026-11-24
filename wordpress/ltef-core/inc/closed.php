@@ -77,11 +77,11 @@ function ltef_memory_card( $post_id ) {
 	$videos = ( ltef_meta( $post_id, 'tina_video' ) ? 1 : 0 ) + count( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) ltef_meta( $post_id, 'more_videos' ) ) ) ) );
 	$meta   = array_filter( array( ltef_meta( $post_id, 'cuisine' ), ltef_meta( $post_id, 'town' ) ? ltef_meta( $post_id, 'town' ) : ltef_place_area_name( $post_id ) ) );
 	return sprintf(
-		'<article class="ltef-card memory-card"><a href="%1$s" class="ltef-card__link"><div class="ltef-card__ph" style="background: var(--%2$s);"><span class="ltef-lbl ltef-lbl--closed">%3$s</span><img src="%4$s" alt="" width="148" height="148" loading="lazy" decoding="async"></div><div class="ltef-card__row"><h3 class="ltef-card__name">%5$s</h3></div><p class="ltef-card__meta">%6$s</p>%7$s%8$s</a></article>',
+		'<article class="ltef-card memory-card"><a href="%1$s" class="ltef-card__link"><div class="ltef-card__ph" style="background: var(--%2$s);"><span class="ltef-lbl ltef-lbl--closed">%3$s</span>%4$s</div><div class="ltef-card__row"><h3 class="ltef-card__name">%5$s</h3></div><p class="ltef-card__meta">%6$s</p>%7$s%8$s</a></article>',
 		esc_url( get_permalink( $post_id ) ),
 		esc_attr( ltef_place_field( $post_id ) ),
 		esc_html( ltef_closed_label( $post_id ) ),
-		esc_url( ltef_sticker_url( ltef_place_sticker( $post_id ) ) ),
+		ltef_card_thumb( $post_id ),
 		esc_html( get_the_title( $post_id ) ),
 		esc_html( implode( ' · ', $meta ) ),
 		'' !== $quote ? '<p class="ltef-note">“' . esc_html( $quote ) . '”</p>' : '',

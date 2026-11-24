@@ -49,6 +49,9 @@
 .ltef-card { width: 300px; max-width: 100%; box-sizing: border-box; background: var(--vinyl); border-radius: 20px; padding: 10px 10px 14px; box-shadow: 0 0 0 4px var(--butter), 0 0 0 5.5px rgba(30,59,42,.14), var(--lift); color: var(--basil); font-family: var(--font-reading); }
 .ltef-card__ph { position: relative; border-radius: 14px; aspect-ratio: 4 / 3; background: var(--pistachio); display: grid; place-items: center; }
 .ltef-card__ph img { width: 40%; }
+.ltef-card__ph img.ltef-card__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.ltef-card__ph .ltef-lbl { z-index: 1; }
+.ltef-card__ph img.ltef-card__thumb { object-position: center 40%; }
 .ltef-card__ph .ltef-lbl { position: absolute; left: 10px; top: 10px; min-height: 30px; padding: 4px 12px; }
 .ltef-card__row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 10px 4px 2px; }
 .ltef-card__name { font: 400 20px/1.15 var(--font-display); margin: 0; }
